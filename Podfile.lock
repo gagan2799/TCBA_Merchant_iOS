@@ -1,0 +1,50 @@
+PODS:
+  - Alamofire (4.7.3)
+  - EmptyDataSet-Swift (4.0.5)
+  - ESTabBarController-swift (2.6.2)
+  - INSPullToRefresh (1.2.0)
+  - IQKeyboardManagerSwift (6.1.1)
+  - SDWebImage (4.4.2):
+    - SDWebImage/Core (= 4.4.2)
+  - SDWebImage/Core (4.4.2)
+  - SIAlertView (1.3)
+  - SwiftGifOrigin (1.6.1)
+  - SwiftyJSON (4.1.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - EmptyDataSet-Swift
+  - ESTabBarController-swift
+  - INSPullToRefresh
+  - IQKeyboardManagerSwift
+  - SDWebImage
+  - SIAlertView
+  - SwiftGifOrigin
+  - SwiftyJSON
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - EmptyDataSet-Swift
+    - ESTabBarController-swift
+    - INSPullToRefresh
+    - IQKeyboardManagerSwift
+    - SDWebImage
+    - SIAlertView
+    - SwiftGifOrigin
+    - SwiftyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  EmptyDataSet-Swift: a25810f50c3adfaa3840aa33ae8b5ba12ac29279
+  ESTabBarController-swift: f0a8679e43df1e60b7b36bbcaf1dc98ba6273c7d
+  INSPullToRefresh: d34f0046ccca6b32f6386f053d730ef41b3f35b7
+  IQKeyboardManagerSwift: 977affaeb4d6e971975c7790a6850f31d38f1207
+  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
+  SIAlertView: 20c794b55eaf44d888773ea51647cf8907723919
+  SwiftGifOrigin: d6679d3ebe9df2e049a84bc52582635107b581f6
+  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
+
+PODFILE CHECKSUM: c7182f888db96fd066a08296c8715f85b7ca3aa6
+
+COCOAPODS: 1.5.3

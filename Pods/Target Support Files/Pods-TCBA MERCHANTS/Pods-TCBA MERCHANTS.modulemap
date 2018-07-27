@@ -1,0 +1,6 @@
+framework module Pods_TCBA_MERCHANTS {
+  umbrella header "Pods-TCBA MERCHANTS-umbrella.h"
+
+  export *
+  module * { export * }
+}

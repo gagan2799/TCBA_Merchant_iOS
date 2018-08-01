@@ -30,6 +30,9 @@
 		792B545920F63663000223F7 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 792B545620F63663000223F7 /* OpenSans-Regular.ttf */; };
 		792B545A20F63663000223F7 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 792B545720F63663000223F7 /* OpenSans-Bold.ttf */; };
 		792B545B20F63663000223F7 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 792B545820F63663000223F7 /* OpenSans-Semibold.ttf */; };
+		7933FCA621118E6000E9B49B /* TMHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7933FCA521118E5F00E9B49B /* TMHistoryTableViewCell.swift */; };
+		7933FCAA2111B3FD00E9B49B /* TransactionDataModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7933FCA92111B3FD00E9B49B /* TransactionDataModal.swift */; };
+		7933FCAC2111BA7E00E9B49B /* IncompleteTransactionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7933FCAB2111BA7E00E9B49B /* IncompleteTransactionData.swift */; };
 		79380A3A2105B17100FB4776 /* TMTabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79380A392105B17100FB4776 /* TMTabbarViewController.swift */; };
 		79380A412105BBDB00FB4776 /* TMShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79380A402105BBDB00FB4776 /* TMShareViewController.swift */; };
 		79380A432105BFD800FB4776 /* TMTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79380A422105BFD800FB4776 /* TMTransactionViewController.swift */; };
@@ -40,6 +43,7 @@
 		799924CF20FF1B480074BDE6 /* TMHomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799924CE20FF1B480074BDE6 /* TMHomeTableViewCell.swift */; };
 		79CDF0242108778300CA7A9C /* LoaderWithLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CDF0232108778300CA7A9C /* LoaderWithLabel.swift */; };
 		79CDF02C2108A13E00CA7A9C /* RequestModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CDF02B2108A13E00CA7A9C /* RequestModal.swift */; };
+		79D94AC321103B9000D3FCD6 /* TMMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D94AC221103B9000D3FCD6 /* TMMoreViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +73,9 @@
 		792B545620F63663000223F7 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		792B545720F63663000223F7 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		792B545820F63663000223F7 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		7933FCA521118E5F00E9B49B /* TMHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryTableViewCell.swift; sourceTree = "<group>"; };
+		7933FCA92111B3FD00E9B49B /* TransactionDataModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDataModal.swift; sourceTree = "<group>"; };
+		7933FCAB2111BA7E00E9B49B /* IncompleteTransactionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncompleteTransactionData.swift; sourceTree = "<group>"; };
 		79380A392105B17100FB4776 /* TMTabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMTabbarViewController.swift; sourceTree = "<group>"; };
 		79380A402105BBDB00FB4776 /* TMShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMShareViewController.swift; sourceTree = "<group>"; };
 		79380A422105BFD800FB4776 /* TMTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMTransactionViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +86,7 @@
 		799924CE20FF1B480074BDE6 /* TMHomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHomeTableViewCell.swift; sourceTree = "<group>"; };
 		79CDF0232108778300CA7A9C /* LoaderWithLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderWithLabel.swift; sourceTree = "<group>"; };
 		79CDF02B2108A13E00CA7A9C /* RequestModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModal.swift; sourceTree = "<group>"; };
+		79D94AC221103B9000D3FCD6 /* TMMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMMoreViewController.swift; sourceTree = "<group>"; };
 		F1D02BAEF8FD0D998288EEB8 /* Pods-TCBA MERCHANTS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TCBA MERCHANTS.release.xcconfig"; path = "Pods/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -139,7 +147,8 @@
 		7913DC432109B9EC000D1A9C /* ResponseModals */ = {
 			isa = PBXGroup;
 			children = (
-				7913DC402109B6A1000D1A9C /* UserLoginModel.swift */,
+				7933FCA82111B1EC00E9B49B /* HistoryModals */,
+				7933FCA72111B1D800E9B49B /* LoginModal */,
 			);
 			path = ResponseModals;
 			sourceTree = "<group>";
@@ -251,10 +260,28 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		7933FCA72111B1D800E9B49B /* LoginModal */ = {
+			isa = PBXGroup;
+			children = (
+				7913DC402109B6A1000D1A9C /* UserLoginModel.swift */,
+			);
+			path = LoginModal;
+			sourceTree = "<group>";
+		};
+		7933FCA82111B1EC00E9B49B /* HistoryModals */ = {
+			isa = PBXGroup;
+			children = (
+				7933FCA92111B3FD00E9B49B /* TransactionDataModal.swift */,
+				7933FCAB2111BA7E00E9B49B /* IncompleteTransactionData.swift */,
+			);
+			path = HistoryModals;
+			sourceTree = "<group>";
+		};
 		79380A3B2105BB6C00FB4776 /* History */ = {
 			isa = PBXGroup;
 			children = (
 				79380A442105BFF200FB4776 /* TMHistoryViewController.swift */,
+				7933FCA521118E5F00E9B49B /* TMHistoryTableViewCell.swift */,
 			);
 			path = History;
 			sourceTree = "<group>";
@@ -278,6 +305,7 @@
 		79380A3F2105BB9E00FB4776 /* More */ = {
 			isa = PBXGroup;
 			children = (
+				79D94AC221103B9000D3FCD6 /* TMMoreViewController.swift */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -466,13 +494,17 @@
 				79380A3A2105B17100FB4776 /* TMTabbarViewController.swift in Sources */,
 				79CDF0242108778300CA7A9C /* LoaderWithLabel.swift in Sources */,
 				79CDF02C2108A13E00CA7A9C /* RequestModal.swift in Sources */,
+				7933FCAA2111B3FD00E9B49B /* TransactionDataModal.swift in Sources */,
 				799924CF20FF1B480074BDE6 /* TMHomeTableViewCell.swift in Sources */,
+				7933FCA621118E6000E9B49B /* TMHistoryTableViewCell.swift in Sources */,
 				792B541920F5DD30000223F7 /* AppDelegate.swift in Sources */,
 				799924CD20FF1B270074BDE6 /* TMHomeViewController.swift in Sources */,
 				79380A452105BFF200FB4776 /* TMHistoryViewController.swift in Sources */,
 				7913DC412109B6A1000D1A9C /* UserLoginModel.swift in Sources */,
 				790D392321083B720073AE4C /* GAPIConstant.swift in Sources */,
+				79D94AC321103B9000D3FCD6 /* TMMoreViewController.swift in Sources */,
 				79380A412105BBDB00FB4776 /* TMShareViewController.swift in Sources */,
+				7933FCAC2111BA7E00E9B49B /* IncompleteTransactionData.swift in Sources */,
 				794F66E220FDAF2800901B0C /* TMSplashViewController.swift in Sources */,
 				792B544620F5F485000223F7 /* AlertManager.swift in Sources */,
 				792B542E20F5E2B6000223F7 /* TMLoginViewController.swift in Sources */,

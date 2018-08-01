@@ -12,8 +12,9 @@ class TMTransactionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        // navigationBar customization
+        self.navigationController?.customize()
+        self.navigationItem.title = "Customer Transaction"
     }
 
     override func didReceiveMemoryWarning() {

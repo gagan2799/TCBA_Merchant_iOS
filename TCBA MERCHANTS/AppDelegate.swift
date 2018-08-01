@@ -49,6 +49,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
+    //MARK: - Custom Methods
+    func getCurrentViewController() -> UIViewController {
+        if UserDefaults.standard.value(forKey: GConstant.UserDefaultKeys.UserDataLogin) != nil {
+            let tabBar = rootWindow().rootViewController as! UITabBarController
+            let selectedNavigationController = tabBar.viewControllers![tabBar.selectedIndex] as! UINavigationController
+            return selectedNavigationController.visibleViewController!
+        } else {
+            let selectedNavigationController = rootWindow().rootViewController as! UINavigationController
+            return selectedNavigationController.visibleViewController!
+        }
+    }
 }
+
+func appDelegate()->AppDelegate {
+    return UIApplication.shared.delegate as! AppDelegate
+}
+func rootWindow()->UIWindow {
+    return appDelegate().window!
+}
+
 

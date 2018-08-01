@@ -19,6 +19,8 @@ class RequestModal: NSObject {
         var password                : String!
         var client_id               : String!
         var device_id               : String!
+        var storeID                 : String!
+        
         
         override init() {
             super.init()
@@ -35,6 +37,7 @@ class RequestModal: NSObject {
             client_id                   = json["client_id"].stringValue
             device_id                   = json["device_id"].stringValue
             refresh_token               = json["refresh_token"].stringValue
+            storeID                     = json["storeID"].stringValue
         }
         
         func toDictionary() -> [String:Any]{
@@ -46,6 +49,7 @@ class RequestModal: NSObject {
             dictionary["client_id"]             = client_id
             dictionary["device_id"]             = device_id
             dictionary["refresh_token"]         = refresh_token
+            dictionary["storeID"]               = storeID
             return dictionary
         }
     }

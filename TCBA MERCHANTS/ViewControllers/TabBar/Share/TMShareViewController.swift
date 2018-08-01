@@ -12,8 +12,10 @@ class TMShareViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        // Hide navigationBar
+//        self.navigationController?.isNavigationBarHidden = true;
+        self.navigationController?.customize()
+        self.navigationItem.title = "Share"
     }
 
     override func didReceiveMemoryWarning() {

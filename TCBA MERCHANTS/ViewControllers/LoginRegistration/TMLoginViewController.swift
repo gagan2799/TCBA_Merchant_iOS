@@ -38,10 +38,8 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     //MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        if isFromSplash {
-            // hide the default back buttons if is from splashViewController
-            self.navigationItem.hidesBackButton = true
-        }
+        // hide the default back buttons if is from splashViewController
+        self.navigationItem.hidesBackButton = true
         // Show navigationBar
         GConstant.NavigationController?.isNavigationBarHidden = false;
         self.setViewProperties()
@@ -60,7 +58,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        
+
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -221,7 +219,11 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
                         UserDefaults.standard.set(self.txtUsername.text, forKey: GConstant.UserDefaultKeys.UserName)
                         UserDefaults.standard.synchronize()
                     }
-                    GFunction.shared.userLogin(isFromSplash: self.isFromSplash)
+                    if (self.navigationController?.viewControllers.first?.isKind(of: TMLoginViewController.self))! {
+                        self.navigationController?.dismiss(animated: true, completion: nil)
+                    } else {
+                        GFunction.shared.userLogin()
+                    }
                 }else{
                     if statusCode == 404{
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)

@@ -773,19 +773,16 @@ extension Date {
 extension UINavigationController{
     func customize(isTransparent: Bool = false, isPicker: Bool? = false){
         
-        let navigationFont               = UIFont.applyRegular(fontSize: 15.5)
-        let navigationBarAppearace       = UINavigationBar.appearance()
-        navigationBarAppearace.tintColor = UIColor.white
-        navigationBarAppearace.barTintColor = #colorLiteral(red: 0, green: 0.4509803922, blue: 0.7921568627, alpha: 1)
-        if isTransparent {
-            navigationBarAppearace.backgroundColor = .clear
-        }
-        navigationBarAppearace.titleTextAttributes = [NSAttributedStringKey.font:navigationFont, NSAttributedStringKey.foregroundColor: UIColor.white]
+        let navigationFont                      = UIFont.applyBlocSSiBold(fontSize: UIDevice.current.userInterfaceIdiom == .pad ? 14.0 : 18.0)
+        self.navigationBar.barTintColor         = #colorLiteral(red: 0, green: 0.4509803922, blue: 0.7921568627, alpha: 1)
+        self.navigationBar.tintColor = UIColor.white
+        self.navigationBar.titleTextAttributes  = [NSAttributedStringKey.font:navigationFont, NSAttributedStringKey.foregroundColor: UIColor.white]
         self.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationBar.shadowImage = UIImage()
-        self.navigationBar.layer.masksToBounds = false
+        self.navigationBar.shadowImage          = UIImage()
+        self.navigationBar.layer.masksToBounds  = false
         
         if isTransparent {
+            self.navigationBar.backgroundColor = .clear
             self.navigationBar.isTranslucent       = true
         }else{
             self.navigationBar.isTranslucent       = false

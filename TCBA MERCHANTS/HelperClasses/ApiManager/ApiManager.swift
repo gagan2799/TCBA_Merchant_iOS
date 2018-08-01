@@ -94,7 +94,7 @@ class ApiManager {
      ===================================================
      */
     func CallCheckRefreshTokenApi(debugInfo isPrint: Bool = true
-        , withBlock completion : @escaping (String) -> Void){
+        , withBlock completion : @escaping (Bool) -> Void){
         
         guard let expiryDate = GConstant.UserData.expires else {return}
         let expired = GFunction.shared.compareDateTrueIfExpire(dateString: expiryDate)
@@ -114,11 +114,10 @@ class ApiManager {
                         if let data = response.data {
                             GFunction.shared.saveUserDetailInDefaults(data)
                             GConstant.UserData = GFunction.shared.getUserDataFromDefaults()
-                            guard let accessToken = GConstant.UserData.accessToken else {return}
-                            completion(accessToken)
+                            completion(true)
                         }
                     }else {
-                        GFunction.shared.userLogOut()
+                        GFunction.shared.makeUserLoginAlert()
                     }
                     break
                 case .failure(let error):
@@ -128,8 +127,7 @@ class ApiManager {
                 }
             }
         } else {
-            guard let accessToken = GConstant.UserData.accessToken else {return}
-            completion(accessToken)
+            completion(true)
         }
     }
     //------------------------------------------------------
@@ -238,80 +236,80 @@ class ApiManager {
         ,withBlock completion :@escaping (Data?, Int?, String) -> Void) {
         
         if Connectivity.isConnectedToInternet {
-            
-            if isPrint {
-                print("*****************URL***********************\n")
-                print("URL:- \(url)\n")
-                print("Parameter:-\(String(describing: parameter))\n")
-                print("MethodType:- GET\n")
-                print("*****************End***********************\n")
-            }
-            
-            var param = Dictionary<String,Any>()
-            if parameter != nil {
-                param = parameter!
-            }
-            
-            // add loader if isLoader is true
-            if isLoader {
-                GFunction.shared.addLoader()
-            }
-            
-            Alamofire.request(url, method: .get, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headersWithBearerToken()).responseJSON(completionHandler: { (response) in
-                
-                switch(response.result) {
-                case .success(let JSON):
-                    if isPrint {
-                        print(JSON)
-                    }
-                    
-                    // remove loader if isLoader is true
-                    if isLoader {
-                        GFunction.shared.removeLoader()
-                    }
-                    
-                    var statusCode = 0
-                    if let headerResponse = response.response {
-                        statusCode = headerResponse.statusCode
-                    }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
-                        completion(response.data, statusCode, APIError.handleError(response: response))
-                    })
-                    
-                // Yeah! Hand response
-                case .failure(let error):
-                    
-                    if isLoader {
-                        GFunction.shared.removeLoader()
-                    }
-                    
-                    var statusCode = 0
-                    
-                    //Logout User
-                    if let headerResponse = response.response {
-                        statusCode = headerResponse.statusCode
-                        if (headerResponse.statusCode == 401) {
-                            //TODO: - Add your logout code here
-                            //                            GFunction.shared.userLogOut()
-                        }
-                    }
-                    
-                    //Display error Alert if errorAlert is true
-                    if(errorAlert) {
-                        let err = error as NSError
-                        if statusCode != 401
-                            && err.code != NSURLErrorTimedOut
-                            && err.code != NSURLErrorNetworkConnectionLost
-                            && err.code != NSURLErrorNotConnectedToInternet{
-                            
-                        } else {
-                            print(error.localizedDescription)
-                        }
-                    }
-                    completion(nil,statusCode,APIError.handleError(response: response))
+            self.CallCheckRefreshTokenApi { _ in
+                if isPrint {
+                    print("*****************URL***********************\n")
+                    print("URL:- \(url)\n")
+                    print("Parameter:-\(String(describing: parameter))\n")
+                    print("MethodType:- GET\n")
+                    print("*****************End***********************\n")
                 }
-            })
+                var param = Dictionary<String,Any>()
+                if parameter != nil {
+                    param = parameter!
+                }
+                
+                // add loader if isLoader is true
+                if isLoader {
+                    GFunction.shared.addLoader()
+                }
+                
+                Alamofire.request(url, method: .get, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headersWithBearerToken()).responseJSON(completionHandler: { (response) in
+                    
+                    switch(response.result) {
+                    case .success(let JSON):
+                        if isPrint {
+                            print(JSON)
+                        }
+                        
+                        // remove loader if isLoader is true
+                        if isLoader {
+                            GFunction.shared.removeLoader()
+                        }
+                        
+                        var statusCode = 0
+                        if let headerResponse = response.response {
+                            statusCode = headerResponse.statusCode
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                            completion(response.data, statusCode, APIError.handleError(response: response))
+                        })
+                        
+                    // Yeah! Hand response
+                    case .failure(let error):
+                        
+                        if isLoader {
+                            GFunction.shared.removeLoader()
+                        }
+                        
+                        var statusCode = 0
+                        
+                        //Logout User
+                        if let headerResponse = response.response {
+                            statusCode = headerResponse.statusCode
+                            if (headerResponse.statusCode == 401) {
+                                //TODO: - Add your logout code here
+                                //                            GFunction.shared.userLogOut()
+                            }
+                        }
+                        
+                        //Display error Alert if errorAlert is true
+                        if(errorAlert) {
+                            let err = error as NSError
+                            if statusCode != 401
+                                && err.code != NSURLErrorTimedOut
+                                && err.code != NSURLErrorNetworkConnectionLost
+                                && err.code != NSURLErrorNotConnectedToInternet{
+                                
+                            } else {
+                                print(error.localizedDescription)
+                            }
+                        }
+                        completion(nil,statusCode,APIError.handleError(response: response))
+                    }
+                })
+            }
         }
     }
     //------------------------------------------------------
@@ -427,86 +425,88 @@ class ApiManager {
         , withBlock completion : @escaping (Data?, Int?, String) -> Void) {
         
         if Connectivity.isConnectedToInternet {
-            if isPrint {
-                print("*****************URL***********************\n")
-                print("URL:- \(url)\n")
-                print("Parameter:-\(String(describing: parameter))\n")
-                print("MethodType:- POST\n")
-                print("*****************End***********************\n")
-            }
-            
-            var param = Dictionary<String,Any>()
-            if parameter != nil {
-                param = parameter!
-            }
-            
-            // add loader if isLoader is true
-            if isLoader {
-                GFunction.shared.addLoader()
-            }
-            
-            Alamofire.request(url, method: .post, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headers()).responseJSON(completionHandler: { (response) in
-                
-                switch(response.result) {
-                case .success(let JSON):
-                    DispatchQueue.main.async {
-                        if isPrint {
-                            print(JSON)
-                        }
-                        
-                        // remove loader if isLoader is true
-                        if isLoader {
-                            GFunction.shared.removeLoader()
-                        }
-                        
-                        
-                        var statusCode = 0
-                        if let headerResponse = response.response {
-                            statusCode = headerResponse.statusCode
-                        }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
-                            completion(response.data, statusCode, APIError.handleError(response: response))
-                        })
-                    }
-                    
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        
-                        if isLoader {
-                            GFunction.shared.removeLoader()
-                        }
-                        
-                        var statusCode = 0
-                        
-                        //Logout User
-                        if let headerResponse = response.response {
-                            statusCode = headerResponse.statusCode
-                            if (headerResponse.statusCode == 401) {
-                                //TODO: - Add your logout code here
-                                //                        GFunction.shared.userLogOut(AppDelegate.shared.window)
-                            }
-                        }
-                        
-                        //Display error Alert if errorAlert is true
-                        if(errorAlert) {
-                            let err = error as NSError
-                            if statusCode != 401
-                                && err.code != NSURLErrorTimedOut
-                                && err.code != NSURLErrorNetworkConnectionLost
-                                && err.code != NSURLErrorNotConnectedToInternet{
-                                
-                            } else {
-                                print(error.localizedDescription)
-                            }
-                        }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
-                            completion(nil, statusCode, APIError.handleError(response: response))
-                        })
-                    }
+            self.CallCheckRefreshTokenApi { _ in
+                if isPrint {
+                    print("*****************URL***********************\n")
+                    print("URL:- \(url)\n")
+                    print("Parameter:-\(String(describing: parameter))\n")
+                    print("MethodType:- POST\n")
+                    print("*****************End***********************\n")
                 }
-            })
+                
+                var param = Dictionary<String,Any>()
+                if parameter != nil {
+                    param = parameter!
+                }
+                
+                // add loader if isLoader is true
+                if isLoader {
+                    GFunction.shared.addLoader()
+                }
+                
+                Alamofire.request(url, method: .post, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headers()).responseJSON(completionHandler: { (response) in
+                    
+                    switch(response.result) {
+                    case .success(let JSON):
+                        DispatchQueue.main.async {
+                            if isPrint {
+                                print(JSON)
+                            }
+                            
+                            // remove loader if isLoader is true
+                            if isLoader {
+                                GFunction.shared.removeLoader()
+                            }
+                            
+                            
+                            var statusCode = 0
+                            if let headerResponse = response.response {
+                                statusCode = headerResponse.statusCode
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                                completion(response.data, statusCode, APIError.handleError(response: response))
+                            })
+                        }
+                        
+                    case .failure(let error):
+                        DispatchQueue.main.async {
+                            
+                            if isLoader {
+                                GFunction.shared.removeLoader()
+                            }
+                            
+                            var statusCode = 0
+                            
+                            //Logout User
+                            if let headerResponse = response.response {
+                                statusCode = headerResponse.statusCode
+                                if (headerResponse.statusCode == 401) {
+                                    //TODO: - Add your logout code here
+                                    //                        GFunction.shared.userLogOut(AppDelegate.shared.window)
+                                }
+                            }
+                            
+                            //Display error Alert if errorAlert is true
+                            if(errorAlert) {
+                                let err = error as NSError
+                                if statusCode != 401
+                                    && err.code != NSURLErrorTimedOut
+                                    && err.code != NSURLErrorNetworkConnectionLost
+                                    && err.code != NSURLErrorNotConnectedToInternet{
+                                    
+                                } else {
+                                    print(error.localizedDescription)
+                                }
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                                completion(nil, statusCode, APIError.handleError(response: response))
+                            })
+                        }
+                    }
+                })
+            }
         }
     }
     

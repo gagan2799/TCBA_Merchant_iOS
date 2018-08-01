@@ -38,14 +38,14 @@ struct GConstant {
         static let History                      = "TMHistoryViewController"
         static let Transection                  = "TMTransactionViewController"
         static let Share                        = "TMShareViewController"
-        static let More                         = ""
+        static let More                         = "TMMoreViewController"
     }
         
     //MARK:- UserDefaults
     struct UserDefaultKeys {
         static let AppLaunch                      : String = "kAppLaunch"
         static let DeviceId                       : String = "kDeviceId"
-        static let UserData                       : String = "kLoginUserData"
+        static let UserDataLogin                       : String = "kLoginUserData"
         static let UserName                       : String = "kUserNameLogin"
     }
     
@@ -54,7 +54,7 @@ struct GConstant {
         // Alert messages
         static let kEmailTxtFieldMessage           :String = "Your email is required and must be in a valid format."
         static let kSomthingWrongMessage           :String = "Something went wrong, Please try again"
-        static let kEmailSentSuccessMessage               :String = "If your address exists on our systems, an account recovery email has been sent."
+        static let kEmailSentSuccessMessage        :String = "If your address exists on our systems, an account recovery email has been sent."
         // App permission massages
         static let kPhotoPermissionMessage         :String = "We need to have access to your photos to select a Photo.\nPlease go to the App Settings and allow Photos."
         static let kCameraPermissionMessage        :String = "We need to have access to your camera to take a New Photo.\nPlease go to the App Settings and allow Camera."

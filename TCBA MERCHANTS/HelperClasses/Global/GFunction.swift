@@ -36,7 +36,7 @@ class GFunction: NSObject  {
     }
     
     func removeLoader() {
-       LoaderWithLabel.shared.hideProgressView()
+        LoaderWithLabel.shared.hideProgressView()
     }
     
     //------------------------------------------------------
@@ -45,11 +45,11 @@ class GFunction: NSObject  {
     
     func addActivityIndicator(view : UIView) {
         removeActivityIndicator()
-    
+        
     }
     
     func removeActivityIndicator() {
-
+        
     }
     
     //------------------------------------------------------
@@ -62,12 +62,12 @@ class GFunction: NSObject  {
     
     func saveUserDetailInDefaults(_ encodeData: Data)  {
         let userDefault = UserDefaults.standard
-        userDefault.set(encodeData, forKey: GConstant.UserDefaultKeys.UserData)
+        userDefault.set(encodeData, forKey: GConstant.UserDefaultKeys.UserDataLogin)
         userDefault.synchronize()
     }
     
-    func getUserDataFromDefaults() -> UserLoginModel? {
-        if let userData =  UserDefaults.standard.value(forKey: GConstant.UserDefaultKeys.UserData) as? Data{
+func getUserDataFromDefaults() -> UserLoginModel? {
+        if let userData =  UserDefaults.standard.value(forKey: GConstant.UserDefaultKeys.UserDataLogin) as? Data{
             let userDataDecoded = try! UserLoginModel.decode(_data: userData)
             return userDataDecoded
         }
@@ -186,31 +186,42 @@ class GFunction: NSObject  {
         return ""
     }
     
+ 
+    
     func userLogOut(isFromSplash: Bool = false) {
         // I set the root VC dynamicaly because it depends on wether it's the first time to use the app or if the user is logged in or not
-        
-//        GFunction.shared.removeUserDefaults(key: kUserData)
-//        GFunction.shared.removeUserDefaults(key: kLocalUserInfo)
-//
-//        navigation_controller = mainStoryBoard.instantiateViewController(withIdentifier: "kLoginNavigationController") as! UINavigationController
-//        window.rootViewController = navigation_controller
-//        window.makeKeyAndVisible()
+        // Remove userdata from User defaults
+         GFunction.shared.removeUserDefaults(key: GConstant.UserDefaultKeys.UserDataLogin)
         let obj = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Login) as! TMLoginViewController
         obj.isFromSplash = isFromSplash
+        if !isFromSplash {
+            GConstant.NavigationController = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: "RootNavigation") as! UINavigationController
+            UIApplication.shared.delegate?.window??.rootViewController = GConstant.NavigationController
+        }
         GConstant.NavigationController.pushViewController(obj, animated: false)
     }
     
-    func userLogin(isFromSplash: Bool = false) {
+    func userLogin() {
         GConstant.UserData = self.getUserDataFromDefaults()
-        if isFromSplash {
-            let obj = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Home) as! TMHomeViewController
-            GConstant.NavigationController.pushViewController(obj, animated: true)
-        }else{
-            GConstant.NavigationController.popViewController(animated: true)
-        }
+        rootWindow().rootViewController = Tabbar.coustomTabBar()
     }
     
+    
+    func makeUserLoginAlert() {
+        AlertManager.shared.showAlertTitle(title: "Please Login Again", message: "Your session has expired. Please login again to proceed.", buttonsArray: ["Cancel","Login"]) { (buttonIndex : Int) in
+            switch buttonIndex {
+            case 0 :
+                //No clicked
+                break
+            case 1:
+                let obj = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Login) as! TMLoginViewController
+                let navigationController = UINavigationController(rootViewController:obj)
+                     rootWindow().rootViewController?.present(navigationController, animated: true, completion: {
+                })
+                break
+            default:
+                break
+            }
+        }
+    }
 }
-
-
-

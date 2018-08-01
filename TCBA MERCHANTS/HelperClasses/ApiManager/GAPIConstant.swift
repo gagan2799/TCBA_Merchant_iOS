@@ -13,7 +13,7 @@ struct Headers {
     static let APIKey       = "X-APIKey"
     static let APIKeyValue  = "8fa9e7c5b2a3438aa9b1de7ac4309708"
     static let BearerKey    = "Authorization"
-    static let BearerValue  = "Bearer \(String(describing: GConstant.UserData.accessToken))"
+    static let BearerValue  = "Bearer \(String(describing: GConstant.UserData.accessToken!))"
 }
 //MARK:- URLConstants
 struct GAPIConstant {
@@ -34,7 +34,7 @@ struct GAPIConstant {
         static var RefreshToken: String {
             return Domain  + "token"
         }
-        
+        //MARK: - Login Screen Api's
         static var Login: String {
             return Domain  + "token"
         }
@@ -45,6 +45,14 @@ struct GAPIConstant {
         
         static var ForgotPassword: String {
             return BaseURL  + "/Users/GetForgotPassword"
+        }
+        //MARK: - History Screen Api's
+        static var TransactionData: String {
+            return BaseURL + "/Merchant/GetMerchantTransactionSummary"
+        }
+        
+        static var IncompleteTransactionData: String {
+            return BaseURL + "/Merchant/GetMerchantTransactionSummary"
         }
     }
 }

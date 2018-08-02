@@ -21,7 +21,7 @@ class TMSplashViewController: UIViewController {
     }
     override func viewDidDisappear(_ animated: Bool) {
         //<---------Set statusbar background color--------->
-        UIApplication.shared.statusBarView?.backgroundColor = #colorLiteral(red: 0.949000001, green: 0.4629999995, blue: 0.1180000007, alpha: 1)      
+        UIApplication.shared.statusBarView?.backgroundColor = GConstant.AppColor.orange
     }
     
     override func didReceiveMemoryWarning() {
@@ -32,12 +32,12 @@ class TMSplashViewController: UIViewController {
     //MARK: - Animation Coustom method
     func animateView(view:UIView){
         DispatchQueue.main.async {
-            UIView.transition(with: view, duration: 3.0, options: [.transitionCrossDissolve], animations: {
-                view.backgroundColor = #colorLiteral(red: 0, green: 0.4509803922, blue: 0.7921568627, alpha: 1).withAlphaComponent(1.0)
+            UIView.animate(withDuration: 2.0, animations: {
+                view.alpha = 1.0
                 view.isOpaque = false
-            }){ (true) in
-                Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.goToMainController), userInfo: nil, repeats: false)
-            }
+            }, completion: { _ in
+                Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.goToMainController), userInfo: nil, repeats: false)
+            })
         }
     }
     //MARK: - Timer Function

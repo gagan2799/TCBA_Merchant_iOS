@@ -47,18 +47,19 @@ class TMHomeViewController: UIViewController {
         super.didReceiveMemoryWarning()
         
     }
+    //MARK: - Set view properties
     func setViewProperties(){
         // navigationBar customization
         self.navigationController?.customize()
         self.navigationItem.title           = "The Cash Back App"
         // hide the default back buttons
         self.navigationItem.hidesBackButton = true
-        
+
         //dynamic height image
         if UIDevice.current.userInterfaceIdiom == .pad {
-            consHeightHomeIV.constant = GConstant.Screen.Height * 0.35
+            consHeightHomeIV.constant       = GConstant.Screen.Height * 0.35
         }else{
-            consHeightHomeIV.constant = GConstant.Screen.Height * 0.3
+            consHeightHomeIV.constant       = GConstant.Screen.Height * 0.3
         }
         self.view.layoutIfNeeded()
         // lbl properties set
@@ -80,13 +81,13 @@ extension TMHomeViewController: UITableViewDataSource,UITableViewDelegate{
         let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCell") as! TMHomeTableViewCell
         
         if (arryObjects.count - 1 == indexPath.row) {
-            cell.imgLogo.image = nil
-            cell.lblText.text = arryObjects[indexPath.row]
-            cell.lblText.applyStyle(labelFont:UIFont.applyOpenSansRegular(fontSize: 15.0) , labelColor: #colorLiteral(red: 0, green: 0.4509803922, blue: 0.7921568627, alpha: 1))
+            cell.imgLogo.image              = nil
+            cell.lblText.text               = arryObjects[indexPath.row]
+            cell.lblText.applyStyle(labelFont:UIFont.applyOpenSansRegular(fontSize: 15.0) , labelColor: GConstant.AppColor.blue)
         }else{
-            cell.imgLogo.image = #imageLiteral(resourceName: "logo-icon.png")
-            cell.lblText.text = arryObjects[indexPath.row]
-            cell.lblText.applyStyle(labelFont:UIFont.applyOpenSansRegular(fontSize: 15.0) , labelColor: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1))
+            cell.imgLogo.image              = #imageLiteral(resourceName: "logo-icon.png")
+            cell.lblText.text               = arryObjects[indexPath.row]
+            cell.lblText.applyStyle(labelFont:UIFont.applyOpenSansRegular(fontSize: 15.0) , labelColor: GConstant.AppColor.black)
         }
         return cell
     }
@@ -96,7 +97,7 @@ extension TMHomeViewController: UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let lblTitle = UILabel.init(frame: CGRect(x: 0, y: 0, width:self.view.bounds.width, height: 50 * GConstant.Screen.HeightAspectRatio))
-        lblTitle.applyStyle(labelFont:UIFont.applyBlocSSiBold(fontSize: 20) , labelColor: #colorLiteral(red: 0, green: 0.4509803922, blue: 0.7921568627, alpha: 1), cornerRadius: nil, borderColor: nil, borderWidth: nil, labelShadow: nil)
+        lblTitle.applyStyle(labelFont:UIFont.applyBlocSSiBold(fontSize: 20) , labelColor: GConstant.AppColor.blue, cornerRadius: nil, borderColor: nil, borderWidth: nil, labelShadow: nil)
         lblTitle.text = " Get Cash Back on:"
         return lblTitle
     }
@@ -105,10 +106,10 @@ extension TMHomeViewController: UITableViewDataSource,UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let lblTitle = UILabel.init(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 40 * GConstant.Screen.HeightAspectRatio))
-        lblTitle.applyStyle(labelFont:UIFont.applyOpenSansBold(fontSize: 15) , labelColor: #colorLiteral(red: 0.2310000062, green: 0.2310000062, blue: 0.2310000062, alpha: 1) , cornerRadius: nil, borderColor: nil, borderWidth: nil, labelShadow: nil)
-        lblTitle.textAlignment = .center
-        lblTitle.backgroundColor = #colorLiteral(red: 0.9215686275, green: 0.9215686275, blue: 0.9215686275, alpha: 1)
-        lblTitle.text = "SHOP.SAVE.SIMPLE"
+        lblTitle.applyStyle(labelFont:UIFont.applyOpenSansBold(fontSize: 15) , labelColor: GConstant.AppColor.textDark , cornerRadius: nil, borderColor: nil, borderWidth: nil, labelShadow: nil)
+        lblTitle.textAlignment              = .center
+        lblTitle.backgroundColor            = GConstant.AppColor.grayBG
+        lblTitle.text                       = "SHOP.SAVE.SIMPLE"
         return lblTitle
     }
 }

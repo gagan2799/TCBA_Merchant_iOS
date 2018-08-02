@@ -5,7 +5,7 @@
 //  Created by varun@gsbitlabs on 11/07/18.
 //  Copyright © 2018 GS Bit Labs. All rights reserved.
 //
-
+import Foundation
 import UIKit
 import SDWebImage
 
@@ -17,6 +17,32 @@ extension UIColor {
     
     class func colorFromHex(hex: Int) -> UIColor {
         return UIColor(red: (CGFloat((hex & 0xFF0000) >> 16)) / 255.0, green: (CGFloat((hex & 0xFF00) >> 8)) / 255.0, blue: (CGFloat(hex & 0xFF)) / 255.0, alpha: 1.0)
+    }
+    convenience init(hexString: String, alpha: CGFloat = 1.0) {
+        let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let scanner = Scanner(string: hexString)
+        if (hexString.hasPrefix("#")) {
+            scanner.scanLocation = 1
+        }
+        var color: UInt32 = 0
+        scanner.scanHexInt32(&color)
+        let mask = 0x000000FF
+        let r = Int(color >> 16) & mask
+        let g = Int(color >> 8) & mask
+        let b = Int(color) & mask
+        let red   = CGFloat(r) / 255.0
+        let green = CGFloat(g) / 255.0
+        let blue  = CGFloat(b) / 255.0
+        self.init(red:red, green:green, blue:blue, alpha:alpha)
+    }
+    func toHexString() -> String {
+        var r:CGFloat = 0
+        var g:CGFloat = 0
+        var b:CGFloat = 0
+        var a:CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+        return String(format:"#%06x", rgb)
     }
 }
 
@@ -110,8 +136,7 @@ extension UIView {
         let views = Bundle.main.loadNibNamed(name, owner: nil, options: nil)
         return views!.first as? UIView
     }
-    func applyCornerRadius(cornerRadius : CGFloat? = nil
-        ) {
+    func applyCornerRadius(cornerRadius : CGFloat? = nil) {
         
         if cornerRadius != nil {
             self.layer.cornerRadius = cornerRadius!
@@ -531,8 +556,6 @@ extension UIImageView {
     
 }
 
-
-
 //MARK:- Image Extension
 extension UIImage {
     
@@ -774,7 +797,7 @@ extension UINavigationController{
     func customize(isTransparent: Bool = false, isPicker: Bool? = false){
         
         let navigationFont                      = UIFont.applyBlocSSiBold(fontSize: UIDevice.current.userInterfaceIdiom == .pad ? 14.0 : 18.0)
-        self.navigationBar.barTintColor         = #colorLiteral(red: 0, green: 0.4509803922, blue: 0.7921568627, alpha: 1)
+        self.navigationBar.barTintColor         = GConstant.AppColor.blue
         self.navigationBar.tintColor = UIColor.white
         self.navigationBar.titleTextAttributes  = [NSAttributedStringKey.font:navigationFont, NSAttributedStringKey.foregroundColor: UIColor.white]
         self.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -925,7 +948,16 @@ extension UIViewController {
         sender.navigationItem.titleView = imageView
     }
 }
-
+//MARK: - UINavigationController
+extension UINavigationController {
+    func fadeTo(_ viewController: UIViewController) {
+        let transition: CATransition = CATransition()
+        transition.duration = 0.5
+        transition.type = kCATransitionFade
+        view.layer.add(transition, forKey: nil)
+        pushViewController(viewController, animated: false)
+    }
+}
 //MARK: - UIApplication
 extension UIApplication {
     var statusBarView: UIView? {

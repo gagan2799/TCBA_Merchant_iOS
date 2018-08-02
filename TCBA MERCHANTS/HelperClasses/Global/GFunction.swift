@@ -186,8 +186,6 @@ func getUserDataFromDefaults() -> UserLoginModel? {
         return ""
     }
     
- 
-    
     func userLogOut(isFromSplash: Bool = false) {
         // I set the root VC dynamicaly because it depends on wether it's the first time to use the app or if the user is logged in or not
         // Remove userdata from User defaults
@@ -198,14 +196,13 @@ func getUserDataFromDefaults() -> UserLoginModel? {
             GConstant.NavigationController = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: "RootNavigation") as! UINavigationController
             UIApplication.shared.delegate?.window??.rootViewController = GConstant.NavigationController
         }
-        GConstant.NavigationController.pushViewController(obj, animated: false)
+        GConstant.NavigationController.fadeTo(obj)
     }
     
     func userLogin() {
         GConstant.UserData = self.getUserDataFromDefaults()
         rootWindow().rootViewController = Tabbar.coustomTabBar()
     }
-    
     
     func makeUserLoginAlert() {
         AlertManager.shared.showAlertTitle(title: "Please Login Again", message: "Your session has expired. Please login again to proceed.", buttonsArray: ["Cancel","Login"]) { (buttonIndex : Int) in

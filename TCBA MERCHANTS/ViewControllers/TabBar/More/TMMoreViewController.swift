@@ -24,6 +24,17 @@ class TMMoreViewController: UIViewController {
     }
     //MARK: - UIButton Action methods
     @IBAction func btnLogoutAction(_ sender: UIButton) {
-        GFunction.shared.userLogOut()
+        AlertManager.shared.showAlertTitle(title: "Logout", message: "Are you sure you want to logout?", buttonsArray: ["Cancel","Logout"]) { (buttonIndex : Int) in
+            switch buttonIndex {
+            case 0 :
+                //No clicked
+                break
+            case 1:
+                GFunction.shared.userLogOut()
+                break
+            default:
+                break
+            }
+        }
     }
 }

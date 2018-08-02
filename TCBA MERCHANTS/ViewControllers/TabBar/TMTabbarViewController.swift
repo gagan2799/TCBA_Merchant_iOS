@@ -40,23 +40,23 @@ class ExampleBackgroundContentView: ExampleBasicContentView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        textColor = .white
-        highlightTextColor = .white
-        iconColor = .white
-        highlightIconColor = .white
-        backdropColor = #colorLiteral(red: 0.9570000172, green: 0.4629999995, blue: 0.1180000007, alpha: 1)
-        highlightBackdropColor = #colorLiteral(red: 0, green: 0.4509803922, blue: 0.7921568627, alpha: 1)
+        textColor               = .white
+        highlightTextColor      = .white
+        iconColor               = .white
+        highlightIconColor      = .white
+        backdropColor           = GConstant.AppColor.orange
+        highlightBackdropColor  = GConstant.AppColor.blue
     }
     
     lazy var semiCircleView = UIView(frame: CGRect(x: 0, y: -12, width: GConstant.Screen.Width/5 , height: 60))
     public convenience init(specialWithAutoImplies implies: Bool) {
         self.init(frame: CGRect.zero)
-        textColor = .white
-        highlightTextColor = .white
-        iconColor = .white
-        highlightIconColor = .white
-        backdropColor = #colorLiteral(red: 0.9570000172, green: 0.4629999995, blue: 0.1180000007, alpha: 1)
-        highlightBackdropColor = #colorLiteral(red: 0, green: 0.4509803922, blue: 0.7921568627, alpha: 1)
+        textColor               = .white
+        highlightTextColor      = .white
+        iconColor               = .white
+        highlightIconColor      = .white
+        backdropColor           = GConstant.AppColor.orange
+        highlightBackdropColor  = GConstant.AppColor.blue
         
         if implies {
 //                semiCircleView.layer.cornerRadius = semiCircleView.bounds.midX

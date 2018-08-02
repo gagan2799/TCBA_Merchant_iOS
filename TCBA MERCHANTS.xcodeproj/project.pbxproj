@@ -26,7 +26,6 @@
 		792B544620F5F485000223F7 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792B543E20F5F485000223F7 /* AlertManager.swift */; };
 		792B544A20F5F485000223F7 /* DPPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792B544220F5F485000223F7 /* DPPickerManager.swift */; };
 		792B544C20F5F485000223F7 /* StringHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792B544420F5F485000223F7 /* StringHelper.swift */; };
-		792B545220F61622000223F7 /* AppColors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 792B545120F61622000223F7 /* AppColors.xcassets */; };
 		792B545920F63663000223F7 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 792B545620F63663000223F7 /* OpenSans-Regular.ttf */; };
 		792B545A20F63663000223F7 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 792B545720F63663000223F7 /* OpenSans-Bold.ttf */; };
 		792B545B20F63663000223F7 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 792B545820F63663000223F7 /* OpenSans-Semibold.ttf */; };
@@ -69,7 +68,6 @@
 		792B543E20F5F485000223F7 /* AlertManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		792B544220F5F485000223F7 /* DPPickerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPPickerManager.swift; sourceTree = "<group>"; };
 		792B544420F5F485000223F7 /* StringHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringHelper.swift; sourceTree = "<group>"; };
-		792B545120F61622000223F7 /* AppColors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppColors.xcassets; sourceTree = "<group>"; };
 		792B545620F63663000223F7 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		792B545720F63663000223F7 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		792B545820F63663000223F7 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
@@ -181,7 +179,6 @@
 				790D392C210864C40073AE4C /* Resources */,
 				792B541C20F5DD30000223F7 /* Main.storyboard */,
 				792B541F20F5DD32000223F7 /* Assets.xcassets */,
-				792B545120F61622000223F7 /* AppColors.xcassets */,
 				799924C820FF0CC30074BDE6 /* Launch Screen.storyboard */,
 				792B542420F5DD32000223F7 /* Info.plist */,
 			);
@@ -414,7 +411,6 @@
 				792B545A20F63663000223F7 /* OpenSans-Bold.ttf in Resources */,
 				799924C920FF0CC30074BDE6 /* Launch Screen.storyboard in Resources */,
 				790F0B9020F71ACB00082B79 /* BlocSSiBold.ttf in Resources */,
-				792B545220F61622000223F7 /* AppColors.xcassets in Resources */,
 				792B542020F5DD32000223F7 /* Assets.xcassets in Resources */,
 				792B545B20F63663000223F7 /* OpenSans-Semibold.ttf in Resources */,
 				790D392F210865110073AE4C /* LoaderAnim.gif in Resources */,
@@ -650,7 +646,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = SJ9ZR8L8WC;
 				INFOPLIST_FILE = "TCBA MERCHANTS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -672,7 +668,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = SJ9ZR8L8WC;
 				INFOPLIST_FILE = "TCBA MERCHANTS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

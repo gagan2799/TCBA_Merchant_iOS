@@ -25,6 +25,8 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     // Forgot password view
     @IBOutlet weak var vForgotPassword: UIView!
     @IBOutlet weak var vPopUpPassword: UIView!
+    //<---------UIScrollView Outlet-------->
+    @IBOutlet weak var scrView: UIScrollView!
     
     //<---------UIImageView Outlets-------->
     @IBOutlet weak var ivPopUserLogo: UIImageView!
@@ -58,11 +60,21 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        //<---------------ScrollVIew------------->
+        // By default scrolling is disable
+        if UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight) {
+            scrView.isScrollEnabled = true
+        } else {
+            scrView.isScrollEnabled = false
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -74,7 +86,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     func setViewProperties(){
         //<--------Fogot user & password buttons Attributes setup----->
         // create attributed string
-        let attributes = [NSAttributedStringKey.foregroundColor:#colorLiteral(red: 0.2310000062, green: 0.2310000062, blue: 0.2310000062, alpha: 1) , NSAttributedStringKey.font: UIFont.applyRegular(fontSize: 12.0) , NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue] as [NSAttributedStringKey : Any]
+        let attributes = [NSAttributedStringKey.foregroundColor:GConstant.AppColor.textDark , NSAttributedStringKey.font: UIFont.applyRegular(fontSize: 12.0) , NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue] as [NSAttributedStringKey : Any]
         
         let strTitleForgotUser = "Forgot Username "
         let strAttrUser = NSAttributedString(string: strTitleForgotUser, attributes: attributes)
@@ -86,20 +98,20 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
         
         //<----------PopUp Forgot UserName-------->
         vPopUpUser.applyCornerRadius(cornerRadius: UIDevice.current.userInterfaceIdiom == .pad ? 7.0 * GConstant.Screen.HeightAspectRatio : 5.0)
-        txtPopEmailUser.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: #colorLiteral(red: 0.2310000062, green: 0.2310000062, blue: 0.2310000062, alpha: 1), cornerRadius: nil, borderColor: #colorLiteral(red: 0, green: 0.4509803922, blue: 0.7921568627, alpha: 1), borderWidth: 1.0)
+        txtPopEmailUser.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor:GConstant.AppColor.textDark, cornerRadius: nil, borderColor: GConstant.AppColor.blue, borderWidth: 1.0)
         txtPopEmailUser.setLeftPaddingPoints(10)
         ivPopUserLogo.applyStyle(cornerRadius: 3.0, borderColor: UIColor.white, borderWidth: 2.0)
         
         //<----------PopUp Forgot Password-------->
         vPopUpPassword.applyCornerRadius(cornerRadius: UIDevice.current.userInterfaceIdiom == .pad ? 7.0 * GConstant.Screen.HeightAspectRatio : 5.0)
-        txtPopEmailPassword.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: #colorLiteral(red: 0.2310000062, green: 0.2310000062, blue: 0.2310000062, alpha: 1), cornerRadius: nil, borderColor: #colorLiteral(red: 0, green: 0.4509803922, blue: 0.7921568627, alpha: 1), borderWidth: 1.0)
+        txtPopEmailPassword.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: GConstant.AppColor.textDark, cornerRadius: nil, borderColor: GConstant.AppColor.blue, borderWidth: 1.0)
         txtPopEmailPassword.setLeftPaddingPoints(10)
         ivPopPassLogo.applyStyle(cornerRadius: 3.0, borderColor: UIColor.white, borderWidth: 2.0)
     }
     
     //MARK: - Animation Coustom method
     func animateHideShow(view:UIView){
-        UIView.transition(with: view, duration: 0.5, options: [.showHideTransitionViews,.transitionCrossDissolve], animations: {
+        UIView.transition(with: view, duration: 0.3, options: [.showHideTransitionViews,.transitionCrossDissolve], animations: {
             if view.isHidden == false{
                 view.isHidden = true
             }
@@ -218,7 +230,12 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
                     if self.btnSaveUsername.isSelected{
                         UserDefaults.standard.set(self.txtUsername.text, forKey: GConstant.UserDefaultKeys.UserName)
                         UserDefaults.standard.synchronize()
+                    }else{
+                        if UserDefaults.standard.value(forKey: GConstant.UserDefaultKeys.UserName) != nil{
+                            GFunction.shared.removeUserDefaults(key: GConstant.UserDefaultKeys.UserName)
+                        }
                     }
+                    
                     if (self.navigationController?.viewControllers.first?.isKind(of: TMLoginViewController.self))! {
                         self.navigationController?.dismiss(animated: true, completion: nil)
                     } else {

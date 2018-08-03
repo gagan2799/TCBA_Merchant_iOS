@@ -22,13 +22,15 @@ class TMHomeViewController: UIViewController {
     //MARK: - Outlets
     @IBOutlet weak var lblStoreId: UILabel!
     @IBOutlet weak var consHeightHomeIV: NSLayoutConstraint!
+    @IBOutlet weak var consHeightHomeTableV: NSLayoutConstraint!
+    @IBOutlet weak var scrollVHome: UIScrollView!
     
     
     //MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewProperties()
-        GConstant.NavigationController = self.navigationController
+//        GConstant.NavigationController = self.navigationController
 //        GFunction.shared.makeUserLoginAlert()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -43,6 +45,13 @@ class TMHomeViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         
     }
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight) {
+            scrollVHome.isScrollEnabled = true
+        }else{
+            scrollVHome.isScrollEnabled = false
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
@@ -55,11 +64,19 @@ class TMHomeViewController: UIViewController {
         // hide the default back buttons
         self.navigationItem.hidesBackButton = true
 
-        //dynamic height image
+        if UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight) {
+            scrollVHome.isScrollEnabled = true
+        }else{
+            scrollVHome.isScrollEnabled = false
+        }
+        
+        //dynamic height image & table
         if UIDevice.current.userInterfaceIdiom == .pad {
             consHeightHomeIV.constant       = GConstant.Screen.Height * 0.35
+            consHeightHomeTableV.constant       = GConstant.Screen.Height * 0.55
         }else{
             consHeightHomeIV.constant       = GConstant.Screen.Height * 0.3
+            consHeightHomeTableV.constant       = GConstant.Screen.Height * 0.7
         }
         self.view.layoutIfNeeded()
         // lbl properties set

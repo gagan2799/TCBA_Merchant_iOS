@@ -36,6 +36,15 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     @IBOutlet weak var btnSaveUsername: UIButton!
     @IBOutlet weak var btnForgotUserOutlet: UIButton!
     @IBOutlet weak var btnForgotPassOutlet: UIButton!
+    @IBOutlet weak var btnSendPassOutlet: UIButton!
+    @IBOutlet weak var btnSendUserOutlet: UIButton!
+    
+    //<---------UILabal------------>
+    @IBOutlet weak var lblForgotUser: UILabel!
+    @IBOutlet weak var lblEnterEmailFU: UILabel!
+    @IBOutlet weak var lblForgotPass: UILabel!
+    @IBOutlet weak var lblEnterEmailFP: UILabel!
+    
     
     //MARK: - View life cycle
     override func viewDidLoad() {
@@ -44,14 +53,16 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
         self.navigationItem.hidesBackButton = true
         // Show navigationBar
         GConstant.NavigationController?.isNavigationBarHidden = false;
-        self.setViewProperties()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let userName = UserDefaults.standard.value(forKey: GConstant.UserDefaultKeys.UserName) {
-            txtUsername.text = userName as? String
-            btnSaveUsername.isSelected = true
+        DispatchQueue.main.async {
+            self.setViewProperties()
+            if let userName = UserDefaults.standard.value(forKey: GConstant.UserDefaultKeys.UserName) {
+                self.txtUsername.text = userName as? String
+                self.btnSaveUsername.isSelected = true
+            }
         }
     }
     
@@ -70,11 +81,8 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         //<---------------ScrollVIew------------->
         // By default scrolling is disable
-        if UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight) {
-            scrView.isScrollEnabled = true
-        } else {
-            scrView.isScrollEnabled = false
-        }
+        //<--------Update PopUp properties with orientation----->
+        popUpPropertiesUpdate()
     }
     
     override func didReceiveMemoryWarning() {
@@ -107,8 +115,38 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
         txtPopEmailPassword.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: GConstant.AppColor.textDark, cornerRadius: nil, borderColor: GConstant.AppColor.blue, borderWidth: 1.0)
         txtPopEmailPassword.setLeftPaddingPoints(10)
         ivPopPassLogo.applyStyle(cornerRadius: 3.0, borderColor: UIColor.white, borderWidth: 2.0)
+        //<--------Set PopUp properties for orientation----->
+        popUpPropertiesUpdate()
     }
     
+    func popUpPropertiesUpdate() {
+        //<--------Set PopUp properties for orientation----->
+        if UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight) {
+            scrView.isScrollEnabled = true
+            lblForgotPass.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0))
+            lblForgotUser.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0))
+            lblEnterEmailFU.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 11.0))
+            lblEnterEmailFP.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 11.0))
+            
+            btnSendPassOutlet.titleLabel?.font  = UIFont.applyRegular(fontSize: 12.0)
+            btnSendUserOutlet.titleLabel?.font  = UIFont.applyRegular(fontSize: 12.0)
+            txtPopEmailUser.font                = UIFont.applyOpenSansRegular(fontSize: 11.0)
+            txtPopEmailPassword.font            = UIFont.applyOpenSansRegular(fontSize: 11.0)
+            
+        }else if UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .portrait){
+            scrView.isScrollEnabled = false
+            lblForgotPass.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 20.0))
+            lblForgotUser.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 20.0))
+            lblEnterEmailFU.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0))
+            lblEnterEmailFP.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0))
+            btnSendPassOutlet.titleLabel?.font  = UIFont.applyRegular(fontSize: 16.0)
+            btnSendUserOutlet.titleLabel?.font  = UIFont.applyRegular(fontSize: 16.0)
+            txtPopEmailUser.font        = UIFont.applyOpenSansRegular(fontSize: 14.0)
+            txtPopEmailPassword.font    = UIFont.applyOpenSansRegular(fontSize: 14.0)
+        } else {
+            scrView.isScrollEnabled = false
+        }
+    }
     //MARK: - Animation Coustom method
     func animateHideShow(view:UIView){
         UIView.transition(with: view, duration: 0.3, options: [.showHideTransitionViews,.transitionCrossDissolve], animations: {

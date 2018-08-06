@@ -24,10 +24,10 @@ class ApiManager {
         
         class func headersWithBearerToken() -> HTTPHeaders {
             let headers: HTTPHeaders = [
-                "Content-Type"     : "application/json",
-                "Accept"           : "application/json",
-                Headers.BearerKey  : Headers.BearerValue,
-                Headers.APIKey     : Headers.APIKeyValue
+                "Content-Type"      : "application/json",
+                "Accept"            : "application/json",
+                "Authorization"     : "Bearer \(GConstant.UserData.accessToken!)",
+                Headers.APIKey      : Headers.APIKeyValue
             ]
             return headers
         }
@@ -101,10 +101,11 @@ class ApiManager {
         
         if expired {
             let requestModel = RequestModal.mUserData()
-            requestModel.refresh_token = GConstant.UserData.refreshToken
-            requestModel.grant_type = "refresh_token"
-            requestModel.client_id  = "tcba_iphone"
-            requestModel.device_id  = GFunction.shared.getDeviceId()
+            guard let refreshToken      = GConstant.UserData.refreshToken else{return}
+            requestModel.refresh_token  = refreshToken
+            requestModel.grant_type     = "refresh_token"
+            requestModel.client_id      = "tcba_iphone"
+            requestModel.device_id      = GFunction.shared.getDeviceId()
             
             Alamofire.request(GAPIConstant.Url.RefreshToken, method: .post, parameters: requestModel.toDictionary(), encoding: URLEncoding(), headers: APIHeaders.headers()).responseJSON { (response) in
                 switch(response.result){

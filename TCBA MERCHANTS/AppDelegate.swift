@@ -68,5 +68,3 @@ func appDelegate()->AppDelegate {
 func rootWindow()->UIWindow {
     return appDelegate().window!
 }
-
-

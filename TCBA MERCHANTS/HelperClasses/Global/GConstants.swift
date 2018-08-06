@@ -34,6 +34,7 @@ struct GConstant {
         static let Width                         =  UIScreen.main.bounds.size.width
         static let Height                        =  UIScreen.main.bounds.size.height
         static let HeightAspectRatio:CGFloat     =  Height / 667.0
+        static let isPadAndOrintationRightLeft   =  UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight)
     }
     
     // MARK:- Viewcontrollers Identifiers

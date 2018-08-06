@@ -73,7 +73,7 @@ class AlertManager: NSObject , UIAlertViewDelegate {
         self.completionBlock = completionBlock
         
         let alertView : SIAlertView = SIAlertView(title: title, andMessage: message)
-        alertView.transitionStyle = .bounce
+        alertView.transitionStyle = .fade
         alertView.cornerRadius = 2
         alertView.viewBackgroundColor = GConstant.AppColor.white
         alertView.titleColor = GConstant.AppColor.black

@@ -9,16 +9,30 @@ import Foundation
 import UIKit
 import SDWebImage
 
-//MARK:- UIColor
-
+//MARK:- Double
+extension Double {
+    /// Rounds the double to decimal places value
+    // How to use
+    //let x = Double(0.123456789).roundToDecimal(_ fractionDigits: 2)
+    func roundToDecimal(_ fractionDigits: Int = 2) -> Double {
+        let multiplier = pow(10, Double(fractionDigits))
+        return Darwin.round(self * multiplier) / multiplier
+    }
+}
 //MARK:- UIColor
 
 extension UIColor {
     
     class func colorFromHex(hex: Int) -> UIColor {
+        // How to use
+        // kColorGray74:Int    = 0xBDBDBD
+        // eg: UIColor.colorFromHex(hex: kColorGray74)
         return UIColor(red: (CGFloat((hex & 0xFF0000) >> 16)) / 255.0, green: (CGFloat((hex & 0xFF00) >> 8)) / 255.0, blue: (CGFloat(hex & 0xFF)) / 255.0, alpha: 1.0)
     }
+    
     convenience init(hexString: String, alpha: CGFloat = 1.0) {
+        // How to use
+        // eg: UIColor(hexString: "#0073CA")
         let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let scanner = Scanner(string: hexString)
         if (hexString.hasPrefix("#")) {

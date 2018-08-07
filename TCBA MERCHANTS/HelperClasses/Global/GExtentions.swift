@@ -353,6 +353,7 @@ extension UILabel {
         , labelColor     : UIColor? = nil
         , cornerRadius   : CGFloat? = nil
         , borderColor    : UIColor? = nil
+        , backgroundColor: UIColor? = nil
         , borderWidth    : CGFloat? = nil
         , labelShadow    : CGSize? = nil
         ) {
@@ -368,6 +369,10 @@ extension UILabel {
             self.layer.borderColor = borderColor?.cgColor
         } else {
             self.layer.borderColor = UIColor.clear.cgColor
+        }
+        
+        if backgroundColor != nil {
+            self.backgroundColor = backgroundColor
         }
         
         if borderWidth != nil {

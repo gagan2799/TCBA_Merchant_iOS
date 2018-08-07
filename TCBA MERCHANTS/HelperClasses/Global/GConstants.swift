@@ -39,11 +39,18 @@ struct GConstant {
     
     // MARK:- Viewcontrollers Identifiers
     struct VCIdentifier {
+        //Login Screen
         static let Login                        = "TMLoginViewController"
+        //Home Tab
         static let Home                         = "TMHomeViewController"
+        //History Tab
         static let History                      = "TMHistoryViewController"
+        static let HistoryDetail                = "TMHistoryDetailVC"
+        //QR Tab
         static let Transection                  = "TMTransactionViewController"
+        //Share Tab
         static let Share                        = "TMShareViewController"
+        //More Tab
         static let More                         = "TMMoreViewController"
     }
         

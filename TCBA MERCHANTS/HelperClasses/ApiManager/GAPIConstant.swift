@@ -32,6 +32,7 @@ struct GAPIConstant {
         static var RefreshToken: String {
             return Domain  + "token"
         }
+        
         //MARK: - Login Screen Api's
         static var Login: String {
             return Domain  + "token"
@@ -44,6 +45,7 @@ struct GAPIConstant {
         static var ForgotPassword: String {
             return BaseURL  + "/Users/GetForgotPassword"
         }
+        
         //MARK: - History Screen Api's
         static var TransactionData: String {
             return BaseURL + "/Merchant/GetMerchantTransactionSummary"
@@ -51,6 +53,15 @@ struct GAPIConstant {
         
         static var IncompleteTransactionData: String {
             return BaseURL + "/Payment/POS/GetIncompletePOSes"
+        }
+        
+        //MARK: - History Details Screen Api's
+        static var HistoryTransactionDetails: String {
+            return BaseURL + "/Merchant/GetMerchantTransactionDetail"
+        }
+        
+        static var GetOutstandingLoyalty: String {
+            return BaseURL + "Merchant/GetOutstandingLoyalty"
         }
     }
 }

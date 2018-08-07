@@ -52,6 +52,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
         // hide the default back buttons if is from splashViewController
         self.navigationItem.hidesBackButton = true
         // Show navigationBar
+        GConstant.NavigationController?.customize()
         GConstant.NavigationController?.isNavigationBarHidden = false;
     }
     
@@ -275,6 +276,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
                     }
                     
                     if (self.navigationController?.viewControllers.first?.isKind(of: TMLoginViewController.self))! {
+                        GConstant.UserData = GFunction.shared.getUserDataFromDefaults()
                         self.navigationController?.dismiss(animated: true, completion: nil)
                     } else {
                         GFunction.shared.userLogin()

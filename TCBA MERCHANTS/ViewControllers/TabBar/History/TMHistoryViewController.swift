@@ -47,6 +47,16 @@ class TMHistoryViewController: UIViewController {
         
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+//        coordinator.animate(alongsideTransition: nil, completion: {
+//            _ in
+//            
+//        })
+        guard tblHistory != nil else {
+            return
+        }
+        
+        
         if  UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight)  {
             tblHistory.isScrollEnabled = true
         }else{
@@ -74,17 +84,25 @@ class TMHistoryViewController: UIViewController {
     //MARK: - UIButton Action Methods
     
     @IBAction func btnOutStandingAction(_ sender: UIButton) {
-        
+        let obj  = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.HistoryDetail) as! TMHistoryDetailVC
+        obj.type = .outstanding
+        self.navigationController?.pushViewController(obj, animated: true)
     }
     @objc func btnViewDetailsAction(sender: UIButton) {
         print(sender.tag)
+        let obj = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.HistoryDetail) as! TMHistoryDetailVC
+        
         if sender.tag == 0 {
-            
+            obj.transactionData = transactionData
+            obj.type            = .all
         }else if sender.tag == 1{
-            
+            obj.transactionData = transactionData
+            obj.type            = .today
         }else{
-            
+            obj.incompleteData  = incompleteData
+            obj.type            = .incomplete
         }
+        self.navigationController?.pushViewController(obj, animated: true)
     }
     //MARK: - Web Api's
     func callTransactionDataApi() {
@@ -144,8 +162,11 @@ class TMHistoryViewController: UIViewController {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{
                     let json = try! JSONSerialization.jsonObject(with: data!, options: []) as? [String : String]
-                    guard let strDescription = json!["message"] else {return}
-                    AlertManager.shared.showAlertTitle(title: "Error" ,message: strDescription)
+                    if let strDescription = json!["message"] {
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: strDescription)
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
                 }
             }
         }

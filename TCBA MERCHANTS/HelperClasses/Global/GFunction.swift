@@ -29,6 +29,7 @@ class GFunction: NSObject  {
     
     static let shared   : GFunction = GFunction()
     //------------------------------------------------------
+    
     //MARK:- Loader Method
     
     func addLoader(_ toView : AnyObject? = UIApplication.shared.keyWindow!) {

@@ -78,14 +78,13 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     override func viewDidDisappear(_ animated: Bool) {
         
     }
-    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         //<---------------ScrollVIew------------->
         // By default scrolling is disable
         //<--------Update PopUp properties with orientation----->
         popUpPropertiesUpdate()
+        super.viewWillTransition(to: size, with: coordinator)
     }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

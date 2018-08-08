@@ -30,8 +30,21 @@ class TMHistoryViewController: UIViewController {
         setViewProperties()
     }
     override func viewWillAppear(_ animated: Bool) {
-        if transactionData == nil {
+        if transactionData == nil || incompleteData == nil {
+            // Calling TransactionData Api
             callTransactionDataApi()
+            
+            // Calling IncompleteTransactionData Api
+            let request = RequestModal.mUserData()
+            guard let storeId = GConstant.UserData.stores else{return}
+            request.storeID = storeId
+            self.callIncompleteTransactionDataApi(request)
+        }
+        guard tblHistory != nil else {return}
+        if  UIDevice.current.orientation.isLandscape == true  {
+            tblHistory.isScrollEnabled = true
+        }else{
+            tblHistory.isScrollEnabled = false
         }
     }
     
@@ -48,15 +61,7 @@ class TMHistoryViewController: UIViewController {
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-//        coordinator.animate(alongsideTransition: nil, completion: {
-//            _ in
-//            
-//        })
-        guard tblHistory != nil else {
-            return
-        }
-        
-        
+        guard tblHistory != nil else {return}
         if  UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight)  {
             tblHistory.isScrollEnabled = true
         }else{
@@ -69,9 +74,16 @@ class TMHistoryViewController: UIViewController {
     }
     //MARK: - Set view properties
     func setViewProperties(){
+        guard tblHistory != nil else {return}
+        if  UIDevice.current.orientation.isLandscape == true  {
+            tblHistory.isScrollEnabled = true
+        }else{
+            tblHistory.isScrollEnabled = false
+        }
         // navigationBar customization
         self.navigationController?.customize()
         self.navigationItem.title = "History"
+        
         if let storeId = GConstant.UserData.stores {
             lblStoreId.text       = "Store id: \(storeId)"
         }
@@ -93,12 +105,15 @@ class TMHistoryViewController: UIViewController {
         let obj = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.HistoryDetail) as! TMHistoryDetailVC
         
         if sender.tag == 0 {
+            guard transactionData != nil else{return}
             obj.transactionData = transactionData
             obj.type            = .all
         }else if sender.tag == 1{
+            guard transactionData != nil else{return}
             obj.transactionData = transactionData
             obj.type            = .today
         }else{
+            guard incompleteData != nil else{return}
             obj.incompleteData  = incompleteData
             obj.type            = .incomplete
         }
@@ -114,18 +129,14 @@ class TMHistoryViewController: UIViewController {
          Parameters : nil
          ===================================================
          */
-        ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.TransactionData, parameter: nil) { (data : Data?, statusCode : Int?, error: String) in
+        
+        ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.TransactionData, parameter: nil, withLoader : false) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 guard let data = data else{return}
                 self.transactionData = try! TransactionDataModel.decode(_data: data)
                 if let outstanding = self.transactionData.outstandingLoyalty {
                     self.lblOutstandingValue.text = "$\(outstanding)"
                 }
-                // Calling IncompleteTransactionData Api
-                let request = RequestModal.mUserData()
-                guard let storeId = GConstant.UserData.stores else{return}
-                request.storeID = storeId
-                self.callIncompleteTransactionDataApi(request)
             }else{
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
@@ -158,6 +169,7 @@ class TMHistoryViewController: UIViewController {
                 self.incompleteTransaction = Double(self.incompleteData.count)
                 self.tblHistory.reloadData()
             }else{
+                self.tblHistory.reloadData()
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{

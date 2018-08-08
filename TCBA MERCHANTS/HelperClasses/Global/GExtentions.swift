@@ -788,6 +788,10 @@ extension Date {
     //------------------------------------------------------
     
     //MARK: - DateFormat
+    func dateToDDMMYYYY(date: String) -> String {
+        let dateArray = date.components(separatedBy: "T")
+        return dateArray[0]
+    }
     
     func formatdateLOCAL(dt: String,dateFormat: String,formatChange: String) -> String {
         let dateFormatter: DateFormatter = DateFormatter()
@@ -822,6 +826,8 @@ extension UINavigationController{
         self.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationBar.shadowImage          = UIImage()
         self.navigationBar.layer.masksToBounds  = false
+        self.navigationBar.backItem?.backBarButtonItem?.setBackgroundImage(UIImage(named: "backImg"), for: UIControlState.normal, barMetrics: .default)
+//        self.navigationItem.backBarButtonItem?.setBackgroundImage(UIImage(named: "backImg"), for: .normal, barMetrics: .default)
         
         if isTransparent {
             self.navigationBar.backgroundColor = .clear
@@ -829,9 +835,7 @@ extension UINavigationController{
         }else{
             self.navigationBar.isTranslucent       = false
         }
-        
     }
-    
 }
 
 class BarButton : NSObject {
@@ -966,6 +970,8 @@ extension UIViewController {
         let imageView = UIImageView(image:logo)
         sender.navigationItem.titleView = imageView
     }
+    
+    
 }
 //MARK: - UINavigationController
 extension UINavigationController {

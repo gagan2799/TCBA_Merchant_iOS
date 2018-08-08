@@ -34,7 +34,12 @@ class TMHomeViewController: UIViewController {
 //        GFunction.shared.makeUserLoginAlert()
     }
     override func viewWillAppear(_ animated: Bool) {
-        
+        guard scrollVHome != nil else {return}
+        if UIDevice.current.orientation.isLandscape == true {
+            scrollVHome.isScrollEnabled = true
+        }else{
+            scrollVHome.isScrollEnabled = false
+        }
     }
     override func viewDidAppear(_ animated: Bool) {
         
@@ -46,7 +51,10 @@ class TMHomeViewController: UIViewController {
         
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        if UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight) {
+//        GConstant.Screen.Height = UIScreen.main.bounds.height
+//        GConstant.Screen.Width  = UIScreen.main.bounds.width
+        guard scrollVHome != nil else {return}
+        if UIDevice.current.orientation.isLandscape == true {
             scrollVHome.isScrollEnabled = true
         }else{
             scrollVHome.isScrollEnabled = false
@@ -63,12 +71,6 @@ class TMHomeViewController: UIViewController {
         self.navigationItem.title           = "The Cash Back App"
         // hide the default back buttons
         self.navigationItem.hidesBackButton = true
-
-        if UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight) {
-            scrollVHome.isScrollEnabled = true
-        }else{
-            scrollVHome.isScrollEnabled = false
-        }
         
         //dynamic height image & table
         if UIDevice.current.userInterfaceIdiom == .pad {

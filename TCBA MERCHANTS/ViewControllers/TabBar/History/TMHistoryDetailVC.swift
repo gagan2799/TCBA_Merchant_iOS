@@ -15,6 +15,11 @@ class TMHistoryDetailVC: UIViewController {
         case incomplete
         case outstanding
     }
+    enum TransDetailstypes: String {
+        case all            = "all"
+        case today          = "today"
+        case outstanding    = "outstanding"
+    }
     //MARK: Outlets
     @IBOutlet weak var tblHistoryDetails: UITableView!
     @IBOutlet weak var lblTopHeaderTitle: UILabel!
@@ -30,6 +35,8 @@ class TMHistoryDetailVC: UIViewController {
     var transactionData         : TransactionDataModel!
     var incompleteData          : IncompleteTransactionDataModel!
     var transactionDetailsData  : TransactionDetailsModel!
+    var outstandingData         : OutstandingLoyaltyModel!
+    
     
     var type : types!
     
@@ -39,13 +46,13 @@ class TMHistoryDetailVC: UIViewController {
         super.viewDidLoad()
         
         if type == .all {
-            
+            callTransactionDetailsApi(transType: .all)
         }else if type == .today{
-            
+            callTransactionDetailsApi(transType: .today)
         }else if type == .incomplete{
             
         }else if type == .outstanding{
-            
+            callTransactionDetailsApi(transType: .outstanding)
         }
         setViewProperties()
     }
@@ -65,6 +72,30 @@ class TMHistoryDetailVC: UIViewController {
         
     }
 
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+
+            let orient = UIApplication.shared.statusBarOrientation
+            switch orient {
+                
+            case .portrait:
+                
+                print("Portrait")
+                
+            case .landscapeLeft,.landscapeRight :
+                
+                print("Landscape")
+                
+            default:
+                
+                print("Anything But Portrait")
+            }
+            
+        }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+            //refresh view once rotation is completed not in will transition as it returns incorrect frame size.Refresh here
+        })
+        super.viewWillTransition(to: size, with: coordinator)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -75,6 +106,7 @@ class TMHistoryDetailVC: UIViewController {
         // navigationBar customization
         self.navigationController?.customize()
         self.navigationItem.title = "History"
+
         if let storeId = GConstant.UserData.stores {
             lblStoreId.text       = "Store id: \(storeId)"
         }
@@ -139,24 +171,42 @@ class TMHistoryDetailVC: UIViewController {
     func setPropForOutstanding() {
         lblMainTitle.text       = "Outstanding Loyalty Balances"
         lblSubTitles[2].text    = "Total Loyalty"
+        if let data = outstandingData {
+            lblTransaction.text    = "\(data.totalNumber!)"
+            lblValue.text          = "$\(data.totalOutstanding!)"
+            lblTotalDebValue.text  = "$\(data.totalOutstanding!)"
+        }
     }
     
     //MARK: - Web Api's
-    func callTransactionDetailsApi() {
+    func callTransactionDetailsApi(transType: TransDetailstypes) {
         /*
          =====================API CALL=====================
          APIName    : TransactionData
          Url        : "/Merchant/GetMerchantTransactionSummary"
          Method     : GET
          Parameters : { storeID : "",
-         type    : ""
-         }
+                        type    : "" }
          ===================================================
          */
-        ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.HistoryTransactionDetails, parameter: nil) { (data : Data?, statusCode : Int?, error: String) in
+        let request         = RequestModal.mUserData()
+        guard let storeId   = GConstant.UserData.stores else{return}
+        request.storeID     = storeId
+        request.type        = transType.rawValue
+        let parm            = transType == .outstanding ? nil : request.toDictionary()
+        let url             = transType == .outstanding ? GAPIConstant.Url.GetOutstandingLoyalty : GAPIConstant.Url.HistoryTransactionDetails
+        
+        ApiManager.shared.GETWithBearerAuth(strURL: url, parameter: parm,debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 guard let data = data else{return}
+                if transType == .outstanding{
+                    self.outstandingData        = try! OutstandingLoyaltyModel.decode(_data: data)
+                    self.setPropForOutstanding()
+                }else{
+                    self.transactionDetailsData = try! TransactionDetailsModel.decode(_data: data)
+                }
                 
+                self.tblHistoryDetails.reloadData()
             }else{
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
@@ -174,13 +224,21 @@ extension TMHistoryDetailVC: UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if type == .all {
-            
+            if transactionDetailsData != nil{
+                return (transactionDetailsData.transactions?.count)!
+            }
         }else if type == .today{
-            
+            if transactionDetailsData != nil{
+                return (transactionDetailsData.transactions?.count)!
+            }
         }else if type == .incomplete{
-            
+            if incompleteData != nil{
+                return incompleteData.count
+            }
         }else if type == .outstanding{
-          
+            if outstandingData != nil{
+                return (outstandingData.outstandingLoyalty?.count)!
+            }
         }
         return 0
     }
@@ -188,60 +246,38 @@ extension TMHistoryDetailVC: UITableViewDataSource,UITableViewDelegate{
         return 45 * GConstant.Screen.HeightAspectRatio
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let  height     = 45 * GConstant.Screen.HeightAspectRatio
-        
-        let viewHeader  = UIView.init(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: height))
-        viewHeader.backgroundColor = GConstant.AppColor.grayBG
-        
-        let view1       = UIView.init(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width*0.3, height: height))
-        view1.backgroundColor = GConstant.AppColor.textDark
-        let lblDateID = UILabel.init(frame: CGRect(x: 10, y: 0, width: (self.view.bounds.size.width*0.3)-20, height: height))
-        lblDateID.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 16.0), labelColor: .white, backgroundColor: GConstant.AppColor.textDark)
-        view1.addSubview(lblDateID)
-        
-        let view2       = UIView.init(frame: CGRect(x: view1.bounds.maxX+1, y: 0, width: GConstant.Screen.Width*0.4, height: height))
-        view2.backgroundColor = GConstant.AppColor.textDark
-        let lblMember = UILabel.init(frame: CGRect(x: 10, y: 0, width: (self.view.bounds.size.width*0.4)-20, height: height))
-        lblMember.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 16.0), labelColor: .white, backgroundColor: GConstant.AppColor.textDark)
-        view2.addSubview(lblMember)
-        
-        let view3       = UIView.init(frame: CGRect(x:view1.bounds.maxX+1 + view2.bounds.size.width + 1, y: 0, width: (GConstant.Screen.Width*0.3)-2, height: height))
-        view3.backgroundColor = GConstant.AppColor.textDark
-        let lblPrice = UILabel.init(frame: CGRect(x: 10, y: 0, width: (self.view.bounds.size.width*0.3)-22, height: height))
-        lblPrice.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 16.0), labelColor: .white, backgroundColor: GConstant.AppColor.textDark)
-        view3.addSubview(lblPrice)
-        
+  
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryCellHeader") as! TMHistoryDetailTableCell
+        cell.lblDateOrID.font    = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
+        cell.lblMember.font      = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
+        cell.lblPrice.font       = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         switch type {
         case .all:
-            lblDateID.text  = "Date"
-            lblMember.text  = "Member"
-            lblPrice.text   = "$"
+            cell.lblDateOrID.text   = "Date"
+            cell.lblMember.text     = "Member"
+            cell.lblPrice.text      = "$"
             break
         case .today:
-            lblDateID.text  = "Date"
-            lblMember.text  = "Member"
-            lblPrice.text   = "$"
+            cell.lblDateOrID.text   = "Date"
+            cell.lblMember.text     = "Member"
+            cell.lblPrice.text      = "$"
             break
         case .incomplete:
-            lblDateID.text  = "Member ID"
-            lblMember.text  = "Member"
-            lblPrice.text   = "$"
+            cell.lblDateOrID.text   = "Member ID"
+            cell.lblMember.text     = "Member"
+            cell.lblPrice.text      = "$"
             break
         case .outstanding:
-            lblDateID.text  = "id"
-            lblMember.text  = "Member"
-            lblPrice.text   = "Loyalty"
+            cell.lblDateOrID.text   = "id"
+            cell.lblMember.text     = "Member"
+            cell.lblPrice.text      = "Loyalty"
             break
         default:
-            lblDateID.text  = "Date"
-            lblMember.text  = "Member"
-            lblPrice.text   = "$"
+            cell.lblDateOrID.text   = "Date"
+            cell.lblDateOrID.text   = "Member"
+            cell.lblDateOrID.text   = "$"
         }
-        
-        viewHeader.addSubview(view1)
-        viewHeader.addSubview(view2)
-        viewHeader.addSubview(view3)
-        return viewHeader
+        return cell
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 45 * GConstant.Screen.HeightAspectRatio
@@ -249,35 +285,51 @@ extension TMHistoryDetailVC: UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryCellDetails") as! TMHistoryDetailTableCell
         
-        cell.lblDateOrID.font    = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
-        cell.lblMember.font      = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
-        cell.lblPrice.font       = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
+        cell.lblDateOrID.font    = UIFont.applyOpenSansRegular(fontSize: 14.0)
+        cell.lblMember.font      = UIFont.applyOpenSansRegular(fontSize: 14.0)
+        cell.lblPrice.font       = UIFont.applyOpenSansRegular(fontSize: 14.0)
         
         switch type {
         case .all:
-            cell.lblDateOrID.text       = "Date"
-            cell.lblMember.text         = "Member"
-            cell.lblPrice.text          = "$"
+            if let transactions = transactionDetailsData.transactions{
+                let date = Date().dateToDDMMYYYY(date: transactions[indexPath.row].transactionDate!)
+                cell.lblDateOrID.text       = date
+                cell.lblMember.text         = transactions[indexPath.row].customerName
+                cell.lblPrice.text          = "$\(transactions[indexPath.row].transactionAmount!)"
+            }
             break
         case .today:
-            cell.lblDateOrID.text       = "Date"
-            cell.lblMember.text         = "Member"
-            cell.lblPrice.text          = "$"
+            if let transactions     = transactionDetailsData.transactions{
+                let date = Date().dateToDDMMYYYY(date: transactions[indexPath.row].transactionDate!)
+                cell.lblDateOrID.text       = date
+                cell.lblMember.text         = transactions[indexPath.row].customerName
+                cell.lblPrice.text          = "$\(transactions[indexPath.row].transactionAmount!)"
+            }
             break
         case .incomplete:
-            cell.lblDateOrID.text       = "Date"
-            cell.lblMember.text         = "Member"
-            cell.lblPrice.text          = "$"
+            if let incompData   = incompleteData{
+                cell.imgVArrowNext.isHidden = false
+                cell.lblDateOrID.text       = "\(incompData[indexPath.row].memberID!)"
+                cell.lblMember.text         = incompData[indexPath.row].memberFullName
+                cell.lblPrice.text          = "$\(incompData[indexPath.row].totalPurchaseAmount!)"
+            }
             break
         case .outstanding:
-            cell.lblDateOrID.text       = "Date"
-            cell.lblMember.text         = "Member"
-            cell.lblPrice.text          = "$"
+            if let outData = outstandingData.outstandingLoyalty{
+                cell.lblDateOrID.text       = "\(outData[indexPath.row].id!)"
+                cell.lblMember.text         = outData[indexPath.row].name
+                cell.lblPrice.text          = "$\(outData[indexPath.row].available!)"
+            }
             break
         default: break
             
         }
         
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if type == .incomplete {
+            
+        }
     }
 }

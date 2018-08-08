@@ -20,7 +20,55 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-            timestampString = "555340265.804942"
+            timestampString = "555426663.19923"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
+            landmarkName = "callForgotPasswordAPI(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TCBA_MERCHANTS.TMLoginViewController.callForgotPasswordAPI(TCBA_MERCHANTS.RequestModal.mUserData) -&gt; ()"
+                  moduleName = "TCBA MERCHANTS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
+                  timestampString = "555426663.3771991"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "332"
+                  endingLineNumber = "332"
+                  offsetFromSymbolStart = "21">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;Swift.Int&gt;, Swift.String) -&gt; () in TCBA_MERCHANTS.TMLoginViewController.callForgotPasswordAPI(TCBA_MERCHANTS.RequestModal.mUserData) -&gt; ()"
+                  moduleName = "TCBA MERCHANTS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
+                  timestampString = "555426663.379692"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "333"
+                  endingLineNumber = "333"
+                  offsetFromSymbolStart = "95">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TCBA MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
+            timestampString = "555426663.199348"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "332"
@@ -36,12 +84,12 @@
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-                  timestampString = "555340265.969744"
+                  timestampString = "555426663.386888"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "333"
-                  endingLineNumber = "333"
-                  offsetFromSymbolStart = "24">
+                  startingLineNumber = "332"
+                  endingLineNumber = "332"
+                  offsetFromSymbolStart = "21">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -51,12 +99,12 @@
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-                  timestampString = "555340265.971354"
+                  timestampString = "555426663.38908"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "334"
-                  endingLineNumber = "334"
-                  offsetFromSymbolStart = "64">
+                  startingLineNumber = "333"
+                  endingLineNumber = "333"
+                  offsetFromSymbolStart = "95">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -68,59 +116,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-            timestampString = "555340265.805231"
+            timestampString = "555426663.19941"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333"
-            landmarkName = "callForgotPasswordAPI(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "TCBA_MERCHANTS.TMLoginViewController.callForgotPasswordAPI(TCBA_MERCHANTS.RequestModal.mUserData) -&gt; ()"
-                  moduleName = "TCBA MERCHANTS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-                  timestampString = "555340265.9757921"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "333"
-                  endingLineNumber = "333"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;Swift.Int&gt;, Swift.String) -&gt; () in TCBA_MERCHANTS.TMLoginViewController.callForgotPasswordAPI(TCBA_MERCHANTS.RequestModal.mUserData) -&gt; ()"
-                  moduleName = "TCBA MERCHANTS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-                  timestampString = "555340265.977376"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "334"
-                  endingLineNumber = "334"
-                  offsetFromSymbolStart = "64">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TCBA MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-            timestampString = "555340265.805286"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
             landmarkName = "btnSendUserNAction(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -132,11 +132,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-            timestampString = "555340265.805333"
+            timestampString = "555426663.199459"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "231"
-            endingLineNumber = "231"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "btnSendPasswordAction(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -148,55 +148,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-            timestampString = "555340265.80538"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "310"
-            endingLineNumber = "310"
-            landmarkName = "callForgotUserAPI(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "TCBA_MERCHANTS.TMLoginViewController.callForgotUserAPI(TCBA_MERCHANTS.RequestModal.mUserData) -&gt; ()"
-                  moduleName = "TCBA MERCHANTS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-                  timestampString = "555340265.988598"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "310"
-                  endingLineNumber = "310"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;Swift.Int&gt;, Swift.String) -&gt; () in TCBA_MERCHANTS.TMLoginViewController.callForgotUserAPI(TCBA_MERCHANTS.RequestModal.mUserData) -&gt; ()"
-                  moduleName = "TCBA MERCHANTS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-                  timestampString = "555340265.990245"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "311"
-                  endingLineNumber = "311"
-                  offsetFromSymbolStart = "64">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TCBA MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-            timestampString = "555340265.805424"
+            timestampString = "555426663.199506"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "309"
@@ -212,12 +164,12 @@
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-                  timestampString = "555340265.9946589"
+                  timestampString = "555426663.407151"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "310"
-                  endingLineNumber = "310"
-                  offsetFromSymbolStart = "24">
+                  startingLineNumber = "309"
+                  endingLineNumber = "309"
+                  offsetFromSymbolStart = "21">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -227,12 +179,60 @@
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
-                  timestampString = "555340265.996297"
+                  timestampString = "555426663.409883"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "311"
-                  endingLineNumber = "311"
-                  offsetFromSymbolStart = "64">
+                  startingLineNumber = "310"
+                  endingLineNumber = "310"
+                  offsetFromSymbolStart = "95">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TCBA MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
+            timestampString = "555426663.199551"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "308"
+            endingLineNumber = "308"
+            landmarkName = "callForgotUserAPI(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TCBA_MERCHANTS.TMLoginViewController.callForgotUserAPI(TCBA_MERCHANTS.RequestModal.mUserData) -&gt; ()"
+                  moduleName = "TCBA MERCHANTS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
+                  timestampString = "555426663.416119"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "309"
+                  endingLineNumber = "309"
+                  offsetFromSymbolStart = "21">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;Swift.Int&gt;, Swift.String) -&gt; () in TCBA_MERCHANTS.TMLoginViewController.callForgotUserAPI(TCBA_MERCHANTS.RequestModal.mUserData) -&gt; ()"
+                  moduleName = "TCBA MERCHANTS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/LoginRegistration/TMLoginViewController.swift"
+                  timestampString = "555426663.4185441"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "310"
+                  endingLineNumber = "310"
+                  offsetFromSymbolStart = "95">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -244,7 +244,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/TabBar/TMTabbarViewController.swift"
-            timestampString = "555224853.5690531"
+            timestampString = "555426663.1996011"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "197"
@@ -260,7 +260,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/TabBar/TMTabbarViewController.swift"
-            timestampString = "555224853.569113"
+            timestampString = "555426663.199649"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "14"
@@ -288,32 +288,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TCBA MERCHANTS/HelperClasses/ApiManager/ApiManager.swift"
-            timestampString = "555340265.805541"
+            filePath = "TCBA MERCHANTS/ViewControllers/TabBar/History/TMHistoryViewController.swift"
+            timestampString = "555426663.199736"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "362"
-            endingLineNumber = "362"
-            landmarkName = "POST(strURL:parameter:withErrorAlert:withLoader:debugInfo:withBlock:)"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
+            landmarkName = "callIncompleteTransactionDataApi(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TCBA MERCHANTS/ViewControllers/TabBar/History/TMHistoryViewController.swift"
-            timestampString = "555340265.805723"
+            filePath = "TCBA MERCHANTS/HelperClasses/Global/GExtentions.swift"
+            timestampString = "555426663.199793"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
-            landmarkName = "callIncompleteTransactionDataApi(_:)"
+            startingLineNumber = "799"
+            endingLineNumber = "799"
+            landmarkName = "formatdateUTC(dt:dateFormat:formatChange:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

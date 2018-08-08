@@ -46,6 +46,7 @@
 		79EE756621196B060041D5C4 /* TMHistoryDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE756521196B060041D5C4 /* TMHistoryDetailVC.swift */; };
 		79EE756821196B230041D5C4 /* TMHistoryDetailTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE756721196B230041D5C4 /* TMHistoryDetailTableCell.swift */; };
 		79EE756A2119CACF0041D5C4 /* TransactionDetailsModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE75692119CACF0041D5C4 /* TransactionDetailsModal.swift */; };
+		79FA3BE3211B1C16005F36F3 /* OutstandingLoyaltyModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,6 +92,7 @@
 		79EE756521196B060041D5C4 /* TMHistoryDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryDetailVC.swift; sourceTree = "<group>"; };
 		79EE756721196B230041D5C4 /* TMHistoryDetailTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryDetailTableCell.swift; sourceTree = "<group>"; };
 		79EE75692119CACF0041D5C4 /* TransactionDetailsModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsModal.swift; sourceTree = "<group>"; };
+		79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutstandingLoyaltyModal.swift; sourceTree = "<group>"; };
 		F1D02BAEF8FD0D998288EEB8 /* Pods-TCBA MERCHANTS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TCBA MERCHANTS.release.xcconfig"; path = "Pods/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -277,6 +279,7 @@
 				7933FCA92111B3FD00E9B49B /* TransactionDataModal.swift */,
 				7933FCAB2111BA7E00E9B49B /* IncompleteTransactionData.swift */,
 				79EE75692119CACF0041D5C4 /* TransactionDetailsModal.swift */,
+				79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */,
 			);
 			path = HistoryModals;
 			sourceTree = "<group>";
@@ -500,6 +503,7 @@
 				79CDF0242108778300CA7A9C /* LoaderWithLabel.swift in Sources */,
 				79CDF02C2108A13E00CA7A9C /* RequestModal.swift in Sources */,
 				7933FCAA2111B3FD00E9B49B /* TransactionDataModal.swift in Sources */,
+				79FA3BE3211B1C16005F36F3 /* OutstandingLoyaltyModal.swift in Sources */,
 				799924CF20FF1B480074BDE6 /* TMHomeTableViewCell.swift in Sources */,
 				7933FCA621118E6000E9B49B /* TMHistoryTableViewCell.swift in Sources */,
 				792B541920F5DD30000223F7 /* AppDelegate.swift in Sources */,

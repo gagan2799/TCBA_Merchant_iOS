@@ -61,7 +61,7 @@ struct GAPIConstant {
         }
         
         static var GetOutstandingLoyalty: String {
-            return BaseURL + "Merchant/GetOutstandingLoyalty"
+            return BaseURL + "/Merchant/GetOutstandingLoyalty"
         }
     }
 }

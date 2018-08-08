@@ -48,7 +48,7 @@ class ExampleBackgroundContentView: ExampleBasicContentView {
         highlightBackdropColor  = GConstant.AppColor.blue
     }
     
-    lazy var semiCircleView = UIView(frame: CGRect(x: 0, y: -12, width: GConstant.Screen.Width/5 , height: 60))
+    lazy var semiCircleView = UIView(frame: CGRect(x: 0, y: -12, width: GConstant.Screen.kWidth/5 , height: 60))
     public convenience init(specialWithAutoImplies implies: Bool) {
         self.init(frame: CGRect.zero)
         textColor               = .white
@@ -82,7 +82,7 @@ class ExampleBackgroundContentView: ExampleBasicContentView {
         if isLandscap {
             semiCircleView.frame = CGRect(x: 0, y: -12, width: keyWindow.bounds.width/5 , height: 60)
         }else{
-            semiCircleView.frame = CGRect(x: 0, y: -12, width: GConstant.Screen.Width/5 , height: 60)
+            semiCircleView.frame = CGRect(x: 0, y: -12, width: GConstant.Screen.kWidth/5 , height: 60)
         }
         let circlePath = UIBezierPath.init(arcCenter: CGPoint(x: semiCircleView.bounds.width / 2, y: semiCircleView.bounds.height / 2), radius: semiCircleView.bounds.height/2, startAngle: CGFloat.pi + (CGFloat.pi/5), endAngle: CGFloat.pi*2 - (CGFloat.pi/5), clockwise: true)
         let circleShape = CAShapeLayer()

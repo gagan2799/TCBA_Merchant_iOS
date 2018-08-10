@@ -7,7 +7,6 @@ PODS:
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
-  - SIAlertView (1.3)
   - SwiftGifOrigin (1.6.1)
   - SwiftyJSON (4.1.0)
 
@@ -18,7 +17,6 @@ DEPENDENCIES:
   - INSPullToRefresh
   - IQKeyboardManagerSwift
   - SDWebImage
-  - SIAlertView
   - SwiftGifOrigin
   - SwiftyJSON
 
@@ -30,7 +28,6 @@ SPEC REPOS:
     - INSPullToRefresh
     - IQKeyboardManagerSwift
     - SDWebImage
-    - SIAlertView
     - SwiftGifOrigin
     - SwiftyJSON
 
@@ -41,10 +38,9 @@ SPEC CHECKSUMS:
   INSPullToRefresh: d34f0046ccca6b32f6386f053d730ef41b3f35b7
   IQKeyboardManagerSwift: 977affaeb4d6e971975c7790a6850f31d38f1207
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
-  SIAlertView: 20c794b55eaf44d888773ea51647cf8907723919
   SwiftGifOrigin: d6679d3ebe9df2e049a84bc52582635107b581f6
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
 
-PODFILE CHECKSUM: c7182f888db96fd066a08296c8715f85b7ca3aa6
+PODFILE CHECKSUM: 3f3db96997d81a3375c602e5d3610c6392293384
 
 COCOAPODS: 1.5.3

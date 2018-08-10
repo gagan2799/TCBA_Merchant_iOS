@@ -31,6 +31,7 @@ struct GConstant {
     
     //MARK: - Screen (Width - Height)
     struct Screen {
+        
         static let kWidth                        =  UIScreen.main.bounds.size.width
         static var kHeight                       =  UIScreen.main.bounds.size.height
         static var Width                         =  UIScreen.main.bounds.size.width
@@ -46,6 +47,7 @@ struct GConstant {
         static let Home                         = "TMHomeViewController"
         //History Tab
         static let History                      = "TMHistoryViewController"
+        
         static let HistoryDetail                = "TMHistoryDetailVC"
         //QR Tab
         static let Transection                  = "TMTransactionViewController"

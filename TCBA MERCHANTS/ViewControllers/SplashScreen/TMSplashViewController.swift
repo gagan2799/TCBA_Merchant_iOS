@@ -13,7 +13,7 @@ class TMSplashViewController: UIViewController {
     @IBOutlet weak var vBackground: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        if  UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight)  {
+       if  UIDevice.current.orientation.isLandscape == true  {
             GConstant.Screen.HeightAspectRatio = UIScreen.main.bounds.width / 667.0
         }else{
             GConstant.Screen.HeightAspectRatio = UIScreen.main.bounds.height / 667.0
@@ -29,17 +29,24 @@ class TMSplashViewController: UIViewController {
         UIApplication.shared.statusBarView?.backgroundColor = GConstant.AppColor.orange
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        
-        if  UIDevice.current.orientation.isLandscape == true  {
-            GConstant.Screen.Height             = UIScreen.main.bounds.width
-            GConstant.Screen.Width              = UIScreen.main.bounds.height
-            GConstant.Screen.HeightAspectRatio  = UIScreen.main.bounds.width / 667.0
-        }else{
-            GConstant.Screen.Height             = UIScreen.main.bounds.height
-            GConstant.Screen.Width              = UIScreen.main.bounds.width
-            GConstant.Screen.HeightAspectRatio  = UIScreen.main.bounds.height / 667.0
-        }
+        coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+            
+            if  UIDevice.current.orientation.isLandscape == true  {
+                GConstant.Screen.Height             = UIScreen.main.bounds.width
+                GConstant.Screen.Width              = UIScreen.main.bounds.height
+                GConstant.Screen.HeightAspectRatio  = UIScreen.main.bounds.width / 667.0
+            }else{
+                GConstant.Screen.Height             = UIScreen.main.bounds.height
+                GConstant.Screen.Width              = UIScreen.main.bounds.width
+                GConstant.Screen.HeightAspectRatio  = UIScreen.main.bounds.height / 667.0
+            }
+            
+        }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+            //refresh view once rotation is completed not in will transition as it returns incorrect frame size.Refresh here
+        })
         super.viewWillTransition(to: size, with: coordinator)
+        
+//        super.viewWillTransition(to: size, with: coordinator)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

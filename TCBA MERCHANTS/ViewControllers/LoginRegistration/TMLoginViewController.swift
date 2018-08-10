@@ -53,7 +53,12 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
         self.navigationItem.hidesBackButton = true
         // Show navigationBar
         GConstant.NavigationController?.customize()
-        GConstant.NavigationController?.isNavigationBarHidden = false;
+        GConstant.NavigationController?.isNavigationBarHidden = false
+        if  UIDevice.current.orientation.isLandscape == true  {
+            scrView.isScrollEnabled = true
+        }else{
+            scrView.isScrollEnabled = false
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,7 +88,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
         // By default scrolling is disable
         //<--------Update PopUp properties with orientation----->
         popUpPropertiesUpdate()
-        super.viewWillTransition(to: size, with: coordinator)
+//        super.viewWillTransition(to: size, with: coordinator)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -197,7 +202,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
             callLoginUserAPI(requestModel)
             
         } else { // Error
-            AlertManager.shared.showAlertTitle(title: message?[GConstant.Param.kError]! ,message: message?[GConstant.Param.kMessage]!)
+            AlertManager.shared.showAlertTitle(title: (message?[GConstant.Param.kError])! ,message: (message?[GConstant.Param.kMessage])!)
         }
     }
     
@@ -284,10 +289,14 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
                     if statusCode == 404{
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                     }else{
-                        let json = try! JSONSerialization.jsonObject(with: data!, options: []) as? [String : String]
-                        guard let strError = json!["error"] else {return}
-                        guard let strDescription = json!["error_description"] else {return}
-                        AlertManager.shared.showAlertTitle(title: strError ,message: strDescription)
+                        if let data = data{
+                            let json = try! JSONSerialization.jsonObject(with: data, options: []) as? [String : String]
+                            guard let strError = json!["error"] else {return}
+                            guard let strDescription = json!["error_description"] else {return}
+                            AlertManager.shared.showAlertTitle(title: strError ,message: strDescription)
+                        }else{
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                        }
                     }
                 }
             }else{
@@ -369,5 +378,4 @@ extension TMLoginViewController: UITextFieldDelegate {
         }
         return message
     }
-    
 }

@@ -206,6 +206,9 @@ func getUserDataFromDefaults() -> UserLoginModel? {
     }
     
     func makeUserLoginAlert() {
+        if UIApplication.shared.isNetworkActivityIndicatorVisible == true{
+            removeLoader()
+        }
         AlertManager.shared.showAlertTitle(title: "Please Login Again", message: "Your session has expired. Please login again to proceed.", buttonsArray: ["Cancel","Login"]) { (buttonIndex : Int) in
             switch buttonIndex {
             case 0 :

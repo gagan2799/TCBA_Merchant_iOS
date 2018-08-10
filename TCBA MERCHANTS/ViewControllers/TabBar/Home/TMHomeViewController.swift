@@ -30,7 +30,7 @@ class TMHomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewProperties()
-//        GConstant.NavigationController = self.navigationController
+
 //        GFunction.shared.makeUserLoginAlert()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -51,8 +51,6 @@ class TMHomeViewController: UIViewController {
         
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//        GConstant.Screen.Height = UIScreen.main.bounds.height
-//        GConstant.Screen.Width  = UIScreen.main.bounds.width
         guard scrollVHome != nil else {return}
         if UIDevice.current.orientation.isLandscape == true {
             scrollVHome.isScrollEnabled = true
@@ -69,6 +67,7 @@ class TMHomeViewController: UIViewController {
         // navigationBar customization
         self.navigationController?.customize()
         self.navigationItem.title           = "The Cash Back App"
+        
         // hide the default back buttons
         self.navigationItem.hidesBackButton = true
         

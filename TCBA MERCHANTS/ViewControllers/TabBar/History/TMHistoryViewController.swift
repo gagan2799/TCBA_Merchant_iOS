@@ -20,25 +20,21 @@ class TMHistoryViewController: UIViewController {
     //MARK: Variables
     var transactionData : TransactionDataModel!
     var incompleteData  : IncompleteTransactionDataModel!
-    let arrTitles = ["All Transactions","Today's Transactions","Incomplete Transactions"]
+    let arrTitles               = ["All Transactions","Today's Transactions","Incomplete Transactions"]
     var incompleteTransaction   = 0.00
     var incompleteValue         = 0.00
     
     //MARK: View life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         setViewProperties()
     }
     override func viewWillAppear(_ animated: Bool) {
         if transactionData == nil || incompleteData == nil {
             // Calling TransactionData Api
             callTransactionDataApi()
-            
-            // Calling IncompleteTransactionData Api
-            let request = RequestModal.mUserData()
-            guard let storeId = GConstant.UserData.stores else{return}
-            request.storeID = storeId
-            self.callIncompleteTransactionDataApi(request)
         }
         guard tblHistory != nil else {return}
         if  UIDevice.current.orientation.isLandscape == true  {
@@ -62,7 +58,7 @@ class TMHistoryViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         guard tblHistory != nil else {return}
-        if  UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight)  {
+        if UIDevice.current.orientation.isLandscape == true  {
             tblHistory.isScrollEnabled = true
         }else{
             tblHistory.isScrollEnabled = false
@@ -130,6 +126,8 @@ class TMHistoryViewController: UIViewController {
          ===================================================
          */
         
+        //Add Loder in this Api and removed in incomplete api
+        GFunction.shared.addLoader()
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.TransactionData, parameter: nil, withLoader : false) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 guard let data = data else{return}
@@ -137,13 +135,27 @@ class TMHistoryViewController: UIViewController {
                 if let outstanding = self.transactionData.outstandingLoyalty {
                     self.lblOutstandingValue.text = "$\(outstanding)"
                 }
+                
+                // Calling IncompleteTransactionData Api
+                let request = RequestModal.mUserData()
+                guard let storeId = GConstant.UserData.stores else{return}
+                request.storeID = storeId
+                self.callIncompleteTransactionDataApi(request)
             }else{
+                GFunction.shared.removeLoader()
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{
-                    let json = try! JSONSerialization.jsonObject(with: data!, options: []) as? [String : String]
-                    guard let strDescription = json!["message"] else {return}
-                    AlertManager.shared.showAlertTitle(title: "Error" ,message: strDescription)
+                    if let data = data{
+                        let json = try! JSONSerialization.jsonObject(with: data, options: []) as? [String : String]
+                        if let strDescription = json!["message"] {
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: strDescription)
+                        }else{
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                        }
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
                 }
             }
         }
@@ -159,7 +171,7 @@ class TMHistoryViewController: UIViewController {
          ===================================================
          */
         
-        ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.IncompleteTransactionData, parameter: requestModel.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
+        ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.IncompleteTransactionData, parameter: requestModel.toDictionary(), withLoader : false) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 guard let data = data else{return}
                 self.incompleteData = try! IncompleteTransactionDataModel.decode(_data: data)
@@ -168,14 +180,20 @@ class TMHistoryViewController: UIViewController {
                 }
                 self.incompleteTransaction = Double(self.incompleteData.count)
                 self.tblHistory.reloadData()
+                GFunction.shared.removeLoader()
             }else{
+                GFunction.shared.removeLoader()
                 self.tblHistory.reloadData()
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{
-                    let json = try! JSONSerialization.jsonObject(with: data!, options: []) as? [String : String]
-                    if let strDescription = json!["message"] {
-                        AlertManager.shared.showAlertTitle(title: "Error" ,message: strDescription)
+                    if let data = data{
+                        let json = try! JSONSerialization.jsonObject(with: data, options: []) as? [String : String]
+                        if let strDescription = json!["message"] {
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: strDescription)
+                        }else{
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                        }
                     }else{
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                     }

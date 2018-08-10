@@ -48,7 +48,7 @@ class ExampleBackgroundContentView: ExampleBasicContentView {
         highlightBackdropColor  = GConstant.AppColor.blue
     }
     
-    lazy var semiCircleView = UIView(frame: CGRect(x: 0, y: -12, width: GConstant.Screen.kWidth/5 , height: 60))
+    lazy var semiCircleView = UIView(frame: CGRect(x: 0, y: -12, width: UIDevice.current.orientation.isLandscape == true ? GConstant.Screen.Height/5 : GConstant.Screen.kWidth/5 , height: 60))
     public convenience init(specialWithAutoImplies implies: Bool) {
         self.init(frame: CGRect.zero)
         textColor               = .white

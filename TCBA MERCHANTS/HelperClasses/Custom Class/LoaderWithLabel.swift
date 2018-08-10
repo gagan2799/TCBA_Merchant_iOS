@@ -29,6 +29,14 @@ public class LoaderWithLabel {
     
     public func showProgressView(anyView: AnyObject, message: String = "Loading data") {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        UIView.animate(withDuration: 0.2) {
+            self.activityIndicator.alpha    =   1.0
+            self.pinchImageView.alpha       =   1.0
+            self.activityIndicator.alpha    =   1.0
+            self.progressView.alpha         =   1.0
+            self.containerView.alpha        =   1.0
+            self.lblMessage.alpha           =   1.0
+        }
         
         containerView.frame = CGRect(x: 0, y: 0, width: anyView.frame.width, height: anyView.frame.height)
         containerView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
@@ -51,7 +59,7 @@ public class LoaderWithLabel {
         lblMessage.textAlignment = .center
         
         lblMessage.numberOfLines = 0
-        lblMessage.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 13.0*GConstant.Screen.HeightAspectRatio), labelColor: .white)
+        lblMessage.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 12.0*GConstant.Screen.HeightAspectRatio), labelColor: .white)
         lblMessage.text = message
         
         containerView.addSubview(lblMessage)
@@ -61,11 +69,20 @@ public class LoaderWithLabel {
     
     public func hideProgressView() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        activityIndicator.stopAnimating()
-        pinchImageView.removeFromSuperview()
-        activityIndicator.removeFromSuperview()
-        progressView.removeFromSuperview()
-        containerView.removeFromSuperview()
-        lblMessage.removeFromSuperview()
+        UIView.animate(withDuration: 0.2, animations: {
+            self.activityIndicator.alpha    =   0.0
+            self.pinchImageView.alpha       =   0.0
+            self.activityIndicator.alpha    =   0.0
+            self.progressView.alpha         =   0.0
+            self.containerView.alpha        =   0.0
+            self.lblMessage.alpha           =   0.0
+        }) { _ in
+            self.activityIndicator.stopAnimating()
+            self.pinchImageView.removeFromSuperview()
+            self.activityIndicator.removeFromSuperview()
+            self.progressView.removeFromSuperview()
+            self.containerView.removeFromSuperview()
+            self.lblMessage.removeFromSuperview()
+        }
     }
 }

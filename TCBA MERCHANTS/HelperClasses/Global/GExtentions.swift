@@ -558,6 +558,13 @@ extension UIImageView {
         }
     }
     
+    func setRounded(borderWidth: CGFloat = 0.0, borderColor: UIColor = UIColor.clear) {
+        layer.cornerRadius = bounds.midX
+        layer.masksToBounds = true
+        layer.borderWidth = borderWidth
+        layer.borderColor = borderColor.cgColor
+    }
+    
     func setImageWithDownload(_ url : URL, withIndicator isIndicator: Bool = true) {
         if isIndicator {
             self.sd_setShowActivityIndicatorView(true)
@@ -818,7 +825,10 @@ extension Date {
 // MARK:- Navigation Controller
 extension UINavigationController{
     func customize(isTransparent: Bool = false, isPicker: Bool? = false){
-        
+//        let imgBack = UIImage(named: "backImg")
+//        self.navigationBar.backIndicatorImage = imgBack
+//        self.navigationBar.backIndicatorTransitionMaskImage = imgBack
+       
         let navigationFont                      = UIFont.applyBlocSSiBold(fontSize: UIDevice.current.userInterfaceIdiom == .pad ? 14.0 : 18.0)
         self.navigationBar.barTintColor         = GConstant.AppColor.blue
         self.navigationBar.tintColor = UIColor.white
@@ -826,8 +836,7 @@ extension UINavigationController{
         self.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationBar.shadowImage          = UIImage()
         self.navigationBar.layer.masksToBounds  = false
-        self.navigationBar.backItem?.backBarButtonItem?.setBackgroundImage(UIImage(named: "backImg"), for: UIControlState.normal, barMetrics: .default)
-//        self.navigationItem.backBarButtonItem?.setBackgroundImage(UIImage(named: "backImg"), for: .normal, barMetrics: .default)
+
         
         if isTransparent {
             self.navigationBar.backgroundColor = .clear
@@ -857,6 +866,36 @@ class BarButton : NSObject {
 
 //MARK:- UIViewController
 extension UIViewController {
+    /*
+         Example:
+         showAlert(title: "Test", message: "A message", buttons: "1", "2") { (option) in
+         print("option: \(option)")
+         switch(option) {
+         case 0:
+         print("option one")
+         break
+         case 1:
+         print("option two")
+         default:
+         break
+         }
+         }
+         */
+        func showAlertWithButtons(title: String, message: String, buttons: String..., completion: @escaping (Int) -> Void) {
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            for (index, option) in buttons.enumerated() {
+                alertController.addAction(UIAlertAction.init(title: option, style: .default, handler: { (action) in
+                    completion(index)
+                }))
+            }
+            self.present(alertController, animated: true, completion: nil)
+        }
+        
+        func showAlert(title: String, message: String)  {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     
     func toolBarDoneButtonClicked() {
         self.view.endEditing(true)
@@ -970,8 +1009,6 @@ extension UIViewController {
         let imageView = UIImageView(image:logo)
         sender.navigationItem.titleView = imageView
     }
-    
-    
 }
 //MARK: - UINavigationController
 extension UINavigationController {

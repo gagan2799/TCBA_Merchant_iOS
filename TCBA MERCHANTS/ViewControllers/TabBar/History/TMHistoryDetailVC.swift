@@ -44,7 +44,6 @@ class TMHistoryDetailVC: UIViewController {
     //MARK: View life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if type == .all {
             callTransactionDetailsApi(transType: .all)
         }else if type == .today{
@@ -211,9 +210,16 @@ class TMHistoryDetailVC: UIViewController {
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{
-                    let json = try! JSONSerialization.jsonObject(with: data!, options: []) as? [String : String]
-                    guard let strDescription = json!["message"] else {return}
-                    AlertManager.shared.showAlertTitle(title: "Error" ,message: strDescription)
+                    if let data = data{
+                        let json = try! JSONSerialization.jsonObject(with: data, options: []) as? [String : String]
+                        if let strDescription = json!["message"] {
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: strDescription)
+                        }else{
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                        }
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
                 }
             }
         }
@@ -329,7 +335,22 @@ extension TMHistoryDetailVC: UITableViewDataSource,UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if type == .incomplete {
-            
+            AlertManager.shared.showAlertTitle(title: "Complete Transaction", message: "Open this transaction in the QR tab and complete purchase.", buttonsArray: ["Cancel","Open"]) { (buttonIndex : Int) in
+                switch buttonIndex {
+                case 0 :
+                    //No clicked
+                    
+                    break
+                case 1:
+                    // FIXME: OpenQRPayment
+                    // Navigate to QR payment screen
+//                    let obj = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Transection) as! TMTransactionViewController
+                    
+                    break
+                default:
+                    break
+                }
+            }
         }
     }
 }

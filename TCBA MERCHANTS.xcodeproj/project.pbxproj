@@ -29,6 +29,8 @@
 		792B545920F63663000223F7 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 792B545620F63663000223F7 /* OpenSans-Regular.ttf */; };
 		792B545A20F63663000223F7 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 792B545720F63663000223F7 /* OpenSans-Bold.ttf */; };
 		792B545B20F63663000223F7 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 792B545820F63663000223F7 /* OpenSans-Semibold.ttf */; };
+		792F28C3212192C20033E7A2 /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792F28C2212192C20033E7A2 /* Gradient.swift */; };
+		792F28C52121B1040033E7A2 /* TMScannerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792F28C42121B1040033E7A2 /* TMScannerVC.swift */; };
 		7933FCA621118E6000E9B49B /* TMHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7933FCA521118E5F00E9B49B /* TMHistoryTableViewCell.swift */; };
 		7933FCAA2111B3FD00E9B49B /* TransactionDataModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7933FCA92111B3FD00E9B49B /* TransactionDataModal.swift */; };
 		7933FCAC2111BA7E00E9B49B /* IncompleteTransactionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7933FCAB2111BA7E00E9B49B /* IncompleteTransactionData.swift */; };
@@ -85,6 +87,8 @@
 		792B545620F63663000223F7 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		792B545720F63663000223F7 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		792B545820F63663000223F7 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		792F28C2212192C20033E7A2 /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
+		792F28C42121B1040033E7A2 /* TMScannerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMScannerVC.swift; sourceTree = "<group>"; };
 		7933FCA521118E5F00E9B49B /* TMHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		7933FCA92111B3FD00E9B49B /* TransactionDataModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDataModal.swift; sourceTree = "<group>"; };
 		7933FCAB2111BA7E00E9B49B /* IncompleteTransactionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncompleteTransactionData.swift; sourceTree = "<group>"; };
@@ -245,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				7975433A211D99880090198E /* AlertManager.swift */,
+				792F28C2212192C20033E7A2 /* Gradient.swift */,
 				79CDF0232108778300CA7A9C /* LoaderWithLabel.swift */,
 				790D392A21084BF90073AE4C /* Events.swift */,
 				792B544220F5F485000223F7 /* DPPickerManager.swift */,
@@ -320,6 +325,7 @@
 			isa = PBXGroup;
 			children = (
 				79380A422105BFD800FB4776 /* TMTransactionViewController.swift */,
+				792F28C42121B1040033E7A2 /* TMScannerVC.swift */,
 			);
 			path = QR;
 			sourceTree = "<group>";
@@ -519,6 +525,7 @@
 				792B544C20F5F485000223F7 /* StringHelper.swift in Sources */,
 				790D392721084A3B0073AE4C /* Connectivity.swift in Sources */,
 				790D392921084B4A0073AE4C /* GFunction.swift in Sources */,
+				792F28C3212192C20033E7A2 /* Gradient.swift in Sources */,
 				79380A432105BFD800FB4776 /* TMTransactionViewController.swift in Sources */,
 				79380A3A2105B17100FB4776 /* TMTabbarViewController.swift in Sources */,
 				79CDF0242108778300CA7A9C /* LoaderWithLabel.swift in Sources */,
@@ -540,6 +547,7 @@
 				79EE756A2119CACF0041D5C4 /* TransactionDetailsModal.swift in Sources */,
 				792B542E20F5E2B6000223F7 /* TMLoginViewController.swift in Sources */,
 				792B543C20F5F0DA000223F7 /* GExtentions.swift in Sources */,
+				792F28C52121B1040033E7A2 /* TMScannerVC.swift in Sources */,
 				79EE756621196B060041D5C4 /* TMHistoryDetailVC.swift in Sources */,
 				792B543A20F5EFB4000223F7 /* GConstants.swift in Sources */,
 				792B544A20F5F485000223F7 /* DPPickerManager.swift in Sources */,

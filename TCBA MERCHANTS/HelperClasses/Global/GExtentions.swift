@@ -132,7 +132,7 @@ extension UIFont {
             return UIFont.init(name: "OpenSans-Bold" , size: fontSize)!
         }
     }
-
+    
     class func applyBlocSSiBold(fontSize : CGFloat ,isAspectRasio : Bool = true) -> UIFont {
         if isAspectRasio {
             return UIFont.init(name: "BlocSSiBold" , size: fontSize * GConstant.Screen.HeightAspectRatio)!
@@ -157,7 +157,7 @@ extension UIView {
             self.clipsToBounds = true
         }
         else {
-            self.layer.cornerRadius = 0
+            self.layer.cornerRadius = self.bounds.midY
         }
     }
     
@@ -276,6 +276,57 @@ extension UIView {
                 self.superview?.isUserInteractionEnabled = true
             })
         }
+    }
+    
+    func applyGradient(colours: [UIColor]) -> Void {
+        self.applyGradient(colours: colours, locations: nil)
+    }
+    
+    func applyGradient(colours: [UIColor], locations: [NSNumber]?) -> Void {
+        DispatchQueue.main.async {
+            let gradient: CAGradientLayer = CAGradientLayer()
+            gradient.frame = self.bounds
+            gradient.colors = colours.map { $0.withAlphaComponent(1.0).cgColor }
+            gradient.locations = locations
+            self.layer.addSublayer(gradient)
+        }
+    }
+    
+    func applyStyle(
+        cornerRadius      : CGFloat? = nil
+        , borderColor       : UIColor? = nil
+        , borderWidth       : CGFloat? = 1.5
+        , backgroundColor   : UIColor? = nil
+        ) {
+        
+        if cornerRadius != nil {
+            self.layer.cornerRadius = cornerRadius!
+        }
+        else {
+            self.layer.cornerRadius = 0
+        }
+        
+        if borderColor != nil {
+            self.layer.borderColor = borderColor?.cgColor
+        } else {
+            self.layer.borderColor = UIColor.clear.cgColor
+        }
+        
+        if borderWidth != nil {
+            self.layer.borderWidth = borderWidth!
+        }
+        else {
+            self.layer.borderWidth = 0
+        }
+        
+        if backgroundColor != nil {
+            self.backgroundColor = backgroundColor!
+        }
+        else {
+            self.backgroundColor = UIColor.clear
+        }
+        
+        self.layer.masksToBounds = true
     }
 }
 
@@ -744,8 +795,8 @@ extension Date {
     
     //--------------------------------------------------------------------------------------
     
-//    ========================================
-     /* Example of usage
+    //    ========================================
+    /* Example of usage
      let firstDate = Date()
      let secondDate = firstDate
      Will return true
@@ -754,7 +805,7 @@ extension Date {
     var time: Time {
         return Time(self)
     }
-//    ==========================================
+    //    ==========================================
     
     //MARK: - convert date to local
     
@@ -825,10 +876,10 @@ extension Date {
 // MARK:- Navigation Controller
 extension UINavigationController{
     func customize(isTransparent: Bool = false, isPicker: Bool? = false){
-//        let imgBack = UIImage(named: "backImg")
-//        self.navigationBar.backIndicatorImage = imgBack
-//        self.navigationBar.backIndicatorTransitionMaskImage = imgBack
-       
+        //        let imgBack = UIImage(named: "backImg")
+        //        self.navigationBar.backIndicatorImage = imgBack
+        //        self.navigationBar.backIndicatorTransitionMaskImage = imgBack
+        
         let navigationFont                      = UIFont.applyBlocSSiBold(fontSize: UIDevice.current.userInterfaceIdiom == .pad ? 14.0 : 18.0)
         self.navigationBar.barTintColor         = GConstant.AppColor.blue
         self.navigationBar.tintColor = UIColor.white
@@ -836,7 +887,7 @@ extension UINavigationController{
         self.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationBar.shadowImage          = UIImage()
         self.navigationBar.layer.masksToBounds  = false
-
+        
         
         if isTransparent {
             self.navigationBar.backgroundColor = .clear
@@ -867,35 +918,35 @@ class BarButton : NSObject {
 //MARK:- UIViewController
 extension UIViewController {
     /*
-         Example:
-         showAlert(title: "Test", message: "A message", buttons: "1", "2") { (option) in
-         print("option: \(option)")
-         switch(option) {
-         case 0:
-         print("option one")
-         break
-         case 1:
-         print("option two")
-         default:
-         break
-         }
-         }
-         */
-        func showAlertWithButtons(title: String, message: String, buttons: String..., completion: @escaping (Int) -> Void) {
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            for (index, option) in buttons.enumerated() {
-                alertController.addAction(UIAlertAction.init(title: option, style: .default, handler: { (action) in
-                    completion(index)
-                }))
-            }
-            self.present(alertController, animated: true, completion: nil)
+     Example:
+     showAlert(title: "Test", message: "A message", buttons: "1", "2") { (option) in
+     print("option: \(option)")
+     switch(option) {
+     case 0:
+     print("option one")
+     break
+     case 1:
+     print("option two")
+     default:
+     break
+     }
+     }
+     */
+    func showAlertWithButtons(title: String, message: String, buttons: String..., completion: @escaping (Int) -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        for (index, option) in buttons.enumerated() {
+            alertController.addAction(UIAlertAction.init(title: option, style: .default, handler: { (action) in
+                completion(index)
+            }))
         }
-        
-        func showAlert(title: String, message: String)  {
-            let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func showAlert(title: String, message: String)  {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
     
     func toolBarDoneButtonClicked() {
         self.view.endEditing(true)
@@ -935,7 +986,7 @@ extension UIViewController {
             leftButton.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(44), height: 44)
             
             if (btnLeft?.isLeftMenu)! {
-           
+                
             }else{
                 let leftBtnSelector: Selector = NSSelectorFromString("leftButtonClicked")
                 if responds(to: leftBtnSelector) {

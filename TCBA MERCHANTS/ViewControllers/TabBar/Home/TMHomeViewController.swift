@@ -34,8 +34,9 @@ class TMHomeViewController: UIViewController {
 //        GFunction.shared.makeUserLoginAlert()
     }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         guard scrollVHome != nil else {return}
-        if UIDevice.current.orientation.isLandscape == true {
+        if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
             scrollVHome.isScrollEnabled = true
         }else{
             scrollVHome.isScrollEnabled = false

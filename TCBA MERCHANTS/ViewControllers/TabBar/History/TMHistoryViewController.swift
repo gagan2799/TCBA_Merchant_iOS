@@ -27,11 +27,10 @@ class TMHistoryViewController: UIViewController {
     //MARK: View life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         setViewProperties()
     }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if transactionData == nil || incompleteData == nil {
             // Calling TransactionData Api
             callTransactionDataApi()

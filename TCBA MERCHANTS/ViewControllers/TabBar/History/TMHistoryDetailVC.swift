@@ -37,9 +37,7 @@ class TMHistoryDetailVC: UIViewController {
     var transactionDetailsData  : TransactionDetailsModel!
     var outstandingData         : OutstandingLoyaltyModel!
     
-    
     var type : types!
-    
     
     //MARK: View life Cycle
     override func viewDidLoad() {
@@ -56,7 +54,7 @@ class TMHistoryDetailVC: UIViewController {
         setViewProperties()
     }
     override func viewWillAppear(_ animated: Bool) {
-        
+        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {

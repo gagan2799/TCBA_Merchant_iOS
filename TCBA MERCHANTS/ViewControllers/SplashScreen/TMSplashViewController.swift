@@ -13,10 +13,14 @@ class TMSplashViewController: UIViewController {
     @IBOutlet weak var vBackground: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-       if  UIDevice.current.orientation.isLandscape == true  {
-            GConstant.Screen.HeightAspectRatio = UIScreen.main.bounds.width / 667.0
+        if  UIDevice.current.orientation.isLandscape == true  {
+            GConstant.Screen.Height             = UIScreen.main.bounds.width
+            GConstant.Screen.Width              = UIScreen.main.bounds.height
+            GConstant.Screen.HeightAspectRatio  = UIScreen.main.bounds.width / 667.0
         }else{
-            GConstant.Screen.HeightAspectRatio = UIScreen.main.bounds.height / 667.0
+            GConstant.Screen.Height             = UIScreen.main.bounds.height
+            GConstant.Screen.Width              = UIScreen.main.bounds.width
+            GConstant.Screen.HeightAspectRatio  = UIScreen.main.bounds.height / 667.0
         }
         self.animateView(view: vBackground)
     }

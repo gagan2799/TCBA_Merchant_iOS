@@ -17,6 +17,7 @@ struct GConstant {
         static let white            = UIColor.white
         static let black            = UIColor.black
         static let blue             = UIColor(hexString: "#0073CA")
+        static let darkBlue         = UIColor(hexString: "#054476")
         static let orange           = UIColor(hexString: "#F4761E")
         static let grayBG           = UIColor(hexString: "#EBEBEB")
         static let textDark         = UIColor(hexString: "#3A3A3A")

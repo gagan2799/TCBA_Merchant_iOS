@@ -72,6 +72,7 @@ struct GConstant {
         static let kEmailTxtFieldMessage           :String = "Your email is required and must be in a valid format."
         static let kSomthingWrongMessage           :String = "Something went wrong, Please try again"
         static let kEmailSentSuccessMessage        :String = "If your address exists on our systems, an account recovery email has been sent."
+        static let kMemberIDTxtFieldMessage        :String = "Your Member Id is required, Please enter a valid Member ID"
         // App permission massages
         static let kPhotoPermissionMessage         :String = "We need to have access to your photos to select a Photo.\nPlease go to the App Settings and allow Photos."
         static let kCameraPermissionMessage        :String = "We need to have access to your camera to take a New Photo.\nPlease go to the App Settings and allow Camera."

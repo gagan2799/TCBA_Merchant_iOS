@@ -22,6 +22,8 @@ class RequestModal: NSObject {
         var storeID                 : String!
         var type                    : String!
         var code                    : String!
+        var memberID                : String!
+        var keyChainCode            : String!
         
         
         override init() {
@@ -42,6 +44,8 @@ class RequestModal: NSObject {
             storeID                     = json["storeID"].stringValue
             type                        = json["type"].stringValue
             code                        = json["code"].stringValue
+            memberID                    = json["memberID"].stringValue
+            keyChainCode                = json["keyChainCode"].stringValue
         }
         
         func toDictionary() -> [String:Any]{
@@ -56,6 +60,8 @@ class RequestModal: NSObject {
             dictionary["storeID"]               = storeID
             dictionary["type"]                  = type
             dictionary["code"]                  = code
+            dictionary["memberID"]              = memberID
+            dictionary["keyChainCode"]          = keyChainCode
             return dictionary
         }
     }

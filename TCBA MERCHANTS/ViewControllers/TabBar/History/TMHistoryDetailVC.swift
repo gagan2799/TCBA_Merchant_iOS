@@ -31,12 +31,13 @@ class TMHistoryDetailVC: UIViewController {
     @IBOutlet weak var lblValue: UILabel!
     @IBOutlet var lblSubTitles: [UILabel]!
     
-    //MARK: Variables
+    //MARK: Modal objects
     var transactionData         : TransactionDataModel!
     var incompleteData          : IncompleteTransactionDataModel!
     var transactionDetailsData  : TransactionDetailsModel!
     var outstandingData         : OutstandingLoyaltyModel!
     
+    //MARK: Variable
     var type : types!
     
     //MARK: View life Cycle
@@ -191,7 +192,7 @@ class TMHistoryDetailVC: UIViewController {
         request.storeID     = storeId
         request.type        = transType.rawValue
         let parm            = transType == .outstanding ? nil : request.toDictionary()
-        let url             = transType == .outstanding ? GAPIConstant.Url.GetOutstandingLoyalty : GAPIConstant.Url.HistoryTransactionDetails
+        let url             = transType == .outstanding ? GAPIConstant.Url.GetOutstandingLoyalty : GAPIConstant.Url.GetMerchantTransactionDetail
         
         ApiManager.shared.GETWithBearerAuth(strURL: url, parameter: parm,debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
@@ -210,8 +211,8 @@ class TMHistoryDetailVC: UIViewController {
                 }else{
                     if let data = data{
                         let json = try! JSONSerialization.jsonObject(with: data, options: []) as? [String : String]
-                        if let strDescription = json!["message"] {
-                            AlertManager.shared.showAlertTitle(title: "Error" ,message: strDescription)
+                        if let json = json {
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json["message"] ?? GConstant.Message.kSomthingWrongMessage)
                         }else{
                             AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                         }

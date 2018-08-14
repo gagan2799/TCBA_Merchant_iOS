@@ -18,11 +18,13 @@ class TMHistoryViewController: UIViewController {
     @IBOutlet weak var lblOutstandingValue: UILabel!
     
     //MARK: Variables
-    var transactionData : TransactionDataModel!
-    var incompleteData  : IncompleteTransactionDataModel!
     let arrTitles               = ["All Transactions","Today's Transactions","Incomplete Transactions"]
     var incompleteTransaction   = 0.00
     var incompleteValue         = 0.00
+    
+    //MARK: Modal objects
+    var transactionData : TransactionDataModel!
+    var incompleteData  : IncompleteTransactionDataModel!
     
     //MARK: View life Cycle
     override func viewDidLoad() {
@@ -147,8 +149,8 @@ class TMHistoryViewController: UIViewController {
                 }else{
                     if let data = data{
                         let json = try! JSONSerialization.jsonObject(with: data, options: []) as? [String : String]
-                        if let strDescription = json!["message"] {
-                            AlertManager.shared.showAlertTitle(title: "Error" ,message: strDescription)
+                        if let json = json {
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json["message"] ?? GConstant.Message.kSomthingWrongMessage)
                         }else{
                             AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                         }
@@ -188,8 +190,8 @@ class TMHistoryViewController: UIViewController {
                 }else{
                     if let data = data{
                         let json = try! JSONSerialization.jsonObject(with: data, options: []) as? [String : String]
-                        if let strDescription = json!["message"] {
-                            AlertManager.shared.showAlertTitle(title: "Error" ,message: strDescription)
+                        if let json = json {
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json["message"] ?? GConstant.Message.kSomthingWrongMessage)
                         }else{
                             AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                         }

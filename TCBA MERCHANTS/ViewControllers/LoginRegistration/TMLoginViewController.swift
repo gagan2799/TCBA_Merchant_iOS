@@ -291,6 +291,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
                     }else{
                         if let data = data{
                             let json = try! JSONSerialization.jsonObject(with: data, options: []) as? [String : String]
+                            guard json != nil else {return}
                             guard let strError = json!["error"] else {return}
                             guard let strDescription = json!["error_description"] else {return}
                             AlertManager.shared.showAlertTitle(title: strError ,message: strDescription)

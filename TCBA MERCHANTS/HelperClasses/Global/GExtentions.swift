@@ -151,7 +151,6 @@ extension UIView {
         return views!.first as? UIView
     }
     func applyCornerRadius(cornerRadius : CGFloat? = nil) {
-        
         if cornerRadius != nil {
             self.layer.cornerRadius = cornerRadius!
             self.clipsToBounds = true
@@ -159,6 +158,7 @@ extension UIView {
         else {
             self.layer.cornerRadius = self.bounds.midY
         }
+        self.layer.masksToBounds    = true
     }
     
     func applyViewShadow(shadowOffset : CGSize? = nil
@@ -1084,7 +1084,7 @@ extension UIApplication {
 //MARK: -
 extension Collection where Iterator.Element == String {
     var initials: [String] {
-        return map{String($0.characters.prefix(1))}
+        return map{String($0.prefix(1))}
     }
 }
 

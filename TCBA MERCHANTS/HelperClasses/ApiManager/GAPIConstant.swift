@@ -59,13 +59,19 @@ struct GAPIConstant {
         }
         
         //MARK: - History Details Screen Api's
-        static var HistoryTransactionDetails: String {
+        static var GetMerchantTransactionDetail: String {
             return BaseURL + "/Merchant/GetMerchantTransactionDetail"
         }
         
         static var GetOutstandingLoyalty: String {
             return BaseURL + "/Merchant/GetOutstandingLoyalty"
         }
+        
+        //MARK: - QR Transaction Tab
+        static var GetMemberTransactionDetails: String {
+            return BaseURL + "/Payment/POS/GetMemberTransactionDetails"
+        }
+        
         //MARK: - Share Tab
         static var GetShareContent: String {
             return BaseURL + "/Content/GetShare"

@@ -17,6 +17,12 @@ extension String {
 }
 
 extension String {
+    var isNumeric: Bool {
+        guard self.count > 0 else { return false }
+        let nums: Set<Character> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        return Set(self).isSubset(of: nums)
+    }
+    
     func isValidEmail() -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
@@ -48,7 +54,7 @@ extension String {
     }
     
     func isValidPassword() -> Bool{
-        if self.characters.count < 8 || self.characters.count>16{
+        if self.count < 8 || self.count>16{
             return false
         }
         
@@ -57,7 +63,7 @@ extension String {
         var digit:Bool = false
         var specialCharacter:Bool =  false
         
-        for i in 0..<self.characters.count {
+        for i in 0..<self.count {
             let c:unichar = (self as NSString).character(at: i)
             if !lowerCaseletter {
                 lowerCaseletter = (CharacterSet.lowercaseLetters as NSCharacterSet).characterIsMember(c)

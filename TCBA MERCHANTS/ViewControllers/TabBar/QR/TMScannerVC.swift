@@ -13,6 +13,8 @@ class TMScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     //MARK: Variables
     var captureSession: AVCaptureSession!
     var previewLayer: AVCaptureVideoPreviewLayer!
+    var completionHandler: ((_ qrcode : String) -> Void)!
+    
     
     //MARK: - View life cycle
     override func viewDidLoad() {
@@ -61,7 +63,6 @@ class TMScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         
         if (captureSession.canAddOutput(metadataOutput)) {
             captureSession.addOutput(metadataOutput)
-            
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             metadataOutput.metadataObjectTypes = [.qr]
         } else {
@@ -75,11 +76,13 @@ class TMScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         view.layer.addSublayer(previewLayer)
         
         captureSession.startRunning()
-    }
-    
-    func found(code: String) {
-        print(code)
-        self.navigationController?.dismiss(animated: true, completion: nil)
+        
+        let btnCancel = UIButton(frame: CGRect(x: self.view.bounds.midX - (GConstant.Screen.Width * 0.4)/2, y: GConstant.Screen.Height - 80, width: (GConstant.Screen.Width * 0.4), height: 50))
+        btnCancel.setTitle("Cancel", for: .normal)
+        btnCancel.titleLabel?.textColor = .white
+        btnCancel.titleLabel?.font      = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
+        btnCancel.addTarget(self, action: #selector(btnCancelAction(_:)), for: .touchUpInside)
+        view.addSubview(btnCancel)
     }
     
     func failed() {
@@ -87,6 +90,11 @@ class TMScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
         captureSession = nil
+    }
+    
+    //MARK: - UIButton action methods
+    @objc private func btnCancelAction(_ sender: UIButton?) {
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: - AVCaptureMetadataOutputObjectsDelegate
@@ -97,12 +105,13 @@ class TMScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            found(code: stringValue)
+            self.completionHandler(stringValue)
         }
         
         dismiss(animated: true)
     }
     
+    //MARK: UIViewController Methods
     override var prefersStatusBarHidden: Bool {
         return true
     }

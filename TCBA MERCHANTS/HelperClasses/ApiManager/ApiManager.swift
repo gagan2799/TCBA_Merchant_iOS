@@ -88,9 +88,9 @@ class ApiManager {
      Url            : "/token"
      Method         : POST
      Parameters     : { grant_type  : refresh_token
-                        refresh_token  : ""
-                        client_id      : tcba_iphone
-                        device_id      : "" }
+     refresh_token  : ""
+     client_id      : tcba_iphone
+     device_id      : "" }
      ===================================================
      */
     func CallCheckRefreshTokenApi(debugInfo isPrint: Bool = true
@@ -187,11 +187,14 @@ class ApiManager {
                     var statusCode = 0
                     if let headerResponse = response.response {
                         statusCode = headerResponse.statusCode
+                        if statusCode == 401{
+                            GFunction.shared.makeUserLoginAlert()
+                        }else{
+                            DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                                completion(response.data, statusCode, APIError.handleError(response: response))
+                            })
+                        }
                     }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
-                        completion(response.data, statusCode, APIError.handleError(response: response))
-                    })
                     
                 // Yeah! Hand response
                 case .failure(let error):
@@ -207,7 +210,7 @@ class ApiManager {
                         statusCode = headerResponse.statusCode
                         if (headerResponse.statusCode == 401) {
                             //TODO: - Add your logout code here
-//                            GFunction.shared.userLogOut()
+                            GFunction.shared.makeUserLoginAlert()
                         }
                     }
                     
@@ -271,12 +274,14 @@ class ApiManager {
                         var statusCode = 0
                         if let headerResponse = response.response {
                             statusCode = headerResponse.statusCode
+                            if statusCode == 401{
+                                GFunction.shared.makeUserLoginAlert()
+                            }else{
+                                DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                                    completion(response.data, statusCode, APIError.handleError(response: response))
+                                })
+                            }
                         }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
-                            completion(response.data, statusCode, APIError.handleError(response: response))
-                        })
-                        
                     // Yeah! Hand response
                     case .failure(let error):
                         
@@ -291,7 +296,7 @@ class ApiManager {
                             statusCode = headerResponse.statusCode
                             if (headerResponse.statusCode == 401) {
                                 //TODO: - Add your logout code here
-                                //                            GFunction.shared.userLogOut()
+                                GFunction.shared.makeUserLoginAlert()
                             }
                         }
                         
@@ -371,11 +376,14 @@ class ApiManager {
                         var statusCode = 0
                         if let headerResponse = response.response {
                             statusCode = headerResponse.statusCode
+                            if statusCode == 401{
+                                GFunction.shared.makeUserLoginAlert()
+                            }else{
+                                DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                                    completion(response.data, statusCode, APIError.handleError(response: response))
+                                })
+                            }
                         }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
-                            completion(response.data, statusCode, APIError.handleError(response: response))
-                        })
                     }
                     
                 case .failure(let error):
@@ -392,7 +400,7 @@ class ApiManager {
                             statusCode = headerResponse.statusCode
                             if (headerResponse.statusCode == 401) {
                                 //TODO: - Add your logout code here
-                                //                        GFunction.shared.userLogOut(AppDelegate.shared.window)
+                                GFunction.shared.makeUserLoginAlert()
                             }
                         }
                         
@@ -445,7 +453,7 @@ class ApiManager {
                     GFunction.shared.addLoader()
                 }
                 
-                Alamofire.request(url, method: .post, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headers()).responseJSON(completionHandler: { (response) in
+                Alamofire.request(url, method: .post, parameters: param, encoding: JSONEncoding(), headers: APIHeaders.headersWithBearerToken()).responseJSON(completionHandler: { (response) in
                     
                     switch(response.result) {
                     case .success(let JSON):
@@ -463,11 +471,14 @@ class ApiManager {
                             var statusCode = 0
                             if let headerResponse = response.response {
                                 statusCode = headerResponse.statusCode
+                                if statusCode == 401{
+                                    GFunction.shared.makeUserLoginAlert()
+                                }else{
+                                    DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                                        completion(response.data, statusCode, APIError.handleError(response: response))
+                                    })
+                                }
                             }
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
-                                completion(response.data, statusCode, APIError.handleError(response: response))
-                            })
                         }
                         
                     case .failure(let error):
@@ -484,7 +495,7 @@ class ApiManager {
                                 statusCode = headerResponse.statusCode
                                 if (headerResponse.statusCode == 401) {
                                     //TODO: - Add your logout code here
-                                    //                        GFunction.shared.userLogOut(AppDelegate.shared.window)
+                                    GFunction.shared.makeUserLoginAlert()
                                 }
                             }
                             
@@ -553,11 +564,14 @@ class ApiManager {
                                 var statusCode = 0
                                 if let headerResponse = response.response {
                                     statusCode = headerResponse.statusCode
+                                    if statusCode == 401{
+                                        GFunction.shared.makeUserLoginAlert()
+                                    }else{
+                                        DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                                            completion(response.data, statusCode, APIError.handleError(response: response))
+                                        })
+                                    }
                                 }
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
-                                    completion(response.data, statusCode, APIError.handleError(response: response))
-                                })
                             }
                             
                         case .failure(let error):
@@ -574,7 +588,7 @@ class ApiManager {
                                     statusCode = headerResponse.statusCode
                                     if (headerResponse.statusCode == 401) {
                                         //TODO: - Add your logout code here
-                                        //                        GFunction.shared.userLogOut(AppDelegate.shared.window)
+                                        GFunction.shared.makeUserLoginAlert()
                                     }
                                 }
                                 

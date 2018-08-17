@@ -72,6 +72,10 @@ struct GAPIConstant {
             return BaseURL + "/Payment/POS/GetMemberTransactionDetails"
         }
         
+        static var PostCreatePOS: String {
+            return BaseURL + "/Payment/POS/PostCreatePOS"
+        }
+        
         //MARK: - Share Tab
         static var GetShareContent: String {
             return BaseURL + "/Content/GetShare"

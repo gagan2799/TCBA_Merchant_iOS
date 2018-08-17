@@ -32,7 +32,7 @@
 		792B545A20F63663000223F7 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 792B545720F63663000223F7 /* OpenSans-Bold.ttf */; };
 		792B545B20F63663000223F7 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 792B545820F63663000223F7 /* OpenSans-Semibold.ttf */; };
 		792F28C3212192C20033E7A2 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792F28C2212192C20033E7A2 /* GradientView.swift */; };
-		792F28C52121B1040033E7A2 /* TMScannerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792F28C42121B1040033E7A2 /* TMScannerVC.swift */; };
+		792F28C52121B1040033E7A2 /* TMQRScannerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792F28C42121B1040033E7A2 /* TMQRScannerVC.swift */; };
 		7933FCA621118E6000E9B49B /* TMHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7933FCA521118E5F00E9B49B /* TMHistoryTableViewCell.swift */; };
 		7933FCAA2111B3FD00E9B49B /* TransactionDataModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7933FCA92111B3FD00E9B49B /* TransactionDataModal.swift */; };
 		7933FCAC2111BA7E00E9B49B /* IncompleteTransactionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7933FCAB2111BA7E00E9B49B /* IncompleteTransactionData.swift */; };
@@ -42,6 +42,7 @@
 		79380A452105BFF200FB4776 /* TMHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79380A442105BFF200FB4776 /* TMHistoryViewController.swift */; };
 		794F66E220FDAF2800901B0C /* TMSplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F66E120FDAF2800901B0C /* TMSplashViewController.swift */; };
 		7975433B211D99880090198E /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7975433A211D99880090198E /* AlertManager.swift */; };
+		797EDA042126E45D002E1438 /* TMStorePaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797EDA032126E45D002E1438 /* TMStorePaymentVC.swift */; };
 		799924C920FF0CC30074BDE6 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 799924C820FF0CC30074BDE6 /* Launch Screen.storyboard */; };
 		799924CD20FF1B270074BDE6 /* TMHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799924CC20FF1B270074BDE6 /* TMHomeViewController.swift */; };
 		799924CF20FF1B480074BDE6 /* TMHomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799924CE20FF1B480074BDE6 /* TMHomeTableViewCell.swift */; };
@@ -51,6 +52,7 @@
 		79EE756621196B060041D5C4 /* TMHistoryDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE756521196B060041D5C4 /* TMHistoryDetailVC.swift */; };
 		79EE756821196B230041D5C4 /* TMHistoryDetailTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE756721196B230041D5C4 /* TMHistoryDetailTableCell.swift */; };
 		79EE756A2119CACF0041D5C4 /* TransactionDetailsModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE75692119CACF0041D5C4 /* TransactionDetailsModal.swift */; };
+		79EF44452125865C000C284B /* PostCreatePOSModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EF44442125865C000C284B /* PostCreatePOSModal.swift */; };
 		79FA3BE3211B1C16005F36F3 /* OutstandingLoyaltyModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */; };
 /* End PBXBuildFile section */
 
@@ -92,7 +94,7 @@
 		792B545720F63663000223F7 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		792B545820F63663000223F7 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		792F28C2212192C20033E7A2 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
-		792F28C42121B1040033E7A2 /* TMScannerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMScannerVC.swift; sourceTree = "<group>"; };
+		792F28C42121B1040033E7A2 /* TMQRScannerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMQRScannerVC.swift; sourceTree = "<group>"; };
 		7933FCA521118E5F00E9B49B /* TMHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		7933FCA92111B3FD00E9B49B /* TransactionDataModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDataModal.swift; sourceTree = "<group>"; };
 		7933FCAB2111BA7E00E9B49B /* IncompleteTransactionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncompleteTransactionData.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		79380A442105BFF200FB4776 /* TMHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryViewController.swift; sourceTree = "<group>"; };
 		794F66E120FDAF2800901B0C /* TMSplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMSplashViewController.swift; sourceTree = "<group>"; };
 		7975433A211D99880090198E /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		797EDA032126E45D002E1438 /* TMStorePaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStorePaymentVC.swift; sourceTree = "<group>"; };
 		799924C820FF0CC30074BDE6 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		799924CC20FF1B270074BDE6 /* TMHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHomeViewController.swift; sourceTree = "<group>"; };
 		799924CE20FF1B480074BDE6 /* TMHomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHomeTableViewCell.swift; sourceTree = "<group>"; };
@@ -111,6 +114,7 @@
 		79EE756521196B060041D5C4 /* TMHistoryDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryDetailVC.swift; sourceTree = "<group>"; };
 		79EE756721196B230041D5C4 /* TMHistoryDetailTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryDetailTableCell.swift; sourceTree = "<group>"; };
 		79EE75692119CACF0041D5C4 /* TransactionDetailsModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsModal.swift; sourceTree = "<group>"; };
+		79EF44442125865C000C284B /* PostCreatePOSModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCreatePOSModal.swift; sourceTree = "<group>"; };
 		79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutstandingLoyaltyModal.swift; sourceTree = "<group>"; };
 		F1D02BAEF8FD0D998288EEB8 /* Pods-TCBA MERCHANTS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TCBA MERCHANTS.release.xcconfig"; path = "Pods/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				7908E4982122E1EA00E908EC /* MemberTrasactionModal.swift */,
+				79EF44442125865C000C284B /* PostCreatePOSModal.swift */,
 			);
 			path = TransactionModals;
 			sourceTree = "<group>";
@@ -337,9 +342,10 @@
 		79380A3C2105BB7C00FB4776 /* QR */ = {
 			isa = PBXGroup;
 			children = (
+				792F28C42121B1040033E7A2 /* TMQRScannerVC.swift */,
 				79380A422105BFD800FB4776 /* TMTransactionViewController.swift */,
 				7908E49A2122F6A500E908EC /* TMMemberTransactionVC.swift */,
-				792F28C42121B1040033E7A2 /* TMScannerVC.swift */,
+				797EDA032126E45D002E1438 /* TMStorePaymentVC.swift */,
 			);
 			path = QR;
 			sourceTree = "<group>";
@@ -531,9 +537,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				797EDA042126E45D002E1438 /* TMStorePaymentVC.swift in Sources */,
 				7975433B211D99880090198E /* AlertManager.swift in Sources */,
 				790D392B21084BF90073AE4C /* Events.swift in Sources */,
 				792534D9211C629E0028C45D /* RoundedImage.swift in Sources */,
+				79EF44452125865C000C284B /* PostCreatePOSModal.swift in Sources */,
 				790D39252108477E0073AE4C /* ApiManager.swift in Sources */,
 				7913DC3F2109A525000D1A9C /* Time.swift in Sources */,
 				792B544C20F5F485000223F7 /* StringHelper.swift in Sources */,
@@ -563,7 +571,7 @@
 				79EE756A2119CACF0041D5C4 /* TransactionDetailsModal.swift in Sources */,
 				792B542E20F5E2B6000223F7 /* TMLoginViewController.swift in Sources */,
 				792B543C20F5F0DA000223F7 /* GExtentions.swift in Sources */,
-				792F28C52121B1040033E7A2 /* TMScannerVC.swift in Sources */,
+				792F28C52121B1040033E7A2 /* TMQRScannerVC.swift in Sources */,
 				79EE756621196B060041D5C4 /* TMHistoryDetailVC.swift in Sources */,
 				792B543A20F5EFB4000223F7 /* GConstants.swift in Sources */,
 				792B544A20F5F485000223F7 /* DPPickerManager.swift in Sources */,

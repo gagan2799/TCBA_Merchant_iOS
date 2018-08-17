@@ -9,7 +9,7 @@
 import AVFoundation
 import UIKit
 
-class TMScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+class TMQRScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     //MARK: Variables
     var captureSession: AVCaptureSession!
     var previewLayer: AVCaptureVideoPreviewLayer!
@@ -20,6 +20,7 @@ class TMScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         scanner()
+        btnCancel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,16 +43,19 @@ class TMScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         
         view.backgroundColor = UIColor.black
         captureSession = AVCaptureSession()
-        
-        guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
         let videoInput: AVCaptureDeviceInput
-        
-        do {
-            videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
-        } catch {
+
+        if let videoCaptureDevice = AVCaptureDevice.default(for: .video) {
+            do {
+                videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
+            } catch {
+                return
+            }
+        }else{
+            failed()
             return
         }
-        
+
         if (captureSession.canAddInput(videoInput)) {
             captureSession.addInput(videoInput)
         } else {
@@ -76,7 +80,23 @@ class TMScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         view.layer.addSublayer(previewLayer)
         
         captureSession.startRunning()
-        
+    }
+    
+    func failed() {
+        AlertManager.shared.showAlertTitle(title: "Scanning not supported", message: "Your device does not support scanning a code from an item. Please use a device with a camera.", buttonsArray: ["OK"]) { (buttonIndex : Int) in
+            switch buttonIndex {
+            case 0 :
+                //OK clicked
+                self.captureSession = nil
+                self.dismiss(animated: true, completion: nil)
+                break
+            default:
+                break
+            }
+        }
+    }
+    //MARK: - UIButton
+    func btnCancel()  {
         let btnCancel = UIButton(frame: CGRect(x: self.view.bounds.midX - (GConstant.Screen.Width * 0.4)/2, y: GConstant.Screen.Height - 80, width: (GConstant.Screen.Width * 0.4), height: 50))
         btnCancel.setTitle("Cancel", for: .normal)
         btnCancel.titleLabel?.textColor = .white
@@ -84,14 +104,6 @@ class TMScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         btnCancel.addTarget(self, action: #selector(btnCancelAction(_:)), for: .touchUpInside)
         view.addSubview(btnCancel)
     }
-    
-    func failed() {
-        let ac = UIAlertController(title: "Scanning not supported", message: "Your device does not support scanning a code from an item. Please use a device with a camera.", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        present(ac, animated: true)
-        captureSession = nil
-    }
-    
     //MARK: - UIButton action methods
     @objc private func btnCancelAction(_ sender: UIButton?) {
         dismiss(animated: true, completion: nil)

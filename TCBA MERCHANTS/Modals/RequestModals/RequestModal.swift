@@ -25,7 +25,6 @@ class RequestModal: NSObject {
         var memberID                : String!
         var keyChainCode            : String!
         
-        
         override init() {
             super.init()
         }
@@ -62,6 +61,43 @@ class RequestModal: NSObject {
             dictionary["code"]                  = code
             dictionary["memberID"]              = memberID
             dictionary["keyChainCode"]          = keyChainCode
+            
+            return dictionary
+        }
+    }
+    
+    class mCreatePOS: NSObject {
+
+        var keyChainCode            : String!
+        var staffId                 : Int!
+        var totalAmount             : String!
+        var memberId                : Int!
+        var storeId                 : String!
+        
+        override init() {
+            super.init()
+        }
+        
+        init(fromJson json: JSON!) {
+            if json.isEmpty{
+                return
+            }
+            keyChainCode                = json["keyChainCode"].stringValue
+            staffId                     = json["staffId"].intValue
+            totalAmount                 = json["totalAmount"].string
+            memberId                    = json["memberId"].intValue
+            storeId                     = json["storeId"].stringValue
+        }
+        
+        func toDictionary() -> [String:Any]{
+            var dictionary = [String:Any]()
+            
+            dictionary["keyChainCode"]          = keyChainCode
+            dictionary["staffId"]               = staffId
+            dictionary["totalAmount"]           = totalAmount
+            dictionary["memberId"]              = memberId
+            dictionary["storeId"]               = storeId
+            
             return dictionary
         }
     }

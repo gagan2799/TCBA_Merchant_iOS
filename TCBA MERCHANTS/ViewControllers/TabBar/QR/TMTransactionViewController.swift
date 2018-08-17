@@ -124,7 +124,7 @@ class TMTransactionViewController: UIViewController {
     
     //MARK: - Navigation
     func presentQR() {
-        let obj = TMScannerVC()
+        let obj = TMQRScannerVC()
         obj.completionHandler = { (code) in
             let id = code.replacingOccurrences(of: "http://tcba.mobi/kc/", with: "");   self.callMemberTransactionDetailsApi(code: id)
         }
@@ -134,8 +134,8 @@ class TMTransactionViewController: UIViewController {
     }
 
     func pushToMemberTransaction(data: MemberTransactionDetailsModel) {
-        let obj = storyboard?.instantiateViewController(withIdentifier: "TMMemberTransactionVC") as! TMMemberTransactionVC
-        obj.memberTransactionData = data
+        let obj         = storyboard?.instantiateViewController(withIdentifier: "TMMemberTransactionVC") as! TMMemberTransactionVC
+        obj.memTranData = data
         self.navigationController?.pushViewController(obj, animated: true)
         
     }
@@ -162,7 +162,7 @@ class TMTransactionViewController: UIViewController {
         
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetMemberTransactionDetails, parameter: request.toDictionary(),debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
-                guard let data = data else{return}
+                guard let data              = data else{return}
                 self.memberTransactionData  = try! MemberTransactionDetailsModel.decode(_data: data)
                 guard self.memberTransactionData != nil else {return}
                 self.pushToMemberTransaction(data: self.memberTransactionData)
@@ -171,12 +171,13 @@ class TMTransactionViewController: UIViewController {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{
                     if let data = data{
-                        let json = try! JSONSerialization.jsonObject(with: data, options: []) as? [String : String]
-                        if let json = json {
-                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json["message"] ?? GConstant.Message.kSomthingWrongMessage)
-                        }else{
-                            AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                            let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
                         }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
                     }else{
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                     }

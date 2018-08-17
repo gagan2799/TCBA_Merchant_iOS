@@ -912,7 +912,6 @@ class BarButton : NSObject {
         self.tintColor = tintColor == nil ? UIColor.white : tintColor
         self.isLeftMenu = isLeftMenu == nil ? true : isLeftMenu
     }
-    
 }
 
 //MARK:- UIViewController

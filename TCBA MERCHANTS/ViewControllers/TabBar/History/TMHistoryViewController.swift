@@ -148,12 +148,13 @@ class TMHistoryViewController: UIViewController {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{
                     if let data = data{
-                        let json = try! JSONSerialization.jsonObject(with: data, options: []) as? [String : String]
-                        if let json = json {
-                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json["message"] ?? GConstant.Message.kSomthingWrongMessage)
-                        }else{
-                            AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                            let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
                         }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
                     }else{
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                     }
@@ -189,12 +190,13 @@ class TMHistoryViewController: UIViewController {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{
                     if let data = data{
-                        let json = try! JSONSerialization.jsonObject(with: data, options: []) as? [String : String]
-                        if let json = json {
-                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json["message"] ?? GConstant.Message.kSomthingWrongMessage)
-                        }else{
-                            AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                            let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
                         }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
                     }else{
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                     }

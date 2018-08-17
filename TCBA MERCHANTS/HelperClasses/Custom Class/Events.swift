@@ -1,6 +1,6 @@
 //
 //  Events.swift
-//  Updated for Swift 6.2 with Xcode 6.3 beta 2
+//  Updated for Swift 1.2 with Xcode 6.3 beta 2
 //
 //  Copyright (c) 2014 Stephen Haney
 //  MIT License

@@ -1,10 +1,3 @@
-//
-//  PostCreatePOSModal.swift
-//  TCBA MERCHANTS
-//
-//  Created by varun@gsbitlabs on 16/08/18.
-//  Copyright © 2018 GS Bit Labs. All rights reserved.
-//
 // To parse the JSON, add this file to your project and do:
 //
 //   let postCreatePOSModel = try PostCreatePOSModel(json)
@@ -17,10 +10,9 @@ struct PostCreatePOSModel: Codable {
     let storeIcon, storeTitle, storeCity: String?
     let memberID: Int?
     let keyChainCode, memberFullName, profileImageURL: String?
-    let walletBalance: Double?
-    let availableLoyaltyCash, availablePrizeCash, totalServiceFees, totalTransactionFees: Int?
-    let totalAmountPaidByMember, totalAmountReceivedByStore: Int?
-    let totalPurchaseAmount, balanceRemaining: Double?
+    let walletBalance, availableLoyaltyCash, availablePrizeCash, totalServiceFees: Double?
+    let totalTransactionFees, totalAmountPaidByMember, totalAmountReceivedByStore, totalPurchaseAmount: Double?
+    let balanceRemaining: Double?
     let paidInFull: Bool?
     let transactionID, storeCardID: Int?
     let payments: [JSONAny]?
@@ -68,12 +60,12 @@ extension PostCreatePOSModel {
         memberFullName: String?? = nil,
         profileImageURL: String?? = nil,
         walletBalance: Double?? = nil,
-        availableLoyaltyCash: Int?? = nil,
-        availablePrizeCash: Int?? = nil,
-        totalServiceFees: Int?? = nil,
-        totalTransactionFees: Int?? = nil,
-        totalAmountPaidByMember: Int?? = nil,
-        totalAmountReceivedByStore: Int?? = nil,
+        availableLoyaltyCash: Double?? = nil,
+        availablePrizeCash: Double?? = nil,
+        totalServiceFees: Double?? = nil,
+        totalTransactionFees: Double?? = nil,
+        totalAmountPaidByMember: Double?? = nil,
+        totalAmountReceivedByStore: Double?? = nil,
         totalPurchaseAmount: Double?? = nil,
         balanceRemaining: Double?? = nil,
         paidInFull: Bool?? = nil,

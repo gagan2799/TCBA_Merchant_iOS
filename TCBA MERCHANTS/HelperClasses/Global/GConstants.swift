@@ -22,6 +22,7 @@ struct GConstant {
         static let grayBG           = UIColor(hexString: "#EBEBEB")
         static let textDark         = UIColor(hexString: "#3A3A3A")
         static let textLight        = UIColor(hexString: "#747474")
+        static let grayBorder       = UIColor(hexString: "#D2D2D2")
     
         // Alert Popup Colors
         struct AlertView {

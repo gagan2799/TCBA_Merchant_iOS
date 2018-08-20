@@ -19,6 +19,8 @@
 		790F0B9020F71ACB00082B79 /* BlocSSiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 790F0B8F20F71ACB00082B79 /* BlocSSiBold.ttf */; };
 		7913DC3F2109A525000D1A9C /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7913DC3E2109A525000D1A9C /* Time.swift */; };
 		7913DC412109B6A1000D1A9C /* UserLoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7913DC402109B6A1000D1A9C /* UserLoginModel.swift */; };
+		791B4289212AA1070064AF34 /* TMStorePaymentCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791B4288212AA1070064AF34 /* TMStorePaymentCVCell.swift */; };
+		791B428B212ABCBA0064AF34 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791B428A212ABCBA0064AF34 /* CircleView.swift */; };
 		792534D9211C629E0028C45D /* RoundedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792534D8211C629E0028C45D /* RoundedImage.swift */; };
 		792B541920F5DD30000223F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792B541820F5DD30000223F7 /* AppDelegate.swift */; };
 		792B541E20F5DD30000223F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 792B541C20F5DD30000223F7 /* Main.storyboard */; };
@@ -70,6 +72,8 @@
 		790F0B8F20F71ACB00082B79 /* BlocSSiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BlocSSiBold.ttf; sourceTree = "<group>"; };
 		7913DC3E2109A525000D1A9C /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		7913DC402109B6A1000D1A9C /* UserLoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginModel.swift; sourceTree = "<group>"; };
+		791B4288212AA1070064AF34 /* TMStorePaymentCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStorePaymentCVCell.swift; sourceTree = "<group>"; };
+		791B428A212ABCBA0064AF34 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		792534D8211C629E0028C45D /* RoundedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImage.swift; sourceTree = "<group>"; };
 		792534DA211C773D0028C45D /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		792534DC211C77830028C45D /* ESTabBarController_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ESTabBarController_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -274,6 +278,7 @@
 				792B544420F5F485000223F7 /* StringHelper.swift */,
 				7913DC3E2109A525000D1A9C /* Time.swift */,
 				792534D8211C629E0028C45D /* RoundedImage.swift */,
+				791B428A212ABCBA0064AF34 /* CircleView.swift */,
 			);
 			path = "Custom Class";
 			sourceTree = "<group>";
@@ -346,6 +351,7 @@
 				79380A422105BFD800FB4776 /* TMTransactionViewController.swift */,
 				7908E49A2122F6A500E908EC /* TMMemberTransactionVC.swift */,
 				797EDA032126E45D002E1438 /* TMStorePaymentVC.swift */,
+				791B4288212AA1070064AF34 /* TMStorePaymentCVCell.swift */,
 			);
 			path = QR;
 			sourceTree = "<group>";
@@ -553,6 +559,7 @@
 				79CDF0242108778300CA7A9C /* LoaderWithLabel.swift in Sources */,
 				79CDF02C2108A13E00CA7A9C /* RequestModal.swift in Sources */,
 				7933FCAA2111B3FD00E9B49B /* TransactionDataModal.swift in Sources */,
+				791B428B212ABCBA0064AF34 /* CircleView.swift in Sources */,
 				79FA3BE3211B1C16005F36F3 /* OutstandingLoyaltyModal.swift in Sources */,
 				799924CF20FF1B480074BDE6 /* TMHomeTableViewCell.swift in Sources */,
 				7933FCA621118E6000E9B49B /* TMHistoryTableViewCell.swift in Sources */,
@@ -562,6 +569,7 @@
 				799924CD20FF1B270074BDE6 /* TMHomeViewController.swift in Sources */,
 				7908E4992122E1EA00E908EC /* MemberTrasactionModal.swift in Sources */,
 				79380A452105BFF200FB4776 /* TMHistoryViewController.swift in Sources */,
+				791B4289212AA1070064AF34 /* TMStorePaymentCVCell.swift in Sources */,
 				7913DC412109B6A1000D1A9C /* UserLoginModel.swift in Sources */,
 				790D392321083B720073AE4C /* GAPIConstant.swift in Sources */,
 				79D94AC321103B9000D3FCD6 /* TMMoreViewController.swift in Sources */,

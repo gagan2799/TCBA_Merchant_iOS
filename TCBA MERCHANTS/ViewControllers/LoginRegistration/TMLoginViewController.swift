@@ -54,6 +54,10 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
         // Show navigationBar
         GConstant.NavigationController?.customize()
         GConstant.NavigationController?.isNavigationBarHidden = false
+        if self.navigationController?.navigationBar.barTintColor != GConstant.AppColor.blue{
+            self.navigationController?.customize()
+        }
+        self.navigationController?.customize()
         if  UIDevice.current.orientation.isLandscape == true  {
             scrView.isScrollEnabled = true
         }else{

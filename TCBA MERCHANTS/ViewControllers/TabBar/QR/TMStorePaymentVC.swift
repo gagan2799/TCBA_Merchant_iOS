@@ -29,6 +29,9 @@ class TMStorePaymentVC: UIViewController {
     var posData     : PostCreatePOSModel!
     
     //MARK: Outlets & Variables
+    //Constraints
+    @IBOutlet weak var consCvHeight: NSLayoutConstraint!
+    @IBOutlet weak var consTopView: NSLayoutConstraint!
     
     // Variables
     var arrCV           = [Dictionary<String,String>]()
@@ -40,13 +43,31 @@ class TMStorePaymentVC: UIViewController {
     var enmTbl          : tableType!
     var enmMethod       : methodType!
     
-
+    // UIVIew
+    @IBOutlet weak var viewCollection: UIView!
+    @IBOutlet weak var viewTable: UIView!
+    
+    
     // UIImageView
     @IBOutlet weak var imgVUser: RoundedImage!
     
     // UILabels
     @IBOutlet weak var lblUserName: UILabel!
     @IBOutlet weak var lblMemberId: UILabel!
+    
+    
+    @IBOutlet weak var lblTransaction: UILabel!
+    @IBOutlet weak var lblCashBack: UILabel!
+    @IBOutlet weak var lblDateTime: UILabel!
+    @IBOutlet weak var lblCity: UILabel!
+    @IBOutlet weak var lblStoreID: UILabel!
+    @IBOutlet weak var lblPOSID: UILabel!
+    @IBOutlet weak var lblAmount: UILabel!
+    @IBOutlet weak var lblBalanceOutStanding: UILabel!
+    @IBOutlet weak var lblOutStandingValue: UILabel!
+    
+    // CollectionView
+    @IBOutlet weak var colVPayment: UICollectionView!
     
     //MARK: View life Cycle
     override func viewDidLoad() {
@@ -70,6 +91,7 @@ class TMStorePaymentVC: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -80,8 +102,7 @@ class TMStorePaymentVC: UIViewController {
         // navigationBar customization
         self.navigationController?.customize()
         self.navigationItem.title           = "Cash Back Purchase"
-        //        navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "backImg"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.plain, target: self, action: #selector(backButtonAction))
-        navigationItem.leftBarButtonItem    = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(backButtonAction))
+        navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "back_button"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.plain, target: self, action: #selector(backButtonAction))
         
         lblUserName.font                    = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         lblMemberId.font                    = UIFont.applyOpenSansRegular(fontSize: 15.0)
@@ -90,6 +111,14 @@ class TMStorePaymentVC: UIViewController {
         lblMemberId.text                    = "Member Id: \(posData.memberID ?? 0)"
         guard let urlProfile = URL.init(string: posData.profileImageURL ?? "") else {return}
         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
+       
+        //Top View
+        lblDateTime.text                    = ""
+        lblCity.text                        = posData.storeCity
+        lblStoreID.text                     = "Store ID: \(posData.storeID ?? 0)"
+        lblPOSID.text                       = "POS ID:\(posData.posid ?? 0)"
+        lblAmount.text                      = "Amount: $\(posData.totalPurchaseAmount ?? 0.00)"
+        lblOutStandingValue.text            = "$\(posData.balanceRemaining ?? 0.00)"
         
         
         // Array For Collecion View
@@ -103,7 +132,7 @@ class TMStorePaymentVC: UIViewController {
             
             ["image"            : "wallet_icon",
              "title"            : "Wallet Funds",
-             "balance"          : "\(posData.walletBalance ?? 0.0)",
+             "balance"          : "\(posData.walletBalance ?? 0.00)",
              "selectedAmount"   : "",
              "method"           : "Wallet",
              "posPaymentID"     : ""],
@@ -117,14 +146,14 @@ class TMStorePaymentVC: UIViewController {
             
             ["image"            : "prizefundtrophy",
              "title"            : "Prize Funds",
-             "balance"          : "\(posData.availablePrizeCash ?? 0.0)",
+             "balance"          : "\(posData.availablePrizeCash ?? 0.00)",
              "selectedAmount"   : "",
              "method"           : "PrizeWallet",
              "posPaymentID"     : ""],
             
             ["image"            : "loyality_icon",
              "title"            : "Loyalty Credits",
-             "balance"          : "\(posData.availableLoyaltyCash ?? 0.0)",
+             "balance"          : "\(posData.availableLoyaltyCash ?? 0.00)",
              "selectedAmount"   : "",
              "method"           : "LoyaltyCash",
              "posPaymentID"     : ""],
@@ -148,16 +177,23 @@ class TMStorePaymentVC: UIViewController {
             
             ["image"            : "loyality_icon",
              "title"            : "Loyalty Credits",
-             "balance"          : "\(posData.availableLoyaltyCash ?? 0.0)",
+             "balance"          : "\(posData.availableLoyaltyCash ?? 0.00)",
              "selectedAmount"   : "",
              "method"           : "LoyaltyCash",
              "posPaymentID"     : ""],
             
             ["image"            : "wallet_icon",
              "title"            : "Wallet Funds",
-             "balance"          : "\(posData.walletBalance ?? 0.0)",
+             "balance"          : "\(posData.walletBalance ?? 0.00)",
              "selectedAmount"   : "",
              "method"           : "Wallet",
+             "posPaymentID"     : ""],
+            
+            ["image"            : "prizefundtrophy",
+             "title"            : "Prize Funds",
+             "balance"          : "\(posData.availablePrizeCash ?? 0.00)",
+             "selectedAmount"   : "",
+             "method"           : "PrizeWallet",
              "posPaymentID"     : ""],
             
             ["image"            : "card_icon",
@@ -165,13 +201,6 @@ class TMStorePaymentVC: UIViewController {
              "balance"          : "",
              "selectedAmount"   : "",
              "method"           : "TokenisedCreditCard",
-             "posPaymentID"     : ""],
-            
-            ["image"            : "prizefundtrophy",
-             "title"            : "Prize Funds",
-             "balance"          : "\(posData.availablePrizeCash ?? 0.0)",
-             "selectedAmount"   : "",
-             "method"           : "PrizeWallet",
              "posPaymentID"     : ""]]
         
         // Array of Credit Cards
@@ -182,11 +211,26 @@ class TMStorePaymentVC: UIViewController {
                 }
             }
         }
+        // Top View Height
+        consTopView.constant    = GConstant.Screen.Height * 0.42
+        // ColectionView Layout setup
+        consCvHeight.constant   = GConstant.Screen.Height * 0.4
+        view.setNeedsLayout()
     }
     
-    //MARK: - BarButton items
+    //MARK: - BarButton Action Methods
     @objc func backButtonAction(sender: UIBarButtonItem){
         cancelTransaction()
+    }
+    
+    //MARK: - UIButton Action Metods
+    @IBAction func btnCVCancelAction(_ sender: UIButton) {
+        cancelTransaction()
+    }
+    
+    @IBAction func btnTVCancelAction(_ sender: UIButton) {
+        
+        viewTable.animateHideShow()
     }
     
     //MARK: - Custom Methods
@@ -231,15 +275,15 @@ class TMStorePaymentVC: UIViewController {
     // MARK: - Navigation
     
 }
-extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource {
     //MARK: CollectionView Delegates & DataSource
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 20, left: 0, bottom: 10, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let collectionViewWidth = collectionView.bounds.width
-        return CGSize(width: collectionViewWidth/3, height: collectionViewWidth/3)
+        let collectionViewWidth = GConstant.Screen.Width
+        return CGSize(width: collectionViewWidth/3, height: collectionViewWidth/4)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -265,8 +309,51 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        if indexPath.row == (arrCV.count - 1){
+            viewTable.animateHideShow()
+        }
     }
-
+    
     //MARK: TableView Delegates & DataSource
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return arrTV.count
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60 * GConstant.Screen.HeightAspectRatio
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "StoreTVCell") as! TMStorePaymentTVCell
+        
+        cell.lblTitle.font          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
+        cell.lblBal.font            = UIFont.applyOpenSansRegular(fontSize: 15.0)
+        cell.lblAvailable.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
+        cell.lblAmtPaid.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 15.0), borderColor: GConstant.AppColor.textDark, backgroundColor: .white, borderWidth: 1.0)
+        
+        cell.imgVTV.image           = UIImage(named: arrTV[indexPath.item]["image"]!)
+        cell.lblTitle.text          = arrTV[indexPath.item]["title"]
+        cell.lblBal.text            = "$" + arrTV[indexPath.item]["balance"]!
+        
+        cell.contentView.alpha      = checkPaymentOptions(withMethod: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) ? 1.0 : 0.5
+        
+        if arrTV[indexPath.item]["method"] == "TokenisedCreditCard" || arrTV[indexPath.item]["method"] == "CashOrEFTPOS" {
+            cell.lblBal.isHidden        = true
+            cell.lblAvailable.isHidden  = true
+        }else{
+            cell.lblBal.isHidden        = false
+            cell.lblAvailable.isHidden  = false
+        }
+        
+        if arrTV[indexPath.row]["selectedAmount"] == "" {
+            cell.vBlueLine.isHidden     = true
+            cell.lblAmtPaid.isHidden    = true
+            cell.consLblWidth.constant  = 0.0
+        }else{
+            cell.vBlueLine.isHidden     = false
+            cell.lblAmtPaid.isHidden    = false
+            cell.consLblWidth.constant  = GConstant.Screen.Width * 0.18
+        }
+        
+        return cell
+    }
 }

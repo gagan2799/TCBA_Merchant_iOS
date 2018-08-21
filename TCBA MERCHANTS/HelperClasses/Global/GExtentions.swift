@@ -227,6 +227,17 @@ extension UIView {
         }, completion: nil)
     }
     
+    func animateHideShow(){
+        UIView.transition(with: self, duration: 0.3, options: [.showHideTransitionViews,.transitionCrossDissolve], animations: {
+            if self.isHidden == false{
+                self.isHidden = true
+            }
+            else{
+                self.isHidden = false
+            }
+        }, completion: nil)
+    }
+    
     func addBottomBorderWithColor(color: UIColor,origin : CGPoint, width : CGFloat , height : CGFloat) -> CALayer {
         let border = CALayer()
         border.backgroundColor = color.cgColor

@@ -1909,7 +1909,7 @@
                                                     <constraint firstAttribute="trailing" secondItem="WKQ-xe-VHT" secondAttribute="trailing" id="wuy-gS-2B4"/>
                                                 </constraints>
                                             </view>
-                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1mQ-Tm-E7s" userLabel="ViewTable">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1mQ-Tm-E7s" userLabel="ViewTable">
                                                 <rect key="frame" x="-0.5" y="280" width="375" height="393"/>
                                                 <subviews>
                                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DZQ-jf-d2T">
@@ -2019,6 +2019,53 @@
                                                                     <outlet property="lblBal" destination="w3k-HN-Jxd" id="BeV-On-C4a"/>
                                                                     <outlet property="lblTitle" destination="fTk-gB-ATb" id="QJt-tV-emz"/>
                                                                     <outlet property="vBlueLine" destination="Pah-E5-GRs" id="06B-qH-TPX"/>
+                                                                </connections>
+                                                            </tableViewCell>
+                                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CardTVCell" rowHeight="74" id="rLV-nN-iZA" customClass="TMCardTVCell" customModule="TCBA_MERCHANTS" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="102" width="375" height="74"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rLV-nN-iZA" id="tui-fy-95M">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="73.5"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
+                                                                    <subviews>
+                                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Lr-yA-3PY">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="73.5"/>
+                                                                            <subviews>
+                                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="master" translatesAutoresizingMaskIntoConstraints="NO" id="8pF-jA-jzr">
+                                                                                    <rect key="frame" x="15" y="7" width="59" height="59"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="width" secondItem="8pF-jA-jzr" secondAttribute="height" multiplier="1:1" id="VXS-OF-GCr"/>
+                                                                                    </constraints>
+                                                                                </imageView>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saved Credit Cards" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bzz-G0-Vme">
+                                                                                    <rect key="frame" x="84" y="26.5" width="281" height="20.5"/>
+                                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                    <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
+                                                                                    <color key="textColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                    <nil key="highlightedColor"/>
+                                                                                </label>
+                                                                            </subviews>
+                                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <constraints>
+                                                                                <constraint firstItem="8pF-jA-jzr" firstAttribute="height" secondItem="8Lr-yA-3PY" secondAttribute="height" multiplier="0.8" id="0Qx-ZY-7Db"/>
+                                                                                <constraint firstItem="8pF-jA-jzr" firstAttribute="leading" secondItem="8Lr-yA-3PY" secondAttribute="leading" constant="15" id="BXQ-Yq-Gm0"/>
+                                                                                <constraint firstItem="8pF-jA-jzr" firstAttribute="centerY" secondItem="8Lr-yA-3PY" secondAttribute="centerY" id="CJe-CO-NTK"/>
+                                                                                <constraint firstItem="bzz-G0-Vme" firstAttribute="leading" secondItem="8pF-jA-jzr" secondAttribute="trailing" constant="10" id="PhR-Ks-OUd"/>
+                                                                                <constraint firstAttribute="trailing" secondItem="bzz-G0-Vme" secondAttribute="trailing" constant="10" id="UXh-va-xU1"/>
+                                                                                <constraint firstItem="bzz-G0-Vme" firstAttribute="centerY" secondItem="8pF-jA-jzr" secondAttribute="centerY" id="sMS-IA-x4n"/>
+                                                                            </constraints>
+                                                                        </view>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="8Lr-yA-3PY" firstAttribute="top" secondItem="tui-fy-95M" secondAttribute="top" id="JMf-N3-Nws"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="8Lr-yA-3PY" secondAttribute="trailing" id="MVL-Bc-DJ0"/>
+                                                                        <constraint firstItem="8Lr-yA-3PY" firstAttribute="leading" secondItem="tui-fy-95M" secondAttribute="leading" id="XuB-NQ-S4d"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="8Lr-yA-3PY" secondAttribute="bottom" id="Yzx-TR-RCn"/>
+                                                                    </constraints>
+                                                                </tableViewCellContentView>
+                                                                <connections>
+                                                                    <outlet property="imgVIcon" destination="8pF-jA-jzr" id="OKG-qd-VxV"/>
+                                                                    <outlet property="lblCardNo" destination="bzz-G0-Vme" id="uXC-sc-uay"/>
                                                                 </connections>
                                                             </tableViewCell>
                                                         </prototypes>
@@ -2163,6 +2210,7 @@
                         <outlet property="lblStoreID" destination="qQY-QP-LfF" id="pdX-1W-Ykm"/>
                         <outlet property="lblTransaction" destination="pWy-Hh-NHt" id="4FT-c4-W3e"/>
                         <outlet property="lblUserName" destination="joy-dW-6Bg" id="NoD-n4-Y8Y"/>
+                        <outlet property="tblVpayment" destination="DZQ-jf-d2T" id="zPh-Kv-343"/>
                         <outlet property="viewCollection" destination="lXB-YI-Yzl" id="chf-7k-saO"/>
                         <outlet property="viewTable" destination="1mQ-Tm-E7s" id="OsB-SU-W0e"/>
                     </connections>
@@ -3021,6 +3069,7 @@
         <image name="logo" width="185" height="61"/>
         <image name="logo-icon" width="57" height="58"/>
         <image name="logoSplash" width="281" height="281"/>
+        <image name="master" width="61" height="43"/>
         <image name="nextArrow_Icon" width="9" height="17"/>
         <image name="popup_background" width="260" height="78"/>
         <image name="popup_close" width="29" height="29"/>

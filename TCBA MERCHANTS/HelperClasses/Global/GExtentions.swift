@@ -818,6 +818,13 @@ extension Date {
     }
     //    ==========================================
     
+    func currentDate()-> String {
+        let formatter           = DateFormatter()
+        formatter.dateFormat    = "MMM d, yyyy HH:mma"
+        let date                = formatter.string(from: self)
+        return date
+    }
+    
     //MARK: - convert date to local
     
     func convertToLocal(sourceDate : Date)-> Date{
@@ -1069,6 +1076,26 @@ extension UIViewController {
         let logo = UIImage(named: "top_logo")
         let imageView = UIImageView(image:logo)
         sender.navigationItem.titleView = imageView
+    }
+    
+    func presentWithAnimation(_ viewControllerToPresent: UIViewController) {
+        let transition              = CATransition()
+        transition.duration         = 0.25
+        transition.type             = kCATransitionPush
+        transition.subtype          = kCATransitionFromTop
+        transition.timingFunction   = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+        self.view.window!.layer.add(transition, forKey: kCATransition)
+        present(viewControllerToPresent, animated: false)
+    }
+    
+    func dismissWithAnimation() {
+        let transition              = CATransition()
+        transition.duration         = 0.25
+        transition.type             = kCATransitionPush
+        transition.subtype          = kCATransitionFromBottom
+        transition.timingFunction   = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+        self.view.window!.layer.add(transition, forKey: kCATransition)
+        dismiss(animated: false)
     }
 }
 //MARK: - UINavigationController

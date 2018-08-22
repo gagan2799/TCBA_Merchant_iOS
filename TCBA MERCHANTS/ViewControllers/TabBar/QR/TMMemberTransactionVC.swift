@@ -13,6 +13,8 @@ class TMMemberTransactionVC: UIViewController {
     //MARK: Modals
     var memTranData : MemberTransactionDetailsModel!
     var posData     : PostCreatePOSModel!
+    
+    
     //MARK: Outlets
     // UIImageView
     @IBOutlet weak var imgVUser: RoundedImage!
@@ -125,6 +127,7 @@ class TMMemberTransactionVC: UIViewController {
     func pushToPaymentVC(data: PostCreatePOSModel) {
         let objPVC      = storyboard?.instantiateViewController(withIdentifier: "TMStorePaymentVC") as! TMStorePaymentVC
         objPVC.posData  = data
+        objPVC.enmTbl   = .mix
         self.navigationController?.pushViewController(objPVC, animated: true)
     }
     

@@ -73,6 +73,12 @@ class RequestModal: NSObject {
         var totalAmount             : String!
         var memberId                : Int!
         var storeId                 : String!
+        var accountNumber           : String!
+        var execute                 : Int!
+        var memberPin               : String!
+        var paymentType             : String!
+        var posID                   : Int!
+        var creditCardToken         : String!
         
         override init() {
             super.init()
@@ -87,6 +93,12 @@ class RequestModal: NSObject {
             totalAmount                 = json["totalAmount"].string
             memberId                    = json["memberId"].intValue
             storeId                     = json["storeId"].stringValue
+            accountNumber               = json["accountNumber"].stringValue
+            execute                     = json["execute"].intValue
+            memberPin                   = json["memberPin"].string
+            paymentType                 = json["paymentType"].stringValue
+            posID                       = json["posID"].intValue
+            creditCardToken             = json["creditCardToken"].stringValue
         }
         
         func toDictionary() -> [String:Any]{
@@ -97,6 +109,12 @@ class RequestModal: NSObject {
             dictionary["totalAmount"]           = totalAmount
             dictionary["memberId"]              = memberId
             dictionary["storeId"]               = storeId
+            dictionary["accountNumber"]         = accountNumber
+            dictionary["execute"]               = execute
+            dictionary["memberPin"]             = memberPin
+            dictionary["paymentType"]           = paymentType
+            dictionary["posID"]                 = posID
+            dictionary["creditCardToken"]       = creditCardToken
             
             return dictionary
         }

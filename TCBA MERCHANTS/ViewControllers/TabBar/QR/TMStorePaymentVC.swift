@@ -27,7 +27,7 @@ class TMStorePaymentVC: UIViewController {
     }
     //MARK: Modals Object
     var posData     : PostCreatePOSModel!
-    
+    var fullPayData : PostCreateTransFullPayModel!
     //MARK: Outlets & Variables
     //Constraints
     @IBOutlet weak var consCvHeight: NSLayoutConstraint!
@@ -36,7 +36,7 @@ class TMStorePaymentVC: UIViewController {
     // Variables
     var arrCV           = [Dictionary<String,String>]()
     var arrTV           = [Dictionary<String,String>]()
-    var arrCreditCards  = [Any]()
+    var arrCreditCards  = [PostCreatePOSPaymentOption]()
     
     // Enum Object
     var enmView         : viewType!
@@ -68,6 +68,8 @@ class TMStorePaymentVC: UIViewController {
     
     // CollectionView
     @IBOutlet weak var colVPayment: UICollectionView!
+    // TableView
+    @IBOutlet weak var tblVpayment: UITableView!
     
     //MARK: View life Cycle
     override func viewDidLoad() {
@@ -113,7 +115,7 @@ class TMStorePaymentVC: UIViewController {
         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
        
         //Top View
-        lblDateTime.text                    = ""
+        lblDateTime.text                    = Date().currentDate()
         lblCity.text                        = posData.storeCity
         lblStoreID.text                     = "Store ID: \(posData.storeID ?? 0)"
         lblPOSID.text                       = "POS ID:\(posData.posid ?? 0)"
@@ -249,6 +251,11 @@ class TMStorePaymentVC: UIViewController {
         }
     }
     
+    func reloadTableView(withTblType type: tableType){
+        enmTbl = type
+        tblVpayment.reloadData()
+    }
+    
     func checkPaymentOptions(withMethod type: String ,withViewType viewT: viewType) -> Bool {
         var flag = false
         guard let data = posData.paymentOptions else { return flag}
@@ -271,9 +278,207 @@ class TMStorePaymentVC: UIViewController {
         }
         return flag
     }
+
+    //MARK: Web Api's
+    func callPostCreateTransaction(amount:String) {
+        /*
+         =====================API CALL=====================
+         APIName    : PostCreateTransaction
+         Url        : "/Payment/POS/PostCreateTransaction"
+         Method     : POST
+         Parameters : { }
+         ===================================================
+         */
+        let request             = RequestModal.mCreatePOS()
+        
+        ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostCreateTransaction, parameter: request.toDictionary(),debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                print("statusCode = 200")
+                guard data != nil else{return}
+                if let pData = try? PostCreatePOSModel.decode(_data: data!) {
+                    self.posData = pData
+                }else{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }
+            }else{
+                if statusCode == 404{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }else{
+                    if let data = data{
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                            let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
+                        }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
+                }
+            }
+        }
+    }
     
-    // MARK: - Navigation
     
+    func callPostCreateTransactionWithFullPayment(payMethodType type:methodType, withPin pin: String, isExecute: Int = 1, withToken token: String = "") {
+        /*
+         =====================API CALL=====================
+         APIName    : PostCreateTransactionWithFullPayment
+         Url        : "/Payment/POS/PostCreateTransactionWithFullPayment"
+         Method     : POST
+         Parameters : {
+         //Case: Wallet, CashOrEFTPOS, LoyaltyCash
+         execute        : 0,-->For this case by default value of execute is 1
+         memberPin      : 1234,
+         paymentType    : Wallet,
+         posID          : 5610
+         
+         //Case: Prize Wallet
+         execute        : 0,-->For this case by default value of execute is 1
+         memberPin      : 1234,
+         paymentType    : PrizeWallet,
+         posID          : 5610
+         accountNumber  :Method PrizeWallet from Payment Options in POSData
+
+         //Case: TokenisedCreditCard
+         execute        : 0,-->For this case first time 0 and 2nd time 1
+         memberPin      : 1234,
+         paymentType    : TokenisedCreditCard,
+         posID          : 5610
+         creditCardToken: token
+         }
+         ===================================================
+         */
+        
+        let request             = RequestModal.mCreatePOS()
+        request.memberPin       = pin
+        request.paymentType     = type.rawValue
+        request.posID           = posData.posid
+        request.execute         = isExecute
+       
+        if type == .PrizeWallet {
+            if let paymentOptions = posData.paymentOptions {
+                for item in paymentOptions {
+                    if item.type == type.rawValue {
+                        request.accountNumber = item.accountNumber
+                    }
+                }
+            }
+        } else if type == .TokenisedCreditCard {
+            request.creditCardToken = token
+        }
+        
+        ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostCreateTransactionWithFullPayment, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                print("statusCode = 200")
+                guard data != nil else{return}
+                if let pData = try? PostCreateTransFullPayModel.decode(_data: data!) {
+                    self.fullPayData = pData
+                }else{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }
+            }else{
+                if statusCode == 404{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }else{
+                    if let data = data{
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                            let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
+                        }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
+                }
+            }
+        }
+    }
+    
+    func callPostAddPOSPayment(amount:String) {
+        /*
+         =====================API CALL=====================
+         APIName    : PostAddPOSPayment
+         Url        : "/Payment/POS/PostAddPOSPayment"
+         Method     : POST
+         Parameters : { }
+         ===================================================
+         */
+        let request             = RequestModal.mCreatePOS()
+
+        
+        ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostAddPOSPayment, parameter: request.toDictionary(),debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                print("statusCode = 200")
+                guard data != nil else{return}
+                if let pData = try? PostCreatePOSModel.decode(_data: data!) {
+                    self.posData = pData
+                }else{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }
+            }else{
+                if statusCode == 404{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }else{
+                    if let data = data{
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                            let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
+                        }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
+                }
+            }
+        }
+    }
+    
+    func callPostRemoveAllPOSPayments() {
+        /*
+         =====================API CALL=====================
+         APIName    : PostRemoveAllPOSPayments
+         Url        : "/Payment/POS/PostRemoveAllPOSPayments"
+         Method     : POST
+         Parameters : { posID   : 123 }
+         ===================================================
+         */
+        let request             = RequestModal.mCreatePOS()
+        request.posID           = posData.posid
+        
+        ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostRemoveAllPOSPayments, parameter: request.toDictionary(),debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                print("statusCode = 200")
+                guard data != nil else{return}
+                if let pData = try? PostCreatePOSModel.decode(_data: data!) {
+                    self.posData = pData
+                }else{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }
+            } else {
+                if statusCode == 404{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }else{
+                    if let data = data{
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                            let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
+                        }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
+                }
+            }
+        }
+    }
 }
 extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource {
     //MARK: CollectionView Delegates & DataSource
@@ -309,51 +514,102 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == (arrCV.count - 1){
+        if indexPath.row == 2 {
+            reloadTableView(withTblType: .card)
+            viewTable.animateHideShow()
+            
+        } else if indexPath.row == (arrCV.count - 1){
+            reloadTableView(withTblType: .mix)
             viewTable.animateHideShow()
         }
     }
     
     //MARK: TableView Delegates & DataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return arrTV.count
+        if enmTbl == .card {
+            return arrCreditCards.count
+        } else {
+            return arrTV.count
+        }
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if enmTbl == .card {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreTVCell") as! TMStorePaymentTVCell
+            cell.lblTitle.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 15.0), labelColor: GConstant.AppColor.textLight)
+            cell.lblTitle.text          = "Saved Credit Cards"
+            cell.imgVTV.image           = UIImage(named: "card_icon")
+            cell.lblAmtPaid.isHidden    = true
+            cell.lblBal.isHidden        = true
+            cell.lblAvailable.isHidden  = true
+            cell.vBlueLine.isHidden     = false
+            return cell
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if enmTbl == .card {
+            return 60 * GConstant.Screen.HeightAspectRatio
+        }
+        return 0.0
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60 * GConstant.Screen.HeightAspectRatio
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "StoreTVCell") as! TMStorePaymentTVCell
-        
-        cell.lblTitle.font          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
-        cell.lblBal.font            = UIFont.applyOpenSansRegular(fontSize: 15.0)
-        cell.lblAvailable.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
-        cell.lblAmtPaid.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 15.0), borderColor: GConstant.AppColor.textDark, backgroundColor: .white, borderWidth: 1.0)
-        
-        cell.imgVTV.image           = UIImage(named: arrTV[indexPath.item]["image"]!)
-        cell.lblTitle.text          = arrTV[indexPath.item]["title"]
-        cell.lblBal.text            = "$" + arrTV[indexPath.item]["balance"]!
-        
-        cell.contentView.alpha      = checkPaymentOptions(withMethod: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) ? 1.0 : 0.5
-        
-        if arrTV[indexPath.item]["method"] == "TokenisedCreditCard" || arrTV[indexPath.item]["method"] == "CashOrEFTPOS" {
-            cell.lblBal.isHidden        = true
-            cell.lblAvailable.isHidden  = true
-        }else{
-            cell.lblBal.isHidden        = false
-            cell.lblAvailable.isHidden  = false
+        if enmTbl == .mix {// Table for Mix payment
+            let cell = tableView.dequeueReusableCell(withIdentifier: "StoreTVCell") as! TMStorePaymentTVCell
+
+            cell.lblTitle.font          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
+            cell.lblBal.font            = UIFont.applyOpenSansRegular(fontSize: 15.0)
+            cell.lblAvailable.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
+            cell.lblAmtPaid.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 15.0), borderColor: GConstant.AppColor.textDark, backgroundColor: .white, borderWidth: 1.0)
+            
+            cell.imgVTV.image           = UIImage(named: arrTV[indexPath.item]["image"]!)
+            cell.lblTitle.text          = arrTV[indexPath.item]["title"]
+            cell.lblBal.text            = "$" + arrTV[indexPath.item]["balance"]!
+            
+            cell.contentView.alpha      = checkPaymentOptions(withMethod: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) ? 1.0 : 0.5
+            
+            if arrTV[indexPath.item]["method"] == "TokenisedCreditCard" || arrTV[indexPath.item]["method"] == "CashOrEFTPOS" {
+                cell.lblBal.isHidden        = true
+                cell.lblAvailable.isHidden  = true
+            }else{
+                cell.lblBal.isHidden        = false
+                cell.lblAvailable.isHidden  = false
+            }
+            
+            if arrTV[indexPath.row]["selectedAmount"] == "" {
+                cell.vBlueLine.isHidden     = true
+                cell.lblAmtPaid.isHidden    = true
+                cell.consLblWidth.constant  = 0.0
+            }else{
+                cell.vBlueLine.isHidden     = false
+                cell.lblAmtPaid.isHidden    = false
+                cell.consLblWidth.constant  = GConstant.Screen.Width * 0.18
+            }
+            cell.layoutIfNeeded()
+            return cell
+        } else { // Table for Card list
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CardTVCell") as! TMCardTVCell
+            cell.lblCardNo.font          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
+            
+            if let name = arrCreditCards[indexPath.row].name {
+                cell.lblCardNo.text = name
+                if name.contains("MASTERCARD") {
+                    cell.imgVIcon.image = UIImage(named: "master")
+                }else if name.contains("VISA"){
+                    cell.imgVIcon.image = UIImage(named: "visa")
+                }else if name.contains("AMEX"){
+                    cell.imgVIcon.image = UIImage(named: "amex")
+                }else if name.contains("DINER"){
+                    cell.imgVIcon.image = UIImage(named: "diner")
+                }
+            }
+            return cell
         }
-        
-        if arrTV[indexPath.row]["selectedAmount"] == "" {
-            cell.vBlueLine.isHidden     = true
-            cell.lblAmtPaid.isHidden    = true
-            cell.consLblWidth.constant  = 0.0
-        }else{
-            cell.vBlueLine.isHidden     = false
-            cell.lblAmtPaid.isHidden    = false
-            cell.consLblWidth.constant  = GConstant.Screen.Width * 0.18
-        }
-        
-        return cell
     }
 }

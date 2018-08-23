@@ -111,10 +111,13 @@ class TMMemberTransactionVC: UIViewController {
         
         guard let urlProfile = URL.init(string: memTranData.profileImageURL ?? "") else {return}
         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
+        
+        txtAmount.becomeFirstResponder()
     }
     
     //MARK: - UIButton Action Methods
     @IBAction func btnConfirmAction(_ sender: UIButton) {
+        txtAmount.resignFirstResponder()
         if txtAmount.text == "" || txtAmount.text == "$0.00" {
             AlertManager.shared.showAlertTitle(title: "", message: "Please enter purchase amount")
         } else {
@@ -127,7 +130,7 @@ class TMMemberTransactionVC: UIViewController {
     func pushToPaymentVC(data: PostCreatePOSModel) {
         let objPVC      = storyboard?.instantiateViewController(withIdentifier: "TMStorePaymentVC") as! TMStorePaymentVC
         objPVC.posData  = data
-        objPVC.enmTbl   = .mix
+        objPVC.typeTable   = .mix
         self.navigationController?.pushViewController(objPVC, animated: true)
     }
     

@@ -27,7 +27,7 @@ class TMStorePaymentVC: UIViewController {
     }
     //MARK: Modals Object
     var posData     : PostCreatePOSModel!
-    var fullPayData : PostCreateTransFullPayModel!
+    
     //MARK: Outlets & Variables
     //Constraints
     @IBOutlet weak var consCvHeight: NSLayoutConstraint!
@@ -39,9 +39,9 @@ class TMStorePaymentVC: UIViewController {
     var arrCreditCards  = [PostCreatePOSPaymentOption]()
     
     // Enum Object
-    var enmView         : viewType!
-    var enmTbl          : tableType!
-    var enmMethod       : methodType!
+    var typeView         : viewType!
+    var typeTable        : tableType!
+    var typeMethod       : methodType!
     
     // UIVIew
     @IBOutlet weak var viewCollection: UIView!
@@ -252,7 +252,7 @@ class TMStorePaymentVC: UIViewController {
     }
     
     func reloadTableView(withTblType type: tableType){
-        enmTbl = type
+        typeTable = type
         tblVpayment.reloadData()
     }
     
@@ -279,6 +279,20 @@ class TMStorePaymentVC: UIViewController {
         return flag
     }
 
+    func showPin(withTitle: String, currentBalance: String,transactionAmount: String){
+        let obj = storyboard?.instantiateViewController(withIdentifier: "TMPinViewController") as! TMPinViewController
+        obj.method              = withTitle
+        obj.balance             = currentBalance
+        obj.amount   = transactionAmount
+        obj.completionHandler       = { (pinCode) in
+            if pinCode != "" {
+                print("Pincode : " + pinCode)
+            }
+        }
+        
+        obj.modalPresentationStyle  = .overCurrentContext
+        self.navigationController?.present(obj, animated: true, completion: nil)
+    }
     //MARK: Web Api's
     func callPostCreateTransaction(amount:String) {
         /*
@@ -373,8 +387,8 @@ class TMStorePaymentVC: UIViewController {
             if statusCode == 200 {
                 print("statusCode = 200")
                 guard data != nil else{return}
-                if let pData = try? PostCreateTransFullPayModel.decode(_data: data!) {
-                    self.fullPayData = pData
+                if let pData = try? PostCreatePOSModel.decode(_data: data!) {
+                    self.posData = pData
                 }else{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }
@@ -404,12 +418,15 @@ class TMStorePaymentVC: UIViewController {
          APIName    : PostAddPOSPayment
          Url        : "/Payment/POS/PostAddPOSPayment"
          Method     : POST
-         Parameters : { }
+         Parameters : {
+         POSID = 5623;
+         accountNumber = 6279059720828018;
+         amount = "0.49";
+         paymentType = Wallet; }
          ===================================================
          */
         let request             = RequestModal.mCreatePOS()
 
-        
         ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostAddPOSPayment, parameter: request.toDictionary(),debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 print("statusCode = 200")
@@ -455,11 +472,8 @@ class TMStorePaymentVC: UIViewController {
             if statusCode == 200 {
                 print("statusCode = 200")
                 guard data != nil else{return}
-                if let pData = try? PostCreatePOSModel.decode(_data: data!) {
-                    self.posData = pData
-                }else{
-                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
-                }
+                let str = String(data: data!, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                AlertManager.shared.showAlertTitle(title: "" ,message:str)
             } else {
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
@@ -514,7 +528,10 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == 2 {
+        
+        if indexPath.row == 0 {
+            
+        } else if indexPath.row == 2 {
             reloadTableView(withTblType: .card)
             viewTable.animateHideShow()
             
@@ -526,7 +543,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     
     //MARK: TableView Delegates & DataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if enmTbl == .card {
+        if typeTable == .card {
             return arrCreditCards.count
         } else {
             return arrTV.count
@@ -534,7 +551,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if enmTbl == .card {
+        if typeTable == .card {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreTVCell") as! TMStorePaymentTVCell
             cell.lblTitle.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 15.0), labelColor: GConstant.AppColor.textLight)
             cell.lblTitle.text          = "Saved Credit Cards"
@@ -549,7 +566,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if enmTbl == .card {
+        if typeTable == .card {
             return 60 * GConstant.Screen.HeightAspectRatio
         }
         return 0.0
@@ -560,7 +577,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if enmTbl == .mix {// Table for Mix payment
+        if typeTable == .mix {// Table for Mix payment
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreTVCell") as! TMStorePaymentTVCell
 
             cell.lblTitle.font          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
@@ -610,6 +627,13 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
                 }
             }
             return cell
+        }
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if typeTable == .mix {
+            
+        }else{
+            
         }
     }
 }

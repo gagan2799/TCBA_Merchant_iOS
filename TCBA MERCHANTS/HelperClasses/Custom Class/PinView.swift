@@ -15,7 +15,7 @@ class PinView: NSObject {
     
     var completionBlock: ((_ selectedIndex: Int) -> Void)? = nil
     
-    func showPinViewWithTitleCurBalTransAmt(title: String, currentBalance: String,transactionAmount: String, buttonsArray : [Any] = ["CANCEL"]
+    func showPinView(withTitle: String, currentBalance: String,transactionAmount: String, buttonsArray : [Any] = ["CANCEL"]
         , completionBlock : ((_ : Int) -> ())? = nil) {
         
         self.completionBlock = completionBlock
@@ -35,10 +35,10 @@ class PinView: NSObject {
         
         let transition = CATransition()
         transition.duration = 0.5
-        transition.type = kCATransitionPush
+        transition.type = kCATransitionFromTop
         transition.subtype = kCATransitionFromRight
         transition.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
         rootWindow().layer.add(transition, forKey: kCATransition)
-
+        rootWindow().addSubview(pinView)
     }
 }

@@ -128,9 +128,9 @@ class TMMemberTransactionVC: UIViewController {
     
     // MARK: - Navigation
     func pushToPaymentVC(data: PostCreatePOSModel) {
-        let objPVC      = storyboard?.instantiateViewController(withIdentifier: "TMStorePaymentVC") as! TMStorePaymentVC
-        objPVC.posData  = data
-        objPVC.typeTable   = .mix
+        let objPVC          = storyboard?.instantiateViewController(withIdentifier: "TMStorePaymentVC") as! TMStorePaymentVC
+        objPVC.posData      = data
+        objPVC.typeTable    = .mix
         self.navigationController?.pushViewController(objPVC, animated: true)
     }
     

@@ -37,6 +37,9 @@ class TMStorePaymentVC: UIViewController {
     var arrCV           = [Dictionary<String,String>]()
     var arrTV           = [Dictionary<String,String>]()
     var arrCreditCards  = [PostCreatePOSPaymentOption]()
+    var strCCToken      = ""
+    var strPinCode      = ""
+    
     
     // Enum Object
     var typeView         : viewType!
@@ -279,20 +282,36 @@ class TMStorePaymentVC: UIViewController {
         return flag
     }
 
-    func showPin(withTitle: String, currentBalance: String,transactionAmount: String){
+    func showPin(withMethod method: methodType, currentBalance: Double? = 0.00,transactionAmount: Double?, completion   : @escaping (_ pinCode : String) -> Void){
         let obj = storyboard?.instantiateViewController(withIdentifier: "TMPinViewController") as! TMPinViewController
-        obj.method              = withTitle
-        obj.balance             = currentBalance
-        obj.amount   = transactionAmount
+        obj.method              = method.rawValue
+        obj.balance             = String(format: "%.2f", currentBalance!)
+        obj.amount   = String(format: "%.2f", transactionAmount ?? 0.00)
         obj.completionHandler       = { (pinCode) in
             if pinCode != "" {
-                print("Pincode : " + pinCode)
+                completion(pinCode)
             }
         }
-        
         obj.modalPresentationStyle  = .overCurrentContext
         self.navigationController?.present(obj, animated: true, completion: nil)
     }
+    
+    func showPopUp(withMethod method: methodType,transactionAmount: Double?,cardNumber: String? = "",txtUserIntrection: Bool = false, completion   : @escaping (_ amount : String) -> Void){
+        let obj = storyboard?.instantiateViewController(withIdentifier: "TMPopUPVC") as! TMPopUPVC
+        obj.method              = method.rawValue
+        obj.typePopUp           = method == .TokenisedCreditCard ? .creditCard : .other
+        obj.strCardNumber       = cardNumber!
+        obj.transactionAmount   = String(format: "%.2f", transactionAmount ?? 0.00)
+        obj.completionHandler   = { (amount) in
+            if amount != "" {
+                let strAmount = amount.replacingOccurrences(of: "$", with: "")
+                completion(strAmount)
+            }
+        }
+        obj.modalPresentationStyle  = .overCurrentContext
+        self.navigationController?.present(obj, animated: true, completion: nil)
+    }
+    
     //MARK: Web Api's
     func callPostCreateTransaction(amount:String) {
         /*
@@ -334,14 +353,14 @@ class TMStorePaymentVC: UIViewController {
         }
     }
     
-    
-    func callPostCreateTransactionWithFullPayment(payMethodType type:methodType, withPin pin: String, isExecute: Int = 1, withToken token: String = "") {
+    func callPostCreateTransactionWithFullPayment(payMethodType type:methodType, withPin pin: String = "", isExecute: Int = 1, withToken token: String = "") {
         /*
          =====================API CALL=====================
          APIName    : PostCreateTransactionWithFullPayment
          Url        : "/Payment/POS/PostCreateTransactionWithFullPayment"
          Method     : POST
          Parameters : {
+         
          //Case: Wallet, CashOrEFTPOS, LoyaltyCash
          execute        : 0,-->For this case by default value of execute is 1
          memberPin      : 1234,
@@ -353,7 +372,7 @@ class TMStorePaymentVC: UIViewController {
          memberPin      : 1234,
          paymentType    : PrizeWallet,
          posID          : 5610
-         accountNumber  :Method PrizeWallet from Payment Options in POSData
+         accountNumber  : Method PrizeWallet from Payment Options in POSData
 
          //Case: TokenisedCreditCard
          execute        : 0,-->For this case first time 0 and 2nd time 1
@@ -389,24 +408,81 @@ class TMStorePaymentVC: UIViewController {
                 guard data != nil else{return}
                 if let pData = try? PostCreatePOSModel.decode(_data: data!) {
                     self.posData = pData
+                    
+                    if isExecute == 0 {
+                        let message = String(format:"Total funds taken from source: %.2f\n Service Fee: %.2f\n Transaction Fee: %.2f\n Total transferred to recipient: %.2f\n\n Do you want to continue?" , pData.totalAmountPaidByMember!,pData.totalServiceFees!,pData.totalTransactionFees!,pData.totalPurchaseAmount!)
+                        
+                        AlertManager.shared.showAlertTitle(title: "", message: message, buttonsArray: ["CANCEL","CONTINUE"]) { (buttonIndex : Int) in
+                            switch buttonIndex {
+                            case 0 :
+                                //CANCEL clicked
+                                break
+                            case 1:
+                                //CONTINUE clicked
+                                self.callPostCreateTransactionWithFullPayment(payMethodType: .TokenisedCreditCard, withPin: self.strPinCode, isExecute: 1, withToken: self.strCCToken)
+                                break
+                            default:
+                                break
+                            }
+                        }
+                    }else{
+                        if pData.paidInFull == true{
+                            AlertManager.shared.showAlertTitle(title: "Success", message: "Payment successful.", buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                                switch buttonIndex {
+                                case 0 :
+                                    //OK clicked
+                                    self.navigationController?.popToRootViewController(animated: true)
+                                    break
+                                default:
+                                    self.navigationController?.popToRootViewController(animated: true)
+                                    break
+                                }
+                            }
+                        }
+                    }
                 }else{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }
             }else{
-                if statusCode == 404{
-                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
-                }else{
-                    if let data = data{
-                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
-                            let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
-                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
-                            return
-                        }
+                if let data = data{
+                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                        let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                        return }
+                    
+                    if statusCode == 400 {
                         print(json as Any)
-                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
-                    }else{
-                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                        if json?["message"] == "PIN Locked." {
+                            AlertManager.shared.showAlertTitle(title: "Wallet Locked", message: "Incorrect PIN entered too many times, Your wallet is now locked. please pay cash or EFTPOS to complete this transaction", buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                                switch buttonIndex {
+                                case 0 :
+                                    //OK clicked
+                                    self.callPostRemoveAllPOSPayments()
+                                    break
+                                default:
+                                    
+                                    break
+                                }
+                            }
+                        } else if json?["message"]?.contains("Unknown biller code") ?? false || json?["message"]?.contains("Customer Reference Number is invalid") ?? false {
+                            
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage, buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                                switch buttonIndex {
+                                case 0 :
+                                    //OK clicked
+                                    self.navigationController?.popToRootViewController(animated: true)
+                                    break
+                                default:
+                                    self.navigationController?.popToRootViewController(animated: true)
+                                    break
+                                }
+                            }
+                        } else {
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
+                        }
                     }
+                }else{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }
             }
         }
@@ -529,13 +605,52 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        if !checkPaymentOptions(withMethod: arrCV[indexPath.item]["method"]!, withViewType: .home) {
+            return
+        }
+        
         if indexPath.row == 0 {
-            
+            //<===CashOrEFTPOS===>
+            showPopUp(withMethod: .CashOrEFTPOS, transactionAmount: posData.balanceRemaining, completion: {(amount) in
+                self.callPostCreateTransactionWithFullPayment(payMethodType: .CashOrEFTPOS)
+            })
+        } else if indexPath.row == 1 {
+            //<===Wallet===>
+            if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+                AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.walletBalance!))
+            }else{
+                showPin(withMethod: .Wallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                    self.callPostCreateTransactionWithFullPayment(payMethodType: .Wallet, withPin: pinCode)
+                }
+            }
         } else if indexPath.row == 2 {
-            reloadTableView(withTblType: .card)
-            viewTable.animateHideShow()
-            
-        } else if indexPath.row == (arrCV.count - 1){
+            //<===TokenisedCreditCard===>
+            if arrCreditCards.count == 0{
+                AlertManager.shared.showAlertTitle(title: "", message: "Please attach a credit card to your wallet to use this feature.")
+            }else{
+                reloadTableView(withTblType: .card)
+                viewTable.animateHideShow()
+            }
+        } else if indexPath.row == 3 {
+            //<===PrizeWallet===>
+            if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+                AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availablePrizeCash!))
+            }else{
+                showPin(withMethod: .PrizeWallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                    self.callPostCreateTransactionWithFullPayment(payMethodType: .PrizeWallet, withPin: pinCode)
+                }
+            }
+        } else if indexPath.row == 4 {
+            //<===LoyaltyCash===>
+            if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+                AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
+            }else{
+                showPin(withMethod: .LoyaltyCash, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                    self.callPostCreateTransactionWithFullPayment(payMethodType: .LoyaltyCash, withPin: pinCode)
+                }
+            }
+        } else if indexPath.row == 5 {
+            //<===MixPayments===>
             reloadTableView(withTblType: .mix)
             viewTable.animateHideShow()
         }
@@ -560,6 +675,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
             cell.lblBal.isHidden        = true
             cell.lblAvailable.isHidden  = true
             cell.vBlueLine.isHidden     = false
+            cell.contentView.alpha      = 1.0
             return cell
         }
         return nil
@@ -631,9 +747,34 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if typeTable == .mix {
-            
+            if indexPath.row == 0 {
+                //<===CashOrEFTPOS===>
+                
+            } else if indexPath.row == 1 {
+                //<===LoyaltyCash===>
+                
+                
+            } else if indexPath.row == 2 {
+                //<===WalletFunds===>
+                
+            } else if indexPath.row == 3 {
+                //<===PrizeFunds===>
+                
+                
+            } else if indexPath.row == 4 {
+                //<===TokenisedCreditCard===>
+                if arrCreditCards.count == 0{
+                    AlertManager.shared.showAlertTitle(title: "", message: "Please attach a credit card to your wallet to use this feature.")
+                }else{
+                    reloadTableView(withTblType: .card)
+                }
+            }
         }else{
-            
+            showPin(withMethod: .TokenisedCreditCard, transactionAmount: posData.balanceRemaining ?? 0.00, completion: {(pinCode) in
+                self.strCCToken = self.arrCreditCards[indexPath.row].token ?? ""
+                self.strPinCode = pinCode
+                self.callPostCreateTransactionWithFullPayment(payMethodType: .TokenisedCreditCard, withPin: self.strPinCode, isExecute: 0, withToken: self.strCCToken)
+            })
         }
     }
 }

@@ -18,6 +18,7 @@
 		790D392921084B4A0073AE4C /* GFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D392821084B4A0073AE4C /* GFunction.swift */; };
 		790D392B21084BF90073AE4C /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D392A21084BF90073AE4C /* Events.swift */; };
 		790D392F210865110073AE4C /* LoaderAnim.gif in Resources */ = {isa = PBXBuildFile; fileRef = 790D392E210865100073AE4C /* LoaderAnim.gif */; };
+		790E31FE212FC78500224EDB /* TMPopUPVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790E31FD212FC78500224EDB /* TMPopUPVC.swift */; };
 		790F0B9020F71ACB00082B79 /* BlocSSiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 790F0B8F20F71ACB00082B79 /* BlocSSiBold.ttf */; };
 		7913DC3F2109A525000D1A9C /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7913DC3E2109A525000D1A9C /* Time.swift */; };
 		7913DC412109B6A1000D1A9C /* UserLoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7913DC402109B6A1000D1A9C /* UserLoginModel.swift */; };
@@ -76,6 +77,7 @@
 		790D392821084B4A0073AE4C /* GFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GFunction.swift; sourceTree = "<group>"; };
 		790D392A21084BF90073AE4C /* Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		790D392E210865100073AE4C /* LoaderAnim.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = LoaderAnim.gif; sourceTree = "<group>"; };
+		790E31FD212FC78500224EDB /* TMPopUPVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMPopUPVC.swift; sourceTree = "<group>"; };
 		790F0B8F20F71ACB00082B79 /* BlocSSiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BlocSSiBold.ttf; sourceTree = "<group>"; };
 		7913DC3E2109A525000D1A9C /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		7913DC402109B6A1000D1A9C /* UserLoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginModel.swift; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 				7908E49A2122F6A500E908EC /* TMMemberTransactionVC.swift */,
 				797EDA032126E45D002E1438 /* TMStorePaymentVC.swift */,
 				79E690D9212E998400550A98 /* TMPinViewController.swift */,
+				790E31FD212FC78500224EDB /* TMPopUPVC.swift */,
 				791B4288212AA1070064AF34 /* TMStorePaymentCVCell.swift */,
 				7905A0F5212C22EE0079712A /* TMStorePaymentTVCell.swift */,
 				79FD4D1A212D3A0C003AC29F /* TMCardTVCell.swift */,
@@ -594,6 +597,7 @@
 				79D94AC321103B9000D3FCD6 /* TMMoreViewController.swift in Sources */,
 				79380A412105BBDB00FB4776 /* TMShareViewController.swift in Sources */,
 				7933FCAC2111BA7E00E9B49B /* IncompleteTransactionData.swift in Sources */,
+				790E31FE212FC78500224EDB /* TMPopUPVC.swift in Sources */,
 				794F66E220FDAF2800901B0C /* TMSplashViewController.swift in Sources */,
 				79EE756A2119CACF0041D5C4 /* TransactionDetailsModal.swift in Sources */,
 				792B542E20F5E2B6000223F7 /* TMLoginViewController.swift in Sources */,

@@ -12,9 +12,9 @@ class TMPinViewController: UIViewController {
 
     //MARK: Outlets & Variables
     var completionHandler: ((_ qrcode : String) -> Void)!
-    var method              = String()
-    var balance             = String()
-    var amount   = String()
+    var method           = String()
+    var balance          = String()
+    var amount           = String()
     
     //UIButton
     @IBOutlet weak var btnCancel: UIButton!
@@ -94,7 +94,7 @@ class TMPinViewController: UIViewController {
     }
     
     func popUpPropertiesUpdate() {
-        if balance == "" {
+        if balance == "" || balance == "0.00"{
             lblCurr.isHidden    = true
             lblCurBal.isHidden  = true
             consHeightLblCurr.constant  = 0.0
@@ -169,18 +169,17 @@ extension TMPinViewController: UITextFieldDelegate {
         }
         return true
     }
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if textField.text?.count == 1 && textField == txt1{
-            txt2.becomeFirstResponder()
-        }
-        return true
-    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let newLength = (textField.text?.count)! + string.count - range.length
-        if newLength >= 1 {
+        let compSepByCharInSet  = string.components(separatedBy: CharacterSet(charactersIn: "0123456789").inverted)
+        let strFiltered         = compSepByCharInSet.joined(separator: "")
+        if newLength >= 1 && string == strFiltered {
 
-            let str     = NSString.localizedStringWithFormat("%@", textField.text!)
+            var str     = NSString.localizedStringWithFormat("%@", textField.text!)
+            let range: NSRange  = (str as NSString).range(of: "^0*", options: .regularExpression)
+            str                 = (str as NSString).replacingCharacters(in: range, with: "") as NSString
             textField.text = str.replacingCharacters(in: range, with: string)
             
             if textField == txt1 {
@@ -213,6 +212,5 @@ extension TMPinViewController: UITextFieldDelegate {
             }
             return false
         }
-        return true
     }
 }

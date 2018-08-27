@@ -1563,7 +1563,7 @@
                                 <rect key="frame" x="0.0" y="67.5" width="375" height="599.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="18e-6s-FfC" userLabel="mainView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="671.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="710.5"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oXT-iA-Nq0" userLabel="ViewTop">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="280"/>
@@ -1871,7 +1871,7 @@
                                                         <rect key="frame" x="0.0" y="318.5" width="375" height="73"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m6h-PM-5Rx">
-                                                                <rect key="frame" x="94" y="7" width="188" height="44.5"/>
+                                                                <rect key="frame" x="94" y="11" width="188" height="36.5"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="18"/>
                                                                 <state key="normal" title="Cancel">
@@ -1888,7 +1888,7 @@
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstItem="m6h-PM-5Rx" firstAttribute="centerY" secondItem="u08-bd-j4R" secondAttribute="centerY" multiplier="0.8" id="DBK-ZF-KhK"/>
-                                                            <constraint firstItem="m6h-PM-5Rx" firstAttribute="height" secondItem="u08-bd-j4R" secondAttribute="height" multiplier="0.6" id="Dyt-gk-q3g"/>
+                                                            <constraint firstItem="m6h-PM-5Rx" firstAttribute="height" secondItem="u08-bd-j4R" secondAttribute="height" multiplier="0.5" id="Dyt-gk-q3g"/>
                                                             <constraint firstItem="m6h-PM-5Rx" firstAttribute="centerX" secondItem="u08-bd-j4R" secondAttribute="centerX" id="aPg-Mm-klU"/>
                                                             <constraint firstItem="m6h-PM-5Rx" firstAttribute="width" secondItem="u08-bd-j4R" secondAttribute="width" multiplier="0.5" id="aTH-Ww-b7p"/>
                                                         </constraints>
@@ -1910,10 +1910,10 @@
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1mQ-Tm-E7s" userLabel="ViewTable">
-                                                <rect key="frame" x="-0.5" y="280" width="375" height="391.5"/>
+                                                <rect key="frame" x="-0.5" y="280" width="375" height="430.5"/>
                                                 <subviews>
                                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DZQ-jf-d2T">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="318.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="307"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="separatorColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -2075,10 +2075,10 @@
                                                         </connections>
                                                     </tableView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="17Z-eV-sbk">
-                                                        <rect key="frame" x="-0.5" y="318.5" width="375" height="73"/>
+                                                        <rect key="frame" x="-0.5" y="307" width="375" height="123.5"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EYe-pY-OyI">
-                                                                <rect key="frame" x="94" y="7" width="188" height="44.5"/>
+                                                                <rect key="frame" x="94" y="31.5" width="188" height="37"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="18"/>
                                                                 <state key="normal" title="Cancel">
@@ -2091,13 +2091,31 @@
                                                                     <action selector="btnTVCancelAction:" destination="YSG-1F-o0X" eventType="touchUpInside" id="eSe-cB-6Nd"/>
                                                                 </connections>
                                                             </button>
+                                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yNL-st-4cU">
+                                                                <rect key="frame" x="94" y="76.5" width="188" height="39"/>
+                                                                <color key="backgroundColor" red="0.95686274510000002" green="0.46274509800000002" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="18"/>
+                                                                <state key="normal" title="Finish">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </state>
+                                                                <variation key="heightClass=regular-widthClass=regular">
+                                                                    <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="28"/>
+                                                                </variation>
+                                                                <connections>
+                                                                    <action selector="btnFinishAction:" destination="YSG-1F-o0X" eventType="touchUpInside" id="wkT-gV-Yi8"/>
+                                                                </connections>
+                                                            </button>
                                                         </subviews>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="yNL-st-4cU" secondAttribute="bottom" constant="8" id="09J-8h-RyP"/>
+                                                            <constraint firstItem="yNL-st-4cU" firstAttribute="top" secondItem="EYe-pY-OyI" secondAttribute="bottom" constant="8" id="57l-lk-FJp"/>
                                                             <constraint firstItem="EYe-pY-OyI" firstAttribute="centerX" secondItem="17Z-eV-sbk" secondAttribute="centerX" id="Bvk-oL-qI6"/>
+                                                            <constraint firstItem="yNL-st-4cU" firstAttribute="trailing" secondItem="EYe-pY-OyI" secondAttribute="trailing" id="E8u-4F-A4o"/>
                                                             <constraint firstItem="EYe-pY-OyI" firstAttribute="width" secondItem="17Z-eV-sbk" secondAttribute="width" multiplier="0.5" id="FBI-3C-ogY"/>
+                                                            <constraint firstItem="yNL-st-4cU" firstAttribute="leading" secondItem="EYe-pY-OyI" secondAttribute="leading" id="Gy0-z9-LR7"/>
                                                             <constraint firstItem="EYe-pY-OyI" firstAttribute="centerY" secondItem="17Z-eV-sbk" secondAttribute="centerY" multiplier="0.8" id="Okd-si-yhS"/>
-                                                            <constraint firstItem="EYe-pY-OyI" firstAttribute="height" secondItem="17Z-eV-sbk" secondAttribute="height" multiplier="0.6" id="QYw-im-ohI"/>
+                                                            <constraint firstItem="EYe-pY-OyI" firstAttribute="height" secondItem="17Z-eV-sbk" secondAttribute="height" multiplier="0.3" id="QYw-im-ohI"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>
@@ -2118,14 +2136,13 @@
                                             <constraint firstAttribute="trailing" secondItem="lXB-YI-Yzl" secondAttribute="trailing" id="C6b-ap-Qd0"/>
                                             <constraint firstItem="lXB-YI-Yzl" firstAttribute="leading" secondItem="18e-6s-FfC" secondAttribute="leading" id="DPN-yk-xIC"/>
                                             <constraint firstItem="1mQ-Tm-E7s" firstAttribute="centerX" secondItem="lXB-YI-Yzl" secondAttribute="centerX" id="FXd-JZ-OuI"/>
-                                            <constraint firstItem="17Z-eV-sbk" firstAttribute="height" secondItem="u08-bd-j4R" secondAttribute="height" id="K2c-pA-skV"/>
                                             <constraint firstItem="oXT-iA-Nq0" firstAttribute="top" secondItem="18e-6s-FfC" secondAttribute="top" id="Lqt-zD-M1L"/>
                                             <constraint firstItem="1mQ-Tm-E7s" firstAttribute="width" secondItem="lXB-YI-Yzl" secondAttribute="width" id="M7D-fd-hXg"/>
-                                            <constraint firstItem="1mQ-Tm-E7s" firstAttribute="centerY" secondItem="lXB-YI-Yzl" secondAttribute="centerY" id="MhX-vC-Sfi"/>
                                             <constraint firstAttribute="trailing" secondItem="oXT-iA-Nq0" secondAttribute="trailing" id="OGe-Jl-Zr9"/>
                                             <constraint firstItem="oXT-iA-Nq0" firstAttribute="leading" secondItem="18e-6s-FfC" secondAttribute="leading" id="dQL-DX-zg7"/>
-                                            <constraint firstItem="1mQ-Tm-E7s" firstAttribute="height" secondItem="lXB-YI-Yzl" secondAttribute="height" id="ecl-Nn-Nsd"/>
-                                            <constraint firstAttribute="bottom" secondItem="lXB-YI-Yzl" secondAttribute="bottom" id="rsy-1U-dIA"/>
+                                            <constraint firstItem="1mQ-Tm-E7s" firstAttribute="height" secondItem="lXB-YI-Yzl" secondAttribute="height" multiplier="1.1" id="ecl-Nn-Nsd"/>
+                                            <constraint firstAttribute="bottom" secondItem="1mQ-Tm-E7s" secondAttribute="bottom" id="pQq-7t-FqQ"/>
+                                            <constraint firstItem="1mQ-Tm-E7s" firstAttribute="top" secondItem="lXB-YI-Yzl" secondAttribute="top" id="pzC-oC-3on"/>
                                             <constraint firstItem="lXB-YI-Yzl" firstAttribute="top" secondItem="oXT-iA-Nq0" secondAttribute="bottom" id="ytI-Br-BBA"/>
                                         </constraints>
                                     </view>
@@ -2195,6 +2212,7 @@
                         <viewLayoutGuide key="safeArea" id="IJ0-so-g61"/>
                     </view>
                     <connections>
+                        <outlet property="btnFinish" destination="yNL-st-4cU" id="b53-Ti-GcH"/>
                         <outlet property="colVPayment" destination="bRS-gJ-keX" id="goC-vb-vTP"/>
                         <outlet property="consCvHeight" destination="h6G-Gq-NvH" id="jKT-Ap-OU6"/>
                         <outlet property="consTopView" destination="t2H-gk-nlG" id="Wbo-jY-jNJ"/>

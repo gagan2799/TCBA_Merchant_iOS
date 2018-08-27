@@ -22,12 +22,13 @@ class ApiManager {
             return headers
         }
         
-        class func headersWithBearerToken() -> HTTPHeaders {
+        class func headersWithBearerToken(contentType: String = "application/json") -> HTTPHeaders {
             let headers: HTTPHeaders = [
-                "Content-Type"      : "application/json",
+                "Content-Type"      : contentType,
                 "Accept"            : "application/json",
                 "Authorization"     : "Bearer \(GConstant.UserData.accessToken!)",
-                Headers.APIKey      : Headers.APIKeyValue
+                Headers.APIKey      : Headers.APIKeyValue,
+                "client_id"         : "tcba_iphone"
             ]
             return headers
         }
@@ -428,9 +429,11 @@ class ApiManager {
     
     func POSTWithBearerAuth(strURL url : String
         , parameter :  Dictionary<String, Any>?
-        ,withErrorAlert errorAlert : Bool = false
-        ,withLoader isLoader : Bool = true
-        ,debugInfo isPrint: Bool = true
+        , withErrorAlert errorAlert : Bool = false
+        , withLoader isLoader : Bool = true
+        , debugInfo isPrint: Bool = true
+        , contentType: String = "application/json"
+        , encording: ParameterEncoding = JSONEncoding()
         , withBlock completion : @escaping (Data?, Int?, String) -> Void) {
         
         if Connectivity.isConnectedToInternet {
@@ -438,7 +441,7 @@ class ApiManager {
                 if isPrint {
                     print("*****************URL***********************\n")
                     print("URL:- \(url)\n")
-                    print("Parameter:-\(String(describing: parameter))\n")
+                    print("Parameter:-\(parameter ?? [:])\n")
                     print("MethodType:- POST\n")
                     print("*****************End***********************\n")
                 }
@@ -453,7 +456,7 @@ class ApiManager {
                     GFunction.shared.addLoader()
                 }
                 
-                Alamofire.request(url, method: .post, parameters: param, encoding: JSONEncoding(), headers: APIHeaders.headersWithBearerToken()).responseJSON(completionHandler: { (response) in
+                Alamofire.request(url, method: .post, parameters: param, encoding: encording, headers: APIHeaders.headersWithBearerToken(contentType: contentType)).responseJSON(completionHandler: { (response) in
                     
                     switch(response.result) {
                     case .success(let JSON):

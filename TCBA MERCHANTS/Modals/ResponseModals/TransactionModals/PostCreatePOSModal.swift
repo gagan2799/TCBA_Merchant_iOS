@@ -12,10 +12,10 @@ struct PostCreatePOSModel: Codable {
     let keyChainCode, memberFullName, profileImageURL: String?
     let walletBalance, availableLoyaltyCash, availablePrizeCash, totalServiceFees: Double?
     let totalTransactionFees, totalAmountPaidByMember, totalAmountReceivedByStore, totalPurchaseAmount: Double?
-    let balanceRemaining: Double?
+    var balanceRemaining: Double?
     let paidInFull: Bool?
     let transactionID, storeCardID: Int?
-    let payments: [PostCreatePOSPayment]?
+    var payments: [PostCreatePOSPayment]?
     let paymentOptions: [PostCreatePOSPaymentOption]?
     
     enum CodingKeys: String, CodingKey {

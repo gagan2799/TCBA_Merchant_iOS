@@ -47,7 +47,7 @@ class TMMemberTransactionVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        txtAmount.becomeFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -111,8 +111,6 @@ class TMMemberTransactionVC: UIViewController {
         
         guard let urlProfile = URL.init(string: memTranData.profileImageURL ?? "") else {return}
         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
-        
-        txtAmount.becomeFirstResponder()
     }
     
     //MARK: - UIButton Action Methods
@@ -158,13 +156,14 @@ class TMMemberTransactionVC: UIViewController {
         request.storeId         = storeId
         request.staffId         = 0
         request.totalAmount     = amount
-        txtAmount.text          = ""
+        
         ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostCreatePOS, parameter: request.toDictionary(),debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 print("statusCode = 200")
+                self.txtAmount.text = ""
                 guard data != nil else{return}
                 if let pData = try? PostCreatePOSModel.decode(_data: data!) {
-                    self.posData = pData
+                    self.posData    = pData
                     self.pushToPaymentVC(data: self.posData)
                 }else{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)

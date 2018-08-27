@@ -158,10 +158,10 @@ class TMTransactionViewController: UIViewController {
             request.keyChainCode    = code
         }
         request.storeID     = storeId
-        txtId.text          = ""
         
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetMemberTransactionDetails, parameter: request.toDictionary(),debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
+                self.txtId.text          = ""
                 guard let data              = data else{return}
                 self.memberTransactionData  = try! MemberTransactionDetailsModel.decode(_data: data)
                 guard self.memberTransactionData != nil else {return}

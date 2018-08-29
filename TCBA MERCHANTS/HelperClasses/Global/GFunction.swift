@@ -202,6 +202,10 @@ func getUserDataFromDefaults() -> UserLoginModel? {
     
     func userLogin() {
         GConstant.UserData = self.getUserDataFromDefaults()
+        let transition: CATransition = CATransition()
+        transition.duration = 0.5
+        transition.type = kCATransitionFade
+        rootWindow().layer.add(transition, forKey: nil)
         rootWindow().rootViewController = Tabbar.coustomTabBar()
     }
     

@@ -58,11 +58,6 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
             self.navigationController?.customize()
         }
         self.navigationController?.customize()
-        if  UIDevice.current.orientation.isLandscape == true  {
-            scrView.isScrollEnabled = true
-        }else{
-            scrView.isScrollEnabled = false
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,6 +68,11 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
                 self.txtUsername.text = userName as? String
                 self.btnSaveUsername.isSelected = true
             }
+        }
+        if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
+            scrView.isScrollEnabled = true
+        }else{
+            scrView.isScrollEnabled = false
         }
     }
     
@@ -88,11 +88,17 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
         
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
         //<---------------ScrollVIew------------->
         // By default scrolling is disable
         //<--------Update PopUp properties with orientation----->
         popUpPropertiesUpdate()
-//        super.viewWillTransition(to: size, with: coordinator)
+        guard scrView != nil else { return }
+        if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
+            scrView.isScrollEnabled = true
+        }else{
+            scrView.isScrollEnabled = false
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -131,7 +137,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     func popUpPropertiesUpdate() {
         //<--------Set PopUp properties for orientation----->
         if UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight) {
-            scrView.isScrollEnabled = true
+            
             lblForgotPass.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0))
             lblForgotUser.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0))
             lblEnterEmailFU.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 11.0))
@@ -143,7 +149,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
             txtPopEmailPassword.font            = UIFont.applyOpenSansRegular(fontSize: 11.0)
             
         }else if UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .portrait){
-            scrView.isScrollEnabled = false
+            
             lblForgotPass.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 20.0))
             lblForgotUser.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 20.0))
             lblEnterEmailFU.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0))
@@ -153,7 +159,6 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
             txtPopEmailUser.font        = UIFont.applyOpenSansRegular(fontSize: 14.0)
             txtPopEmailPassword.font    = UIFont.applyOpenSansRegular(fontSize: 14.0)
         } else {
-            scrView.isScrollEnabled = false
         }
     }
     //MARK: - Animation Coustom method

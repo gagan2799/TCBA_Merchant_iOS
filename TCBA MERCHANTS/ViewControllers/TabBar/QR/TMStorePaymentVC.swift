@@ -8,26 +8,31 @@
 
 import UIKit
 import Alamofire
+
+//MARK: Enums
+enum viewType: uint {
+    case home
+    case mixPayment
+}
+enum tableType: uint {
+    case mix
+    case card
+}
+enum methodType: String {
+    case CashOrEFTPOS           = "CashOrEFTPOS"
+    case Wallet                 = "Wallet"
+    case TokenisedCreditCard    = "TokenisedCreditCard"
+    case PrizeWallet            = "PrizeWallet"
+    case LoyaltyCash            = "LoyaltyCash"
+    case Mix                    = "Mix Payments"
+}
+
 class TMStorePaymentVC: UIViewController {
-    //MARK: Enums
-    enum viewType: uint {
-        case home
-        case mixPayment
-    }
-    enum tableType: uint {
-        case mix
-        case card
-    }
-    enum methodType: String {
-        case CashOrEFTPOS           = "CashOrEFTPOS"
-        case Wallet                 = "Wallet"
-        case TokenisedCreditCard    = "TokenisedCreditCard"
-        case PrizeWallet            = "PrizeWallet"
-        case LoyaltyCash            = "LoyaltyCash"
-        case Mix                    = "Mix Payments"
-    }
+
     //MARK: Modals Object
-    var posData     : PostCreatePOSModel!
+    var posData         : PostCreatePOSModel!
+    var paymentOptionsBackUp  : [PostCreatePOSPaymentOption]!
+    
     
     //MARK: Outlets & Variables
     //Constraints
@@ -213,6 +218,7 @@ class TMStorePaymentVC: UIViewController {
         
         // Array of Credit Cards
         if let paymentOptions = posData.paymentOptions {
+            paymentOptionsBackUp = paymentOptions
             for item in paymentOptions {
                 if item.type == "TokenisedCreditCard" {
                     arrCreditCards.append(item)
@@ -300,7 +306,8 @@ class TMStorePaymentVC: UIViewController {
     }
     
     func checkPaymentOptions(withMethod type: String ,withViewType viewT: viewType) -> Bool {
-        var flag = false
+        var flag = type == "" ? true : false
+        guard posData != nil  else { return flag}
         guard let data = posData.paymentOptions else { return flag}
         if data.count > 0 {
             for item in data {
@@ -329,8 +336,7 @@ class TMStorePaymentVC: UIViewController {
             flag = false
         }else if type   == "LoyaltyCash"  && (viewT == .home ? loyaltyCash.isLess(than: totalPurchase) : loyaltyCash.isLessThanOrEqualTo(0.0)) {
             flag = false
-        }
-        if  type == "" {// For mix payments
+        }else if  type == "" {// For mix payments
             flag = true
         }
         return flag
@@ -682,6 +688,9 @@ class TMStorePaymentVC: UIViewController {
                 self.lblOutStandingValue.text   = "\(self.posData.totalPurchaseAmount ?? 0.00)"
                 self.btnFinish.isHidden         = true
                 self.posData.payments?.removeAll()
+                if self.posData.paymentOptions?.count == 0 {
+                    self.posData.paymentOptions = self.paymentOptionsBackUp
+                }
                 self.posData.balanceRemaining   = self.posData.totalPurchaseAmount
                 self.viewTable.animateHideShow()
             } else {

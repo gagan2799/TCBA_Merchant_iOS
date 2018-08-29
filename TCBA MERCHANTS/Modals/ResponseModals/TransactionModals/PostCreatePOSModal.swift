@@ -16,7 +16,7 @@ struct PostCreatePOSModel: Codable {
     let paidInFull: Bool?
     let transactionID, storeCardID: Int?
     var payments: [PostCreatePOSPayment]?
-    let paymentOptions: [PostCreatePOSPaymentOption]?
+    var paymentOptions: [PostCreatePOSPaymentOption]?
     
     enum CodingKeys: String, CodingKey {
         case posid, storeID, storeIsPremium, storeIcon, storeTitle, storeCity, memberID, keyChainCode, memberFullName

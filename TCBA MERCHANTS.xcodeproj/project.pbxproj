@@ -48,6 +48,8 @@
 		794F66E220FDAF2800901B0C /* TMSplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F66E120FDAF2800901B0C /* TMSplashViewController.swift */; };
 		7975433B211D99880090198E /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7975433A211D99880090198E /* AlertManager.swift */; };
 		797EDA042126E45D002E1438 /* TMStorePaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797EDA032126E45D002E1438 /* TMStorePaymentVC.swift */; };
+		7997DF47213535C600D22E92 /* TMSplitPaymentMasterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997DF46213535C600D22E92 /* TMSplitPaymentMasterVC.swift */; };
+		7997DF49213535ED00D22E92 /* TMSplitPaymentDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997DF48213535ED00D22E92 /* TMSplitPaymentDetailVC.swift */; };
 		799924C920FF0CC30074BDE6 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 799924C820FF0CC30074BDE6 /* Launch Screen.storyboard */; };
 		799924CD20FF1B270074BDE6 /* TMHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799924CC20FF1B270074BDE6 /* TMHomeViewController.swift */; };
 		799924CF20FF1B480074BDE6 /* TMHomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799924CE20FF1B480074BDE6 /* TMHomeTableViewCell.swift */; };
@@ -118,6 +120,8 @@
 		794F66E120FDAF2800901B0C /* TMSplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMSplashViewController.swift; sourceTree = "<group>"; };
 		7975433A211D99880090198E /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		797EDA032126E45D002E1438 /* TMStorePaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStorePaymentVC.swift; sourceTree = "<group>"; };
+		7997DF46213535C600D22E92 /* TMSplitPaymentMasterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMSplitPaymentMasterVC.swift; sourceTree = "<group>"; };
+		7997DF48213535ED00D22E92 /* TMSplitPaymentDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMSplitPaymentDetailVC.swift; sourceTree = "<group>"; };
 		799924C820FF0CC30074BDE6 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		799924CC20FF1B270074BDE6 /* TMHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHomeViewController.swift; sourceTree = "<group>"; };
 		799924CE20FF1B480074BDE6 /* TMHomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHomeTableViewCell.swift; sourceTree = "<group>"; };
@@ -361,6 +365,7 @@
 		79380A3C2105BB7C00FB4776 /* QR */ = {
 			isa = PBXGroup;
 			children = (
+				7997DF452135358400D22E92 /* SplitView */,
 				792F28C42121B1040033E7A2 /* TMQRScannerVC.swift */,
 				79380A422105BFD800FB4776 /* TMTransactionViewController.swift */,
 				7908E49A2122F6A500E908EC /* TMMemberTransactionVC.swift */,
@@ -396,6 +401,15 @@
 				794F66E120FDAF2800901B0C /* TMSplashViewController.swift */,
 			);
 			path = SplashScreen;
+			sourceTree = "<group>";
+		};
+		7997DF452135358400D22E92 /* SplitView */ = {
+			isa = PBXGroup;
+			children = (
+				7997DF46213535C600D22E92 /* TMSplitPaymentMasterVC.swift */,
+				7997DF48213535ED00D22E92 /* TMSplitPaymentDetailVC.swift */,
+			);
+			path = SplitView;
 			sourceTree = "<group>";
 		};
 		799924CA20FF1ACD0074BDE6 /* Home */ = {
@@ -575,6 +589,7 @@
 				79E690DA212E998400550A98 /* TMPinViewController.swift in Sources */,
 				790D392921084B4A0073AE4C /* GFunction.swift in Sources */,
 				792F28C3212192C20033E7A2 /* GradientView.swift in Sources */,
+				7997DF49213535ED00D22E92 /* TMSplitPaymentDetailVC.swift in Sources */,
 				79380A432105BFD800FB4776 /* TMTransactionViewController.swift in Sources */,
 				79380A3A2105B17100FB4776 /* TMTabbarViewController.swift in Sources */,
 				79CDF0242108778300CA7A9C /* LoaderWithLabel.swift in Sources */,
@@ -598,6 +613,7 @@
 				79380A412105BBDB00FB4776 /* TMShareViewController.swift in Sources */,
 				7933FCAC2111BA7E00E9B49B /* IncompleteTransactionData.swift in Sources */,
 				790E31FE212FC78500224EDB /* TMPopUPVC.swift in Sources */,
+				7997DF47213535C600D22E92 /* TMSplitPaymentMasterVC.swift in Sources */,
 				794F66E220FDAF2800901B0C /* TMSplashViewController.swift in Sources */,
 				79EE756A2119CACF0041D5C4 /* TransactionDetailsModal.swift in Sources */,
 				792B542E20F5E2B6000223F7 /* TMLoginViewController.swift in Sources */,

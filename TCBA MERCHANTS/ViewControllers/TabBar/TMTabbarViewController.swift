@@ -10,7 +10,7 @@ import Foundation
 import ESTabBarController_swift
 
 enum Tabbar {
-    static func coustomTabBar() -> ESTabBarController {
+    static func coustomTabBar(withIndex value: Int = 0) -> ESTabBarController {
         let tabBarController = ESTabBarController()
         if let tabBar = tabBarController.tabBar as? ESTabBar {
             tabBar.itemCustomPositioning = .fillIncludeSeparator
@@ -32,6 +32,7 @@ enum Tabbar {
         v5.tabBarItem = ESTabBarItem.init(ExampleBackgroundContentView(),title: "More", image: UIImage(named: "more_on"), selectedImage: UIImage(named: "more_on"))
         
         tabBarController.viewControllers = [v1, v2, v3, v4, v5].map({UINavigationController(rootViewController: $0)})
+        tabBarController.selectedIndex = value
         return tabBarController
     }
 }

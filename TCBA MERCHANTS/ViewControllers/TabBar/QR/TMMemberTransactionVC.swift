@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ESTabBarController_swift
 
 class TMMemberTransactionVC: UIViewController {
     
@@ -14,6 +15,7 @@ class TMMemberTransactionVC: UIViewController {
     var memTranData : MemberTransactionDetailsModel!
     var posData     : PostCreatePOSModel!
     
+
     
     //MARK: Outlets
     // UIImageView
@@ -34,7 +36,10 @@ class TMMemberTransactionVC: UIViewController {
     @IBOutlet weak var txtAmount: UITextField!
     //UIButton
     @IBOutlet weak var btnConfirmOutlet: UIButton!
-    
+    //ScrollView
+    @IBOutlet weak var scrV: UIScrollView!
+    //Constraints
+    @IBOutlet weak var consMainVHeight: NSLayoutConstraint!
     //MARK: View life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +47,12 @@ class TMMemberTransactionVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        guard scrV != nil else {return}
+        if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
+            scrV.isScrollEnabled = true
+        }else{
+            scrV.isScrollEnabled = false
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -60,11 +70,11 @@ class TMMemberTransactionVC: UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        //        guard scrQR != nil else {return}
-        if  UIDevice.current.orientation.isLandscape == true  {
-            //            scrQR.isScrollEnabled = true
+        guard scrV != nil else {return}
+        if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
+            scrV.isScrollEnabled = true
         }else{
-            //            scrQR.isScrollEnabled = false
+            scrV.isScrollEnabled = false
         }
     }
     
@@ -78,13 +88,6 @@ class TMMemberTransactionVC: UIViewController {
         // navigationBar customization
         self.navigationController?.customize()
         self.navigationItem.title   = "Member Transaction"
-        
-        //        guard scrQR != nil else {return}
-        if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
-            //            scrQR.isScrollEnabled = true
-        }else{
-            //            scrQR.isScrollEnabled = false
-        }
         
         txtAmount.applyStyle(cornerRadius: nil, borderColor: GConstant.AppColor.textLight, borderWidth: 1.0,backgroundColor: GConstant.AppColor.grayBG)
         txtAmount.font                      = UIFont.applyOpenSansRegular(fontSize: 15.0)
@@ -111,6 +114,9 @@ class TMMemberTransactionVC: UIViewController {
         
         guard let urlProfile = URL.init(string: memTranData.profileImageURL ?? "") else {return}
         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
+        
+        consMainVHeight.constant   = GConstant.Screen.Height * 0.9
+        view.setNeedsLayout()
     }
     
     //MARK: - UIButton Action Methods
@@ -131,6 +137,37 @@ class TMMemberTransactionVC: UIViewController {
         objPVC.typeTable    = .mix
         self.navigationController?.pushViewController(objPVC, animated: true)
     }
+    
+    func masterVC(data: PostCreatePOSModel) {
+//        print(tabBarViewController.viewControllers?.count ?? 0)
+//        guard let splitViewController   = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: "SplitVC") as? UISplitViewController else { fatalError() }
+//        for viewController in tabBarViewController.viewControllers! {
+//            if viewController.title == "QR" {
+//               splitViewController.tabBarItem = ESTabBarItem.init(ExampleBackgroundContentView.init(specialWithAutoImplies: true), title: "QR", image: UIImage(named: "qr_on"), selectedImage: UIImage(named: "qr_on"))
+//            }
+//        }
+//        navigationController?.setViewControllers([splitViewController], animated: true)
+//        navigationController?.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+//        splitViewController.delegate = self as? UISplitViewControllerDelegate
+        
+        guard let splitViewController   = storyboard?.instantiateViewController(withIdentifier: "SplitVC") as? UISplitViewController else { fatalError() }
+        splitViewController.preferredDisplayMode = .automatic
+        
+        let nc : UINavigationController  = splitViewController.viewControllers[0] as! UINavigationController
+        
+        let vcm : TMSplitPaymentMasterVC  = nc.viewControllers[0] as! TMSplitPaymentMasterVC
+        vcm.posData = data
+        
+        let vcd : TMSplitPaymentDetailVC = nc.viewControllers[0] as! TMSplitPaymentDetailVC
+        vcd.posData = data
+        
+        let transition: CATransition = CATransition()
+        transition.duration = 0.5
+        transition.type = kCATransitionFade
+        rootWindow().layer.add(transition, forKey: nil)
+        rootWindow().rootViewController = splitViewController
+    }
+    
     
     //MARK: Web Api's
     func callPostCreatePOSApi(amount:String) {
@@ -164,7 +201,11 @@ class TMMemberTransactionVC: UIViewController {
                 guard data != nil else{return}
                 if let pData = try? PostCreatePOSModel.decode(_data: data!) {
                     self.posData    = pData
-                    self.pushToPaymentVC(data: self.posData)
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        self.masterVC(data: self.posData)
+                    }else {
+                        self.pushToPaymentVC(data: self.posData)
+                    }
                 }else{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }

@@ -88,7 +88,6 @@ class TMPinViewController: UIViewController {
         txt4.applyStyle(textColor: GConstant.AppColor.textDark
             , borderColor: GConstant.AppColor.textDark, borderWidth: 1.0)
         txt1.becomeFirstResponder()
-        
 
         popUpPropertiesUpdate()
     }

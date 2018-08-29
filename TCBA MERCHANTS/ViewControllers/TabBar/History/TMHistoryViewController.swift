@@ -37,8 +37,7 @@ class TMHistoryViewController: UIViewController {
             // Calling TransactionData Api
             callTransactionDataApi()
         }
-        guard tblHistory != nil else {return}
-        if  UIDevice.current.orientation.isLandscape == true  {
+        if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
             tblHistory.isScrollEnabled = true
         }else{
             tblHistory.isScrollEnabled = false
@@ -72,11 +71,7 @@ class TMHistoryViewController: UIViewController {
     //MARK: - Set view properties
     func setViewProperties(){
         guard tblHistory != nil else {return}
-        if  UIDevice.current.orientation.isLandscape == true  {
-            tblHistory.isScrollEnabled = true
-        }else{
-            tblHistory.isScrollEnabled = false
-        }
+
         // navigationBar customization
         self.navigationController?.customize()
         self.navigationItem.title = "History"

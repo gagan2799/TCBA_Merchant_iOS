@@ -9,7 +9,8 @@
 import UIKit
 
 enum EventIdentity: String {
-    case anyEvent = ""
+    case anyEvent       = ""
+    case svReloadTbl    = "tblDetailViewReload"
 }
 
 class CompletionHandler {
@@ -23,6 +24,7 @@ class CompletionHandler {
     func litsenerEvent(_ eventIdentifier: EventIdentity, actionBlock: @escaping ((Any?) -> ())) {
         Event.listenTo(eventName: eventIdentifier.rawValue, action: actionBlock)
     }
+    
 }
 
 class GFunction: NSObject  {
@@ -55,7 +57,44 @@ class GFunction: NSObject  {
     
     //------------------------------------------------------
     
-    //MARK:- UserDefaults
+    //MARK:-
+    
+    func checkPaymentOptions(withPosData posData: PostCreatePOSModel?,Method type: String ,withViewType viewT: viewType) -> Bool {
+        var flag = type == "" ? true : false
+        guard posData != nil  else { return flag}
+        guard let data = posData?.paymentOptions else { return flag}
+        if data.count > 0 {
+            for item in data {
+                if item.type == type {
+                    flag = true
+                    break
+                }
+            }
+        } else {
+            guard let data2 = posData?.payments else { return flag}
+            for item in data2 {
+                if item.type == type {
+                    flag = true
+                    break
+                }
+            }
+        }
+        
+        guard let totalPurchase = posData?.totalPurchaseAmount else { return flag}
+        guard let walletBal     = posData?.walletBalance else { return flag }
+        guard let prizeFund     = posData?.availablePrizeCash else { return flag }
+        guard let loyaltyCash   = posData?.availableLoyaltyCash else { return flag }
+        if type         == "Wallet"       && (viewT == .home ? walletBal.isLess(than: totalPurchase) : walletBal.isLessThanOrEqualTo(0.0)) {
+            flag = false
+        }else if type   == "PrizeWallet"  && (viewT == .home ? prizeFund.isLess(than: totalPurchase) : prizeFund.isLessThanOrEqualTo(0.0)) {
+            flag = false
+        }else if type   == "LoyaltyCash"  && (viewT == .home ? loyaltyCash.isLess(than: totalPurchase) : loyaltyCash.isLessThanOrEqualTo(0.0)) {
+            flag = false
+        }else if  type == "" {// For mix payments
+            flag = true
+        }
+        return flag
+    }
     
     //------------------------------------------------------
     
@@ -203,7 +242,7 @@ func getUserDataFromDefaults() -> UserLoginModel? {
     func userLogin() {
         GConstant.UserData = self.getUserDataFromDefaults()
         let transition: CATransition = CATransition()
-        transition.duration = 0.5
+        transition.duration = 0.3
         transition.type = kCATransitionFade
         rootWindow().layer.add(transition, forKey: nil)
         rootWindow().rootViewController = Tabbar.coustomTabBar()

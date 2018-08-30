@@ -139,35 +139,25 @@ class TMMemberTransactionVC: UIViewController {
     }
     
     func masterVC(data: PostCreatePOSModel) {
-//        print(tabBarViewController.viewControllers?.count ?? 0)
-//        guard let splitViewController   = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: "SplitVC") as? UISplitViewController else { fatalError() }
-//        for viewController in tabBarViewController.viewControllers! {
-//            if viewController.title == "QR" {
-//               splitViewController.tabBarItem = ESTabBarItem.init(ExampleBackgroundContentView.init(specialWithAutoImplies: true), title: "QR", image: UIImage(named: "qr_on"), selectedImage: UIImage(named: "qr_on"))
-//            }
-//        }
-//        navigationController?.setViewControllers([splitViewController], animated: true)
-//        navigationController?.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-//        splitViewController.delegate = self as? UISplitViewControllerDelegate
-        
         guard let splitViewController   = storyboard?.instantiateViewController(withIdentifier: "SplitVC") as? UISplitViewController else { fatalError() }
-        splitViewController.preferredDisplayMode = .automatic
         
         let nc : UINavigationController  = splitViewController.viewControllers[0] as! UINavigationController
         
         let vcm : TMSplitPaymentMasterVC  = nc.viewControllers[0] as! TMSplitPaymentMasterVC
         vcm.posData = data
         
-        let vcd : TMSplitPaymentDetailVC = nc.viewControllers[0] as! TMSplitPaymentDetailVC
+        let vcd : TMSplitPaymentDetailVC = splitViewController.viewControllers[1] as! TMSplitPaymentDetailVC
         vcd.posData = data
         
+        //Make sure pass data to Master & Details before setting preferredDisplayMode = .allVisible
+        splitViewController.preferredDisplayMode = .allVisible
+        
         let transition: CATransition = CATransition()
-        transition.duration = 0.5
+        transition.duration = 0.3
         transition.type = kCATransitionFade
         rootWindow().layer.add(transition, forKey: nil)
         rootWindow().rootViewController = splitViewController
     }
-    
     
     //MARK: Web Api's
     func callPostCreatePOSApi(amount:String) {

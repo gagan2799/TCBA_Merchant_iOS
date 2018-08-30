@@ -23,21 +23,12 @@ class PinView: NSObject {
         let pinView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         pinView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         
-        
-//        for i in 0..<buttonsArray.count {
-//            let buttonTitle: String = buttonsArray[i] as! String
-//            alertController.addAction(UIAlertAction.init(title: buttonTitle, style: .default, handler: { (action) in
-//                if self.completionBlock != nil {
-//                    self.completionBlock!(i)
-//                }
-//            }))
-//        }
-        
         let transition = CATransition()
-        transition.duration = 0.5
+        transition.duration = 0.3
         transition.type = kCATransitionFromTop
         transition.subtype = kCATransitionFromRight
         transition.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+        
         rootWindow().layer.add(transition, forKey: kCATransition)
         rootWindow().addSubview(pinView)
     }

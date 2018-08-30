@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import Alamofire
 
 class TMSplitPaymentDetailVC: UIViewController {
-
+    
     //MARK: Modals Object
     var posData         : PostCreatePOSModel!
     var paymentOptionsBackUp  : [PostCreatePOSPaymentOption]!
@@ -17,8 +18,10 @@ class TMSplitPaymentDetailVC: UIViewController {
     @IBOutlet weak var consHeightTbl: NSLayoutConstraint!
     @IBOutlet weak var consTopV: NSLayoutConstraint!
     
+    //TableView
+    @IBOutlet weak var tblVpayment: UITableView!
+    
     // Variables
-    var arrCV           = [Dictionary<String,String>]()
     var arrTV           = [Dictionary<String,String>]()
     var arrCreditCards  = [PostCreatePOSPaymentOption]()
     var strCCToken      = ""
@@ -29,10 +32,46 @@ class TMSplitPaymentDetailVC: UIViewController {
     var typeTable        : tableType!
     var typeMethod       : methodType!
     
+    // UIImageView
+    @IBOutlet weak var imgVUser: RoundedImage!
+    
+    // UILabels
+    @IBOutlet weak var lblUserName: UILabel!
+    @IBOutlet weak var lblMemberId: UILabel!
+    
+    @IBOutlet weak var lblTransaction: UILabel!
+    @IBOutlet weak var lblCashBack: UILabel!
+    @IBOutlet weak var lblDateTime: UILabel!
+    @IBOutlet weak var lblCity: UILabel!
+    @IBOutlet weak var lblStoreID: UILabel!
+    @IBOutlet weak var lblPOSID: UILabel!
+    @IBOutlet weak var lblAmount: UILabel!
+    @IBOutlet weak var lblBalanceOutStanding: UILabel!
+    @IBOutlet weak var lblOutStandingValue: UILabel!
+    
+    //UIView
+    @IBOutlet weak var viewTable: UIView!
+    
+    @IBOutlet weak var btnFinish: UIButton!
+    
+    
     //MARK: View life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        typeTable = .mix
+        
+        //<------Update tableView for types
+        CompletionHandler.shared.litsenerEvent(.svReloadTbl) { (tType) in
+            
+            if let type = tType as? tableType {
+                self.typeView = type == .card ? .home : .mixPayment
+                self.reloadTableView(withTblType: type == .card ? .card : .mix)
+            }
+        }
+        
+        if typeTable == nil {
+            typeTable = .mix
+        }
+        
         setViewProperties()
         
     }
@@ -58,31 +97,40 @@ class TMSplitPaymentDetailVC: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     //MARK: - Set view properties
     func setViewProperties(){
-        // navigationBar customization
-        self.navigationController?.customize()
-        self.navigationItem.title           = "Cash Back Purchase"
-        self.navigationController?.topViewController!.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
-        /*   navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "back_button"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.plain, target: self, action: #selector(backButtonAction))
-         
-         lblUserName.font                    = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
-         lblMemberId.font                    = UIFont.applyOpenSansRegular(fontSize: 15.0)
-         
-         lblUserName.text                    = posData.memberFullName!
-         lblMemberId.text                    = "Member Id: \(posData.memberID ?? 0)"
-         guard let urlProfile = URL.init(string: posData.profileImageURL ?? "") else {return}
-         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
-         
-         //Top View
-         lblDateTime.text                    = Date().currentDate()
-         lblCity.text                        = posData.storeCity
-         lblStoreID.text                     = "Store ID: \(posData.storeID ?? 0)"
-         lblPOSID.text                       = "POS ID:\(posData.posid ?? 0)"
-         lblAmount.text                      = "Amount: $\(posData.totalPurchaseAmount ?? 0.00)"
-         lblOutStandingValue.text            = "$\(posData.balanceRemaining ?? 0.00)"
-         */
+        
+        /*   navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "back_button"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.plain, target: self, action: #selector(backButtonAction)) */
+        DispatchQueue.main.async {
+            self.lblUserName.font           = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+            self.lblMemberId.font           = UIFont.applyOpenSansRegular(fontSize: 11.0)
+            
+            self.lblTransaction.font        = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
+            self.lblCashBack.font           = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
+            self.lblDateTime.font           = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+            self.lblCity.font               = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+            
+            self.lblStoreID.font            = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+            self.lblPOSID.font              = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+            self.lblAmount.font             = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+            self.lblBalanceOutStanding.font = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+            self.lblOutStandingValue.font   = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+        }
+        
+        lblUserName.text                    = posData.memberFullName!
+        lblMemberId.text                    = "Member Id: \(posData.memberID ?? 0)"
+        guard let urlProfile = URL.init(string: posData.profileImageURL ?? "") else {return}
+        imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
+        
+        //Top View
+        lblDateTime.text                    = Date().currentDate()
+        lblCity.text                        = posData.storeCity
+        lblStoreID.text                     = "Store ID: \(posData.storeID ?? 0)"
+        lblPOSID.text                       = "POS ID:\(posData.posid ?? 0)"
+        lblAmount.text                      = "Amount: $\(posData.totalPurchaseAmount ?? 0.00)"
+        lblOutStandingValue.text            = "$\(posData.balanceRemaining ?? 0.00)"
+        
         
         // Array for TableView in mix payments
         
@@ -96,21 +144,21 @@ class TMSplitPaymentDetailVC: UIViewController {
             
             ["image"            : "loyality_icon",
              "title"            : "Loyalty Credits",
-             "balance"          : "\(0.00)",
+             "balance"          : "\(posData.availableLoyaltyCash ?? 0.00)",
                 "selectedAmount"   : "",
                 "method"           : "LoyaltyCash",
                 "posPaymentID"     : ""],
             
             ["image"            : "wallet_icon",
              "title"            : "Wallet Funds",
-             "balance"          : "\(0.00)",
+             "balance"          : "\(posData.walletBalance ?? 0.00)",
                 "selectedAmount"   : "",
                 "method"           : "Wallet",
                 "posPaymentID"     : ""],
             
             ["image"            : "prizefundtrophy",
              "title"            : "Prize Funds",
-             "balance"          : "\(0.00)",
+             "balance"          : "\(posData.availablePrizeCash ?? 0.00)",
                 "selectedAmount"   : "",
                 "method"           : "PrizeWallet",
                 "posPaymentID"     : ""],
@@ -124,14 +172,14 @@ class TMSplitPaymentDetailVC: UIViewController {
         
         
         // Array of Credit Cards
-        //        if let paymentOptions = posData.paymentOptions {
-        //            paymentOptionsBackUp = paymentOptions
-        //            for item in paymentOptions {
-        //                if item.type == "TokenisedCreditCard" {
-        //                    arrCreditCards.append(item)
-        //                }
-        //            }
-        //        }
+        if let paymentOptions = posData.paymentOptions {
+            paymentOptionsBackUp = paymentOptions
+            for item in paymentOptions {
+                if item.type == "TokenisedCreditCard" {
+                    arrCreditCards.append(item)
+                }
+            }
+        }
         //        // Top View Height
         consTopV.constant    = GConstant.Screen.Height * 0.3
         // ColectionView Layout setup
@@ -140,23 +188,14 @@ class TMSplitPaymentDetailVC: UIViewController {
     }
     
     //MARK: - Custom Methods
-    func cancelTransaction() {
-        AlertManager.shared.showAlertTitle(title: "Cancel Transaction?", message: "Are you sure want to cancel this transaction?", buttonsArray: ["NO","YES"]) { (buttonIndex : Int) in
-            switch buttonIndex {
-            case 0 :
-                //No clicked
-                break
-            case 1:
-                let transition: CATransition = CATransition()
-                transition.duration = 0.5
-                transition.type = kCATransitionFade
-                rootWindow().layer.add(transition, forKey: nil)
-                rootWindow().rootViewController = Tabbar.coustomTabBar(withIndex: 2)
-                break
-            default:
-                break
-            }
-        }
+    func backToQR() {
+        //This method will get back to you transaction view Controller
+        
+        let transition: CATransition = CATransition()
+        transition.duration = 0.3
+        transition.type = kCATransitionFade
+        rootWindow().layer.add(transition, forKey: nil)
+        rootWindow().rootViewController = Tabbar.coustomTabBar(withIndex: 2)
     }
     
     func resetPayments() {
@@ -166,7 +205,7 @@ class TMSplitPaymentDetailVC: UIViewController {
                 //Cancel clicked
                 break
             case 1:
-                //                self.callPostRemoveAllPOSPayments()
+                self.callPostRemoveAllPOSPayments()
                 break
             default:
                 break
@@ -174,54 +213,418 @@ class TMSplitPaymentDetailVC: UIViewController {
         }
     }
     
-    func checkPaymentOptions(withMethod type: String ,withViewType viewT: viewType) -> Bool {
-        var flag = type == "" ? true : false
-        guard posData != nil  else { return flag}
-        guard let data = posData.paymentOptions else { return flag}
-        if data.count > 0 {
-            for item in data {
-                if item.type == type {
-                    flag = true
-                    break
+    func reloadTableView(withTblType type: tableType){
+        typeTable = type
+        UIView.transition(with: tblVpayment, duration: 0.5, options:  .transitionCrossDissolve, animations: {
+            self.tblVpayment.reloadData()
+        }, completion: { (bool) in
+            UIView.transition(with: self.viewTable, duration: 0.5, options: [.showHideTransitionViews, .transitionCrossDissolve], animations: {
+                if self.viewTable.isHidden == true{
+                    self.viewTable.isHidden = false
+                }
+            }, completion: nil)
+        })
+    }
+    
+    func showPin(withMethod method: methodType, currentBalance: Double? = 0.00,transactionAmount: Double?, completion   : @escaping (_ pinCode : String) -> Void){
+        let obj = storyboard?.instantiateViewController(withIdentifier: "TMPinViewController") as! TMPinViewController
+        obj.method              = method.rawValue
+        obj.balance             = String(format: "%.2f", currentBalance!)
+        obj.amount              = String(format: "%.2f", transactionAmount ?? 0.00)
+        obj.completionHandler   = { (pinCode) in
+            if pinCode != "" {
+                completion(pinCode)
+            }
+        }
+        obj.modalPresentationStyle  = .overCurrentContext
+        rootWindow().rootViewController?.present(obj, animated: true, completion: nil)
+    }
+    
+    func showPopUp(withMethod method: methodType,transactionAmount: Double?,cardNumber: String? = "",txtUserIntrection: Bool = false, completion   : @escaping (_ amount : String) -> Void){
+        let obj = storyboard?.instantiateViewController(withIdentifier: "TMPopUPVC") as! TMPopUPVC
+        obj.method              = method.rawValue
+        obj.txtUserIntrection   = txtUserIntrection
+        obj.typePopUp           = method == .TokenisedCreditCard ? .creditCard : .other
+        obj.strCardNumber       = cardNumber!
+        obj.transactionAmount   = String(format: "%.2f", transactionAmount ?? 0.00)
+        obj.completionHandler   = { (amount) in
+            if amount != "" {
+                let strAmount = amount.replacingOccurrences(of: "$", with: "")
+                completion(strAmount)
+            }
+        }
+        obj.modalPresentationStyle  = .overCurrentContext
+        rootWindow().rootViewController?.present(obj, animated: true, completion: nil)
+    }
+    
+    //MARK: UIButton action methods
+    
+    @IBAction func btnCancelAction(_ sender: UIButton) {
+        if let payments = posData.payments {
+            if payments.count > 0{
+                resetPayments()
+            }
+        }
+    }
+    
+    @IBAction func btnFinishAction(_ sender: UIButton) {
+        showPin(withMethod: .Mix, transactionAmount: posData.totalTransactionFees) { (pinCode) in
+            var execute = 1
+            if let payments = self.posData.payments{
+                for item in payments{
+                    if item.type == "TokenisedCreditCard"{
+                        execute = 0
+                        break
+                    }
                 }
             }
-        } else {
-            guard let data2 = posData.payments else { return flag}
-            for item in data2 {
-                if item.type == type {
-                    flag = true
-                    break
+            self.strPinCode = pinCode
+            self.callPostCreateTransaction(payMethodType: .Mix, withPin: pinCode, isExecute: execute)
+        }
+    }
+    
+    
+    //MARK: - Web Api's
+    
+    func callPostCreateTransactionWithFullPayment(payMethodType type:methodType, withPin pin: String = "", isExecute: Int = 1, withToken token: String = "") {
+        /*
+         =====================API CALL=====================
+         APIName    : PostCreateTransactionWithFullPayment
+         Url        : "/Payment/POS/PostCreateTransactionWithFullPayment"
+         Method     : POST
+         Parameters : {
+         
+         //Case: Wallet, CashOrEFTPOS, LoyaltyCash
+         execute        : 0,-->For this case by default value of execute is 1
+         memberPin      : 1234,
+         paymentType    : Wallet,
+         posID          : 5610
+         
+         //Case: Prize Wallet
+         execute        : 0,-->For this case by default value of execute is 1
+         memberPin      : 1234,
+         paymentType    : PrizeWallet,
+         posID          : 5610
+         accountNumber  : Method PrizeWallet from Payment Options in POSData
+         
+         //Case: TokenisedCreditCard
+         execute        : 0,-->For this case first time 0 and 2nd time 1
+         memberPin      : 1234,
+         paymentType    : TokenisedCreditCard,
+         posID          : 5610
+         creditCardToken: token
+         }
+         ===================================================
+         */
+        
+        let request             = RequestModal.mCreatePOS()
+        request.memberPin       = pin
+        request.paymentType     = type.rawValue
+        request.posID           = posData.posid
+        request.execute         = isExecute
+        
+        if type == .PrizeWallet {
+            if let paymentOptions = posData.paymentOptions {
+                for item in paymentOptions {
+                    if item.type == type.rawValue {
+                        request.accountNumber = item.accountNumber
+                    }
                 }
             }
+        } else if type == .TokenisedCreditCard {
+            request.creditCardToken = token
         }
         
-        guard let totalPurchase = posData.totalPurchaseAmount else { return flag}
-        guard let walletBal     = posData.walletBalance else { return flag }
-        guard let prizeFund     = posData.availablePrizeCash else { return flag }
-        guard let loyaltyCash   = posData.availableLoyaltyCash else { return flag }
-        if type         == "Wallet"       && (viewT == .home ? walletBal.isLess(than: totalPurchase) : walletBal.isLessThanOrEqualTo(0.0)) {
-            flag = false
-        }else if type   == "PrizeWallet"  && (viewT == .home ? prizeFund.isLess(than: totalPurchase) : prizeFund.isLessThanOrEqualTo(0.0)) {
-            flag = false
-        }else if type   == "LoyaltyCash"  && (viewT == .home ? loyaltyCash.isLess(than: totalPurchase) : loyaltyCash.isLessThanOrEqualTo(0.0)) {
-            flag = false
-        }else if  type == "" {// For mix payments
-            flag = true
+        ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostCreateTransactionWithFullPayment, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                print("statusCode = 200")
+                guard data != nil else{return}
+                if let pData = try? PostCreatePOSModel.decode(_data: data!) {
+                    self.posData = pData
+                    
+                    if isExecute == 0 {
+                        let message = String(format:"Total funds taken from source: %.2f\n Service Fee: %.2f\n Transaction Fee: %.2f\n Total transferred to recipient: %.2f\n\n Do you want to continue?" , pData.totalAmountPaidByMember!,pData.totalServiceFees!,pData.totalTransactionFees!,pData.totalPurchaseAmount!)
+                        
+                        AlertManager.shared.showAlertTitle(title: "", message: message, buttonsArray: ["CANCEL","CONTINUE"]) { (buttonIndex : Int) in
+                            switch buttonIndex {
+                            case 0 :
+                                //CANCEL clicked
+                                break
+                            case 1:
+                                //CONTINUE clicked
+                                self.callPostCreateTransactionWithFullPayment(payMethodType: .TokenisedCreditCard, withPin: self.strPinCode, isExecute: 1, withToken: self.strCCToken)
+                                break
+                            default:
+                                break
+                            }
+                        }
+                    }else{
+                        if pData.paidInFull == true{
+                            AlertManager.shared.showAlertTitle(title: "Success", message: "Payment successful.", buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                                switch buttonIndex {
+                                case 0 :
+                                    //OK clicked
+                                    self.backToQR()
+                                    break
+                                default:
+                                    self.backToQR()
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }
+            }else{
+                if let data = data{
+                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                        let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                        return }
+                    
+                    if statusCode == 400 {
+                        print(json as Any)
+                        if json?["message"] == "PIN Locked." {
+                            AlertManager.shared.showAlertTitle(title: "Wallet Locked", message: "Incorrect PIN entered too many times, Your wallet is now locked. please pay cash or EFTPOS to complete this transaction", buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                                switch buttonIndex {
+                                case 0 :
+                                    //OK clicked
+                                    self.callPostRemoveAllPOSPayments()
+                                    break
+                                default:
+                                    
+                                    break
+                                }
+                            }
+                        } else if json?["message"]?.contains("Unknown biller code") ?? false || json?["message"]?.contains("Customer Reference Number is invalid") ?? false {
+                            
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage, buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                                switch buttonIndex {
+                                case 0 :
+                                    //OK clicked
+                                    self.backToQR()
+                                    break
+                                default:
+                                    self.backToQR()
+                                    break
+                                }
+                            }
+                        } else {
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
+                        }
+                    }
+                }else{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }
+            }
         }
-        return flag
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func callPostAddPOSPayment(amount:String,payMethodType type:methodType, withToken token: String = "") {
+        /*
+         =====================API CALL=====================
+         APIName    : PostAddPOSPayment
+         Url        : "/Payment/POS/PostAddPOSPayment"
+         Method     : POST
+         Parameters : {
+         POSID : 5623,
+         accountNumber : 6279059720828018,
+         amount : "0.49",
+         paymentType : Wallet
+         }
+         ===================================================
+         */
+        let request             = RequestModal.mCreatePOS()
+        request.paymentType     = type.rawValue
+        request.posID           = posData.posid
+        request.amount          = amount
+        
+        if type == .PrizeWallet || type == .Wallet {
+            if let paymentOptions = posData.paymentOptions {
+                for item in paymentOptions {
+                    if item.type == type.rawValue {
+                        request.accountNumber = item.accountNumber
+                    }
+                }
+            }
+        } else if type == .TokenisedCreditCard {
+            request.creditCardToken = token
+        }
+        
+        
+        ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostAddPOSPayment, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                print("statusCode = 200")
+                guard data != nil else{return}
+                if let pData = try? PostCreatePOSModel.decode(_data: data!) {
+                    self.posData    = pData
+                    self.lblOutStandingValue.text  = "$\(self.posData.balanceRemaining ?? 0.00)"
+                    if let payments = self.posData.payments {
+                        for item in payments {
+                            if item.type == type.rawValue {
+                                for index in self.arrTV.indices{
+                                    if self.arrTV[index]["method"] == type.rawValue{
+                                        self.arrTV[index]["selectedAmount"] = "\(item.amountPaidByMember ?? 0.00)"
+                                        self.arrTV[index]["posPaymentID"]   = "\(item.posPaymentID ?? 0)"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    self.reloadTableView(withTblType: .mix)
+                    if pData.balanceRemaining == 0 {
+                        self.btnFinish.isHidden = false
+                    }
+                } else {
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }
+            }else{
+                if statusCode == 404{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }else{
+                    if let data = data{
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                            let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
+                        }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
+                }
+            }
+        }
     }
-    */
-
+    
+    
+    func callPostCreateTransaction(payMethodType type:methodType, withPin pin: String = "", isExecute: Int = 1) {
+        /*
+         =====================API CALL=====================
+         APIName    : PostCreateTransaction
+         Url        : "/Payment/POS/PostCreateTransaction"
+         Method     : POST
+         Parameters : { }
+         ===================================================
+         */
+        let request             = RequestModal.mCreatePOS()
+        request.memberPin       = pin
+        request.posID           = posData.posid
+        request.execute         = isExecute
+        ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostCreateTransaction, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                print("statusCode = 200")
+                guard data != nil else{return}
+                if let pData = try? PostCreatePOSModel.decode(_data: data!) {
+                    self.posData = pData
+                    
+                    if isExecute == 0 {
+                        let message = String(format:"Total funds taken from source: %.2f\n Service Fee: %.2f\n Transaction Fee: %.2f\n Total transferred to recipient: %.2f\n\n Do you want to continue?" , pData.totalAmountPaidByMember!,pData.totalServiceFees!,pData.totalTransactionFees!,pData.totalPurchaseAmount!)
+                        
+                        AlertManager.shared.showAlertTitle(title: "", message: message, buttonsArray: ["CANCEL","CONTINUE"]) { (buttonIndex : Int) in
+                            switch buttonIndex {
+                            case 0 :
+                                //CANCEL clicked
+                                break
+                            case 1:
+                                //CONTINUE clicked
+                                self.callPostCreateTransaction(payMethodType: .Mix, withPin: self.strPinCode)
+                                break
+                            default:
+                                break
+                            }
+                        }
+                    }else{
+                        if pData.paidInFull == true{
+                            AlertManager.shared.showAlertTitle(title: "Success", message: "Payment successful.", buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                                switch buttonIndex {
+                                case 0 :
+                                    //OK clicked
+                                    self.backToQR()
+                                    break
+                                default:
+                                    self.backToQR()
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }
+                
+            }else{
+                if statusCode == 404{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }else{
+                    if let data = data{
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                            let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
+                        }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
+                }
+            }
+        }
+    }
+    
+    func callPostRemoveAllPOSPayments() {
+        /*
+         =====================API CALL=====================
+         APIName    : PostRemoveAllPOSPayments
+         Url        : "/Payment/POS/PostRemoveAllPOSPayments"
+         Method     : POST
+         Parameters : { posID   : 123 }
+         ===================================================
+         */
+        guard let id = posData.posid else { return }
+        let url = GAPIConstant.Url.PostRemoveAllPOSPayments + "?posID=\(id)"
+        
+        ApiManager.shared.POSTWithBearerAuth(strURL: url, parameter: [:], encording: URLEncoding.default) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                guard data != nil else{return}
+                let str = String(data: data!, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                AlertManager.shared.showAlertTitle(title: "" ,message:str)
+                for index in self.arrTV.indices{
+                    self.arrTV[index]["selectedAmount"] = ""
+                    self.arrTV[index]["posPaymentID"]   = ""
+                }
+                self.lblOutStandingValue.text   = "\(self.posData.totalPurchaseAmount ?? 0.00)"
+                self.btnFinish.isHidden         = true
+                self.posData.payments?.removeAll()
+                if self.posData.paymentOptions?.count == 0 {
+                    self.posData.paymentOptions = self.paymentOptionsBackUp
+                }
+                self.posData.balanceRemaining   = self.posData.totalPurchaseAmount
+                self.viewTable.animateHideShow()
+            } else {
+                if statusCode == 404{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }else{
+                    if let data = data{
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                            let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
+                        }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
+                }
+            }
+        }
+    }
 }
+
 extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
     
     //MARK: TableView Delegates & DataSource
@@ -251,29 +654,31 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if typeTable == .card {
-            return 60 * GConstant.Screen.HeightAspectRatio
+            return 50 * GConstant.Screen.HeightAspectRatio
         }
         return 0.0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60 * GConstant.Screen.HeightAspectRatio
+        return 50 * GConstant.Screen.HeightAspectRatio
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if typeTable == .mix {// Table for Mix payment
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreTVCell") as! TMStorePaymentTVCell
             
-            cell.lblTitle.font          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
-            cell.lblBal.font            = UIFont.applyOpenSansRegular(fontSize: 15.0)
-            cell.lblAvailable.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
-            cell.lblAmtPaid.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 15.0), borderColor: GConstant.AppColor.textDark, backgroundColor: .white, borderWidth: 1.0)
+            DispatchQueue.main.async {
+                cell.lblTitle.font          = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
+                cell.lblBal.font            = UIFont.applyOpenSansRegular(fontSize: 14.0)
+                cell.lblAvailable.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
+                cell.lblAmtPaid.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0), borderColor: GConstant.AppColor.textDark, backgroundColor: .white, borderWidth: 1.0)
+            }
             
             cell.imgVTV.image           = UIImage(named: arrTV[indexPath.item]["image"]!)
             cell.lblTitle.text          = arrTV[indexPath.item]["title"]
             cell.lblBal.text            = "$" + arrTV[indexPath.item]["balance"]!
             
-            cell.contentView.alpha      = checkPaymentOptions(withMethod: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) ? 1.0 : 0.5
+            cell.contentView.alpha      = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) ? 1.0 : 0.5
             
             if arrTV[indexPath.item]["method"] == "TokenisedCreditCard" || arrTV[indexPath.item]["method"] == "CashOrEFTPOS" {
                 cell.lblBal.isHidden        = true
@@ -322,8 +727,8 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-    /*    if typeTable == .mix {
-            if !checkPaymentOptions(withMethod: arrTV[indexPath.row]["method"]!, withViewType: .mixPayment) {
+        if typeTable == .mix {
+            if !GFunction.shared.checkPaymentOptions(withPosData: self.posData, Method:  arrTV[indexPath.row]["method"]!, withViewType: .mixPayment) {
                 return
             }
             if indexPath.row == 0 {
@@ -351,7 +756,6 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
                 if arrCreditCards.count == 0{
                     AlertManager.shared.showAlertTitle(title: "", message: "Please attach a credit card to your wallet to use this feature.")
                 }else{
-                    typeView = .mixPayment
                     reloadTableView(withTblType: .card)
                 }
             }
@@ -367,6 +771,6 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
                     self.callPostCreateTransactionWithFullPayment(payMethodType: .TokenisedCreditCard, withPin: self.strPinCode, isExecute: 0, withToken: self.strCCToken)
                 })
             }
-        }*/
+        }
     }
 }

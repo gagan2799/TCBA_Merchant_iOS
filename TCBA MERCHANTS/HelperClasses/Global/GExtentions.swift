@@ -1080,7 +1080,7 @@ extension UIViewController {
     
     func presentWithAnimation(_ viewControllerToPresent: UIViewController) {
         let transition              = CATransition()
-        transition.duration         = 0.25
+        transition.duration         = 0.3
         transition.type             = kCATransitionPush
         transition.subtype          = kCATransitionFromTop
         transition.timingFunction   = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
@@ -1090,7 +1090,7 @@ extension UIViewController {
     
     func dismissWithAnimation() {
         let transition              = CATransition()
-        transition.duration         = 0.25
+        transition.duration         = 0.3
         transition.type             = kCATransitionPush
         transition.subtype          = kCATransitionFromBottom
         transition.timingFunction   = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
@@ -1102,7 +1102,7 @@ extension UIViewController {
 extension UINavigationController {
     func fadeTo(_ viewController: UIViewController) {
         let transition: CATransition = CATransition()
-        transition.duration = 0.5
+        transition.duration = 0.3
         transition.type = kCATransitionFade
         view.layer.add(transition, forKey: nil)
         pushViewController(viewController, animated: false)

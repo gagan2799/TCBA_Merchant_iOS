@@ -304,43 +304,6 @@ class TMStorePaymentVC: UIViewController {
         typeTable = type
         tblVpayment.reloadData()
     }
-    
-    func checkPaymentOptions(withMethod type: String ,withViewType viewT: viewType) -> Bool {
-        var flag = type == "" ? true : false
-        guard posData != nil  else { return flag}
-        guard let data = posData.paymentOptions else { return flag}
-        if data.count > 0 {
-            for item in data {
-                if item.type == type {
-                    flag = true
-                    break
-                }
-            }
-        } else {
-            guard let data2 = posData.payments else { return flag}
-            for item in data2 {
-                if item.type == type {
-                    flag = true
-                    break
-                }
-            }
-        }
-        
-        guard let totalPurchase = posData.totalPurchaseAmount else { return flag}
-        guard let walletBal     = posData.walletBalance else { return flag }
-        guard let prizeFund     = posData.availablePrizeCash else { return flag }
-        guard let loyaltyCash   = posData.availableLoyaltyCash else { return flag }
-        if type         == "Wallet"       && (viewT == .home ? walletBal.isLess(than: totalPurchase) : walletBal.isLessThanOrEqualTo(0.0)) {
-            flag = false
-        }else if type   == "PrizeWallet"  && (viewT == .home ? prizeFund.isLess(than: totalPurchase) : prizeFund.isLessThanOrEqualTo(0.0)) {
-            flag = false
-        }else if type   == "LoyaltyCash"  && (viewT == .home ? loyaltyCash.isLess(than: totalPurchase) : loyaltyCash.isLessThanOrEqualTo(0.0)) {
-            flag = false
-        }else if  type == "" {// For mix payments
-            flag = true
-        }
-        return flag
-    }
 
     func showPin(withMethod method: methodType, currentBalance: Double? = 0.00,transactionAmount: Double?, completion   : @escaping (_ pinCode : String) -> Void){
         let obj = storyboard?.instantiateViewController(withIdentifier: "TMPinViewController") as! TMPinViewController
@@ -741,14 +704,14 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
         cell.imgV.image         = UIImage(named: arrCV[indexPath.item]["image"]!)
         cell.lblTitle.text      = arrCV[indexPath.item]["title"]
         cell.lblTitle.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
-        cell.contentView.alpha  = checkPaymentOptions(withMethod: arrCV[indexPath.item]["method"]!, withViewType: .home) ? 1.0 : 0.5
+        cell.contentView.alpha  = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item]["method"]!, withViewType: .home) ? 1.0 : 0.5
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if !checkPaymentOptions(withMethod: arrCV[indexPath.item]["method"]!, withViewType: .home) {
+
+        if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item]["method"]!, withViewType: .home) {
             return
         }
         
@@ -849,7 +812,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
             cell.lblTitle.text          = arrTV[indexPath.item]["title"]
             cell.lblBal.text            = "$" + arrTV[indexPath.item]["balance"]!
             
-            cell.contentView.alpha      = checkPaymentOptions(withMethod: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) ? 1.0 : 0.5
+            cell.contentView.alpha      = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) ? 1.0 : 0.5
             
             if arrTV[indexPath.item]["method"] == "TokenisedCreditCard" || arrTV[indexPath.item]["method"] == "CashOrEFTPOS" {
                 cell.lblBal.isHidden        = true
@@ -899,7 +862,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if typeTable == .mix {
-            if !checkPaymentOptions(withMethod: arrTV[indexPath.row]["method"]!, withViewType: .mixPayment) {
+            if GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) {
                 return
             }
             if indexPath.row == 0 {

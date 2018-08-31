@@ -20,6 +20,9 @@ class TMHistoryDetailVC: UIViewController {
         case today          = "today"
         case outstanding    = "outstanding"
     }
+    // Modal object
+    var posData     : PostCreatePOSModel!
+    
     //MARK: Outlets
     @IBOutlet weak var tblHistoryDetails: UITableView!
     @IBOutlet weak var lblTopHeaderTitle: UILabel!
@@ -224,6 +227,86 @@ class TMHistoryDetailVC: UIViewController {
             }
         }
     }
+    
+    func callIncompleteGetPOSApi(posID: Int) {
+        /*
+         =====================API CALL=====================
+         APIName    : GetPOS
+         Url        : "/Payment/POS/GetPOS"
+         Method     : POST
+         Parameters : { staffId      : 0,
+         keyChainCode : 19,
+         totalAmount  : 3.65, // minimum Amount should be $3
+         memberID     : 19,
+         storeID      : 283
+         }
+         ===================================================
+         */
+        let request             = RequestModal.mCreatePOS()
+        request.posID           = posID
+        
+        ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetPOS, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                print("statusCode = 200")
+                guard data != nil else{return}
+                if let pData = try? PostCreatePOSModel.decode(_data: data!) {
+                    self.posData    = pData
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        self.masterVC(data: self.posData)
+                    }else {
+                        self.pushToPaymentVC(data: self.posData)
+                    }
+                }else{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }
+            }else{
+                if statusCode == 404{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }else{
+                    if let data = data{
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                            let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
+                        }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: - Navigation
+    func pushToPaymentVC(data: PostCreatePOSModel) {
+        rootWindow().rootViewController = Tabbar.coustomTabBar(withIndex: 2)
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+            CompletionHandler.shared.triggerEvent(.pushToPayment, passData: data)
+        })
+    }
+    
+    func masterVC(data: PostCreatePOSModel) {
+        guard let splitViewController   = storyboard?.instantiateViewController(withIdentifier: "SplitVC") as? UISplitViewController else { fatalError() }
+
+        let nc : UINavigationController  = splitViewController.viewControllers[0] as! UINavigationController
+
+        let vcm : TMSplitPaymentMasterVC  = nc.viewControllers[0] as! TMSplitPaymentMasterVC
+        vcm.posData = data
+
+        let vcd : TMSplitPaymentDetailVC = splitViewController.viewControllers[1] as! TMSplitPaymentDetailVC
+        vcd.posData = data
+
+        //Make sure pass data to Master & Details before setting preferredDisplayMode = .allVisible
+        splitViewController.preferredDisplayMode = .allVisible
+
+        let transition: CATransition = CATransition()
+        transition.duration = 0.3
+        transition.type = kCATransitionFade
+        rootWindow().layer.add(transition, forKey: nil)
+        rootWindow().rootViewController = splitViewController
+    }
 }
 extension TMHistoryDetailVC: UITableViewDataSource,UITableViewDelegate{
     // MARK: - UITableView Delegates & Data Source
@@ -342,10 +425,10 @@ extension TMHistoryDetailVC: UITableViewDataSource,UITableViewDelegate{
                     
                     break
                 case 1:
-                    // FIXME: OpenQRPayment
-                    // Navigate to QR payment screen
-//                    let obj = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Transection) as! TMTransactionViewController
-                    
+                    // OpenQRPayment
+                    guard self.incompleteData != nil else { return }
+                    guard let posid = self.incompleteData[indexPath.row].posid else { return }
+                    self.callIncompleteGetPOSApi(posID: posid)
                     break
                 default:
                     break

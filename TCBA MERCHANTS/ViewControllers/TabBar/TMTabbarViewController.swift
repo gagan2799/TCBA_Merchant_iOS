@@ -17,7 +17,7 @@ enum Tabbar {
         }
         let v1 = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Home) as! TMHomeViewController
         let v2 = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.History) as! TMHistoryViewController
-        let v3 = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Transection) as! TMTransactionViewController
+        let v3 = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Transaction) as! TMTransactionViewController
         let v4 = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Share) as! TMShareViewController
         let v5 = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.More) as! TMMoreViewController
         

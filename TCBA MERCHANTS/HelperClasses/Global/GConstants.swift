@@ -49,14 +49,21 @@ struct GConstant {
         static let Home                         = "TMHomeViewController"
         //History Tab
         static let History                      = "TMHistoryViewController"
-        
         static let HistoryDetail                = "TMHistoryDetailVC"
         //QR Tab
-        static let Transection                  = "TMTransactionViewController"
+        static let Transaction                  = "TMTransactionViewController"
+        static let QRScanner                    = "TMQRScannerVC"
+        static let MemberTransaction            = "TMMemberTransactionVC"
+        static let StorePayment                 = "TMStorePaymentVC"
+        static let SplitMaster                  = "TMSplitPaymentMasterVC"
+        static let SplitDetail                  = "TMSplitPaymentDetailVC"
+        static let PinView                      = "TMPinViewController"
+        static let PopUP                        = "TMPopUPVC"
         //Share Tab
         static let Share                        = "TMShareViewController"
         //More Tab
         static let More                         = "TMMoreViewController"
+        
     }
         
     //MARK:- UserDefaults

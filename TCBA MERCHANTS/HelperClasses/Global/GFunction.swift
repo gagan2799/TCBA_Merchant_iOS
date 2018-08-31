@@ -9,8 +9,11 @@
 import UIKit
 
 enum EventIdentity: String {
-    case anyEvent       = ""
-    case svReloadTbl    = "tblDetailViewReload"
+    case anyEvent           = ""
+    case svReloadTbl        = "tblDetailViewReload"
+    case pushToPayment      = "pushToPaymentVCFromHistory"
+    case checkPayment       = "checkPaymentsForCollectionInPayments"
+    case updateLoaderFrame  = "updateLoaderFrame"
 }
 
 class CompletionHandler {

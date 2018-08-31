@@ -119,8 +119,8 @@ class TMStorePaymentVC: UIViewController {
         
         lblUserName.font                    = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         lblMemberId.font                    = UIFont.applyOpenSansRegular(fontSize: 15.0)
-        
-        lblUserName.text                    = posData.memberFullName!
+        guard posData != nil else { return }
+        lblUserName.text                    = posData.memberFullName ?? "TCBA"
         lblMemberId.text                    = "Member Id: \(posData.memberID ?? 0)"
         guard let urlProfile = URL.init(string: posData.profileImageURL ?? "") else {return}
         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
@@ -306,7 +306,7 @@ class TMStorePaymentVC: UIViewController {
     }
 
     func showPin(withMethod method: methodType, currentBalance: Double? = 0.00,transactionAmount: Double?, completion   : @escaping (_ pinCode : String) -> Void){
-        let obj = storyboard?.instantiateViewController(withIdentifier: "TMPinViewController") as! TMPinViewController
+        let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.PinView) as! TMPinViewController
         obj.method              = method.rawValue
         obj.balance             = String(format: "%.2f", currentBalance!)
         obj.amount              = String(format: "%.2f", transactionAmount ?? 0.00)
@@ -320,7 +320,7 @@ class TMStorePaymentVC: UIViewController {
     }
     
     func showPopUp(withMethod method: methodType,transactionAmount: Double?,cardNumber: String? = "",txtUserIntrection: Bool = false, completion   : @escaping (_ amount : String) -> Void){
-        let obj = storyboard?.instantiateViewController(withIdentifier: "TMPopUPVC") as! TMPopUPVC
+        let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.PopUP) as! TMPopUPVC
         obj.method              = method.rawValue
         obj.txtUserIntrection   = txtUserIntrection
         obj.typePopUp           = method == .TokenisedCreditCard ? .creditCard : .other
@@ -695,6 +695,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard posData != nil else { return 0}
         return arrCV.count
     }
     
@@ -765,6 +766,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     
     //MARK: TableView Delegates & DataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard posData != nil else { return 0}
         if typeTable == .card {
             return arrCreditCards.count
         } else {
@@ -862,6 +864,11 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if typeTable == .mix {
+            if arrTV[indexPath.row]["selectedAmount"] != "" {
+                resetPayments()
+                return
+            }
+            
             if GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) {
                 return
             }

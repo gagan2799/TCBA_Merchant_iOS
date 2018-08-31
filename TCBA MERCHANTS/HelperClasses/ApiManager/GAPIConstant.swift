@@ -67,6 +67,10 @@ struct GAPIConstant {
             return BaseURL + "/Merchant/GetOutstandingLoyalty"
         }
         
+        static var GetPOS: String {
+            return BaseURL + "/Payment/POS/GetPOS"
+        }
+        
         //MARK: - QR Transaction Tab
         static var GetMemberTransactionDetails: String {
             return BaseURL + "/Payment/POS/GetMemberTransactionDetails"

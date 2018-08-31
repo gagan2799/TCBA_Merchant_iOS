@@ -30,10 +30,17 @@ class TMSplitPaymentMasterVC: UIViewController {
     //View
     @IBOutlet weak var ViewTop: UIView!
     
+    var mixPayFlag = false
     //MARK: View life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         print(posData)
+        CompletionHandler.shared.litsenerEvent(.checkPayment) { (bool) in
+            if let flag = bool as? Bool {
+                self.mixPayFlag = flag
+                self.cvSplit.reloadData()
+            }
+        }
         setViewProperties()
     }
     
@@ -56,6 +63,7 @@ class TMSplitPaymentMasterVC: UIViewController {
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
+        
         guard cvSplit != nil else { return }
         DispatchQueue.main.async {
             self.cvSplit.frame = CGRect(x: 0, y: self.ViewTop.bounds.maxY, width: self.view.bounds.width, height: GConstant.Screen.Height * 0.7)
@@ -75,25 +83,12 @@ class TMSplitPaymentMasterVC: UIViewController {
         self.navigationItem.title           = "Cash Back Purchase"
         
         navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "back_button"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.plain, target: self, action: #selector(backButtonAction))
-        /*
-         lblUserName.font                    = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
-         lblMemberId.font                    = UIFont.applyOpenSansRegular(fontSize: 15.0)
-         
-         lblUserName.text                    = posData.memberFullName!
-         lblMemberId.text                    = "Member Id: \(posData.memberID ?? 0)"
-         guard let urlProfile = URL.init(string: posData.profileImageURL ?? "") else {return}
-         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
-         
-         //Top View
-         lblDateTime.text                    = Date().currentDate()
-         lblCity.text                        = posData.storeCity
-         lblStoreID.text                     = "Store ID: \(posData.storeID ?? 0)"
-         lblPOSID.text                       = "POS ID:\(posData.posid ?? 0)"
-         lblAmount.text                      = "Amount: $\(posData.totalPurchaseAmount ?? 0.00)"
-         lblOutStandingValue.text            = "$\(posData.balanceRemaining ?? 0.00)"
-         */
         
+        // ColectionView Layout setup
+        consHeightCol.constant   = GConstant.Screen.Height * 0.7
+        view.setNeedsLayout()
         
+        guard posData != nil else { return }
         // Array For Collecion View
         arrCV = [
             ["image"            : "cash_icon",
@@ -148,10 +143,6 @@ class TMSplitPaymentMasterVC: UIViewController {
                 }
             }
         }
-        
-        // ColectionView Layout setup
-        consHeightCol.constant   = GConstant.Screen.Height * 0.7
-        view.setNeedsLayout()
     }
     
     //MARK: - BarButton Action Methods
@@ -206,7 +197,7 @@ class TMSplitPaymentMasterVC: UIViewController {
     }
     
     func showPin(withMethod method: methodType, currentBalance: Double? = 0.00,transactionAmount: Double?, completion   : @escaping (_ pinCode : String) -> Void){
-        let obj = storyboard?.instantiateViewController(withIdentifier: "TMPinViewController") as! TMPinViewController
+        let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.PinView) as! TMPinViewController
         obj.method              = method.rawValue
         obj.balance             = String(format: "%.2f", currentBalance!)
         obj.amount              = String(format: "%.2f", transactionAmount ?? 0.00)
@@ -220,7 +211,7 @@ class TMSplitPaymentMasterVC: UIViewController {
     }
     
     func showPopUp(withMethod method: methodType,transactionAmount: Double?,cardNumber: String? = "",txtUserIntrection: Bool = false, completion   : @escaping (_ amount : String) -> Void){
-        let obj = storyboard?.instantiateViewController(withIdentifier: "TMPopUPVC") as! TMPopUPVC
+        let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.PopUP) as! TMPopUPVC
         obj.method              = method.rawValue
         obj.txtUserIntrection   = txtUserIntrection
         obj.typePopUp           = method == .TokenisedCreditCard ? .creditCard : .other
@@ -316,7 +307,7 @@ class TMSplitPaymentMasterVC: UIViewController {
                                 switch buttonIndex {
                                 case 0 :
                                     //OK clicked
-                                    
+                                    self.backToQR()
                                     break
                                 default:
                                     
@@ -396,6 +387,7 @@ class TMSplitPaymentMasterVC: UIViewController {
                     self.posData.paymentOptions = self.paymentOptionsBackUp
                 }
                 self.posData.balanceRemaining   = self.posData.totalPurchaseAmount
+    
             } else {
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
@@ -446,6 +438,7 @@ extension TMSplitPaymentMasterVC: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard posData != nil else { return 0}
         return arrCV.count
     }
     
@@ -461,6 +454,11 @@ extension TMSplitPaymentMasterVC: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if mixPayFlag == true {
+            AlertManager.shared.showAlertTitle(title: "", message: "Please cancel mix payment method first to countinue with this payment method")
+            return
+        }
         
         if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item]["method"]!, withViewType: .home) {
             return

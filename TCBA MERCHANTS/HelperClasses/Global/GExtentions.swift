@@ -588,6 +588,13 @@ extension UITextView {
     }
     
 }
+//MARK: - ScrollView
+extension UIScrollView {
+    func scrollToTop() {
+        let desiredOffset = CGPoint(x: 0, y: -contentInset.top)
+        setContentOffset(desiredOffset, animated: true)
+    }
+}
 
 //MARK: - UIImageView Extension
 
@@ -934,6 +941,8 @@ class BarButton : NSObject {
 
 //MARK:- UIViewController
 extension UIViewController {
+    
+
     /*
      Example:
      showAlert(title: "Test", message: "A message", buttons: "1", "2") { (option) in

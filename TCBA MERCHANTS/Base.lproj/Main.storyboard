@@ -904,7 +904,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qqJ-ql-RWB">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qqJ-ql-RWB">
                                 <rect key="frame" x="0.0" y="63.5" width="768" height="960.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fw8-oo-SkH" userLabel="mainView">
@@ -1109,7 +1109,7 @@
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="maw-qq-f00" userLabel="ViewTable">
                                                 <rect key="frame" x="0.0" y="280" width="768" height="458"/>
                                                 <subviews>
-                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kkc-N8-EFc">
+                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kkc-N8-EFc">
                                                         <rect key="frame" x="0.0" y="0.0" width="768" height="320.5"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="separatorColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1275,7 +1275,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6d9-KK-44W">
                                                         <rect key="frame" x="0.0" y="320.5" width="768" height="137.5"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FcJ-p2-9Jl">
+                                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FcJ-p2-9Jl">
                                                                 <rect key="frame" x="192.5" y="21" width="384.5" height="41"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
@@ -1408,6 +1408,7 @@
                         <viewLayoutGuide key="safeArea" id="TEw-Q6-JI1"/>
                     </view>
                     <connections>
+                        <outlet property="btnCancel" destination="FcJ-p2-9Jl" id="m0V-93-FQl"/>
                         <outlet property="btnFinish" destination="phz-Wl-iMS" id="EF1-GF-cY3"/>
                         <outlet property="consHeightTbl" destination="3kI-2R-Udk" id="q5K-0t-IVt"/>
                         <outlet property="consTopV" destination="7pm-ow-m5M" id="PuQ-gQ-Dub"/>
@@ -1423,6 +1424,7 @@
                         <outlet property="lblStoreID" destination="g10-cZ-oLR" id="dTC-pn-IN8"/>
                         <outlet property="lblTransaction" destination="Kaf-7G-hF3" id="f6a-lS-k6c"/>
                         <outlet property="lblUserName" destination="L3F-ih-zuP" id="h3k-sb-gLk"/>
+                        <outlet property="scrV" destination="qqJ-ql-RWB" id="NQG-V6-IQz"/>
                         <outlet property="tblVpayment" destination="kkc-N8-EFc" id="QbN-vB-wvr"/>
                         <outlet property="viewTable" destination="maw-qq-f00" id="7HR-oF-HYK"/>
                     </connections>
@@ -2867,7 +2869,7 @@
                                                 </variation>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transaction Amount" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h4g-Hm-En2">
-                                                <rect key="frame" x="15" y="190" width="177.5" height="54.5"/>
+                                                <rect key="frame" x="15" y="189.5" width="177.5" height="54.5"/>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
                                                 <color key="textColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -4074,8 +4076,10 @@
                                                     <constraint firstItem="Qsk-ny-jXZ" firstAttribute="leading" secondItem="zAB-mf-Cup" secondAttribute="leading" id="40F-0w-pUM"/>
                                                     <constraint firstItem="Qsk-ny-jXZ" firstAttribute="centerY" secondItem="zAB-mf-Cup" secondAttribute="centerY" id="F9h-qH-WHQ"/>
                                                     <constraint firstItem="C0K-fi-X4R" firstAttribute="width" secondItem="Qsk-ny-jXZ" secondAttribute="width" id="N8J-OL-bKp"/>
+                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Qsk-ny-jXZ" secondAttribute="trailing" constant="20" symbolic="YES" id="dkG-2f-P4b"/>
                                                     <constraint firstItem="C0K-fi-X4R" firstAttribute="height" secondItem="Qsk-ny-jXZ" secondAttribute="height" id="kzF-g2-vYO"/>
                                                     <constraint firstItem="C0K-fi-X4R" firstAttribute="centerY" secondItem="Qsk-ny-jXZ" secondAttribute="centerY" id="vQG-7x-QzR"/>
+                                                    <constraint firstItem="C0K-fi-X4R" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zAB-mf-Cup" secondAttribute="leading" constant="20" symbolic="YES" id="yhE-sd-LBs"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -4114,7 +4118,7 @@
                                 </constraints>
                                 <viewLayoutGuide key="safeArea" id="dMx-HJ-rdv"/>
                                 <connections>
-                                    <action selector="viewBackAction:" destination="sal-dd-BI9" eventType="valueChanged" id="rP2-os-r7Y"/>
+                                    <action selector="viewBackAction:" destination="sal-dd-BI9" eventType="touchUpInside" id="29u-HP-jQE"/>
                                 </connections>
                             </view>
                         </subviews>
@@ -4152,7 +4156,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="17F-gx-wKJ">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17F-gx-wKJ">
                                 <rect key="frame" x="0.0" y="64" width="320" height="960"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JNW-cG-zCq" userLabel="mainView">
@@ -4196,7 +4200,7 @@
                                                             <constraint firstItem="hrJ-YB-cAp" firstAttribute="height" secondItem="JE8-nX-G0G" secondAttribute="height" multiplier="0.5" id="yun-ZX-mS1"/>
                                                         </constraints>
                                                     </view>
-                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lbu-fQ-mBF">
+                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lbu-fQ-mBF">
                                                         <rect key="frame" x="0.0" y="113" width="320" height="290"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
@@ -4267,8 +4271,8 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bhD-lB-efe">
                                                         <rect key="frame" x="0.0" y="403" width="320" height="112.5"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fav-19-GjT">
-                                                                <rect key="frame" x="80.5" y="39" width="160.5" height="34.5"/>
+                                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fav-19-GjT">
+                                                                <rect key="frame" x="126" y="34" width="68" height="45"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
                                                                 <state key="normal" title="Cancel">
@@ -4285,9 +4289,8 @@
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstItem="fav-19-GjT" firstAttribute="centerX" secondItem="bhD-lB-efe" secondAttribute="centerX" id="Lc8-Yl-a7c"/>
-                                                            <constraint firstItem="fav-19-GjT" firstAttribute="width" secondItem="bhD-lB-efe" secondAttribute="width" multiplier="0.5" id="chK-F7-yWK"/>
                                                             <constraint firstItem="fav-19-GjT" firstAttribute="centerY" secondItem="bhD-lB-efe" secondAttribute="centerY" id="kAS-cn-cf0"/>
-                                                            <constraint firstItem="fav-19-GjT" firstAttribute="height" secondItem="bhD-lB-efe" secondAttribute="height" multiplier="0.3" id="u3e-im-DdB"/>
+                                                            <constraint firstItem="fav-19-GjT" firstAttribute="height" secondItem="bhD-lB-efe" secondAttribute="height" multiplier="0.4" id="u3e-im-DdB"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>

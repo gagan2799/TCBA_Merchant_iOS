@@ -52,6 +52,7 @@ class TMHomeViewController: UIViewController {
         
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
         guard scrollVHome != nil else {return}
         if UIDevice.current.orientation.isLandscape == true {
             scrollVHome.isScrollEnabled = true

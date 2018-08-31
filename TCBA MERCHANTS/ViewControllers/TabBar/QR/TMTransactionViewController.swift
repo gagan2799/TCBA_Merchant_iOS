@@ -36,11 +36,21 @@ class TMTransactionViewController: UIViewController {
     //MARK: View life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        CompletionHandler.shared.litsenerEvent(.pushToPayment) { (data) in
+            guard let pData = data as? PostCreatePOSModel else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+                let objPVC          = self.storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.StorePayment) as! TMStorePaymentVC
+                objPVC.posData      = pData
+                objPVC.typeTable    = .mix
+                print(self.navigationController as Any)
+                self.navigationController?.pushViewController(objPVC, animated: true)
+            })
+        }
         setViewProperties()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        txtId.text = ""
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -134,7 +144,7 @@ class TMTransactionViewController: UIViewController {
     }
 
     func pushToMemberTransaction(data: MemberTransactionDetailsModel) {
-        let obj         = storyboard?.instantiateViewController(withIdentifier: "TMMemberTransactionVC") as! TMMemberTransactionVC
+        let obj         = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.MemberTransaction) as! TMMemberTransactionVC
         obj.memTranData = data
         self.navigationController?.pushViewController(obj, animated: true)
         

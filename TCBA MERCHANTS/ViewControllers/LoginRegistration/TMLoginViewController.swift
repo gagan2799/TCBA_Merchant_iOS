@@ -89,6 +89,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
+        
         //<---------------ScrollVIew------------->
         // By default scrolling is disable
         //<--------Update PopUp properties with orientation----->

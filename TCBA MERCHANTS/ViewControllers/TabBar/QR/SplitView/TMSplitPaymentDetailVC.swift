@@ -20,7 +20,8 @@ class TMSplitPaymentDetailVC: UIViewController {
     
     //TableView
     @IBOutlet weak var tblVpayment: UITableView!
-    
+    //ScrollVIew
+    @IBOutlet weak var scrV: UIScrollView!
     // Variables
     var arrTV           = [Dictionary<String,String>]()
     var arrCreditCards  = [PostCreatePOSPaymentOption]()
@@ -31,6 +32,7 @@ class TMSplitPaymentDetailVC: UIViewController {
     var typeView         : viewType!
     var typeTable        : tableType!
     var typeMethod       : methodType!
+    
     
     // UIImageView
     @IBOutlet weak var imgVUser: RoundedImage!
@@ -53,6 +55,7 @@ class TMSplitPaymentDetailVC: UIViewController {
     @IBOutlet weak var viewTable: UIView!
     
     @IBOutlet weak var btnFinish: UIButton!
+    @IBOutlet weak var btnCancel: UIButton!
     
     
     //MARK: View life Cycle
@@ -65,6 +68,7 @@ class TMSplitPaymentDetailVC: UIViewController {
             if let type = tType as? tableType {
                 self.typeView = type == .card ? .home : .mixPayment
                 self.reloadTableView(withTblType: type == .card ? .card : .mix)
+                self.scrV.isScrollEnabled = true
             }
         }
         
@@ -227,7 +231,7 @@ class TMSplitPaymentDetailVC: UIViewController {
     }
     
     func showPin(withMethod method: methodType, currentBalance: Double? = 0.00,transactionAmount: Double?, completion   : @escaping (_ pinCode : String) -> Void){
-        let obj = storyboard?.instantiateViewController(withIdentifier: "TMPinViewController") as! TMPinViewController
+        let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.PinView) as! TMPinViewController
         obj.method              = method.rawValue
         obj.balance             = String(format: "%.2f", currentBalance!)
         obj.amount              = String(format: "%.2f", transactionAmount ?? 0.00)
@@ -241,7 +245,7 @@ class TMSplitPaymentDetailVC: UIViewController {
     }
     
     func showPopUp(withMethod method: methodType,transactionAmount: Double?,cardNumber: String? = "",txtUserIntrection: Bool = false, completion   : @escaping (_ amount : String) -> Void){
-        let obj = storyboard?.instantiateViewController(withIdentifier: "TMPopUPVC") as! TMPopUPVC
+        let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.PopUP) as! TMPopUPVC
         obj.method              = method.rawValue
         obj.txtUserIntrection   = txtUserIntrection
         obj.typePopUp           = method == .TokenisedCreditCard ? .creditCard : .other
@@ -461,6 +465,9 @@ class TMSplitPaymentDetailVC: UIViewController {
                     self.posData    = pData
                     self.lblOutStandingValue.text  = "$\(self.posData.balanceRemaining ?? 0.00)"
                     if let payments = self.posData.payments {
+                        if payments.count > 0 {
+                            CompletionHandler.shared.triggerEvent(.checkPayment, passData: true)
+                        }
                         for item in payments {
                             if item.type == type.rawValue {
                                 for index in self.arrTV.indices{
@@ -473,6 +480,11 @@ class TMSplitPaymentDetailVC: UIViewController {
                         }
                     }
                     self.reloadTableView(withTblType: .mix)
+                    if let payment = pData.payments?.count {
+                        if payment > 0{
+                            self.btnCancel.isHidden = false
+                        }
+                    }
                     if pData.balanceRemaining == 0 {
                         self.btnFinish.isHidden = false
                     }
@@ -604,6 +616,13 @@ class TMSplitPaymentDetailVC: UIViewController {
                 }
                 self.posData.balanceRemaining   = self.posData.totalPurchaseAmount
                 self.viewTable.animateHideShow()
+                self.btnFinish.isHidden         = true
+                self.btnCancel.isHidden         = true
+                self.scrV.scrollToTop() 
+                self.scrV.isScrollEnabled       = false
+                
+                CompletionHandler.shared.triggerEvent(.checkPayment, passData: false)
+                
             } else {
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
@@ -629,6 +648,7 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
     
     //MARK: TableView Delegates & DataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard posData != nil else { return 0}
         if typeTable == .card {
             return arrCreditCards.count
         } else {
@@ -639,8 +659,8 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if typeTable == .card {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreTVCell") as! TMStorePaymentTVCell
-            cell.lblTitle.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 15.0), labelColor: GConstant.AppColor.textLight)
-            cell.lblTitle.text          = "Saved Credit Cards"
+            cell.lblTitle.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 14.0), labelColor: GConstant.AppColor.textLight)
+            cell.lblTitle.text          = typeView == .mixPayment ? "Saved Credit Cards(MixPayments)" : "Saved Credit Cards"
             cell.imgVTV.image           = UIImage(named: "card_icon")
             cell.lblAmtPaid.isHidden    = true
             cell.lblBal.isHidden        = true
@@ -708,8 +728,11 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
             return cell
         } else { // Table for Card list
             let cell = tableView.dequeueReusableCell(withIdentifier: "CardTVCell") as! TMCardTVCell
-            cell.lblCardNo.font          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
-            
+           
+            DispatchQueue.main.async {
+                cell.lblCardNo.font          = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
+            }
+        
             if let name = arrCreditCards[indexPath.row].name {
                 cell.lblCardNo.text = name
                 if name.contains("MASTERCARD") {
@@ -728,6 +751,11 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if typeTable == .mix {
+            if arrTV[indexPath.row]["selectedAmount"] != "" {
+                resetPayments()
+                return
+            }
+            
             if !GFunction.shared.checkPaymentOptions(withPosData: self.posData, Method:  arrTV[indexPath.row]["method"]!, withViewType: .mixPayment) {
                 return
             }

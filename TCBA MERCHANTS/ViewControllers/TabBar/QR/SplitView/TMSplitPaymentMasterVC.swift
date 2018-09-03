@@ -91,47 +91,47 @@ class TMSplitPaymentMasterVC: UIViewController {
         guard posData != nil else { return }
         // Array For Collecion View
         arrCV = [
-            ["image"            : "cash_icon",
-             "title"            : "Cash or EFTPOS",
-             "balance"          : "",
-             "selectedAmount"   : "",
-             "method"           : "CashOrEFTPOS",
-             "posPaymentID"     : ""],
+            [   "image"            : "cash_icon",
+                "title"            : "Cash or EFTPOS",
+                "balance"          : "",
+                "selectedAmount"   : "",
+                "method"           : "CashOrEFTPOS",
+                "posPaymentID"     : ""],
             
-            ["image"            : "wallet_icon",
-             "title"            : "Wallet Funds",
-             "balance"          : "\(posData.walletBalance ?? 0.00)",
+            [   "image"            : "wallet_icon",
+                "title"            : "Wallet Funds",
+                "balance"          : "\(posData.walletBalance ?? 0.00)",
                 "selectedAmount"   : "",
                 "method"           : "Wallet",
                 "posPaymentID"     : ""],
             
-            ["image"            : "card_icon",
-             "title"            : "Saved Credit Cards",
-             "balance"          : "",
-             "selectedAmount"   : "",
-             "method"           : "TokenisedCreditCard",
-             "posPaymentID"     : ""],
+            [   "image"            : "card_icon",
+                "title"            : "Saved Credit Cards",
+                "balance"          : "",
+                "selectedAmount"   : "",
+                "method"           : "TokenisedCreditCard",
+                "posPaymentID"     : ""],
             
-            ["image"            : "prizefundtrophy",
-             "title"            : "Prize Funds",
-             "balance"          : "\(posData.availablePrizeCash ?? 0.00)",
+            [   "image"            : "prizefundtrophy",
+                "title"            : "Prize Funds",
+                "balance"          : "\(posData.availablePrizeCash ?? 0.00)",
                 "selectedAmount"   : "",
                 "method"           : "PrizeWallet",
                 "posPaymentID"     : ""],
             
-            ["image"            : "loyality_icon",
-             "title"            : "Loyalty Credits",
-             "balance"          : "\(posData.availableLoyaltyCash ?? 0.00)",
+            [   "image"            : "loyality_icon",
+                "title"            : "Loyalty Credits",
+                "balance"          : "\(posData.availableLoyaltyCash ?? 0.00)",
                 "selectedAmount"   : "",
                 "method"           : "LoyaltyCash",
                 "posPaymentID"     : ""],
             
-            ["image"            : "mixpayment",
-             "title"            : "Mixed Payment",
-             "balance"          : "",
-             "selectedAmount"   : "",
-             "method"           : "",
-             "posPaymentID"     : ""]]
+            [   "image"            : "mixpayment",
+                "title"            : "Mixed Payment",
+                "balance"          : "",
+                "selectedAmount"   : "",
+                "method"           : "",
+                "posPaymentID"     : ""]]
         
         
         // Array of Credit Cards
@@ -462,6 +462,10 @@ extension TMSplitPaymentMasterVC: UICollectionViewDelegate, UICollectionViewData
         
         if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item]["method"]!, withViewType: .home) {
             return
+        }
+        
+        if indexPath.row != 5 || indexPath.row != 2 {
+            CompletionHandler.shared.triggerEvent(.hideTableContainerPayment, passData: nil)
         }
         
         if indexPath.row == 0 {

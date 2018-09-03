@@ -19,6 +19,7 @@ public class LoaderWithLabel {
     
     public class var shared: LoaderWithLabel {
         struct Static {
+                       
             static let instance: LoaderWithLabel = LoaderWithLabel()
         }
         return Static.instance
@@ -28,6 +29,8 @@ public class LoaderWithLabel {
     var lblMessage = UILabel()
     
     public func showProgressView(anyView: AnyObject, message: String = "Loading data") {
+        NotificationCenter.default.addObserver(self, selector: #selector(LoaderWithLabel.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         UIView.animate(withDuration: 0.2) {
             self.activityIndicator.alpha    =   1.0
@@ -45,26 +48,29 @@ public class LoaderWithLabel {
         let animatedImage = UIImage.gif(data: imageData)
         
         pinchImageView = UIImageView(image: animatedImage)
-        pinchImageView.frame                = CGRect(x: 0.0, y: 0.0, width: 80*GConstant.Screen.HeightAspectRatio, height: 80*GConstant.Screen.HeightAspectRatio)
-        pinchImageView.backgroundColor      = .clear
+        pinchImageView.frame = CGRect(x: 0.0, y: 0.0, width: 80*GConstant.Screen.HeightAspectRatio, height: 80*GConstant.Screen.HeightAspectRatio)
+        pinchImageView.backgroundColor = .clear
         
-        progressView.frame                  = CGRect(x: 0.0, y: 0.0, width: pinchImageView.bounds.width, height: pinchImageView.bounds.height)
-        progressView.backgroundColor        = .clear
-        progressView.layer.cornerRadius     = 3*GConstant.Screen.HeightAspectRatio
-        progressView.layer.masksToBounds    = true
+        progressView.frame = CGRect(x: 0.0, y: 0.0, width: pinchImageView.bounds.width, height: pinchImageView.bounds.height)
+        progressView.backgroundColor = .clear
+        progressView.layer.cornerRadius = 3*GConstant.Screen.HeightAspectRatio
+        progressView.layer.masksToBounds = true
         progressView.center = anyView.center
         progressView.addSubview(pinchImageView)
         
-        lblMessage                          = UILabel.init(frame: CGRect(x: anyView.center.x - (pinchImageView.bounds.width)/2 , y: anyView.center.y + (pinchImageView.bounds.height)/1.8, width: pinchImageView.bounds.width, height: message.height(withConstrainedWidth: pinchImageView.bounds.width, font: UIFont.applyOpenSansRegular(fontSize: 13.0*GConstant.Screen.HeightAspectRatio))))
-        lblMessage.textAlignment            = .center
+        lblMessage = UILabel.init(frame: CGRect(x: anyView.center.x - (pinchImageView.bounds.width)/2 , y: anyView.center.y + (pinchImageView.bounds.height)/1.8, width: pinchImageView.bounds.width, height: message.height(withConstrainedWidth: pinchImageView.bounds.width, font: UIFont.applyOpenSansRegular(fontSize: 13.0*GConstant.Screen.HeightAspectRatio))))
+        lblMessage.textAlignment = .center
         
-        lblMessage.numberOfLines            = 0
+        lblMessage.numberOfLines = 0
         lblMessage.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 12.0*GConstant.Screen.HeightAspectRatio), labelColor: .white)
-        lblMessage.text                     = message
+        lblMessage.text = message
         
         containerView.addSubview(lblMessage)
         containerView.addSubview(progressView)
         anyView.addSubview(containerView)
+      //  UIApplication.shared.keyWindow?.addSubview(containerView)
+
+    
     }
     
     public func hideProgressView() {
@@ -83,6 +89,19 @@ public class LoaderWithLabel {
             self.progressView.removeFromSuperview()
             self.containerView.removeFromSuperview()
             self.lblMessage.removeFromSuperview()
+            NotificationCenter.default.removeObserver(NSNotification.Name.UIDeviceOrientationDidChange)
+            
+        }
+    }
+    
+    @objc func rotated() {
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            let message1 : String = "Loading data"
+            self.containerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            self.progressView.center = self.containerView.center
+            self.lblMessage.frame =  CGRect(x: self.containerView.center.x - (self.self.pinchImageView.bounds.width)/2 , y: self.containerView.center.y + (self.pinchImageView.bounds.height)/1.8, width: self.pinchImageView.bounds.width, height: message1.height(withConstrainedWidth: self.pinchImageView.bounds.width, font: UIFont.applyOpenSansRegular(fontSize: 13.0*GConstant.Screen.HeightAspectRatio)))
+            
+            print(self.containerView.frame)
         }
     }
 }

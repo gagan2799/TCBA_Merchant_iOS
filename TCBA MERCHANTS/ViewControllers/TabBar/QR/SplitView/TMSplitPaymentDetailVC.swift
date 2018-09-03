@@ -64,11 +64,19 @@ class TMSplitPaymentDetailVC: UIViewController {
         
         //<------Update tableView for types
         CompletionHandler.shared.litsenerEvent(.svReloadTbl) { (tType) in
-            
             if let type = tType as? tableType {
                 self.typeView = type == .card ? .home : .mixPayment
                 self.reloadTableView(withTblType: type == .card ? .card : .mix)
                 self.scrV.isScrollEnabled = true
+            }
+        }
+        
+        //<-----Hide TableView container if not Mix payment or credidit card selected on master view controller
+        CompletionHandler.shared.litsenerEvent(.hideTableContainerPayment) { (tBool) in
+            if self.viewTable.isHidden == false{
+                self.viewTable.animateHideShow()
+                self.scrV.scrollToTop()
+                self.scrV.isScrollEnabled = false
             }
         }
         
@@ -139,40 +147,40 @@ class TMSplitPaymentDetailVC: UIViewController {
         // Array for TableView in mix payments
         
         arrTV = [
-            ["image"            : "cash_icon",
-             "title"            : "Cash or EFTPOS",
-             "balance"          : "",
-             "selectedAmount"   : "",
-             "method"           : "CashOrEFTPOS",
-             "posPaymentID"     : ""],
+            [   "image"            : "cash_icon",
+                "title"            : "Cash or EFTPOS",
+                "balance"          : "",
+                "selectedAmount"   : "",
+                "method"           : "CashOrEFTPOS",
+                "posPaymentID"     : ""],
             
-            ["image"            : "loyality_icon",
-             "title"            : "Loyalty Credits",
-             "balance"          : "\(posData.availableLoyaltyCash ?? 0.00)",
+            [   "image"            : "loyality_icon",
+                "title"            : "Loyalty Credits",
+                "balance"          : "\(posData.availableLoyaltyCash ?? 0.00)",
                 "selectedAmount"   : "",
                 "method"           : "LoyaltyCash",
                 "posPaymentID"     : ""],
             
-            ["image"            : "wallet_icon",
-             "title"            : "Wallet Funds",
-             "balance"          : "\(posData.walletBalance ?? 0.00)",
+            [   "image"            : "wallet_icon",
+                "title"            : "Wallet Funds",
+                "balance"          : "\(posData.walletBalance ?? 0.00)",
                 "selectedAmount"   : "",
                 "method"           : "Wallet",
                 "posPaymentID"     : ""],
             
-            ["image"            : "prizefundtrophy",
-             "title"            : "Prize Funds",
-             "balance"          : "\(posData.availablePrizeCash ?? 0.00)",
+            [   "image"            : "prizefundtrophy",
+                "title"            : "Prize Funds",
+                "balance"          : "\(posData.availablePrizeCash ?? 0.00)",
                 "selectedAmount"   : "",
                 "method"           : "PrizeWallet",
                 "posPaymentID"     : ""],
             
-            ["image"            : "card_icon",
-             "title"            : "Saved Credit Cards",
-             "balance"          : "",
-             "selectedAmount"   : "",
-             "method"           : "TokenisedCreditCard",
-             "posPaymentID"     : ""]]
+            [   "image"            : "card_icon",
+                "title"            : "Saved Credit Cards",
+                "balance"          : "",
+                "selectedAmount"   : "",
+                "method"           : "TokenisedCreditCard",
+                "posPaymentID"     : ""]]
         
         
         // Array of Credit Cards
@@ -623,6 +631,7 @@ class TMSplitPaymentDetailVC: UIViewController {
                 
                 CompletionHandler.shared.triggerEvent(.checkPayment, passData: false)
                 
+                
             } else {
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
@@ -728,11 +737,11 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
             return cell
         } else { // Table for Card list
             let cell = tableView.dequeueReusableCell(withIdentifier: "CardTVCell") as! TMCardTVCell
-           
+            
             DispatchQueue.main.async {
                 cell.lblCardNo.font          = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
             }
-        
+            
             if let name = arrCreditCards[indexPath.row].name {
                 cell.lblCardNo.text = name
                 if name.contains("MASTERCARD") {

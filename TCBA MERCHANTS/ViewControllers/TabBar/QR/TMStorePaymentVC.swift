@@ -869,7 +869,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
                 return
             }
             
-            if GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) {
+            if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) {
                 return
             }
             if indexPath.row == 0 {
@@ -894,7 +894,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
                 }
             } else if indexPath.row == 4 {
                 //<===TokenisedCreditCard===>
-                if arrCreditCards.count == 0{
+                if arrCreditCards.count == 0 {
                     AlertManager.shared.showAlertTitle(title: "", message: "Please attach a credit card to your wallet to use this feature.")
                 }else{
                     typeView = .mixPayment

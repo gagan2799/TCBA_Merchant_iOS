@@ -34,11 +34,11 @@ struct GConstant {
     //MARK: - Screen (Width - Height)
     struct Screen {
         
-        static let kWidth                        =  UIScreen.main.bounds.size.width
-        static var kHeight                       =  UIScreen.main.bounds.size.height
-        static var Width                         =  UIScreen.main.bounds.size.width
-        static var Height                        =  UIScreen.main.bounds.size.height
-        static var HeightAspectRatio:CGFloat     =  kHeight / 667.0
+        static let kWidth                       =  UIScreen.main.bounds.size.width
+        static var kHeight                      =  UIScreen.main.bounds.size.height
+        static var Width                        =  UIScreen.main.bounds.size.width
+        static var Height                       =  UIScreen.main.bounds.size.height
+        static var HeightAspectRatio:CGFloat    =  kHeight / 667.0
     }
     
     // MARK:- Viewcontrollers Identifiers
@@ -63,15 +63,16 @@ struct GConstant {
         static let Share                        = "TMShareViewController"
         //More Tab
         static let More                         = "TMMoreViewController"
+        static let MyBusiness                   = "TMMyBusinessVC"
         
     }
         
     //MARK:- UserDefaults
     struct UserDefaultKeys {
-        static let AppLaunch                        : String = "kAppLaunch"
-        static let DeviceId                         : String = "kDeviceId"
-        static let UserDataLogin                    : String = "kLoginUserData"
-        static let UserName                         : String = "kUserNameLogin"
+        static let AppLaunch                    : String = "kAppLaunch"
+        static let DeviceId                     : String = "kDeviceId"
+        static let UserDataLogin                : String = "kLoginUserData"
+        static let UserName                     : String = "kUserNameLogin"
     }
     
     //MARK:- Messages

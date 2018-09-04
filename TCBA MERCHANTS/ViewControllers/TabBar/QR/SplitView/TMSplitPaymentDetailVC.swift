@@ -114,12 +114,12 @@ class TMSplitPaymentDetailVC: UIViewController {
     func setViewProperties(){
         
         /*   navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "back_button"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.plain, target: self, action: #selector(backButtonAction)) */
-        DispatchQueue.main.async {
+        if Thread.isMainThread {
             self.lblUserName.font           = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
             self.lblMemberId.font           = UIFont.applyOpenSansRegular(fontSize: 11.0)
             
-            self.lblTransaction.font        = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
-            self.lblCashBack.font           = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
+            self.lblTransaction.font        = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
+            self.lblCashBack.font           = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
             self.lblDateTime.font           = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
             self.lblCity.font               = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
             
@@ -128,7 +128,24 @@ class TMSplitPaymentDetailVC: UIViewController {
             self.lblAmount.font             = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
             self.lblBalanceOutStanding.font = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
             self.lblOutStandingValue.font   = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+        }else{
+            DispatchQueue.main.async {
+                self.lblUserName.font           = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+                self.lblMemberId.font           = UIFont.applyOpenSansRegular(fontSize: 11.0)
+                
+                self.lblTransaction.font        = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
+                self.lblCashBack.font           = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
+                self.lblDateTime.font           = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+                self.lblCity.font               = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+                
+                self.lblStoreID.font            = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+                self.lblPOSID.font              = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+                self.lblAmount.font             = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+                self.lblBalanceOutStanding.font = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+                self.lblOutStandingValue.font   = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
+            }
         }
+       
         
         lblUserName.text                    = posData.memberFullName!
         lblMemberId.text                    = "Member Id: \(posData.memberID ?? 0)"
@@ -668,14 +685,16 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if typeTable == .card {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreTVCell") as! TMStorePaymentTVCell
-            cell.lblTitle.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 14.0), labelColor: GConstant.AppColor.textLight)
-            cell.lblTitle.text          = typeView == .mixPayment ? "Saved Credit Cards(MixPayments)" : "Saved Credit Cards"
-            cell.imgVTV.image           = UIImage(named: "card_icon")
-            cell.lblAmtPaid.isHidden    = true
-            cell.lblBal.isHidden        = true
-            cell.lblAvailable.isHidden  = true
-            cell.vBlueLine.isHidden     = false
-            cell.contentView.alpha      = 1.0
+            DispatchQueue.main.async {
+                cell.lblTitle.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 14.0), labelColor: GConstant.AppColor.textLight)
+                cell.lblTitle.text          = self.typeView == .mixPayment ? "Saved Credit Cards(MixPayments)" : "Saved Credit Cards"
+                cell.imgVTV.image           = UIImage(named: "card_icon")
+                cell.lblAmtPaid.isHidden    = true
+                cell.lblBal.isHidden        = true
+                cell.lblAvailable.isHidden  = true
+                cell.vBlueLine.isHidden     = false
+                cell.contentView.alpha      = 1.0
+            }
             return cell
         }
         return nil
@@ -701,38 +720,42 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
                 cell.lblBal.font            = UIFont.applyOpenSansRegular(fontSize: 14.0)
                 cell.lblAvailable.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
                 cell.lblAmtPaid.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0), borderColor: GConstant.AppColor.textDark, backgroundColor: .white, borderWidth: 1.0)
+                
+                cell.imgVTV.image           = UIImage(named: self.arrTV[indexPath.item]["image"]!)
+                cell.lblTitle.text          = self.arrTV[indexPath.item]["title"]
+                cell.lblBal.text            = "$" + self.arrTV[indexPath.item]["balance"]!
+                
+                cell.contentView.alpha      = GFunction.shared.checkPaymentOptions(withPosData: self.posData, Method: self.arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) ? 1.0 : 0.5
+                
+                if self.arrTV[indexPath.item]["method"] == "TokenisedCreditCard" || self.arrTV[indexPath.item]["method"] == "CashOrEFTPOS" {
+                    cell.lblBal.isHidden        = true
+                    cell.lblAvailable.isHidden  = true
+                }else{
+                    cell.lblBal.isHidden        = false
+                    cell.lblAvailable.isHidden  = false
+                }
+                
+                cell.vBlueLine.isHidden     = true
+                cell.lblAmtPaid.isHidden    = true
+                cell.consLblWidth.constant  = 0.0
+               
             }
-            
-            cell.imgVTV.image           = UIImage(named: arrTV[indexPath.item]["image"]!)
-            cell.lblTitle.text          = arrTV[indexPath.item]["title"]
-            cell.lblBal.text            = "$" + arrTV[indexPath.item]["balance"]!
-            
-            cell.contentView.alpha      = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) ? 1.0 : 0.5
-            
-            if arrTV[indexPath.item]["method"] == "TokenisedCreditCard" || arrTV[indexPath.item]["method"] == "CashOrEFTPOS" {
-                cell.lblBal.isHidden        = true
-                cell.lblAvailable.isHidden  = true
-            }else{
-                cell.lblBal.isHidden        = false
-                cell.lblAvailable.isHidden  = false
-            }
-            
-            cell.vBlueLine.isHidden     = true
-            cell.lblAmtPaid.isHidden    = true
-            cell.consLblWidth.constant  = 0.0
-            guard posData != nil else { return cell }
-            if let payments = posData.payments {
+            guard self.posData != nil else { return cell }
+            if let payments = self.posData.payments {
                 if payments.count > 0{
                     for item in payments{
-                        if item.type == arrTV[indexPath.row]["method"] {
-                            cell.vBlueLine.isHidden     = false
-                            cell.lblAmtPaid.isHidden    = false
-                            cell.consLblWidth.constant  = GConstant.Screen.Width * 0.18
-                            cell.lblAmtPaid.text        = arrTV[indexPath.row]["selectedAmount"]
+                        DispatchQueue.main.async {
+                            if item.type == self.arrTV[indexPath.row]["method"] {
+                                cell.vBlueLine.isHidden     = false
+                                cell.lblAmtPaid.isHidden    = false
+                                cell.consLblWidth.constant  = GConstant.Screen.Width * 0.18
+                                cell.lblAmtPaid.text        = self.arrTV[indexPath.row]["selectedAmount"]
+                            }
                         }
                     }
                 }
             }
+            
             cell.layoutIfNeeded()
             return cell
         } else { // Table for Card list

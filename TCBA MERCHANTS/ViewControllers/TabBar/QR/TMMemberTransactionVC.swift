@@ -147,7 +147,8 @@ class TMMemberTransactionVC: UIViewController {
         vcm.posData = data
         
         let vcd : TMSplitPaymentDetailVC = splitViewController.viewControllers[1] as! TMSplitPaymentDetailVC
-        vcd.posData = data
+        vcd.posData     = data
+        vcd.typeTable   = .mix
         
         //Make sure pass data to Master & Details before setting preferredDisplayMode = .allVisible
         splitViewController.preferredDisplayMode = .allVisible

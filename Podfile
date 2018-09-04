@@ -11,7 +11,6 @@ pod 'SDWebImage'
 pod 'Alamofire'
 pod 'SwiftyJSON'
 pod 'EmptyDataSet-Swift'
-pod 'INSPullToRefresh'
 pod 'ESTabBarController-swift'
 pod 'SwiftGifOrigin'
 end

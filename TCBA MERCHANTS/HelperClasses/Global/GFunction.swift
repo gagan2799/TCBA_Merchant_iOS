@@ -149,6 +149,61 @@ func getUserDataFromDefaults() -> UserLoginModel? {
         case short
         case full
     }
+    //MARK: Gradient Line
+    enum LineType {
+        case vertical
+        case horizontal
+    }
+    func getDoubleGradientView(_ frame: CGRect, start startColor: UIColor?, midColor: UIColor?, end endColor: UIColor?, direction: LineType) -> UIView? {
+        let completeView = UIView(frame: frame)
+        completeView.backgroundColor = UIColor.clear
+        //    0 Direction is horizontal
+        //    1 direction is vertical
+        
+        if direction == .horizontal {
+            let startPoint = CGPoint(x: 0.0, y: 0.5)
+            let endpoint = CGPoint(x: 1.0, y: 0.5)
+            var frm = CGRect(x: 0, y: 0, width: completeView.frame.width / 2, height: completeView.frame.height)
+            let startView: UIView? = getGradientviewWithFrame(frm, start: startColor, end: midColor, start: startPoint, end: endpoint)
+            frm = CGRect(x: completeView.frame.width / 2, y: 0, width: completeView.frame.width / 2, height: completeView.frame.height)
+            let endView: UIView? = getGradientviewWithFrame(frm, start: midColor, end: endColor, start: startPoint, end: endpoint)
+            if let aView = startView {
+                completeView.addSubview(aView)
+            }
+            if let aView = endView {
+                completeView.addSubview(aView)
+            }
+        } else {
+            let startPoint = CGPoint(x: 0.5, y: 0.0)
+            let endpoint = CGPoint(x: 0.5, y: 1.0)
+            var frm = CGRect(x: 0, y: 0, width: (completeView.frame.width), height: completeView.frame.height / 2)
+            let startView: UIView? = getGradientviewWithFrame(frm, start: startColor, end: midColor, start: startPoint, end: endpoint)
+            frm = CGRect(x: 0, y: completeView.frame.height / 2, width: (completeView.frame.width), height: completeView.frame.height / 2)
+            let endView: UIView? = getGradientviewWithFrame(frm, start: midColor, end: endColor, start: startPoint, end: endpoint)
+            if let aView = startView {
+                completeView.addSubview(aView)
+            }
+            if let aView = endView {
+                completeView.addSubview(aView)
+            }
+        }
+        return completeView
+    }
+    func getGradientviewWithFrame(_ frm: CGRect, start startColor: UIColor?, end endColor: UIColor?, start startPoint: CGPoint, end endPoint: CGPoint) -> UIView? {
+        let lineView = UIView(frame: frm)
+        let gradientlayer = CAGradientLayer()
+        gradientlayer.frame = lineView.bounds
+        if let startCol  = startColor , let endCol = endColor {
+            gradientlayer.colors = [startCol.cgColor, endCol.cgColor]
+        }
+        gradientlayer.startPoint = startPoint
+        gradientlayer.endPoint = endPoint
+        
+        lineView.layer.insertSublayer(gradientlayer, at: 0)
+        
+        return lineView
+    }
+
     
     //MARK: - Other Method
     func compareDateTrueIfExpire(dateString : String , dateFormatter formatterString: String = "EEE, dd MM yyyy HH:mm:ss zzz") -> Bool {

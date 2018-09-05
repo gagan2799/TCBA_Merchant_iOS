@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>UI Color Picker &mdash; CKEditor Sample</title>
+	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script type="text/javascript" src="ckeditor.js"></script>
+    <style>
+        
+    </style>
+	
+</head>
+<body>
+	<p>
+    <textarea cols="100" id="editor1" name="editor1" rows="10"></textarea>
+		<script type="text/javascript">
+		//<![CDATA[
+			// Replace the <textarea id="editor"> with an CKEditor
+			// instance, using default configurations.
+			
+			//var ww = window.screen.height;
+			//ww = ww - 100;
+			//console.log(ww);
+			
+			var w = window,
+			d = document,
+			e = d.documentElement,
+			g = d.getElementsByTagName('body')[0],
+			x = w.innerWidth || e.clientWidth || g.clientWidth,
+			y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+			
+			y = y - 90;
+			
+			CKEDITOR.replace( 'editor1',
+				{
+                  height: y+'px'
+				});
+		//]]>
+		</script>
+	</p>
+	
+	
+</body>
+</html>

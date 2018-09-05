@@ -64,15 +64,16 @@ struct GConstant {
         //More Tab
         static let More                         = "TMMoreViewController"
         static let MyBusiness                   = "TMMyBusinessVC"
+        static let EditBusiness                 = "TMEditBusinessDetailVC"
         
     }
         
     //MARK:- UserDefaults
     struct UserDefaultKeys {
-        static let AppLaunch                    : String = "kAppLaunch"
-        static let DeviceId                     : String = "kDeviceId"
-        static let UserDataLogin                : String = "kLoginUserData"
-        static let UserName                     : String = "kUserNameLogin"
+        static let AppLaunch           : String = "kAppLaunch"
+        static let DeviceId            : String = "kDeviceId"
+        static let UserDataLogin       : String = "kLoginUserData"
+        static let UserName            : String = "kUserNameLogin"
     }
     
     //MARK:- Messages

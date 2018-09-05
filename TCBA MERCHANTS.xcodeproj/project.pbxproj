@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		26C3D5D680E47A74FB79CFE1 /* Pods_TCBA_MERCHANTS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044C829249AADEDFD33D6C53 /* Pods_TCBA_MERCHANTS.framework */; };
+		7901887E213FE8A100C9110B /* CKEditor in Resources */ = {isa = PBXBuildFile; fileRef = 7901887D213FE8A100C9110B /* CKEditor */; };
 		7905A0F4212BE9770079712A /* DynamicColView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7905A0F3212BE9770079712A /* DynamicColView.swift */; };
 		7905A0F6212C22EE0079712A /* TMStorePaymentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7905A0F5212C22EE0079712A /* TMStorePaymentTVCell.swift */; };
 		7908E4992122E1EA00E908EC /* MemberTrasactionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908E4982122E1EA00E908EC /* MemberTrasactionModal.swift */; };
@@ -72,6 +73,7 @@
 /* Begin PBXFileReference section */
 		044C829249AADEDFD33D6C53 /* Pods_TCBA_MERCHANTS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TCBA_MERCHANTS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69491408B57AC0804355ECBD /* Pods-TCBA MERCHANTS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TCBA MERCHANTS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS.debug.xcconfig"; sourceTree = "<group>"; };
+		7901887D213FE8A100C9110B /* CKEditor */ = {isa = PBXFileReference; lastKnownFileType = folder; path = CKEditor; sourceTree = "<group>"; };
 		7905A0F3212BE9770079712A /* DynamicColView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicColView.swift; sourceTree = "<group>"; };
 		7905A0F5212C22EE0079712A /* TMStorePaymentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStorePaymentTVCell.swift; sourceTree = "<group>"; };
 		7908E4982122E1EA00E908EC /* MemberTrasactionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTrasactionModal.swift; sourceTree = "<group>"; };
@@ -172,6 +174,14 @@
 				044C829249AADEDFD33D6C53 /* Pods_TCBA_MERCHANTS.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		79018724213FB1A800C9110B /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				7901887D213FE8A100C9110B /* CKEditor */,
+			);
+			path = ThirdParty;
 			sourceTree = "<group>";
 		};
 		7908E4972122E1B700E908EC /* TransactionModals */ = {
@@ -309,6 +319,7 @@
 		792B544E20F6159A000223F7 /* HelperClasses */ = {
 			isa = PBXGroup;
 			children = (
+				79018724213FB1A800C9110B /* ThirdParty */,
 				790D391F21083ACE0073AE4C /* ApiManager */,
 				792B545520F63402000223F7 /* Fonts */,
 				792B543820F5EF7C000223F7 /* Global */,
@@ -519,6 +530,7 @@
 				790F0B9020F71ACB00082B79 /* BlocSSiBold.ttf in Resources */,
 				792B542020F5DD32000223F7 /* Assets.xcassets in Resources */,
 				792B545B20F63663000223F7 /* OpenSans-Semibold.ttf in Resources */,
+				7901887E213FE8A100C9110B /* CKEditor in Resources */,
 				790D392F210865110073AE4C /* LoaderAnim.gif in Resources */,
 				792B541E20F5DD30000223F7 /* Main.storyboard in Resources */,
 			);

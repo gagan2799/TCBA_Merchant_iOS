@@ -133,10 +133,8 @@ class TMHistoryViewController: UIViewController {
                 }
                 
                 // Calling IncompleteTransactionData Api
-                let request = RequestModal.mUserData()
-                guard let storeId = GConstant.UserData.stores else{return}
-                request.storeID = storeId
-                self.callIncompleteTransactionDataApi(request)
+               
+                self.callIncompleteTransactionDataApi()
             }else{
                 GFunction.shared.removeLoader()
                 if statusCode == 404{
@@ -158,7 +156,7 @@ class TMHistoryViewController: UIViewController {
         }
     }
     
-    func callIncompleteTransactionDataApi(_ requestModel : RequestModal.mUserData) {
+    func callIncompleteTransactionDataApi() {
         /*
          =====================API CALL=====================
          APIName    : IncompleteTransactionData
@@ -167,8 +165,11 @@ class TMHistoryViewController: UIViewController {
          Parameters : { storeID : "" }
          ===================================================
          */
+        let request = RequestModal.mUserData()
+        guard let storeId = GConstant.UserData.stores else{return}
+        request.storeID = storeId
         
-        ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.IncompleteTransactionData, parameter: requestModel.toDictionary(), withLoader : false) { (data : Data?, statusCode : Int?, error: String) in
+        ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.IncompleteTransactionData, parameter: request.toDictionary(), withLoader : false) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 guard let data = data else{return}
                 self.incompleteData = try! IncompleteTransactionDataModel.decode(_data: data)

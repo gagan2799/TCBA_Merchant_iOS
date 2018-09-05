@@ -10,7 +10,7 @@
 import UIKit
 
 class TMMyBusinessVC: UIViewController {
-
+    
     //MARK: Variables & Constants
     let arrCellNames    = ["Store Featured Content", "Term and Conditions", "Store Detail Content", "Store About Us Content", "Trading Hours", "Contact Details", "Store images", "View Bank Details"]
     let arrICellIcons   = ["business_store", "business_conditions", "business_store-detail", "business_about-us", "business_hours", "business_contact", "business_image", "business_bank"]
@@ -135,18 +135,30 @@ extension TMMyBusinessVC: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if indexPath.row == 0 {
-          
-        } else if indexPath.row == 1 {
-         
-        } else if indexPath.row == 2 {
-           
-        } else if indexPath.row == 3 {
-           
-        } else if indexPath.row == 4 {
-           
-        } else if indexPath.row == 5 {
+        if indexPath.row <= 3 {
+            
+            guard let objEdit = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.EditBusiness) as? TMEditBusinessDetailVC else {return}
+            
+            if indexPath.row == 0 {
+                objEdit.titleType = .FeaturedContent
+                objEdit.storeType = .StoreFeatures
+            } else if indexPath.row == 1 {
+                objEdit.titleType = .TermsAndConditions
+                objEdit.storeType = .StoreTerm
+            } else if indexPath.row == 2 {
+                objEdit.titleType = .StoreDescription
+                objEdit.storeType = .StoreDescription
+            } else if indexPath.row == 3 {
+                objEdit.titleType = .AboutUs
+                objEdit.storeType = .StoreAbout
+            }
+            
+            self.navigationController?.pushViewController(objEdit, animated: true)
         
+        } else if indexPath.row == 4 {
+            
+        } else if indexPath.row == 5 {
+            
         } else if indexPath.row == 6 {
             
         } else if indexPath.row == 7 {

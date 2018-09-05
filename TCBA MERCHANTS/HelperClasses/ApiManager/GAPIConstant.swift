@@ -58,7 +58,7 @@ struct GAPIConstant {
             return BaseURL + "/Payment/POS/GetIncompletePOSes"
         }
         
-        //MARK: - History Details Screen Api's
+        //MARK: History Details Screen Api's
         static var GetMerchantTransactionDetail: String {
             return BaseURL + "/Merchant/GetMerchantTransactionDetail"
         }
@@ -100,5 +100,12 @@ struct GAPIConstant {
         static var GetShareContent: String {
             return BaseURL + "/Content/GetShare"
         }
+        
+        //MARK: - More Tab
+        //MARK: <---My Business--->
+        static var GetStoreContent: String {
+            return BaseURL + "/Stores/GetStoreContent"
+        }
+        
     }
 }

@@ -33,7 +33,6 @@ public class LoaderWithLabel {
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         UIView.animate(withDuration: 0.2) {
-            self.activityIndicator.alpha    =   1.0
             self.pinchImageView.alpha       =   1.0
             self.activityIndicator.alpha    =   1.0
             self.progressView.alpha         =   1.0
@@ -68,15 +67,11 @@ public class LoaderWithLabel {
         containerView.addSubview(lblMessage)
         containerView.addSubview(progressView)
         anyView.addSubview(containerView)
-      //  UIApplication.shared.keyWindow?.addSubview(containerView)
-
-    
     }
     
     public func hideProgressView() {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         UIView.animate(withDuration: 0.2, animations: {
-            self.activityIndicator.alpha    =   0.0
             self.pinchImageView.alpha       =   0.0
             self.activityIndicator.alpha    =   0.0
             self.progressView.alpha         =   0.0

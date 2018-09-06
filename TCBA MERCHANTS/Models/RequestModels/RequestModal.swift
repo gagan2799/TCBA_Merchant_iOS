@@ -123,4 +123,43 @@ class RequestModal: NSObject {
             return dictionary
         }
     }
+    
+    class mUpdateStoreContent: NSObject {
+
+        var storeId             : String!
+        var storeFeatures       : String!
+        var storeTerm           : String!
+        var storeDescription    : String!
+        var storeAbout          : String!
+        
+        
+        override init() {
+            super.init()
+        }
+        
+        init(fromJson json: JSON!) {
+            if json.isEmpty{
+                return
+            }
+            
+            storeId                         = json["storeId"].stringValue
+            storeFeatures                   = json["storeFeatures"].stringValue
+            storeTerm                       = json["storeTerm"].stringValue
+            storeDescription                = json["storeDescription"].stringValue
+            storeAbout                      = json["storeAbout"].stringValue
+        }
+        
+        func toDictionary() -> [String:Any]{
+            var dictionary = [String:Any]()
+
+            dictionary["storeId"]           = storeId
+            dictionary["storeFeatures"]     = storeFeatures
+            dictionary["storeTerm"]         = storeTerm
+            dictionary["storeDescription"]  = storeDescription
+            dictionary["storeAbout"]        = storeAbout
+            
+            return dictionary
+        }
+    }
+
 }

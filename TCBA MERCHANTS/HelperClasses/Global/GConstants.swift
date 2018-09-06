@@ -65,7 +65,11 @@ struct GConstant {
         static let More                         = "TMMoreViewController"
         static let MyBusiness                   = "TMMyBusinessVC"
         static let EditBusiness                 = "TMEditBusinessDetailVC"
-        
+        static let TradingHours                 = "TMTradingHoursVC"
+        static let ContactDetails               = "TMContactDetailVC"
+        static let StoreImages                  = "TMStoreImagesVC"
+        static let MainImage                    = "TMMainImageVC"
+        static let BankDetails                  = "TMBankDetailsVC"
     }
         
     //MARK:- UserDefaults

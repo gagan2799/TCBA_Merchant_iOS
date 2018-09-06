@@ -146,7 +146,7 @@ extension TMMyBusinessVC: UICollectionViewDelegate, UICollectionViewDataSource, 
                 objEdit.titleType = .TermsAndConditions
                 objEdit.storeType = .StoreTerm
             } else if indexPath.row == 2 {
-                objEdit.titleType = .StoreDescription
+                objEdit.titleType = .Description
                 objEdit.storeType = .StoreDescription
             } else if indexPath.row == 3 {
                 objEdit.titleType = .AboutUs
@@ -156,13 +156,17 @@ extension TMMyBusinessVC: UICollectionViewDelegate, UICollectionViewDataSource, 
             self.navigationController?.pushViewController(objEdit, animated: true)
         
         } else if indexPath.row == 4 {
-            
+            guard let objTH = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.TradingHours) as? TMTradingHoursVC else { return }
+            self.navigationController?.pushViewController(objTH, animated: true)
         } else if indexPath.row == 5 {
-            
+            guard let objCD = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.ContactDetails) as? TMContactDetailVC else { return }
+            self.navigationController?.pushViewController(objCD, animated: true)
         } else if indexPath.row == 6 {
-            
+            guard let objSI = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.StoreImages) as? TMStoreImagesVC else { return }
+            self.navigationController?.pushViewController(objSI, animated: true)
         } else if indexPath.row == 7 {
-            
+            guard let objBD = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.BankDetails) as? TMBankDetailsVC else { return }
+            self.navigationController?.pushViewController(objBD, animated: true)
         } else {
             return
         }

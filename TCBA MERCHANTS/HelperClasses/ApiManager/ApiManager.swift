@@ -210,7 +210,7 @@ class ApiManager {
                     if let headerResponse = response.response {
                         statusCode = headerResponse.statusCode
                         if (headerResponse.statusCode == 401) {
-                            //TODO: - Add your logout code here
+                            //TODO: Add your logout code here
                             GFunction.shared.makeUserLoginAlert()
                         }
                     }
@@ -296,7 +296,7 @@ class ApiManager {
                         if let headerResponse = response.response {
                             statusCode = headerResponse.statusCode
                             if (headerResponse.statusCode == 401) {
-                                //TODO: - Add your logout code here
+                                //TODO: Add your logout code here
                                 GFunction.shared.makeUserLoginAlert()
                             }
                         }
@@ -400,7 +400,7 @@ class ApiManager {
                         if let headerResponse = response.response {
                             statusCode = headerResponse.statusCode
                             if (headerResponse.statusCode == 401) {
-                                //TODO: - Add your logout code here
+                                //TODO: Add your logout code here
                                 GFunction.shared.makeUserLoginAlert()
                             }
                         }
@@ -497,7 +497,7 @@ class ApiManager {
                             if let headerResponse = response.response {
                                 statusCode = headerResponse.statusCode
                                 if (headerResponse.statusCode == 401) {
-                                    //TODO: - Add your logout code here
+                                    //TODO: Add your logout code here
                                     GFunction.shared.makeUserLoginAlert()
                                 }
                             }
@@ -590,7 +590,7 @@ class ApiManager {
                                 if let headerResponse = response.response {
                                     statusCode = headerResponse.statusCode
                                     if (headerResponse.statusCode == 401) {
-                                        //TODO: - Add your logout code here
+                                        //TODO: Add your logout code here
                                         GFunction.shared.makeUserLoginAlert()
                                     }
                                 }
@@ -626,6 +626,106 @@ class ApiManager {
                     }
                 }
             })
+        }
+    }
+    
+    //MARK: PUT
+    
+    func PUTWithBearerAuth(strURL url : String
+        , parameter :  Dictionary<String, Any>?
+        , withErrorAlert errorAlert : Bool = false
+        , withLoader isLoader : Bool = true
+        , debugInfo isPrint: Bool = true
+        , contentType: String = "application/json"
+        , encording: ParameterEncoding = JSONEncoding()
+        , withBlock completion : @escaping (Data?, Int?, String) -> Void) {
+        
+        if Connectivity.isConnectedToInternet {
+            self.CallCheckRefreshTokenApi { _ in
+                if isPrint {
+                    print("*****************URL***********************\n")
+                    print("URL:- \(url)\n")
+                    print("Parameter:-\(parameter ?? [:])\n")
+                    print("MethodType:- PUT\n")
+                    print("*****************End***********************\n")
+                }
+                
+                var param = Dictionary<String,Any>()
+                if parameter != nil {
+                    param = parameter!
+                }
+                
+                // add loader if isLoader is true
+                if isLoader {
+                    GFunction.shared.addLoader()
+                }
+                
+                Alamofire.request(url, method: .put, parameters: param, encoding: encording, headers: APIHeaders.headersWithBearerToken(contentType: contentType)).responseJSON(completionHandler: { (response) in
+                    
+                    switch(response.result) {
+                    case .success(let JSON):
+                        DispatchQueue.main.async {
+                            if isPrint {
+                                print(JSON)
+                            }
+                            
+                            // remove loader if isLoader is true
+                            if isLoader {
+                                GFunction.shared.removeLoader()
+                            }
+                            
+                            
+                            var statusCode = 0
+                            if let headerResponse = response.response {
+                                statusCode = headerResponse.statusCode
+                                if statusCode == 401{
+                                    GFunction.shared.makeUserLoginAlert()
+                                }else{
+                                    DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                                        completion(response.data, statusCode, APIError.handleError(response: response))
+                                    })
+                                }
+                            }
+                        }
+                        
+                    case .failure(let error):
+                        DispatchQueue.main.async {
+                            
+                            if isLoader {
+                                GFunction.shared.removeLoader()
+                            }
+                            
+                            var statusCode = 0
+                            
+                            //Logout User
+                            if let headerResponse = response.response {
+                                statusCode = headerResponse.statusCode
+                                if (headerResponse.statusCode == 401) {
+                                    //TODO: Add your logout code here
+                                    GFunction.shared.makeUserLoginAlert()
+                                }
+                            }
+                            
+                            //Display error Alert if errorAlert is true
+                            if(errorAlert) {
+                                let err = error as NSError
+                                if statusCode != 401
+                                    && err.code != NSURLErrorTimedOut
+                                    && err.code != NSURLErrorNetworkConnectionLost
+                                    && err.code != NSURLErrorNotConnectedToInternet{
+                                    
+                                } else {
+                                    print(error.localizedDescription)
+                                }
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                                completion(nil, statusCode, APIError.handleError(response: response))
+                            })
+                        }
+                    }
+                })
+            }
         }
     }
 }

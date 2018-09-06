@@ -105,8 +105,8 @@ extension TMMoreViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             //MyBussiness
-            let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.MyBusiness) as! TMMyBusinessVC
-            self.navigationController?.pushViewController(obj, animated: true)
+            let objMB = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.MyBusiness) as! TMMyBusinessVC
+            self.navigationController?.pushViewController(objMB, animated: true)
         } else if indexPath.row == 1 {
             
         } else if indexPath.row == 2 {

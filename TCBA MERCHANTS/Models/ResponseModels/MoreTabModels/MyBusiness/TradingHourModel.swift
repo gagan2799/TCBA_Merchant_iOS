@@ -11,16 +11,16 @@
 import Foundation
 
 struct TradingHourModel: Codable {
-    let days: [TradingHourDay]?
+    var days: [TradingHourDay]?
 }
 
 struct TradingHourDay: Codable {
-    let status, day: String?
-    let shifts: [TradingHourShift]?
+    var status, day: String?
+    var shifts: [TradingHourShift]?
 }
 
 struct TradingHourShift: Codable {
-    let startTime, endTime: String?
+    var startTime, endTime: String?
 }
 
 // MARK: Convenience initializers and mutators

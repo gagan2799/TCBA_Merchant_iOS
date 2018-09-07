@@ -50,6 +50,7 @@
 		7933FCA621118E6000E9B49B /* TMHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7933FCA521118E5F00E9B49B /* TMHistoryTableViewCell.swift */; };
 		7933FCAA2111B3FD00E9B49B /* TransactionDataModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7933FCA92111B3FD00E9B49B /* TransactionDataModal.swift */; };
 		7933FCAC2111BA7E00E9B49B /* IncompleteTransactionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7933FCAB2111BA7E00E9B49B /* IncompleteTransactionData.swift */; };
+		793578AA21423A0E00BA6D7B /* TMTradingJoinCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793578A921423A0E00BA6D7B /* TMTradingJoinCell.swift */; };
 		79380A3A2105B17100FB4776 /* TMTabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79380A392105B17100FB4776 /* TMTabbarViewController.swift */; };
 		79380A412105BBDB00FB4776 /* TMShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79380A402105BBDB00FB4776 /* TMShareViewController.swift */; };
 		79380A432105BFD800FB4776 /* TMTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79380A422105BFD800FB4776 /* TMTransactionViewController.swift */; };
@@ -134,6 +135,7 @@
 		7933FCA521118E5F00E9B49B /* TMHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		7933FCA92111B3FD00E9B49B /* TransactionDataModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDataModal.swift; sourceTree = "<group>"; };
 		7933FCAB2111BA7E00E9B49B /* IncompleteTransactionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncompleteTransactionData.swift; sourceTree = "<group>"; };
+		793578A921423A0E00BA6D7B /* TMTradingJoinCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMTradingJoinCell.swift; sourceTree = "<group>"; };
 		79380A392105B17100FB4776 /* TMTabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMTabbarViewController.swift; sourceTree = "<group>"; };
 		79380A402105BBDB00FB4776 /* TMShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMShareViewController.swift; sourceTree = "<group>"; };
 		79380A422105BFD800FB4776 /* TMTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMTransactionViewController.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 			children = (
 				7912313C2141136500E475CF /* TMTradingCell.swift */,
 				791231432141534D00E475CF /* TMTradingSplitCell.swift */,
+				793578A921423A0E00BA6D7B /* TMTradingJoinCell.swift */,
 			);
 			path = TradingCells;
 			sourceTree = "<group>";
@@ -670,6 +673,7 @@
 				79380A432105BFD800FB4776 /* TMTransactionViewController.swift in Sources */,
 				79380A3A2105B17100FB4776 /* TMTabbarViewController.swift in Sources */,
 				79CDF0242108778300CA7A9C /* LoaderWithLabel.swift in Sources */,
+				793578AA21423A0E00BA6D7B /* TMTradingJoinCell.swift in Sources */,
 				79CDF02C2108A13E00CA7A9C /* RequestModal.swift in Sources */,
 				7933FCAA2111B3FD00E9B49B /* TransactionDataModal.swift in Sources */,
 				791B428B212ABCBA0064AF34 /* CircleView.swift in Sources */,

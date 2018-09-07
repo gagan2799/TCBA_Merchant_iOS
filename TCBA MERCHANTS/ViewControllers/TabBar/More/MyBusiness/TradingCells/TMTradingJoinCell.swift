@@ -1,19 +1,20 @@
 //
-//  TMTradingSplitCell.swift
+//  TMTradingJoinCell.swift
 //  TCBA MERCHANTS
 //
-//  Created by varun@gsbitlabs on 06/09/18.
+//  Created by varun@gsbitlabs on 07/09/18.
 //  Copyright © 2018 GS Bit Labs. All rights reserved.
 //
 
 import UIKit
 
-class TMTradingSplitCell: UITableViewCell {
-    @IBOutlet weak var lblStart: UILabel!
-    @IBOutlet weak var lblEnd: UILabel!
-    @IBOutlet weak var btnSplit: UIButton!
+class TMTradingJoinCell: UITableViewCell {
     @IBOutlet weak var lblDay: UILabel!
-    
+    @IBOutlet weak var lblStart: UILabel!
+    @IBOutlet weak var lblStart1: UILabel!
+    @IBOutlet weak var lblEnd: UILabel!
+    @IBOutlet weak var lblEnd1: UILabel!
+    @IBOutlet weak var btnJoin: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

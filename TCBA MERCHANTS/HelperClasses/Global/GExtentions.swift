@@ -384,15 +384,10 @@ extension UIButton {
         
         if titleLabelColor != nil {
             self.setTitleColor(titleLabelColor, for: state)
-        } else {
-            self.setTitleColor(UIColor.black, for: state)
         }
         
         if backgroundColor != nil {
             self.backgroundColor = backgroundColor!
-        }
-        else {
-            self.backgroundColor = UIColor.clear
         }
         
         if backgroundOpacity != nil {

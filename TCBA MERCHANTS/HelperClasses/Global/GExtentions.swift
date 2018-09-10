@@ -72,12 +72,12 @@ extension Decodable {
 //MARK:- Encodable Extension
 
 extension Encodable {
-    func encode() throws -> Dictionary<String, Any> {
+    func encode() throws -> [Any]? {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         let encodedData =  try encoder.encode(self)
         let json = try? JSONSerialization.jsonObject(with: encodedData, options: [])
-        return json as! Dictionary<String, Any>
+        return json as! [Any]?
     }
 }
 

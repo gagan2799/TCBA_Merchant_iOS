@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		26C3D5D680E47A74FB79CFE1 /* Pods_TCBA_MERCHANTS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044C829249AADEDFD33D6C53 /* Pods_TCBA_MERCHANTS.framework */; };
+		7900FB45214670EF00BC3D36 /* TMDatePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900FB44214670EF00BC3D36 /* TMDatePickerVC.swift */; };
 		7901887E213FE8A100C9110B /* CKEditor in Resources */ = {isa = PBXBuildFile; fileRef = 7901887D213FE8A100C9110B /* CKEditor */; };
 		7905A0F4212BE9770079712A /* DynamicColView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7905A0F3212BE9770079712A /* DynamicColView.swift */; };
 		7905A0F6212C22EE0079712A /* TMStorePaymentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7905A0F5212C22EE0079712A /* TMStorePaymentTVCell.swift */; };
@@ -82,6 +83,7 @@
 /* Begin PBXFileReference section */
 		044C829249AADEDFD33D6C53 /* Pods_TCBA_MERCHANTS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TCBA_MERCHANTS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69491408B57AC0804355ECBD /* Pods-TCBA MERCHANTS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TCBA MERCHANTS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS.debug.xcconfig"; sourceTree = "<group>"; };
+		7900FB44214670EF00BC3D36 /* TMDatePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDatePickerVC.swift; sourceTree = "<group>"; };
 		7901887D213FE8A100C9110B /* CKEditor */ = {isa = PBXFileReference; lastKnownFileType = folder; path = CKEditor; sourceTree = "<group>"; };
 		7905A0F3212BE9770079712A /* DynamicColView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicColView.swift; sourceTree = "<group>"; };
 		7905A0F5212C22EE0079712A /* TMStorePaymentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStorePaymentTVCell.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				79E8C495213E6DFE008E152A /* TMMyBusinessCVCell.swift */,
 				79E8C497213EAD18008E152A /* TMEditBusinessDetailVC.swift */,
 				791231312140FDA900E475CF /* TMTradingHoursVC.swift */,
+				7900FB44214670EF00BC3D36 /* TMDatePickerVC.swift */,
 				791231422141531A00E475CF /* TradingCells */,
 				791231332141000700E475CF /* TMContactDetailVC.swift */,
 				79123137214102AA00E475CF /* TMStoreImagesVC.swift */,
@@ -673,6 +676,7 @@
 				79380A432105BFD800FB4776 /* TMTransactionViewController.swift in Sources */,
 				79380A3A2105B17100FB4776 /* TMTabbarViewController.swift in Sources */,
 				79CDF0242108778300CA7A9C /* LoaderWithLabel.swift in Sources */,
+				7900FB45214670EF00BC3D36 /* TMDatePickerVC.swift in Sources */,
 				793578AA21423A0E00BA6D7B /* TMTradingJoinCell.swift in Sources */,
 				79CDF02C2108A13E00CA7A9C /* RequestModal.swift in Sources */,
 				7933FCAA2111B3FD00E9B49B /* TransactionDataModal.swift in Sources */,

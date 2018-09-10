@@ -131,6 +131,7 @@ class RequestModal: NSObject {
         var storeTerm           : String!
         var storeDescription    : String!
         var storeAbout          : String!
+        var days                : [Any]?
         
         
         override init() {
@@ -147,6 +148,8 @@ class RequestModal: NSObject {
             storeTerm                       = json["storeTerm"].stringValue
             storeDescription                = json["storeDescription"].stringValue
             storeAbout                      = json["storeAbout"].stringValue
+            days                            = json["days"].arrayObject
+            
         }
         
         func toDictionary() -> [String:Any]{
@@ -157,6 +160,7 @@ class RequestModal: NSObject {
             dictionary["storeTerm"]         = storeTerm
             dictionary["storeDescription"]  = storeDescription
             dictionary["storeAbout"]        = storeAbout
+            dictionary["days"]              = days
             
             return dictionary
         }

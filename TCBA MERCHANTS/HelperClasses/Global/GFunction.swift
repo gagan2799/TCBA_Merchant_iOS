@@ -144,6 +144,25 @@ func getUserDataFromDefaults() -> UserLoginModel? {
     }
     
     //------------------------------------------------------
+    //MARK: json methods
+    func json(from object: [String: Any]?) -> String? {
+        guard let data = try? JSONSerialization.data(withJSONObject: object!) else {
+            return nil
+        }
+        return String(data: data, encoding: .utf8)
+    }
+    func convertToDictionary(text: String) -> [Dictionary<String,Any>]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [Dictionary<String,Any>]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+    
+    
     
     enum TimeFormatType {
         case short

@@ -190,22 +190,23 @@ class TMTradingHoursVC: UIViewController {
                                self.tradingData.days![indexPath.row].shifts = nil
                             }
                         } else {
+                            self.tradingData.days![indexPath.row].status = "open"
                             if (arrDay[indexPath.row].shifts != nil) {
                                 if tag < 10 {
-                                    self.tradingData.days![indexPath.row].shifts![0].startTime = dateString
+                                    self.tradingData.days![indexPath.row].shifts![0].startTime = self.convertTimeTo24HrFormat(timeString: dateString)
                                 } else if tag < 20 {
                                     tag -= 10
-                                    self.tradingData.days![indexPath.row].shifts![0].endTime = dateString
+                                    self.tradingData.days![indexPath.row].shifts![0].endTime = self.convertTimeTo24HrFormat(timeString: dateString)
                                     
                                 } else if tag < 30 {
                                     tag -= 20
-                                    self.tradingData.days![indexPath.row].shifts![1].startTime = dateString
+                                    self.tradingData.days![indexPath.row].shifts![1].startTime = self.convertTimeTo24HrFormat(timeString: dateString)
                                 } else {
                                     tag -= 30
-                                    self.tradingData.days![indexPath.row].shifts![1].endTime = dateString
+                                    self.tradingData.days![indexPath.row].shifts![1].endTime = self.convertTimeTo24HrFormat(timeString: dateString)
                                 }
                             }else{
-                                self.tradingData.days![indexPath.row].shifts = [TradingHourShift.init(startTime: dateString, endTime: "")]
+                                self.tradingData.days![indexPath.row].shifts = [TradingHourShift.init(startTime: self.convertTimeTo24HrFormat(timeString: dateString), endTime: "")]
                             }
                         }
                     }
@@ -298,22 +299,15 @@ class TMTradingHoursVC: UIViewController {
         return dF.string(from: date)
     }
     
-    func json(from object:Any) -> String? {
-        guard let data = try? JSONSerialization.data(withJSONObject: object) else {
-            return nil
-        }
-        return String(data: data, encoding: .utf8)
+    func convertTimeTo24HrFormat(timeString time: String?) -> String {
+        let dF = DateFormatter()
+        dF.dateFormat = "h:mm a"
+        
+        guard let date = dF.date(from: time!) else { return  time! }
+        dF.dateFormat = "HH:mm:ss"
+        return dF.string(from: date)
     }
-    func convertToDictionary(text: String) -> [Dictionary<String,Any>]? {
-        if let data = text.data(using: .utf8) {
-            do {
-                return try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [Dictionary<String,Any>]
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        return nil
-    }
+    
     //MARK: - Web Api's
     func callGetTradingHoursApi() {
         /*
@@ -364,26 +358,24 @@ class TMTradingHoursVC: UIViewController {
          }
          ===================================================
          */
-        
-        let abc = try! tradingData.days.encode()
-        
+        let daysData = try! tradingData.days.encode()
         let request = RequestModal.mUpdateStoreContent()
         guard let storeId   = GConstant.UserData.stores else{return}
-        request.storeId     = storeId
-        request.days        = abc
-//        let url             = GAPIConstant.Url.PutUpdateTradingHours + "?\(storeId)"
-        ApiManager.shared.PUTWithBearerAuth(strURL: GAPIConstant.Url.PutUpdateTradingHours, parameter: request.toDictionary(), encording: URLEncoding()) { (data : Data?, statusCode : Int?, error: String) in
+        request.days        = daysData
+        
+        let url             = GAPIConstant.Url.PutUpdateTradingHours + "?storeId=\(storeId)"
+        ApiManager.shared.PUTWithBearerAuth(strURL: url, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 AlertManager.shared.showAlertTitle(title: "Success", message: "Your updates have been saved.")
             }else{
                 if let data = data{
-                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
                         let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
                         return
                     }
                     print(json as Any)
-                    AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage)
                 }else{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }

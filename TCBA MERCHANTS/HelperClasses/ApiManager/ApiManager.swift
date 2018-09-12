@@ -650,9 +650,6 @@ class ApiManager {
                     print("*****************End***********************\n")
                 }
                 
-           
-               
-                
                 var param = Dictionary<String,Any>()
                 if parameter != nil {
                     param = parameter!
@@ -663,9 +660,6 @@ class ApiManager {
                     GFunction.shared.addLoader()
                 }
 
-                
-                let json = GFunction.shared.json(from: param)
-                
                 Alamofire.request(url, method: .put, parameters: param, encoding: encording, headers: APIHeaders.headersWithBearerToken(contentType: contentType)).responseJSON(completionHandler: { (response) in
                     
                     switch(response.result) {
@@ -679,7 +673,6 @@ class ApiManager {
                             if isLoader {
                                 GFunction.shared.removeLoader()
                             }
-                            
                             
                             var statusCode = 0
                             if let headerResponse = response.response {

@@ -106,6 +106,9 @@ struct GAPIConstant {
         static var GetStoreContent: String {
             return BaseURL + "/Stores/GetStoreContent"
         }
+        static var GetStoreDetails: String {
+            return BaseURL + "/Stores/GetStoreDetails"
+        }
         
         static var PutUpdateStoreContent: String {
             return BaseURL + "/Stores/PutUpdateStoreContent"

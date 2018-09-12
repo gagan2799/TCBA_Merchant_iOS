@@ -14,18 +14,29 @@ class TMDatePickerVC: UIViewController {
     var completionHandler: ((_ date : String) -> Void)!
 
     @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var lblSetClosed: UILabel!
+    @IBOutlet weak var lblAppointment: UILabel!
     
+    //MARK: - ViewLife cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setViewProperties()
         // Do any additional setup after loading the view.
     }
-    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    //MARK: setViewProperties
+    func setViewProperties() {
+        lblSetClosed.font = UIFont.applyOpenSansRegular(fontSize: 12.0)
+        lblAppointment.font = UIFont.applyOpenSansRegular(fontSize: 12.0)
+    }
     //MARK: UIbutton Methods
     @IBAction func btnYesKB(_ sender: UIButton) {
         let dateFormatter = DateFormatter()

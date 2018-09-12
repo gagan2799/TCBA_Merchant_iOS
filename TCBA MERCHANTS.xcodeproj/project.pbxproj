@@ -67,6 +67,9 @@
 		79CDF0242108778300CA7A9C /* LoaderWithLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CDF0232108778300CA7A9C /* LoaderWithLabel.swift */; };
 		79CDF02C2108A13E00CA7A9C /* RequestModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CDF02B2108A13E00CA7A9C /* RequestModal.swift */; };
 		79D94AC321103B9000D3FCD6 /* TMMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D94AC221103B9000D3FCD6 /* TMMoreViewController.swift */; };
+		79E5D91C21490075008CD66E /* TMTermOfUseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E5D91B21490075008CD66E /* TMTermOfUseVC.swift */; };
+		79E5D91E21491CD4008CD66E /* TMStoreImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E5D91D21491CD4008CD66E /* TMStoreImagesCell.swift */; };
+		79E5D920214922E6008CD66E /* StoreDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E5D91F214922E6008CD66E /* StoreDetailsModel.swift */; };
 		79E690DA212E998400550A98 /* TMPinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E690D9212E998400550A98 /* TMPinViewController.swift */; };
 		79E8C492213E489C008E152A /* TMMoreTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E8C491213E489C008E152A /* TMMoreTableCell.swift */; };
 		79E8C494213E6AEC008E152A /* TMMyBusinessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E8C493213E6AEC008E152A /* TMMyBusinessVC.swift */; };
@@ -153,6 +156,9 @@
 		79CDF0232108778300CA7A9C /* LoaderWithLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderWithLabel.swift; sourceTree = "<group>"; };
 		79CDF02B2108A13E00CA7A9C /* RequestModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModal.swift; sourceTree = "<group>"; };
 		79D94AC221103B9000D3FCD6 /* TMMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMMoreViewController.swift; sourceTree = "<group>"; };
+		79E5D91B21490075008CD66E /* TMTermOfUseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMTermOfUseVC.swift; sourceTree = "<group>"; };
+		79E5D91D21491CD4008CD66E /* TMStoreImagesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStoreImagesCell.swift; sourceTree = "<group>"; };
+		79E5D91F214922E6008CD66E /* StoreDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailsModel.swift; sourceTree = "<group>"; };
 		79E690D9212E998400550A98 /* TMPinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMPinViewController.swift; sourceTree = "<group>"; };
 		79E8C491213E489C008E152A /* TMMoreTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMMoreTableCell.swift; sourceTree = "<group>"; };
 		79E8C493213E6AEC008E152A /* TMMyBusinessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMMyBusinessVC.swift; sourceTree = "<group>"; };
@@ -250,8 +256,10 @@
 				791231422141531A00E475CF /* TradingCells */,
 				791231332141000700E475CF /* TMContactDetailVC.swift */,
 				79123137214102AA00E475CF /* TMStoreImagesVC.swift */,
+				79E5D91D21491CD4008CD66E /* TMStoreImagesCell.swift */,
 				791231392141030D00E475CF /* TMMainImageVC.swift */,
 				791231352141024B00E475CF /* TMBankDetailsVC.swift */,
+				79E5D91B21490075008CD66E /* TMTermOfUseVC.swift */,
 			);
 			path = MyBusiness;
 			sourceTree = "<group>";
@@ -260,6 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				7912313F21412E8600E475CF /* TradingHourModel.swift */,
+				79E5D91F214922E6008CD66E /* StoreDetailsModel.swift */,
 			);
 			path = MyBusiness;
 			sourceTree = "<group>";
@@ -682,6 +691,7 @@
 				7933FCAA2111B3FD00E9B49B /* TransactionDataModal.swift in Sources */,
 				791B428B212ABCBA0064AF34 /* CircleView.swift in Sources */,
 				79FA3BE3211B1C16005F36F3 /* OutstandingLoyaltyModal.swift in Sources */,
+				79E5D91E21491CD4008CD66E /* TMStoreImagesCell.swift in Sources */,
 				799924CF20FF1B480074BDE6 /* TMHomeTableViewCell.swift in Sources */,
 				7933FCA621118E6000E9B49B /* TMHistoryTableViewCell.swift in Sources */,
 				7908E49B2122F6A500E908EC /* TMMemberTransactionVC.swift in Sources */,
@@ -709,11 +719,13 @@
 				79E8C496213E6DFE008E152A /* TMMyBusinessCVCell.swift in Sources */,
 				79EE756A2119CACF0041D5C4 /* TransactionDetailsModal.swift in Sources */,
 				792B542E20F5E2B6000223F7 /* TMLoginViewController.swift in Sources */,
+				79E5D920214922E6008CD66E /* StoreDetailsModel.swift in Sources */,
 				7912313A2141030D00E475CF /* TMMainImageVC.swift in Sources */,
 				791231322140FDA900E475CF /* TMTradingHoursVC.swift in Sources */,
 				792B543C20F5F0DA000223F7 /* GExtentions.swift in Sources */,
 				7905A0F6212C22EE0079712A /* TMStorePaymentTVCell.swift in Sources */,
 				792F28C52121B1040033E7A2 /* TMQRScannerVC.swift in Sources */,
+				79E5D91C21490075008CD66E /* TMTermOfUseVC.swift in Sources */,
 				79EE756621196B060041D5C4 /* TMHistoryDetailVC.swift in Sources */,
 				792B543A20F5EFB4000223F7 /* GConstants.swift in Sources */,
 				792B544A20F5F485000223F7 /* DPPickerManager.swift in Sources */,

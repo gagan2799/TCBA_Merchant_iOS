@@ -179,7 +179,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
-            mail.setToRecipients(["merchants@thecashbackapp.com"])
+            mail.setToRecipients([GConstant.kMerchantEmail])
             mail.setMessageBody("<p></p>", isHTML: true)
             
             present(mail, animated: true)

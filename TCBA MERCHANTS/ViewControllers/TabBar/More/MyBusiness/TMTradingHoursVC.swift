@@ -54,8 +54,9 @@ class TMTradingHoursVC: UIViewController {
         
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        
-        
+        super.viewWillTransition(to: size, with: coordinator)
+        guard self.tblTrading != nil else { return }
+        tblTrading.reloadData()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -333,13 +334,13 @@ class TMTradingHoursVC: UIViewController {
                 }
             }else{
                 if let data = data{
-                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
                         let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
                         return
                     }
                     print(json as Any)
-                    AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] ?? GConstant.Message.kSomthingWrongMessage)
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage)
                 }else{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }
@@ -353,7 +354,7 @@ class TMTradingHoursVC: UIViewController {
          APIName    : PutUpdateTradingHours
          Url        : "/Stores/PutUpdateTradingHours"
          Method     : PUT
-         Parameters : { TypeStore.RawValue  : "<p>Cash Back on great on offers and services direct from The Cash Back App</p>",
+         Parameters : { days  : [[:]],
          storeId             : 283
          }
          ===================================================
@@ -364,6 +365,7 @@ class TMTradingHoursVC: UIViewController {
         request.days        = daysData
         
         let url             = GAPIConstant.Url.PutUpdateTradingHours + "?storeId=\(storeId)"
+        
         ApiManager.shared.PUTWithBearerAuth(strURL: url, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 AlertManager.shared.showAlertTitle(title: "Success", message: "Your updates have been saved.")
@@ -437,13 +439,14 @@ extension TMTradingHoursVC: UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         
         let viewBtn = UIView.init(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: footerHeight * GConstant.Screen.HeightAspectRatio))
-        viewBtn.backgroundColor = .white
-        let btnWidth    = viewBtn.bounds.width * 0.4
-        let btnHeigth   = viewBtn.bounds.height * 0.5
-        let center      = CGPoint(x: viewBtn.center.x-(btnWidth/2), y: viewBtn.center.y-(btnHeigth/2))
-        let btn         = UIButton.init(frame: CGRect(origin: center, size: CGSize(width: btnWidth, height: btnHeigth)))
+        viewBtn.backgroundColor     = .white
+        let btnWidth                = viewBtn.bounds.width * 0.4
+        let btnHeigth               = viewBtn.bounds.height * 0.5
+        let center                  = CGPoint(x: viewBtn.center.x-(btnWidth/2), y: viewBtn.center.y-(btnHeigth/2))
+        let btn                     = UIButton.init(frame: CGRect(origin: center, size: CGSize(width: btnWidth, height: btnHeigth)))
         btn.titleLabel?.textColor   = .white
         btn.setTitle("Save", for: .normal)
+        btn.titleLabel?.font        = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         btn.backgroundColor         = GConstant.AppColor.blue
         btn.addTarget(self, action: #selector(btnSave), for: .touchUpInside)
         

@@ -12,6 +12,8 @@ struct GConstant {
     static var NavigationController         : UINavigationController!
     static var UserData                     : UserLoginModel!
     
+    static let kMerchantEmail               = "merchants@thecashbackapp.com"
+    
     // MARK:- APP Colors
     struct AppColor {
         static let white            = UIColor.white
@@ -71,6 +73,7 @@ struct GConstant {
         static let StoreImages                  = "TMStoreImagesVC"
         static let MainImage                    = "TMMainImageVC"
         static let BankDetails                  = "TMBankDetailsVC"
+        static let TermOfUse                    = "TMTermOfUseVC"
     }
         
     //MARK:- UserDefaults

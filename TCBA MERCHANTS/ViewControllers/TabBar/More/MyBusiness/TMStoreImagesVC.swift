@@ -79,7 +79,6 @@ class TMStoreImagesVC: UIViewController {
                     let obj = ["name" : String.localizedStringWithFormat("Featured Image %d", i + 1) ,"imageUrl":imgURL1]
                     self.arrImages.append(obj)
                 }
-                
                 self.tblStore.reloadData()
             }else{
                 if let data = data{

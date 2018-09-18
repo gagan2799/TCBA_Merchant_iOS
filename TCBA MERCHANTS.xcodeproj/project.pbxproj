@@ -79,6 +79,8 @@
 		79EE756821196B230041D5C4 /* TMHistoryDetailTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE756721196B230041D5C4 /* TMHistoryDetailTableCell.swift */; };
 		79EE756A2119CACF0041D5C4 /* TransactionDetailsModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE75692119CACF0041D5C4 /* TransactionDetailsModal.swift */; };
 		79EF44452125865C000C284B /* PostCreatePOSModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EF44442125865C000C284B /* PostCreatePOSModal.swift */; };
+		79F4EFBC2150D6CC0033AD51 /* TMContactDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F4EFBB2150D6CC0033AD51 /* TMContactDetailsCell.swift */; };
+		79F4EFBE2150D6F30033AD51 /* TMContactRadioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F4EFBD2150D6F30033AD51 /* TMContactRadioCell.swift */; };
 		79FA3BE3211B1C16005F36F3 /* OutstandingLoyaltyModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */; };
 		79FD4D1B212D3A0C003AC29F /* TMCardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD4D1A212D3A0C003AC29F /* TMCardTVCell.swift */; };
 /* End PBXBuildFile section */
@@ -168,6 +170,8 @@
 		79EE756721196B230041D5C4 /* TMHistoryDetailTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryDetailTableCell.swift; sourceTree = "<group>"; };
 		79EE75692119CACF0041D5C4 /* TransactionDetailsModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsModal.swift; sourceTree = "<group>"; };
 		79EF44442125865C000C284B /* PostCreatePOSModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCreatePOSModal.swift; sourceTree = "<group>"; };
+		79F4EFBB2150D6CC0033AD51 /* TMContactDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMContactDetailsCell.swift; sourceTree = "<group>"; };
+		79F4EFBD2150D6F30033AD51 /* TMContactRadioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMContactRadioCell.swift; sourceTree = "<group>"; };
 		79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutstandingLoyaltyModal.swift; sourceTree = "<group>"; };
 		79FD4D1A212D3A0C003AC29F /* TMCardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMCardTVCell.swift; sourceTree = "<group>"; };
 		F1D02BAEF8FD0D998288EEB8 /* Pods-TCBA MERCHANTS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TCBA MERCHANTS.release.xcconfig"; path = "Pods/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS.release.xcconfig"; sourceTree = "<group>"; };
@@ -255,6 +259,7 @@
 				7900FB44214670EF00BC3D36 /* TMDatePickerVC.swift */,
 				791231422141531A00E475CF /* TradingCells */,
 				791231332141000700E475CF /* TMContactDetailVC.swift */,
+				79F4EFBF215103AF0033AD51 /* ContactCells */,
 				79123137214102AA00E475CF /* TMStoreImagesVC.swift */,
 				79E5D91D21491CD4008CD66E /* TMStoreImagesCell.swift */,
 				791231392141030D00E475CF /* TMMainImageVC.swift */,
@@ -525,6 +530,15 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
+		79F4EFBF215103AF0033AD51 /* ContactCells */ = {
+			isa = PBXGroup;
+			children = (
+				79F4EFBB2150D6CC0033AD51 /* TMContactDetailsCell.swift */,
+				79F4EFBD2150D6F30033AD51 /* TMContactRadioCell.swift */,
+			);
+			path = ContactCells;
+			sourceTree = "<group>";
+		};
 		A8643824B0A4286936FB8B60 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -669,6 +683,7 @@
 				7975433B211D99880090198E /* AlertManager.swift in Sources */,
 				790D392B21084BF90073AE4C /* Events.swift in Sources */,
 				792534D9211C629E0028C45D /* RoundedImage.swift in Sources */,
+				79F4EFBC2150D6CC0033AD51 /* TMContactDetailsCell.swift in Sources */,
 				79EF44452125865C000C284B /* PostCreatePOSModal.swift in Sources */,
 				790D39252108477E0073AE4C /* ApiManager.swift in Sources */,
 				791231342141000700E475CF /* TMContactDetailVC.swift in Sources */,
@@ -681,6 +696,7 @@
 				79E8C492213E489C008E152A /* TMMoreTableCell.swift in Sources */,
 				790D392921084B4A0073AE4C /* GFunction.swift in Sources */,
 				792F28C3212192C20033E7A2 /* GradientView.swift in Sources */,
+				79F4EFBE2150D6F30033AD51 /* TMContactRadioCell.swift in Sources */,
 				7997DF49213535ED00D22E92 /* TMSplitPaymentDetailVC.swift in Sources */,
 				79380A432105BFD800FB4776 /* TMTransactionViewController.swift in Sources */,
 				79380A3A2105B17100FB4776 /* TMTabbarViewController.swift in Sources */,

@@ -67,7 +67,7 @@ class RequestModal: NSObject {
     }
     
     class mCreatePOS: NSObject {
-
+        
         var keyChainCode            : String!
         var staffId                 : Int!
         var totalAmount             : String!
@@ -125,7 +125,7 @@ class RequestModal: NSObject {
     }
     
     class mUpdateStoreContent: NSObject {
-
+        
         var storeId             : String!
         var storeFeatures       : String!
         var storeTerm           : String!
@@ -153,7 +153,7 @@ class RequestModal: NSObject {
         
         func toDictionary() -> [String:Any]{
             var dictionary = [String:Any]()
-
+            
             dictionary["storeId"]           = storeId
             dictionary["storeFeatures"]     = storeFeatures
             dictionary["storeTerm"]         = storeTerm
@@ -164,5 +164,4 @@ class RequestModal: NSObject {
             return dictionary
         }
     }
-
 }

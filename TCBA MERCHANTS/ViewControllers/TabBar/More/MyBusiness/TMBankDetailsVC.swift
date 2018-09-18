@@ -33,6 +33,7 @@ class TMBankDetailsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewProperties()
+        callGetMerchantBankInformationApi()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -98,6 +99,45 @@ class TMBankDetailsVC: UIViewController {
         let range = (text as NSString).range(of: "Contact us")
         if gesture.didTapAttributedTextInLabel(label: lblInfo, inRange: range) {
             sendEmail()
+        }
+    }
+    
+    //MARK: - Web Api's
+    func callGetMerchantBankInformationApi() {
+        /*
+         =====================API CALL=====================
+         APIName    : GetStoreContent
+         Url        : "/Stores/GetStoreContent"
+         Method     : GET
+         Parameters : nil
+         ===================================================
+         */
+        
+        ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetMerchantBankInformation, parameter: nil) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                guard let data = data else{return}
+                guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                    let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                    return
+                }
+                guard let bankDetails   = json?["bankInformation"] as? [[String : Any]] else {return}
+                self.txtName.text       = bankDetails[0]["accountName"] as? String
+                self.txtBSB.text        = bankDetails[0]["bsb"] as? String
+                self.txtAccount.text    = bankDetails[0]["accountNumber"] as? String
+            }else{
+                if let data = data{
+                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                        let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                        return
+                    }
+                    print(json as Any)
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage)
+                }else{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }
+            }
         }
     }
 }

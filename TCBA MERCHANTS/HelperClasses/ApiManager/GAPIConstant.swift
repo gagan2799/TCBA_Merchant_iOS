@@ -113,14 +113,28 @@ struct GAPIConstant {
         static var PutUpdateStoreContent: String {
             return BaseURL + "/Stores/PutUpdateStoreContent"
         }
+
         //MARK: <<---Trading Hours--->>
-        
         static var GetTradingHours: String {
             return BaseURL + "/Stores/GetTradingHours"
         }
         
         static var PutUpdateTradingHours: String {
             return BaseURL + "/Stores/PutUpdateTradingHours"
+        }
+        
+        //MARK: <<---Bank Details--->>
+        static var GetMerchantBankInformation: String {
+            return BaseURL + "/Bank/GetMerchantBankInformation"
+        }
+        
+        //MARK: <<---Merchants Store Details--->>
+        static var GetMerchantStoreDetails: String {
+            return BaseURL + "/Stores/GetMerchantStoreDetails"
+        }
+        
+        static var PutUpdateStore: String {
+            return BaseURL + "/Stores/PutUpdateStore"
         }
     }
 }

@@ -1,10 +1,3 @@
-//
-//  StoreDetailsModel.swift
-//  TCBA MERCHANTS
-//
-//  Created by varun@gsbitlabs on 12/09/18.
-//  Copyright © 2018 GS Bit Labs. All rights reserved.
-//
 // To parse the JSON, add this file to your project and do:
 //
 //   let storeDetailsModel = try StoreDetailsModel(json)
@@ -21,6 +14,7 @@ struct StoreDetailsModel: Codable {
     let cashback, loyalty, cbaMatrixCash, firstLevelUserMatrixCash: Int?
     let userMatrixCash, totalAmountPercentage: Int?
     let showAddress: Bool?
+    let storeAddress: StoreDetailsStoreAddress?
     let businessName, abn, phoneNumber: String?
     let businessHours: StoreDetailsBusinessHours?
     let storeImages: [StoreDetailsStoreImage]?
@@ -28,7 +22,7 @@ struct StoreDetailsModel: Codable {
     enum CodingKeys: String, CodingKey {
         case storeID = "storeId"
         case merchantID = "merchantId"
-        case merchantEmailAddress, created, modified, storeTitle, storeDescription, storeTerms, storeFeatures, storeAbout, storeIcon, storeEmail, latitude, longitude, cashback, loyalty, cbaMatrixCash, firstLevelUserMatrixCash, userMatrixCash, totalAmountPercentage, showAddress, businessName, abn, phoneNumber, businessHours, storeImages
+        case merchantEmailAddress, created, modified, storeTitle, storeDescription, storeTerms, storeFeatures, storeAbout, storeIcon, storeEmail, latitude, longitude, cashback, loyalty, cbaMatrixCash, firstLevelUserMatrixCash, userMatrixCash, totalAmountPercentage, showAddress, storeAddress, businessName, abn, phoneNumber, businessHours, storeImages
     }
 }
 
@@ -43,6 +37,22 @@ struct StoreDetailsDay: Codable {
 
 struct StoreDetailsShift: Codable {
     let startTime, endTime: String?
+}
+
+struct StoreDetailsStoreAddress: Codable {
+    let city: String?
+    let stateID: Int?
+    let stateCode, stateName: String?
+    let countryID: Int?
+    let countryCode, countryName, postcode, address: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case city
+        case stateID = "stateId"
+        case stateCode, stateName
+        case countryID = "countryId"
+        case countryCode, countryName, postcode, address
+    }
 }
 
 struct StoreDetailsStoreImage: Codable {
@@ -96,6 +106,7 @@ extension StoreDetailsModel {
         userMatrixCash: Int?? = nil,
         totalAmountPercentage: Int?? = nil,
         showAddress: Bool?? = nil,
+        storeAddress: StoreDetailsStoreAddress?? = nil,
         businessName: String?? = nil,
         abn: String?? = nil,
         phoneNumber: String?? = nil,
@@ -124,6 +135,7 @@ extension StoreDetailsModel {
             userMatrixCash: userMatrixCash ?? self.userMatrixCash,
             totalAmountPercentage: totalAmountPercentage ?? self.totalAmountPercentage,
             showAddress: showAddress ?? self.showAddress,
+            storeAddress: storeAddress ?? self.storeAddress,
             businessName: businessName ?? self.businessName,
             abn: abn ?? self.abn,
             phoneNumber: phoneNumber ?? self.phoneNumber,
@@ -234,6 +246,55 @@ extension StoreDetailsShift {
         return StoreDetailsShift(
             startTime: startTime ?? self.startTime,
             endTime: endTime ?? self.endTime
+        )
+    }
+    
+    func jsonData() throws -> Data {
+        return try newJSONEncoder().encode(self)
+    }
+    
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
+
+extension StoreDetailsStoreAddress {
+    init(data: Data) throws {
+        self = try newJSONDecoder().decode(StoreDetailsStoreAddress.self, from: data)
+    }
+    
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+    
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+    
+    func with(
+        city: String?? = nil,
+        stateID: Int?? = nil,
+        stateCode: String?? = nil,
+        stateName: String?? = nil,
+        countryID: Int?? = nil,
+        countryCode: String?? = nil,
+        countryName: String?? = nil,
+        postcode: String?? = nil,
+        address: String?? = nil
+        ) -> StoreDetailsStoreAddress {
+        return StoreDetailsStoreAddress(
+            city: city ?? self.city,
+            stateID: stateID ?? self.stateID,
+            stateCode: stateCode ?? self.stateCode,
+            stateName: stateName ?? self.stateName,
+            countryID: countryID ?? self.countryID,
+            countryCode: countryCode ?? self.countryCode,
+            countryName: countryName ?? self.countryName,
+            postcode: postcode ?? self.postcode,
+            address: address ?? self.address
         )
     }
     

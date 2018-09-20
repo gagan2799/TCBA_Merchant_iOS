@@ -79,6 +79,8 @@
 		79EE756821196B230041D5C4 /* TMHistoryDetailTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE756721196B230041D5C4 /* TMHistoryDetailTableCell.swift */; };
 		79EE756A2119CACF0041D5C4 /* TransactionDetailsModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE75692119CACF0041D5C4 /* TransactionDetailsModal.swift */; };
 		79EF44452125865C000C284B /* PostCreatePOSModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EF44442125865C000C284B /* PostCreatePOSModal.swift */; };
+		79F05451215375FC005B9CAC /* StatesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F05450215375FC005B9CAC /* StatesModel.swift */; };
+		79F0545321537627005B9CAC /* CountriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F0545221537627005B9CAC /* CountriesModel.swift */; };
 		79F4EFBC2150D6CC0033AD51 /* TMContactDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F4EFBB2150D6CC0033AD51 /* TMContactDetailsCell.swift */; };
 		79F4EFBE2150D6F30033AD51 /* TMContactRadioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F4EFBD2150D6F30033AD51 /* TMContactRadioCell.swift */; };
 		79FA3BE3211B1C16005F36F3 /* OutstandingLoyaltyModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */; };
@@ -170,6 +172,8 @@
 		79EE756721196B230041D5C4 /* TMHistoryDetailTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryDetailTableCell.swift; sourceTree = "<group>"; };
 		79EE75692119CACF0041D5C4 /* TransactionDetailsModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsModal.swift; sourceTree = "<group>"; };
 		79EF44442125865C000C284B /* PostCreatePOSModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCreatePOSModal.swift; sourceTree = "<group>"; };
+		79F05450215375FC005B9CAC /* StatesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatesModel.swift; sourceTree = "<group>"; };
+		79F0545221537627005B9CAC /* CountriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesModel.swift; sourceTree = "<group>"; };
 		79F4EFBB2150D6CC0033AD51 /* TMContactDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMContactDetailsCell.swift; sourceTree = "<group>"; };
 		79F4EFBD2150D6F30033AD51 /* TMContactRadioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMContactRadioCell.swift; sourceTree = "<group>"; };
 		79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutstandingLoyaltyModal.swift; sourceTree = "<group>"; };
@@ -274,6 +278,8 @@
 			children = (
 				7912313F21412E8600E475CF /* TradingHourModel.swift */,
 				79E5D91F214922E6008CD66E /* StoreDetailsModel.swift */,
+				79F05450215375FC005B9CAC /* StatesModel.swift */,
+				79F0545221537627005B9CAC /* CountriesModel.swift */,
 			);
 			path = MyBusiness;
 			sourceTree = "<group>";
@@ -635,6 +641,7 @@
 				"${BUILT_PRODUCTS_DIR}/ESTabBarController-swift/ESTabBarController_swift.framework",
 				"${BUILT_PRODUCTS_DIR}/EmptyDataSet-Swift/EmptyDataSet_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/PickerView/PickerView.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftGifOrigin/SwiftGifOrigin.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
@@ -645,6 +652,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ESTabBarController_swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EmptyDataSet_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PickerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftGifOrigin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
@@ -717,6 +725,7 @@
 				79E8C498213EAD18008E152A /* TMEditBusinessDetailVC.swift in Sources */,
 				791231442141534D00E475CF /* TMTradingSplitCell.swift in Sources */,
 				799924CD20FF1B270074BDE6 /* TMHomeViewController.swift in Sources */,
+				79F0545321537627005B9CAC /* CountriesModel.swift in Sources */,
 				79123138214102AA00E475CF /* TMStoreImagesVC.swift in Sources */,
 				7908E4992122E1EA00E908EC /* MemberTrasactionModal.swift in Sources */,
 				79380A452105BFF200FB4776 /* TMHistoryViewController.swift in Sources */,
@@ -738,6 +747,7 @@
 				79E5D920214922E6008CD66E /* StoreDetailsModel.swift in Sources */,
 				7912313A2141030D00E475CF /* TMMainImageVC.swift in Sources */,
 				791231322140FDA900E475CF /* TMTradingHoursVC.swift in Sources */,
+				79F05451215375FC005B9CAC /* StatesModel.swift in Sources */,
 				792B543C20F5F0DA000223F7 /* GExtentions.swift in Sources */,
 				7905A0F6212C22EE0079712A /* TMStorePaymentTVCell.swift in Sources */,
 				792F28C52121B1040033E7A2 /* TMQRScannerVC.swift in Sources */,

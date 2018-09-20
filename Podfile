@@ -13,4 +13,5 @@ pod 'SwiftyJSON'
 pod 'EmptyDataSet-Swift'
 pod 'ESTabBarController-swift'
 pod 'SwiftGifOrigin'
+pod 'PickerView'
 end

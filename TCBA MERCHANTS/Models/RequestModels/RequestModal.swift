@@ -24,6 +24,10 @@ class RequestModal: NSObject {
         var code                    : String!
         var memberID                : String!
         var keyChainCode            : String!
+        var countryId               : String!
+        var stateType               : String!
+        
+        
         
         override init() {
             super.init()
@@ -45,6 +49,8 @@ class RequestModal: NSObject {
             code                        = json["code"].stringValue
             memberID                    = json["memberID"].stringValue
             keyChainCode                = json["keyChainCode"].stringValue
+            countryId                   = json["countryId"].stringValue
+            stateType                   = json["stateType"].stringValue
         }
         
         func toDictionary() -> [String:Any]{
@@ -61,6 +67,8 @@ class RequestModal: NSObject {
             dictionary["code"]                  = code
             dictionary["memberID"]              = memberID
             dictionary["keyChainCode"]          = keyChainCode
+            dictionary["countryId"]             = countryId
+            dictionary["stateType"]             = stateType
             
             return dictionary
         }
@@ -132,8 +140,14 @@ class RequestModal: NSObject {
         var storeDescription    : String!
         var storeAbout          : String!
         var days                : [Any]!
-        
-        
+        var abn                 : String!
+        var businessName        : String!
+        var phoneNumber         : String!
+        var showAddress         : Int!
+        var storeAddress        : [String:Any]!
+        var storeEmail          : String!
+        var storeTitle          : String!
+
         override init() {
             super.init()
         }
@@ -149,6 +163,13 @@ class RequestModal: NSObject {
             storeDescription                = json["storeDescription"].stringValue
             storeAbout                      = json["storeAbout"].stringValue
             days                            = json["days"].arrayObject
+            abn                             = json["abn"].stringValue
+            businessName                    = json["businessName"].stringValue
+            phoneNumber                     = json["phoneNumber"].stringValue
+            showAddress                     = json["showAddress"].intValue
+            storeAddress                    = json["storeAddress"].dictionaryObject
+            storeEmail                      = json["storeEmail"].stringValue
+            storeTitle                      = json["storeTitle"].stringValue
         }
         
         func toDictionary() -> [String:Any]{
@@ -160,6 +181,49 @@ class RequestModal: NSObject {
             dictionary["storeDescription"]  = storeDescription
             dictionary["storeAbout"]        = storeAbout
             dictionary["days"]              = days
+            dictionary["abn"]               = abn
+            dictionary["businessName"]      = businessName
+            dictionary["phoneNumber"]       = phoneNumber
+            dictionary["showAddress"]       = showAddress
+            dictionary["storeAddress"]      = storeAddress
+            dictionary["storeEmail"]        = storeEmail
+            dictionary["storeTitle"]        = storeTitle
+            
+            return dictionary
+        }
+    }
+    
+    class mUpdateStoreAddress: NSObject {
+        
+        var address             : String!
+        var city                : String!
+        var countryId           : Int!
+        var postcode            : Int!
+        var stateId             : Int!
+        
+        override init() {
+            super.init()
+        }
+        
+        init(fromJson json: JSON!) {
+            if json.isEmpty{
+                return
+            }
+            address                         = json["address"].stringValue
+            city                            = json["city"].stringValue
+            countryId                       = json["countryId"].intValue
+            postcode                        = json["postcode"].intValue
+            stateId                         = json["stateId"].intValue
+        }
+        
+        func toDictionary() -> [String:Any]{
+            var dictionary = [String:Any]()
+            
+            dictionary["address"]           = address
+            dictionary["city"]              = city
+            dictionary["countryId"]         = countryId
+            dictionary["postcode"]          = postcode
+            dictionary["stateId"]           = stateId
             
             return dictionary
         }

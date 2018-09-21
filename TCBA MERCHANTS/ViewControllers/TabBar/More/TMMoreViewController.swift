@@ -116,11 +116,17 @@ extension TMMoreViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.row == 4 {
             
         } else if indexPath.row == 5 {
-            
+            //AboutUs
+            let objAU = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.AboutUs) as! TMAboutUsVC
+            self.navigationController?.pushViewController(objAU, animated: true)
         } else if indexPath.row == 6 {
-            
+            //RateUs
+            let objRU = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.RateUs) as! TMRateUsVC
+            self.navigationController?.pushViewController(objRU, animated: true)
         } else if indexPath.row == 7 {
-            
+            //ContactUs
+            let objCU = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.ContactUs) as! TMContactUsVC
+            self.navigationController?.pushViewController(objCU, animated: true)
         }
     }
 }

@@ -114,7 +114,7 @@ class ApiManager {
                     if isPrint{ print(JSON) }
                     if response.response?.statusCode == 200 {
                         if let data = response.data {
-                            GFunction.shared.saveUserDetailInDefaults(data)
+                            GFunction.shared.saveUserDataInDefaults(data)
                             GConstant.UserData = GFunction.shared.getUserDataFromDefaults()
                             completion(true)
                         }

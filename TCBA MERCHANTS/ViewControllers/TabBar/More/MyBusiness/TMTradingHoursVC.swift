@@ -368,7 +368,7 @@ class TMTradingHoursVC: UIViewController {
         
         ApiManager.shared.PUTWithBearerAuth(strURL: url, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
-                AlertManager.shared.showAlertTitle(title: "Success", message: "Your updates have been saved.")
+                AlertManager.shared.showAlertTitle(title: "Success", message: GConstant.Message.kUpdatesSaveMessage)
             }else{
                 if let data = data{
                     guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {

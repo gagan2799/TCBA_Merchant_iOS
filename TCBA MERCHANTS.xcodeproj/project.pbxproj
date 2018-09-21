@@ -84,6 +84,11 @@
 		79F4EFBC2150D6CC0033AD51 /* TMContactDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F4EFBB2150D6CC0033AD51 /* TMContactDetailsCell.swift */; };
 		79F4EFBE2150D6F30033AD51 /* TMContactRadioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F4EFBD2150D6F30033AD51 /* TMContactRadioCell.swift */; };
 		79FA3BE3211B1C16005F36F3 /* OutstandingLoyaltyModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */; };
+		79FCACD02154C69B003BC2C8 /* TMContactUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FCACCF2154C69B003BC2C8 /* TMContactUsVC.swift */; };
+		79FCACD22154D9BD003BC2C8 /* UserDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FCACD12154D9BD003BC2C8 /* UserDetailsModel.swift */; };
+		79FCACD521550218003BC2C8 /* TMRateUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FCACD421550218003BC2C8 /* TMRateUsVC.swift */; };
+		79FCACD8215515C4003BC2C8 /* TMAboutUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FCACD7215515C4003BC2C8 /* TMAboutUsVC.swift */; };
+		79FCACDA215521BF003BC2C8 /* TMAboutUsSubLisVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FCACD9215521BF003BC2C8 /* TMAboutUsSubLisVC.swift */; };
 		79FD4D1B212D3A0C003AC29F /* TMCardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD4D1A212D3A0C003AC29F /* TMCardTVCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -177,6 +182,11 @@
 		79F4EFBB2150D6CC0033AD51 /* TMContactDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMContactDetailsCell.swift; sourceTree = "<group>"; };
 		79F4EFBD2150D6F30033AD51 /* TMContactRadioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMContactRadioCell.swift; sourceTree = "<group>"; };
 		79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutstandingLoyaltyModal.swift; sourceTree = "<group>"; };
+		79FCACCF2154C69B003BC2C8 /* TMContactUsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMContactUsVC.swift; sourceTree = "<group>"; };
+		79FCACD12154D9BD003BC2C8 /* UserDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsModel.swift; sourceTree = "<group>"; };
+		79FCACD421550218003BC2C8 /* TMRateUsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMRateUsVC.swift; sourceTree = "<group>"; };
+		79FCACD7215515C4003BC2C8 /* TMAboutUsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMAboutUsVC.swift; sourceTree = "<group>"; };
+		79FCACD9215521BF003BC2C8 /* TMAboutUsSubLisVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMAboutUsSubLisVC.swift; sourceTree = "<group>"; };
 		79FD4D1A212D3A0C003AC29F /* TMCardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMCardTVCell.swift; sourceTree = "<group>"; };
 		F1D02BAEF8FD0D998288EEB8 /* Pods-TCBA MERCHANTS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TCBA MERCHANTS.release.xcconfig"; path = "Pods/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -436,6 +446,7 @@
 			isa = PBXGroup;
 			children = (
 				7913DC402109B6A1000D1A9C /* UserLoginModel.swift */,
+				79FCACD12154D9BD003BC2C8 /* UserDetailsModel.swift */,
 			);
 			path = LoginModel;
 			sourceTree = "<group>";
@@ -493,6 +504,9 @@
 				79D94AC221103B9000D3FCD6 /* TMMoreViewController.swift */,
 				79E8C491213E489C008E152A /* TMMoreTableCell.swift */,
 				7912313B214103A400E475CF /* MyBusiness */,
+				79FCACD6215515A4003BC2C8 /* AboutUs */,
+				79FCACD3215501F8003BC2C8 /* RateUs */,
+				79FCACCE2154C66B003BC2C8 /* ContactUs */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -543,6 +557,31 @@
 				79F4EFBD2150D6F30033AD51 /* TMContactRadioCell.swift */,
 			);
 			path = ContactCells;
+			sourceTree = "<group>";
+		};
+		79FCACCE2154C66B003BC2C8 /* ContactUs */ = {
+			isa = PBXGroup;
+			children = (
+				79FCACCF2154C69B003BC2C8 /* TMContactUsVC.swift */,
+			);
+			path = ContactUs;
+			sourceTree = "<group>";
+		};
+		79FCACD3215501F8003BC2C8 /* RateUs */ = {
+			isa = PBXGroup;
+			children = (
+				79FCACD421550218003BC2C8 /* TMRateUsVC.swift */,
+			);
+			path = RateUs;
+			sourceTree = "<group>";
+		};
+		79FCACD6215515A4003BC2C8 /* AboutUs */ = {
+			isa = PBXGroup;
+			children = (
+				79FCACD7215515C4003BC2C8 /* TMAboutUsVC.swift */,
+				79FCACD9215521BF003BC2C8 /* TMAboutUsSubLisVC.swift */,
+			);
+			path = AboutUs;
 			sourceTree = "<group>";
 		};
 		A8643824B0A4286936FB8B60 /* Pods */ = {
@@ -699,6 +738,7 @@
 				7905A0F4212BE9770079712A /* DynamicColView.swift in Sources */,
 				792B544C20F5F485000223F7 /* StringHelper.swift in Sources */,
 				790D392721084A3B0073AE4C /* Connectivity.swift in Sources */,
+				79FCACD02154C69B003BC2C8 /* TMContactUsVC.swift in Sources */,
 				79FD4D1B212D3A0C003AC29F /* TMCardTVCell.swift in Sources */,
 				79E690DA212E998400550A98 /* TMPinViewController.swift in Sources */,
 				79E8C492213E489C008E152A /* TMMoreTableCell.swift in Sources */,
@@ -713,10 +753,12 @@
 				793578AA21423A0E00BA6D7B /* TMTradingJoinCell.swift in Sources */,
 				79CDF02C2108A13E00CA7A9C /* RequestModal.swift in Sources */,
 				7933FCAA2111B3FD00E9B49B /* TransactionDataModal.swift in Sources */,
+				79FCACD22154D9BD003BC2C8 /* UserDetailsModel.swift in Sources */,
 				791B428B212ABCBA0064AF34 /* CircleView.swift in Sources */,
 				79FA3BE3211B1C16005F36F3 /* OutstandingLoyaltyModal.swift in Sources */,
 				79E5D91E21491CD4008CD66E /* TMStoreImagesCell.swift in Sources */,
 				799924CF20FF1B480074BDE6 /* TMHomeTableViewCell.swift in Sources */,
+				79FCACD521550218003BC2C8 /* TMRateUsVC.swift in Sources */,
 				7933FCA621118E6000E9B49B /* TMHistoryTableViewCell.swift in Sources */,
 				7908E49B2122F6A500E908EC /* TMMemberTransactionVC.swift in Sources */,
 				792B541920F5DD30000223F7 /* AppDelegate.swift in Sources */,
@@ -729,10 +771,12 @@
 				79123138214102AA00E475CF /* TMStoreImagesVC.swift in Sources */,
 				7908E4992122E1EA00E908EC /* MemberTrasactionModal.swift in Sources */,
 				79380A452105BFF200FB4776 /* TMHistoryViewController.swift in Sources */,
+				79FCACDA215521BF003BC2C8 /* TMAboutUsSubLisVC.swift in Sources */,
 				791B4289212AA1070064AF34 /* TMStorePaymentCVCell.swift in Sources */,
 				79E8C494213E6AEC008E152A /* TMMyBusinessVC.swift in Sources */,
 				7913DC412109B6A1000D1A9C /* UserLoginModel.swift in Sources */,
 				790D392321083B720073AE4C /* GAPIConstant.swift in Sources */,
+				79FCACD8215515C4003BC2C8 /* TMAboutUsVC.swift in Sources */,
 				79D94AC321103B9000D3FCD6 /* TMMoreViewController.swift in Sources */,
 				79380A412105BBDB00FB4776 /* TMShareViewController.swift in Sources */,
 				7933FCAC2111BA7E00E9B49B /* IncompleteTransactionData.swift in Sources */,

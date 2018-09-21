@@ -93,6 +93,19 @@ class TMContactDetailVC: UIViewController {
     
     //MARK: - UIButton Action Methods
     @IBAction func btnSaveAct(_ sender: UIButton) {
+        for item in contactDetailsData {
+            if item.titleValue == "" && item.title != "" {
+                if item.title != "ABN (Optional)" || item.title != "Business Name (Optional)" {
+                    AlertManager.shared.showAlertTitle(title: "Incomplete Form", message: "\(item.title ?? "") field can't be empty")
+                    return
+                }
+            }
+            
+            if item.title == "Store Email" && !item.titleValue!.isValidEmail() {
+                AlertManager.shared.showAlertTitle(title: "Incomplete Form", message: GConstant.Message.kEmailTxtFieldMessage)
+                return
+            }
+        }
         callPutUpdateStoreApi()
     }
     
@@ -220,9 +233,11 @@ class TMContactDetailVC: UIViewController {
          APIName    : PutUpdateStore
          Url        : "/Stores/PutUpdateStore"
          Method     : PUT
-         Parameters : { days  : [[:]] }
+         Parameters : { days  : [String : Any] }
          ===================================================
          */
+        self.view.endEditing(true)
+        
         if let allStates = states.states {
             for state in allStates {
                 if state.stateName == contactDetailsData[6].titleValue {
@@ -247,11 +262,9 @@ class TMContactDetailVC: UIViewController {
         requestAddress.stateId      = stateID
         requestAddress.city         = contactDetailsData[4].titleValue
         
-        let storeAddress: [String : Any] = requestAddress.toDictionary()
-        
         let request                 = RequestModal.mUpdateStoreContent()
         guard let storeId           = GConstant.UserData.stores else{ return }
-        request.storeAddress        = storeAddress
+        request.storeAddress        = requestAddress.toDictionary()
         request.storeId             = storeId
         request.storeTitle          = contactDetailsData[0].titleValue
         request.storeEmail          = contactDetailsData[1].titleValue
@@ -262,7 +275,7 @@ class TMContactDetailVC: UIViewController {
         
         ApiManager.shared.PUTWithBearerAuth(strURL: GAPIConstant.Url.PutUpdateStore, parameter:request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
-                AlertManager.shared.showAlertTitle(title: "Success", message: "Your updates have been saved.")
+                AlertManager.shared.showAlertTitle(title: "Success", message: GConstant.Message.kUpdatesSaveMessage)
             }else{
                 if let data = data{
                     guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
@@ -334,9 +347,9 @@ extension TMContactDetailVC: UITableViewDataSource,UITableViewDelegate,UITextFie
             } else if indexPath.row == 5 || indexPath.row == 6{
                 cell.txtTitleVal.inputView = self.pickerV
             } else if indexPath.row == 7 || indexPath.row == 9 {
-                cell.txtTitleVal.keyboardType  = .numberPad
+                cell.txtTitleVal.keyboardType   = UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation: .numberPad
             } else if indexPath.row == 8 {
-                cell.txtTitleVal.keyboardType  = .phonePad
+                cell.txtTitleVal.keyboardType   = UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation: .phonePad
             } else {
                 cell.txtTitleVal.keyboardType  = .default
             }
@@ -401,7 +414,30 @@ extension TMContactDetailVC: UITableViewDataSource,UITableViewDelegate,UITextFie
     func textFieldDidEndEditing(_ textField: UITextField) {
         contactDetailsData[textField.tag] = storeDetailsElements.init(title: contactDetailsData[textField.tag].title, placeholder: contactDetailsData[textField.tag].placeholder, titleValue: textField.text)
         tblContactDetails.reloadRows(at: [IndexPath(row: textField.tag, section: 0)], with: .none)
-        textField.resignFirstResponder()
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if textField.tag == 7 || textField.tag == 8 || textField.tag == 9 {
+            let newLength = (textField.text?.count)! + string.count - range.length
+            if newLength > 11 { return false }
+            
+            let compSepByCharInSet  = string.components(separatedBy: CharacterSet(charactersIn: "0123456789").inverted)
+            
+            let strFiltered         = compSepByCharInSet.joined(separator: "")
+            
+            if string == strFiltered {
+                let nsStr           = textField.text as NSString? ?? ""
+                let str             = nsStr.replacingCharacters(in: range, with: string).replacingOccurrences(of: ".", with: "")
+                let range: NSRange  = (str as NSString).range(of: "^0*", options: .regularExpression)
+                textField.text      = (str as NSString).replacingCharacters(in: range, with: "")
+            }
+            return false
+        } else {
+            contactDetailsData[textField.tag] = storeDetailsElements.init(title: contactDetailsData[textField.tag].title, placeholder: contactDetailsData[textField.tag].placeholder, titleValue: textField.text)
+            print(textField.text as Any)
+            return true
+        }
     }
     
     //MARK: - PickerView Datasource and Delegates

@@ -49,6 +49,11 @@ struct GAPIConstant {
             return BaseURL  + "/Users/GetForgotPassword"
         }
         
+        //MARK: User Details Api
+        static var GetUserDetails: String {
+            return BaseURL + "/Users/GetUserDetails"
+        }
+        
         //MARK: - History Screen Api's
         static var TransactionData: String {
             return BaseURL + "/Merchant/GetMerchantTransactionSummary"
@@ -144,5 +149,16 @@ struct GAPIConstant {
         static var GetStates: String {
             return BaseURL + "/Content/GetStates"
         }
+        
+        //MARK: ContactUs
+        static var PostContactUs: String {
+            return BaseURL + "/Feedback/PostContactUs"
+        }
+        
+        //MARK: RateUs
+        static var PostRateUs: String {
+            return BaseURL + "/Feedback/PostRateUs"
+        }
+        
     }
 }

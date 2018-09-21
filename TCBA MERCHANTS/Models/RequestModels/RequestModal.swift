@@ -26,8 +26,11 @@ class RequestModal: NSObject {
         var keyChainCode            : String!
         var countryId               : String!
         var stateType               : String!
-        
-        
+        var userType                : String!
+        var fullName                : String!
+        var comment                 : String!
+        var message                 : String!
+        var rating                  : String!
         
         override init() {
             super.init()
@@ -51,6 +54,11 @@ class RequestModal: NSObject {
             keyChainCode                = json["keyChainCode"].stringValue
             countryId                   = json["countryId"].stringValue
             stateType                   = json["stateType"].stringValue
+            userType                    = json["userType"].stringValue
+            fullName                    = json["fullName"].stringValue
+            comment                     = json["comment"].stringValue
+            message                     = json["message"].stringValue
+            rating                      = json["rating"].stringValue
         }
         
         func toDictionary() -> [String:Any]{
@@ -69,7 +77,11 @@ class RequestModal: NSObject {
             dictionary["keyChainCode"]          = keyChainCode
             dictionary["countryId"]             = countryId
             dictionary["stateType"]             = stateType
-            
+            dictionary["userType"]              = userType
+            dictionary["fullName"]              = fullName
+            dictionary["comment"]               = comment
+            dictionary["message"]               = message
+            dictionary["rating"]                = rating
             return dictionary
         }
     }

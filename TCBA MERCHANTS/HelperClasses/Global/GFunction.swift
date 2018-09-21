@@ -104,15 +104,29 @@ class GFunction: NSObject  {
     
     //MARK: - Other Helper Method
     
-    func saveUserDetailInDefaults(_ encodeData: Data)  {
+    func saveUserDataInDefaults(_ encodeData: Data)  {
         let userDefault = UserDefaults.standard
         userDefault.set(encodeData, forKey: GConstant.UserDefaultKeys.UserDataLogin)
         userDefault.synchronize()
     }
     
-func getUserDataFromDefaults() -> UserLoginModel? {
+    func saveUserDetailsInDefaults(_ encodeData: Data)  {
+        let userDefault = UserDefaults.standard
+        userDefault.set(encodeData, forKey: GConstant.UserDefaultKeys.UserDetails)
+        userDefault.synchronize()
+    }
+    
+    func getUserDataFromDefaults() -> UserLoginModel? {
         if let userData =  UserDefaults.standard.value(forKey: GConstant.UserDefaultKeys.UserDataLogin) as? Data{
             let userDataDecoded = try! UserLoginModel.decode(_data: userData)
+            return userDataDecoded
+        }
+        return nil
+    }
+    
+    func getUserDetailsFromDefaults() -> UserDetailsModel? {
+        if let userDetails =  UserDefaults.standard.value(forKey: GConstant.UserDefaultKeys.UserDetails) as? Data{
+            let userDataDecoded = try! UserDetailsModel.decode(_data: userDetails)
             return userDataDecoded
         }
         return nil
@@ -222,7 +236,7 @@ func getUserDataFromDefaults() -> UserLoginModel? {
         
         return lineView
     }
-
+    
     
     //MARK: - Other Method
     func compareDateTrueIfExpire(dateString : String , dateFormatter formatterString: String = "EEE, dd MM yyyy HH:mm:ss zzz") -> Bool {
@@ -307,7 +321,7 @@ func getUserDataFromDefaults() -> UserLoginModel? {
     func userLogOut(isFromSplash: Bool = false) {
         // I set the root VC dynamicaly because it depends on wether it's the first time to use the app or if the user is logged in or not
         // Remove userdata from User defaults
-         GFunction.shared.removeUserDefaults(key: GConstant.UserDefaultKeys.UserDataLogin)
+        GFunction.shared.removeUserDefaults(key: GConstant.UserDefaultKeys.UserDataLogin)
         let obj = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Login) as! TMLoginViewController
         obj.isFromSplash = isFromSplash
         if !isFromSplash {
@@ -338,7 +352,7 @@ func getUserDataFromDefaults() -> UserLoginModel? {
             case 1:
                 let obj = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Login) as! TMLoginViewController
                 let navigationController = UINavigationController(rootViewController:obj)
-                     rootWindow().rootViewController?.present(navigationController, animated: true, completion: {
+                rootWindow().rootViewController?.present(navigationController, animated: true, completion: {
                 })
                 break
             default:

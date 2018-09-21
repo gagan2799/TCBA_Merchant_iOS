@@ -11,8 +11,10 @@ struct GConstant {
     static let MainStoryBoard               = UIStoryboard(name: "Main", bundle: .main)
     static var NavigationController         : UINavigationController!
     static var UserData                     : UserLoginModel!
+    static var UserDetails                  : UserDetailsModel!
     
     static let kMerchantEmail               = "merchants@thecashbackapp.com"
+    static let kAppStoreLink                = "https://itunes.apple.com/in/app/the-cash-back-app/id692743133?mt=8"
     
     // MARK:- APP Colors
     struct AppColor {
@@ -74,6 +76,9 @@ struct GConstant {
         static let MainImage                    = "TMMainImageVC"
         static let BankDetails                  = "TMBankDetailsVC"
         static let TermOfUse                    = "TMTermOfUseVC"
+        static let ContactUs                    = "TMContactUsVC"
+        static let RateUs                       = "TMRateUsVC"
+        static let AboutUs                      = "TMAboutUsVC"
     }
         
     //MARK:- UserDefaults
@@ -82,12 +87,14 @@ struct GConstant {
         static let DeviceId            : String = "kDeviceId"
         static let UserDataLogin       : String = "kLoginUserData"
         static let UserName            : String = "kUserNameLogin"
+        static let UserDetails         : String = "kLoginUserDetails"
     }
     
     //MARK:- Messages
     struct Message {
         // Alert messages
         static let kEmailTxtFieldMessage           :String = "Your email is required and must be in a valid format."
+        static let kUpdatesSaveMessage             :String = "Your updates have been saved."
         static let kSomthingWrongMessage           :String = "Something went wrong, Please try again"
         static let kEmailSentSuccessMessage        :String = "If your address exists on our systems, an account recovery email has been sent."
         static let kMemberIDTxtFieldMessage        :String = "Your Member Id is required, Please enter a valid Member ID"

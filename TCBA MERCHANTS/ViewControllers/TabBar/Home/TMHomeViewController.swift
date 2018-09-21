@@ -41,6 +41,12 @@ class TMHomeViewController: UIViewController {
         }else{
             scrollVHome.isScrollEnabled = false
         }
+        
+        if GFunction.shared.getUserDetailsFromDefaults() == nil {
+            callGetUserDetailsApi()
+        }else{
+            GConstant.UserDetails = GFunction.shared.getUserDetailsFromDefaults()
+        }
     }
     override func viewDidAppear(_ animated: Bool) {
         
@@ -86,6 +92,42 @@ class TMHomeViewController: UIViewController {
         lblStoreId.applyStyle(labelFont: nil, labelColor: .white, cornerRadius: nil, borderColor: .white, borderWidth: 1.0, labelShadow: nil)
         lblStoreId.backgroundColor          = UIColor.black.withAlphaComponent(0.4)
         lblStoreId.text                     = "Store Id:\(GConstant.UserData.stores ?? "")"
+    }
+    
+    //MARK: - Web Api's
+    func callGetUserDetailsApi() {
+        /*
+         =====================API CALL=====================
+         APIName    : GetUserDetails
+         Url        : "/Users/GetUserDetails"
+         Method     : GET
+         Parameters : nil
+         ===================================================
+         */
+
+        ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetUserDetails, parameter: nil) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                guard let data = data else{return}
+                GFunction.shared.saveUserDetailsInDefaults(data)
+                GConstant.UserDetails = GFunction.shared.getUserDetailsFromDefaults()
+            }else{
+                if statusCode == 404{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }else{
+                    if let data = data{
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                            let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
+                        }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage)
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -279,7 +279,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
         ApiManager.shared.POST(strURL: GAPIConstant.Url.Login, parameter: requestModel.toDictionary(), debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if error.isEmpty || data != nil{
                 if statusCode == 200 {
-                    GFunction.shared.saveUserDetailInDefaults(data!)
+                    GFunction.shared.saveUserDataInDefaults(data!)
                     if self.btnSaveUsername.isSelected{
                         UserDefaults.standard.set(self.txtUsername.text, forKey: GConstant.UserDefaultKeys.UserName)
                         UserDefaults.standard.synchronize()

@@ -115,7 +115,7 @@ class TMStorePaymentVC: UIViewController {
         // navigationBar customization
         self.navigationController?.customize()
         self.navigationItem.title           = "Cash Back Purchase"
-        navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "back_button"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.plain, target: self, action: #selector(backButtonAction))
+        navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "back_button"), landscapeImagePhone: nil, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonAction))
         
         lblUserName.font                    = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         lblMemberId.font                    = UIFont.applyOpenSansRegular(fontSize: 15.0)

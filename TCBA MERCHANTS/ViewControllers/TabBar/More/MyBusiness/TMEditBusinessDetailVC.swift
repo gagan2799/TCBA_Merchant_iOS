@@ -61,9 +61,9 @@ class TMEditBusinessDetailVC: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillShow)
-        NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillHide)
-        NotificationCenter.default.removeObserver(NSNotification.Name.UIDeviceOrientationDidChange)
+        NotificationCenter.default.removeObserver(UIResponder.keyboardWillShowNotification)
+        NotificationCenter.default.removeObserver(UIResponder.keyboardWillHideNotification)
+        NotificationCenter.default.removeObserver(UIDevice.orientationDidChangeNotification)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -97,9 +97,9 @@ class TMEditBusinessDetailVC: UIViewController {
             self.webV.load(URLRequest(url: myURL))
         }
         // NSNotificationCenter
-        NotificationCenter.default.addObserver(self, selector: #selector(resizeEditorHeight), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
-        NotificationCenter.default.addObserver(self, selector: #selector(resizeEditorHeight), name:NSNotification.Name.UIKeyboardWillHide, object: nil);
-        NotificationCenter.default.addObserver(self, selector: #selector(resizeEditorHeight), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resizeEditorHeight), name:UIResponder.keyboardWillShowNotification, object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(resizeEditorHeight), name:UIResponder.keyboardWillHideNotification, object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(resizeEditorHeight), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     //MARK: - UIButton ActionMethods

@@ -78,7 +78,7 @@ class TMBankDetailsVC: UIViewController {
         btnTermOfUse.titleLabel?.font   = UIFont.applyOpenSansRegular(fontSize: textSize)
         
         // create attributed string
-        let attributes                  = [NSAttributedStringKey.foregroundColor:GConstant.AppColor.blue , NSAttributedStringKey.font: UIFont.applyOpenSansSemiBold(fontSize: textSize) , NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue] as [NSAttributedStringKey : Any]
+        let attributes                  = [NSAttributedString.Key.foregroundColor:GConstant.AppColor.blue , NSAttributedString.Key.font: UIFont.applyOpenSansSemiBold(fontSize: textSize) , NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue] as [NSAttributedString.Key : Any]
         
         let underlineAttriString        = NSMutableAttributedString(string: text)
         let range = (text as NSString).range(of: "Contact us")

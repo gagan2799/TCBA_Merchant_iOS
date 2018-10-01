@@ -226,19 +226,19 @@ extension TMHistoryViewController: UITableViewDataSource,UITableViewDelegate{
         if indexPath.row == 2 {cell.viewOrange.isHidden = true}
         if (transactionData) != nil {
             if indexPath.row == 0 {
-                cell.lblTotalDebValue.text  = "$\(transactionData.totalCashBack!)"
+                cell.lblTotalDebValue.text  = "$\(String.init(format: "%.2f",  transactionData.totalCashBack!))"
                 cell.lblTransaction.text    = "\(transactionData.totalTransaction!)"
-                cell.lblValue.text          = "$\(transactionData.totalAmount!)"
+                cell.lblValue.text          = "$\(String.init(format: "%.2f", transactionData.totalAmount!))"
             }else if indexPath.row == 1{
-                cell.lblTotalDebValue.text  = "$\(transactionData.todayCashBack!)"
+                cell.lblTotalDebValue.text  = "$\(String.init(format: "%.2f", transactionData.todayCashBack!))"
                 cell.lblTransaction.text    = "\(transactionData.todayTransaction!)"
-                cell.lblValue.text          = "$\(transactionData.todayAmount!)"
+                cell.lblValue.text          = "$\(String.init(format: "%.2f", transactionData.todayAmount!))"
             } else {
                 cell.lblTransaction.text    = "\(incompleteTransaction)"
-                cell.lblValue.text          = "$\(incompleteValue)"
+                cell.lblValue.text          = "$\(String.init(format: "%.2f", incompleteValue))"
             }
             cell.btnViewDetails.tag = indexPath.row
-            cell.btnViewDetails.addTarget(self, action: #selector(btnViewDetailsAction), for: UIControlEvents.touchUpInside)
+            cell.btnViewDetails.addTarget(self, action: #selector(btnViewDetailsAction), for: UIControl.Event.touchUpInside)
         }
         return cell
     }

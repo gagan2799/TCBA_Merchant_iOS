@@ -82,7 +82,7 @@ class TMSplitPaymentMasterVC: UIViewController {
         self.navigationController?.customize()
         self.navigationItem.title           = "Cash Back Purchase"
         
-        navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "back_button"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.plain, target: self, action: #selector(backButtonAction))
+        navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "back_button"), landscapeImagePhone: nil, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonAction))
         
         // ColectionView Layout setup
         consHeightCol.constant   = GConstant.Screen.Height * 0.7
@@ -161,7 +161,7 @@ class TMSplitPaymentMasterVC: UIViewController {
         
         let transition: CATransition = CATransition()
         transition.duration = 0.3
-        transition.type = kCATransitionFade
+        transition.type = CATransitionType.fade
         rootWindow().layer.add(transition, forKey: nil)
         rootWindow().rootViewController = Tabbar.coustomTabBar(withIndex: 2)
     }

@@ -36,7 +36,7 @@ open class DPPickerManager: NSObject, UIPickerViewDelegate, UIPickerViewDataSour
         self.showPicker(title: title, pickerMode: .date, selected: selected, min: minDate, max: currentDate, completion: completion)
     }
     
-    @objc open func showPicker(title: String?, pickerMode: UIDatePickerMode, selected: Date?, min: Date?, max: Date?, completion:DPPickerDateCompletion?) {
+    @objc open func showPicker(title: String?, pickerMode: UIDatePicker.Mode, selected: Date?, min: Date?, max: Date?, completion:DPPickerDateCompletion?) {
         self.showPicker(title: title, picker: { (picker) in
             picker.date = selected ?? Date()
             picker.minimumDate = min

@@ -65,7 +65,7 @@ class TMMainImageVC: UIViewController {
         }
         
         // create attributed string
-        let attributes                  = [NSAttributedStringKey.foregroundColor:GConstant.AppColor.blue , NSAttributedStringKey.font: UIFont.applyOpenSansSemiBold(fontSize: 15.0)] as [NSAttributedStringKey : Any]
+        let attributes                  = [NSAttributedString.Key.foregroundColor:GConstant.AppColor.blue , NSAttributedString.Key.font: UIFont.applyOpenSansSemiBold(fontSize: 15.0)] as [NSAttributedString.Key : Any]
         
         let underlineAttriString        = NSMutableAttributedString(string: text)
         let range = (text as NSString).range(of: "Merchant Support")

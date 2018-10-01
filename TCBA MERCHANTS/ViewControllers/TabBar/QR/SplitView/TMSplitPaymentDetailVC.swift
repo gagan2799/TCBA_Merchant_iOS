@@ -222,7 +222,7 @@ class TMSplitPaymentDetailVC: UIViewController {
         
         let transition: CATransition = CATransition()
         transition.duration = 0.3
-        transition.type = kCATransitionFade
+        transition.type = CATransitionType.fade
         rootWindow().layer.add(transition, forKey: nil)
         rootWindow().rootViewController = Tabbar.coustomTabBar(withIndex: 2)
     }

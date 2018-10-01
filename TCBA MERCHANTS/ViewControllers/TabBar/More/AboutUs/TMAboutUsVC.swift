@@ -13,7 +13,7 @@ class TMAboutUsVC: UIViewController {
     struct AboutUs: Codable {
         let image, title: String?
     }
-
+    
     //MARK: Variables & Constants
     let arrAboutUs = [AboutUs.init(image: "corportae", title: "Corporate"),
                       AboutUs.init(image: "news", title: "News"),
@@ -86,5 +86,21 @@ extension TMAboutUsVC: UITableViewDelegate, UITableViewDataSource {
         cell.imgIcon.image  = UIImage(named: arrAboutUs[indexPath.row].image!)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 2 {
+            
+        } else {
+            let objSubLis           = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.AboutUsSubLis) as! TMAboutUsSubLisVC
+            if indexPath.row == 0 {
+                objSubLis.typeSec   = .Corporate
+                objSubLis.strTitle  = arrAboutUs[indexPath.row].title
+            } else if indexPath.row == 1 {
+                objSubLis.typeSec   = .News
+                objSubLis.strTitle  = arrAboutUs[indexPath.row].title
+            }
+            self.navigationController?.pushViewController(objSubLis, animated: true)
+        }
     }
 }

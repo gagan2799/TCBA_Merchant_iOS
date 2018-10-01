@@ -141,18 +141,18 @@ class TMHistoryDetailVC: UIViewController {
     func setPropForAll() {
         lblMainTitle.text = "All Transactions"
         if let transData = transactionData {
-            lblTotalDebValue.text  = "$\(transData.totalCashBack!)"
+            lblTotalDebValue.text  = "$\(String.init(format: "%.2f", transData.totalCashBack!))"
             lblTransaction.text    = "\(transData.totalTransaction!)"
-            lblValue.text          = "$\(transData.totalAmount!)"
+            lblValue.text          = "$\(String.init(format: "%.2f",transData.totalAmount!))"
         }
     }
     
     func setPropForToday() {
         lblMainTitle.text = "Today's Transactions"
         if let transData = transactionData {
-            lblTotalDebValue.text  = "$\(transData.todayCashBack!)"
+            lblTotalDebValue.text  = "$\(String.init(format: "%.2f",transData.todayCashBack!))"
             lblTransaction.text    = "\(transData.todayTransaction!)"
-            lblValue.text          = "$\(transData.todayAmount!)"
+            lblValue.text          = "$\(String.init(format: "%.2f",transData.todayAmount!))"
         }
     }
     
@@ -163,9 +163,9 @@ class TMHistoryDetailVC: UIViewController {
             for dic in incompleteData {
                 totalDebits  += dic.totalPurchaseAmount!
             }
-            lblTotalDebValue.text  = "$\(totalDebits)"
+            lblTotalDebValue.text  = "$\(String.init(format: "%.2f", totalDebits))"
             lblTransaction.text    = "\(incompleteData.count)"
-            lblValue.text          = "$\(totalDebits)"
+            lblValue.text          = "$\(String.init(format: "%.2f", totalDebits))"
         }
     }
     
@@ -174,8 +174,8 @@ class TMHistoryDetailVC: UIViewController {
         lblSubTitles[2].text    = "Total Loyalty"
         if let data = outstandingData {
             lblTransaction.text    = "\(data.totalNumber!)"
-            lblValue.text          = "$\(data.totalOutstanding!)"
-            lblTotalDebValue.text  = "$\(data.totalOutstanding!)"
+            lblValue.text          = "$\(String.init(format: "%.2f", data.totalOutstanding!))"
+            lblTotalDebValue.text  = "$\(String.init(format: "%.2f", data.totalOutstanding!))"
         }
     }
     
@@ -304,7 +304,7 @@ class TMHistoryDetailVC: UIViewController {
 
         let transition: CATransition = CATransition()
         transition.duration = 0.3
-        transition.type = kCATransitionFade
+        transition.type = CATransitionType.fade
         rootWindow().layer.add(transition, forKey: nil)
         rootWindow().rootViewController = splitViewController
     }
@@ -342,22 +342,22 @@ extension TMHistoryDetailVC: UITableViewDataSource,UITableViewDelegate{
         cell.lblMember.font      = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         cell.lblPrice.font       = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         switch type {
-        case .all:
+        case .all?:
             cell.lblDateOrID.text   = "Date"
             cell.lblMember.text     = "Member"
             cell.lblPrice.text      = "$"
             break
-        case .today:
+        case .today?:
             cell.lblDateOrID.text   = "Date"
             cell.lblMember.text     = "Member"
             cell.lblPrice.text      = "$"
             break
-        case .incomplete:
+        case .incomplete?:
             cell.lblDateOrID.text   = "Member ID"
             cell.lblMember.text     = "Member"
             cell.lblPrice.text      = "$"
             break
-        case .outstanding:
+        case .outstanding?:
             cell.lblDateOrID.text   = "id"
             cell.lblMember.text     = "Member"
             cell.lblPrice.text      = "Loyalty"
@@ -380,7 +380,7 @@ extension TMHistoryDetailVC: UITableViewDataSource,UITableViewDelegate{
         cell.lblPrice.font       = UIFont.applyOpenSansRegular(fontSize: 14.0)
         
         switch type {
-        case .all:
+        case .all?:
             if let transactions = transactionDetailsData.transactions{
                 let date = Date().dateToDDMMYYYY(date: transactions[indexPath.row].transactionDate!)
                 cell.lblDateOrID.text       = date
@@ -388,7 +388,7 @@ extension TMHistoryDetailVC: UITableViewDataSource,UITableViewDelegate{
                 cell.lblPrice.text          = "$\(transactions[indexPath.row].transactionAmount!)"
             }
             break
-        case .today:
+        case .today?:
             if let transactions     = transactionDetailsData.transactions{
                 let date = Date().dateToDDMMYYYY(date: transactions[indexPath.row].transactionDate!)
                 cell.lblDateOrID.text       = date
@@ -396,7 +396,7 @@ extension TMHistoryDetailVC: UITableViewDataSource,UITableViewDelegate{
                 cell.lblPrice.text          = "$\(transactions[indexPath.row].transactionAmount!)"
             }
             break
-        case .incomplete:
+        case .incomplete?:
             if let incompData   = incompleteData{
                 cell.imgVArrowNext.isHidden = false
                 cell.lblDateOrID.text       = "\(incompData[indexPath.row].memberID!)"
@@ -404,7 +404,7 @@ extension TMHistoryDetailVC: UITableViewDataSource,UITableViewDelegate{
                 cell.lblPrice.text          = "$\(incompData[indexPath.row].totalPurchaseAmount!)"
             }
             break
-        case .outstanding:
+        case .outstanding?:
             if let outData = outstandingData.outstandingLoyalty{
                 cell.lblDateOrID.text       = "\(outData[indexPath.row].id!)"
                 cell.lblMember.text         = outData[indexPath.row].name

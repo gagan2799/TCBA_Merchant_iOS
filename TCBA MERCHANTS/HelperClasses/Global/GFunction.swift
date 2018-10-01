@@ -325,7 +325,7 @@ class GFunction: NSObject  {
         let obj = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Login) as! TMLoginViewController
         obj.isFromSplash = isFromSplash
         if !isFromSplash {
-            GConstant.NavigationController = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: "RootNavigation") as! UINavigationController
+            GConstant.NavigationController = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: "RootNavigation") as? UINavigationController
             UIApplication.shared.delegate?.window??.rootViewController = GConstant.NavigationController
         }
         GConstant.NavigationController.fadeTo(obj)
@@ -335,7 +335,7 @@ class GFunction: NSObject  {
         GConstant.UserData = self.getUserDataFromDefaults()
         let transition: CATransition = CATransition()
         transition.duration = 0.3
-        transition.type = kCATransitionFade
+        transition.type = CATransitionType.fade
         rootWindow().layer.add(transition, forKey: nil)
         rootWindow().rootViewController = Tabbar.coustomTabBar()
     }

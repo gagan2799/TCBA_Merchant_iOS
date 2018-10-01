@@ -70,7 +70,7 @@ class ApiManager {
                 let statusCode = error._code
                 let underLayingError = ("Underlying error: \(String(describing: error.underlyingError))")
                 
-                let errorDetail = "\(statusCode) \n \(errorDescription) \n \(reasonDetail) \n \(underLayingError)"
+                let errorDetail = "\(statusCode) \n \(String(describing: errorDescription)) \n \(String(describing: reasonDetail)) \n \(underLayingError)"
                 message = errorDetail
             } else if let error = response.result.error as? URLError {
                 message = ("URLError occurred: \(error)")

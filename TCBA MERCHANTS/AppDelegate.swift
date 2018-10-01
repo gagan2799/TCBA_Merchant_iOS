@@ -13,15 +13,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
        
         //<---------Set statusbar color--------->
-        UIApplication.shared.statusBarStyle = .lightContent
+//        UIApplication.shared.statusBarStyle = .lightContent
+        var preferredStatusBarStyle : UIStatusBarStyle {
+            return .lightContent
+        }
         //<---------Enable IQKeybord---------->
         IQKeyboardManager.shared.enable = true;
         
         //------------------Navigation Controller-------------
-        GConstant.NavigationController = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: "RootNavigation") as! UINavigationController
+        GConstant.NavigationController = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: "RootNavigation") as? UINavigationController
         window?.rootViewController = GConstant.NavigationController
         window?.makeKeyAndVisible()
         

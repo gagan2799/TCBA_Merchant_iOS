@@ -110,7 +110,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     func setViewProperties(){
         //<--------Fogot user & password buttons Attributes setup----->
         // create attributed string
-        let attributes = [NSAttributedStringKey.foregroundColor:GConstant.AppColor.textDark , NSAttributedStringKey.font: UIFont.applyRegular(fontSize: 12.0) , NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue] as [NSAttributedStringKey : Any]
+        let attributes = [NSAttributedString.Key.foregroundColor:GConstant.AppColor.textDark , NSAttributedString.Key.font: UIFont.applyRegular(fontSize: 12.0) , NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue] as [NSAttributedString.Key : Any]
         
         let strTitleForgotUser = "Forgot Username "
         let strAttrUser = NSAttributedString(string: strTitleForgotUser, attributes: attributes)

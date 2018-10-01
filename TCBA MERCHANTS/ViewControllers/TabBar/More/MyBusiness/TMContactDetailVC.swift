@@ -268,7 +268,7 @@ class TMContactDetailVC: UIViewController {
         request.storeId             = storeId
         request.storeTitle          = contactDetailsData[0].titleValue
         request.storeEmail          = contactDetailsData[1].titleValue
-        request.showAddress         = NSNumber.init(value: isShowAddress) as! Int
+        request.showAddress         = NSNumber.init(value: isShowAddress) as? Int
         request.phoneNumber         = contactDetailsData[8].titleValue
         request.abn                 = contactDetailsData[9].titleValue
         request.businessName        = contactDetailsData[10].titleValue

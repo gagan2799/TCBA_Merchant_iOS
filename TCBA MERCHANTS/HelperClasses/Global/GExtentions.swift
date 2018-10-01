@@ -216,13 +216,13 @@ extension UIView {
     
     func fadeIn() {
         // Move our fade out code from earlier
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
             self.alpha = 1.0 // Instead of a specific instance of, say, birdTypeLabel, we simply set [thisInstance] (ie, self)'s alpha
         }, completion: nil)
     }
     
     func fadeOut() {
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {
             self.alpha = 0.0
         }, completion: nil)
     }
@@ -351,7 +351,7 @@ extension UIButton {
         , cornerRadius      : CGFloat? = nil
         , borderColor       : UIColor? = nil
         , borderWidth       : CGFloat? = 1.5
-        , state             : UIControlState = UIControlState.normal
+        , state             : UIControl.State = UIControl.State.normal
         , backgroundColor   : UIColor? = nil
         , backgroundOpacity : Float? = nil
         ) {
@@ -451,7 +451,7 @@ extension UILabel {
     func addCharacterSpacing(value: CGFloat) {
         if let labelText = text, labelText.count > 0 {
             let attributedString = NSMutableAttributedString(string: labelText)
-            attributedString.addAttribute(NSAttributedStringKey.kern, value: value, range: NSRange(location: 0, length: attributedString.length))
+            attributedString.addAttribute(NSAttributedString.Key.kern, value: value, range: NSRange(location: 0, length: attributedString.length))
             attributedText = attributedString
         }
     }
@@ -517,7 +517,7 @@ extension UITextField {
     }
     
     func setAttributedPlaceHolder(placeHolderText : String , color : UIColor) {
-        self.attributedPlaceholder = NSAttributedString(string: placeHolderText, attributes: [NSAttributedStringKey.foregroundColor : color])
+        self.attributedPlaceholder = NSAttributedString(string: placeHolderText, attributes: [NSAttributedString.Key.foregroundColor : color])
     }
     
     func setLeftPaddingPoints(_ amount:CGFloat){
@@ -651,16 +651,16 @@ extension UIImage {
     
     func isEqualToImage(_ image: UIImage) -> Bool {
         
-        guard UIImagePNGRepresentation(self) != nil else {
+        guard self.pngData() != nil else {
             return false
         }
         
-        guard UIImagePNGRepresentation(image) != nil else {
+        guard image.pngData() != nil else {
             return false
         }
         
-        let data1: NSData = UIImagePNGRepresentation(self)! as NSData
-        let data2: NSData = UIImagePNGRepresentation(image)! as NSData
+        let data1: NSData = self.pngData()! as NSData
+        let data2: NSData = image.pngData()! as NSData
         return data1.isEqual(data2)
     }
     
@@ -715,7 +715,7 @@ extension String {
             //Width and height of text area
             if #available(iOS 7, *) {
                 //iOS 7
-                let frame: CGRect = text.boundingRect(with: textSize, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
+                let frame: CGRect = text.boundingRect(with: textSize, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
                 
                 size = CGSize(width: frame.size.width, height: frame.size.height + 1)
             }
@@ -728,14 +728,14 @@ extension String {
     func sizeOfString (font : UIFont) -> CGSize {
         return self.boundingRect(with: CGSize(width: Double.greatestFiniteMagnitude, height: Double.greatestFiniteMagnitude),
                                  options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                 attributes: [NSAttributedStringKey.font: font],
+                                 attributes: [NSAttributedString.Key.font: font],
                                  context: nil).size
     }
     
     func getHeight(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
         
         return boundingBox.height
     }
@@ -743,7 +743,7 @@ extension String {
     func getWidth(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
         
         let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
         
         return boundingBox.width
     }
@@ -903,7 +903,7 @@ extension UINavigationController{
         let navigationFont                      = UIFont.applyBlocSSiBold(fontSize: UIDevice.current.userInterfaceIdiom == .pad ? 14.0 : 18.0)
         self.navigationBar.barTintColor         = GConstant.AppColor.blue
         self.navigationBar.tintColor = UIColor.white
-        self.navigationBar.titleTextAttributes  = [NSAttributedStringKey.font:navigationFont, NSAttributedStringKey.foregroundColor: UIColor.white]
+        self.navigationBar.titleTextAttributes  = [NSAttributedString.Key.font:navigationFont, NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationBar.shadowImage          = UIImage()
         self.navigationBar.layer.masksToBounds  = false
@@ -964,8 +964,8 @@ extension UIViewController {
     }
     
     func showAlert(title: String, message: String)  {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -978,8 +978,8 @@ extension UIViewController {
         
         let btnFont = UIFont.applyRegular(fontSize: 15.0, isAspectRasio: false)
         var arrButtons : [UIButton] = [UIButton(),UIButton()]
-        self.navigationItem.leftBarButtonItems = [UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)]
-        self.navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)]
+        self.navigationItem.leftBarButtonItems = [UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: nil, action: nil)]
+        self.navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: nil, action: nil)]
         
         // setup for left button
         if btnLeft != nil {
@@ -1085,9 +1085,9 @@ extension UIViewController {
     func presentWithAnimation(_ viewControllerToPresent: UIViewController) {
         let transition              = CATransition()
         transition.duration         = 0.3
-        transition.type             = kCATransitionPush
-        transition.subtype          = kCATransitionFromTop
-        transition.timingFunction   = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type             = CATransitionType.push
+        transition.subtype          = CATransitionSubtype.fromTop
+        transition.timingFunction   = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
         self.view.window!.layer.add(transition, forKey: kCATransition)
         present(viewControllerToPresent, animated: false)
     }
@@ -1095,9 +1095,9 @@ extension UIViewController {
     func dismissWithAnimation() {
         let transition              = CATransition()
         transition.duration         = 0.3
-        transition.type             = kCATransitionPush
-        transition.subtype          = kCATransitionFromBottom
-        transition.timingFunction   = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type             = CATransitionType.push
+        transition.subtype          = CATransitionSubtype.fromBottom
+        transition.timingFunction   = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
         self.view.window!.layer.add(transition, forKey: kCATransition)
         dismiss(animated: false)
     }
@@ -1107,7 +1107,7 @@ extension UINavigationController {
     func fadeTo(_ viewController: UIViewController) {
         let transition: CATransition = CATransition()
         transition.duration = 0.3
-        transition.type = kCATransitionFade
+        transition.type = CATransitionType.fade
         view.layer.add(transition, forKey: nil)
         pushViewController(viewController, animated: false)
     }

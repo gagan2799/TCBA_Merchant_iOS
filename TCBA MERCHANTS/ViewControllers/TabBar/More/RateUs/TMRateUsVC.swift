@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import Cosmos
 
 class TMRateUsVC: UIViewController {
-
+    
     //MARK: Outlets
     //UITextFields
     @IBOutlet weak var txtName: UITextField!
@@ -21,6 +22,8 @@ class TMRateUsVC: UIViewController {
     @IBOutlet weak var lblLovedIt: UILabel!
     //Constraints
     @IBOutlet weak var consHeightMainView: NSLayoutConstraint!
+    //StarRating
+    @IBOutlet weak var starRating: CosmosView!
     
     //MARK: View Life Cycle
     override func viewDidLoad() {
@@ -84,7 +87,7 @@ class TMRateUsVC: UIViewController {
         if message != nil{
             AlertManager.shared.showAlertTitle(title: (message?[GConstant.Param.kError])! ,message: (message?[GConstant.Param.kMessage])!)
         } else {
-//            callPostRateUsApi()
+            callPostRateUsApi()
         }
     }
     
@@ -106,37 +109,33 @@ class TMRateUsVC: UIViewController {
          Url        : "/Feedback/PostRateUs"
          Method     : POST
          Parameters : [ message : "",
-                        rating  : "" ]
+         rating  : "" ]
          ===================================================
          */
         let request             = RequestModal.mUserData()
         request.message         = txtV.text!
-        request.rating          = ""
+        request.rating          = "\(Int(starRating.rating))"
         
         ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostRateUs, parameter: request.toDictionary(),debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 //FIXME:If Condition on Rating
-                // If rating is >= 4 {
-                AlertManager.shared.showAlertTitle(title: "", message: "Thanks for your valuable feedback. We would appreciate if you could give your feedback on App Store also.", buttonsArray: ["No, Thanks","Ok"]) { (buttonIndex : Int) in
-                    switch buttonIndex {
-                    case 0 :
-                        //No clicked
-                        self.navigationController?.popToRootViewController(animated: true)
-                        break
-                    case 1:
-                        UIApplication.shared.open(URL(string:GConstant.kAppStoreLink)!, options: [:], completionHandler: nil)
-                        break
-                    default:
-                        break
+                if self.starRating.rating.isLessThanOrEqualTo(3){
+                    AlertManager.shared.showAlertTitle(title: "", message: "Thanks for your valuable feedback. We will take your comments into consideration.")
+                } else {
+                    AlertManager.shared.showAlertTitle(title: "", message: "Thanks for your valuable feedback. We would appreciate if you could give your feedback on App Store also.", buttonsArray: ["No, Thanks","Ok"]) { (buttonIndex : Int) in
+                        switch buttonIndex {
+                        case 0 :
+                            //No clicked
+                            self.navigationController?.popToRootViewController(animated: true)
+                            break
+                        case 1:
+                            UIApplication.shared.open(URL(string:GConstant.kAppStoreLink)!, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
+                            break
+                        default:
+                            break
+                        }
                     }
                 }
-                //} else {
-            //                AlertManager.shared.showAlertTitle(title: "", message: "Thanks for your valuable feedback. We will take your comments into consideration.")
-//            }
-            
-
-                
-                
             }else{
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
@@ -156,5 +155,8 @@ class TMRateUsVC: UIViewController {
             }
         }
     }
-
+}
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+    return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

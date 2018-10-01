@@ -10,6 +10,8 @@
 		26C3D5D680E47A74FB79CFE1 /* Pods_TCBA_MERCHANTS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044C829249AADEDFD33D6C53 /* Pods_TCBA_MERCHANTS.framework */; };
 		7900FB45214670EF00BC3D36 /* TMDatePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900FB44214670EF00BC3D36 /* TMDatePickerVC.swift */; };
 		7901887E213FE8A100C9110B /* CKEditor in Resources */ = {isa = PBXBuildFile; fileRef = 7901887D213FE8A100C9110B /* CKEditor */; };
+		7903C4EF2162221A0065B51C /* GetAboutUsSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7903C4EE2162221A0065B51C /* GetAboutUsSectionModel.swift */; };
+		7903C4F121622A630065B51C /* TMAboutUsSubLisDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7903C4F021622A630065B51C /* TMAboutUsSubLisDetailVC.swift */; };
 		7905A0F4212BE9770079712A /* DynamicColView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7905A0F3212BE9770079712A /* DynamicColView.swift */; };
 		7905A0F6212C22EE0079712A /* TMStorePaymentTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7905A0F5212C22EE0079712A /* TMStorePaymentTVCell.swift */; };
 		7908E4992122E1EA00E908EC /* MemberTrasactionModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908E4982122E1EA00E908EC /* MemberTrasactionModal.swift */; };
@@ -97,6 +99,8 @@
 		69491408B57AC0804355ECBD /* Pods-TCBA MERCHANTS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TCBA MERCHANTS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS.debug.xcconfig"; sourceTree = "<group>"; };
 		7900FB44214670EF00BC3D36 /* TMDatePickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDatePickerVC.swift; sourceTree = "<group>"; };
 		7901887D213FE8A100C9110B /* CKEditor */ = {isa = PBXFileReference; lastKnownFileType = folder; path = CKEditor; sourceTree = "<group>"; };
+		7903C4EE2162221A0065B51C /* GetAboutUsSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAboutUsSectionModel.swift; sourceTree = "<group>"; };
+		7903C4F021622A630065B51C /* TMAboutUsSubLisDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMAboutUsSubLisDetailVC.swift; sourceTree = "<group>"; };
 		7905A0F3212BE9770079712A /* DynamicColView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicColView.swift; sourceTree = "<group>"; };
 		7905A0F5212C22EE0079712A /* TMStorePaymentTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStorePaymentTVCell.swift; sourceTree = "<group>"; };
 		7908E4982122E1EA00E908EC /* MemberTrasactionModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTrasactionModal.swift; sourceTree = "<group>"; };
@@ -228,6 +232,14 @@
 			path = ThirdParty;
 			sourceTree = "<group>";
 		};
+		7903C4ED216221F50065B51C /* AboutUs */ = {
+			isa = PBXGroup;
+			children = (
+				7903C4EE2162221A0065B51C /* GetAboutUsSectionModel.swift */,
+			);
+			path = AboutUs;
+			sourceTree = "<group>";
+		};
 		7908E4972122E1B700E908EC /* TransactionModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -297,6 +309,7 @@
 		7912314121412F2600E475CF /* MoreTabModels */ = {
 			isa = PBXGroup;
 			children = (
+				7903C4ED216221F50065B51C /* AboutUs */,
 				7912313E21412E5C00E475CF /* MyBusiness */,
 			);
 			path = MoreTabModels;
@@ -580,6 +593,7 @@
 			children = (
 				79FCACD7215515C4003BC2C8 /* TMAboutUsVC.swift */,
 				79FCACD9215521BF003BC2C8 /* TMAboutUsSubLisVC.swift */,
+				7903C4F021622A630065B51C /* TMAboutUsSubLisDetailVC.swift */,
 			);
 			path = AboutUs;
 			sourceTree = "<group>";
@@ -628,6 +642,7 @@
 				TargetAttributes = {
 					792B541420F5DD30000223F7 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -677,6 +692,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
 				"${BUILT_PRODUCTS_DIR}/ESTabBarController-swift/ESTabBarController_swift.framework",
 				"${BUILT_PRODUCTS_DIR}/EmptyDataSet-Swift/EmptyDataSet_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
@@ -688,6 +704,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ESTabBarController_swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EmptyDataSet_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
@@ -743,7 +760,9 @@
 				79E690DA212E998400550A98 /* TMPinViewController.swift in Sources */,
 				79E8C492213E489C008E152A /* TMMoreTableCell.swift in Sources */,
 				790D392921084B4A0073AE4C /* GFunction.swift in Sources */,
+				7903C4F121622A630065B51C /* TMAboutUsSubLisDetailVC.swift in Sources */,
 				792F28C3212192C20033E7A2 /* GradientView.swift in Sources */,
+				7903C4EF2162221A0065B51C /* GetAboutUsSectionModel.swift in Sources */,
 				79F4EFBE2150D6F30033AD51 /* TMContactRadioCell.swift in Sources */,
 				7997DF49213535ED00D22E92 /* TMSplitPaymentDetailVC.swift in Sources */,
 				79380A432105BFD800FB4776 /* TMTransactionViewController.swift in Sources */,
@@ -947,7 +966,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d6d73762-b0f9-4062-b504-47635363de87";
 				PROVISIONING_PROFILE_SPECIFIER = TCBAMerchant;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -969,7 +988,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d6d73762-b0f9-4062-b504-47635363de87";
 				PROVISIONING_PROFILE_SPECIFIER = TCBAMerchant;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -75,7 +75,7 @@ class TMTransactionViewController: UIViewController {
             scrQR.isScrollEnabled = false
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -142,7 +142,7 @@ class TMTransactionViewController: UIViewController {
             print("Presented QR")
         })
     }
-
+    
     func pushToMemberTransaction(data: MemberTransactionDetailsModel) {
         let obj         = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.MemberTransaction) as! TMMemberTransactionVC
         obj.memTranData = data
@@ -172,10 +172,13 @@ class TMTransactionViewController: UIViewController {
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetMemberTransactionDetails, parameter: request.toDictionary(),debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 self.txtId.text          = ""
-                guard let data              = data else{return}
-                self.memberTransactionData  = try! MemberTransactionDetailsModel.decode(_data: data)
-                guard self.memberTransactionData != nil else {return}
-                self.pushToMemberTransaction(data: self.memberTransactionData)
+                guard let data           = data else{return}
+                if let memData = try? MemberTransactionDetailsModel.decode(_data: data) {
+                    self.memberTransactionData = memData
+                    self.pushToMemberTransaction(data: self.memberTransactionData)
+                } else {
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }
             }else{
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)

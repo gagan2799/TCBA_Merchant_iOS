@@ -79,6 +79,7 @@ struct GConstant {
         static let ContactUs                    = "TMContactUsVC"
         static let RateUs                       = "TMRateUsVC"
         static let AboutUs                      = "TMAboutUsVC"
+        static let AboutUsSubLis                = "TMAboutUsSubLisVC"
     }
         
     //MARK:- UserDefaults

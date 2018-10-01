@@ -149,6 +149,10 @@ struct GAPIConstant {
         static var GetStates: String {
             return BaseURL + "/Content/GetStates"
         }
+        //MARK: AboutUs
+        static var GetAboutUsSection: String {
+            return BaseURL + "/Content/GetAboutUsSection"
+        }
         
         //MARK: ContactUs
         static var PostContactUs: String {

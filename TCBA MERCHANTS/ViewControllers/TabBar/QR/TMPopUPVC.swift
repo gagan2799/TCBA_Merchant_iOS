@@ -121,8 +121,8 @@ class TMPopUPVC: UIViewController {
         //<--------Set PopUp properties for orientation----->
         if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
             let atrStr                      = NSMutableAttributedString()
-            let atrStr1                     = NSAttributedString(string: strCCName, attributes: [NSAttributedStringKey.font: UIFont.applyOpenSansBold(fontSize: 15.0)])
-            let atrStr2                     = NSAttributedString(string: strCardNumber, attributes: [NSAttributedStringKey.font: UIFont.applyOpenSansBold(fontSize: 12.0)])
+            let atrStr1                     = NSAttributedString(string: strCCName, attributes: [NSAttributedString.Key.font: UIFont.applyOpenSansBold(fontSize: 15.0)])
+            let atrStr2                     = NSAttributedString(string: strCardNumber, attributes: [NSAttributedString.Key.font: UIFont.applyOpenSansBold(fontSize: 12.0)])
             atrStr.append(atrStr1)
             atrStr.append(atrStr2)
             lblCardNumber.attributedText    = atrStr
@@ -132,8 +132,8 @@ class TMPopUPVC: UIViewController {
             txtAmount.font                  = UIFont.applyOpenSansRegular(fontSize: 11.0)
         }else{
             let atrStr                      = NSMutableAttributedString()
-            let atrStr1                     = NSAttributedString(string: strCCName, attributes: [NSAttributedStringKey.font: UIFont.applyOpenSansBold(fontSize: 18.0)])
-            let atrStr2                     = NSAttributedString(string: strCardNumber, attributes: [NSAttributedStringKey.font: UIFont.applyOpenSansBold(fontSize: 14.0)])
+            let atrStr1                     = NSAttributedString(string: strCCName, attributes: [NSAttributedString.Key.font: UIFont.applyOpenSansBold(fontSize: 18.0)])
+            let atrStr2                     = NSAttributedString(string: strCardNumber, attributes: [NSAttributedString.Key.font: UIFont.applyOpenSansBold(fontSize: 14.0)])
             atrStr.append(atrStr1)
             atrStr.append(atrStr2)
             lblCardNumber.attributedText    = atrStr

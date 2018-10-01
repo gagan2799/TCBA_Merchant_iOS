@@ -29,7 +29,7 @@ public class LoaderWithLabel {
     var lblMessage = UILabel()
     
     public func showProgressView(anyView: AnyObject, message: String = "Loading data") {
-        NotificationCenter.default.addObserver(self, selector: #selector(LoaderWithLabel.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LoaderWithLabel.rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         UIView.animate(withDuration: 0.2) {
@@ -84,7 +84,7 @@ public class LoaderWithLabel {
             self.progressView.removeFromSuperview()
             self.containerView.removeFromSuperview()
             self.lblMessage.removeFromSuperview()
-            NotificationCenter.default.removeObserver(NSNotification.Name.UIDeviceOrientationDidChange)
+            NotificationCenter.default.removeObserver(UIDevice.orientationDidChangeNotification)
             
         }
     }

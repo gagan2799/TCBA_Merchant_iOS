@@ -80,6 +80,12 @@ struct GConstant {
         static let RateUs                       = "TMRateUsVC"
         static let AboutUs                      = "TMAboutUsVC"
         static let AboutUsSubLis                = "TMAboutUsSubLisVC"
+        static let Video                        = "TMVideoVC"
+        static let VideoSubLis                  = "TMVideoSubLisVC"
+        static let VideoDetails                 = "TMVideoDetailsVC"
+        static let Alerts                       = "TMAlertsVC"
+        static let AlertsDetails                = "TMAlertsDetailVC"
+        static let Calculator                   = "TMCalculatorVC"
     }
         
     //MARK:- UserDefaults

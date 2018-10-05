@@ -31,6 +31,7 @@ class RequestModal: NSObject {
         var comment                 : String!
         var message                 : String!
         var rating                  : String!
+        var categoryId              : String!
         
         override init() {
             super.init()
@@ -59,6 +60,7 @@ class RequestModal: NSObject {
             comment                     = json["comment"].stringValue
             message                     = json["message"].stringValue
             rating                      = json["rating"].stringValue
+            categoryId                  = json["categoryId"].stringValue
         }
         
         func toDictionary() -> [String:Any]{
@@ -82,6 +84,7 @@ class RequestModal: NSObject {
             dictionary["comment"]               = comment
             dictionary["message"]               = message
             dictionary["rating"]                = rating
+            dictionary["categoryId"]            = categoryId
             return dictionary
         }
     }

@@ -34,6 +34,9 @@
 		791231442141534D00E475CF /* TMTradingSplitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791231432141534D00E475CF /* TMTradingSplitCell.swift */; };
 		7913DC3F2109A525000D1A9C /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7913DC3E2109A525000D1A9C /* Time.swift */; };
 		7913DC412109B6A1000D1A9C /* UserLoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7913DC402109B6A1000D1A9C /* UserLoginModel.swift */; };
+		7915B41F21662A640000CCC4 /* TMVideoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7915B41E21662A640000CCC4 /* TMVideoVC.swift */; };
+		7915B421216633B20000CCC4 /* TMVideoSubLisVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7915B420216633B20000CCC4 /* TMVideoSubLisVC.swift */; };
+		7915B423216635B80000CCC4 /* TMVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7915B422216635B80000CCC4 /* TMVideoCell.swift */; };
 		791B4289212AA1070064AF34 /* TMStorePaymentCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791B4288212AA1070064AF34 /* TMStorePaymentCVCell.swift */; };
 		791B428B212ABCBA0064AF34 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791B428A212ABCBA0064AF34 /* CircleView.swift */; };
 		792534D9211C629E0028C45D /* RoundedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792534D8211C629E0028C45D /* RoundedImage.swift */; };
@@ -61,6 +64,14 @@
 		794F66E220FDAF2800901B0C /* TMSplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F66E120FDAF2800901B0C /* TMSplashViewController.swift */; };
 		7975433B211D99880090198E /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7975433A211D99880090198E /* AlertManager.swift */; };
 		797EDA042126E45D002E1438 /* TMStorePaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797EDA032126E45D002E1438 /* TMStorePaymentVC.swift */; };
+		7981BE972167204400C27384 /* VideoCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981BE962167204400C27384 /* VideoCategoryModel.swift */; };
+		7981BE9921672AB800C27384 /* VideoSubCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981BE9821672AB800C27384 /* VideoSubCategoryModel.swift */; };
+		7981BE9B21672FBD00C27384 /* TMVideoDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981BE9A21672FBD00C27384 /* TMVideoDetailsVC.swift */; };
+		7981BE9D21676D1000C27384 /* TMAlertsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981BE9C21676D1000C27384 /* TMAlertsVC.swift */; };
+		7981BE9F21676D3700C27384 /* TMAlertsDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981BE9E21676D3700C27384 /* TMAlertsDetailVC.swift */; };
+		7981BEA121676D4F00C27384 /* TMAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981BEA021676D4F00C27384 /* TMAlertCell.swift */; };
+		7981BEA42167709F00C27384 /* AlertNotificationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981BEA32167709F00C27384 /* AlertNotificationsModel.swift */; };
+		7981BEA621678AE500C27384 /* TMCalculatorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981BEA521678AE500C27384 /* TMCalculatorVC.swift */; };
 		7997DF47213535C600D22E92 /* TMSplitPaymentMasterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997DF46213535C600D22E92 /* TMSplitPaymentMasterVC.swift */; };
 		7997DF49213535ED00D22E92 /* TMSplitPaymentDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997DF48213535ED00D22E92 /* TMSplitPaymentDetailVC.swift */; };
 		799924C920FF0CC30074BDE6 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 799924C820FF0CC30074BDE6 /* Launch Screen.storyboard */; };
@@ -123,6 +134,9 @@
 		791231432141534D00E475CF /* TMTradingSplitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMTradingSplitCell.swift; sourceTree = "<group>"; };
 		7913DC3E2109A525000D1A9C /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		7913DC402109B6A1000D1A9C /* UserLoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginModel.swift; sourceTree = "<group>"; };
+		7915B41E21662A640000CCC4 /* TMVideoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMVideoVC.swift; sourceTree = "<group>"; };
+		7915B420216633B20000CCC4 /* TMVideoSubLisVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMVideoSubLisVC.swift; sourceTree = "<group>"; };
+		7915B422216635B80000CCC4 /* TMVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMVideoCell.swift; sourceTree = "<group>"; };
 		791B4288212AA1070064AF34 /* TMStorePaymentCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStorePaymentCVCell.swift; sourceTree = "<group>"; };
 		791B428A212ABCBA0064AF34 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		792534D8211C629E0028C45D /* RoundedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImage.swift; sourceTree = "<group>"; };
@@ -161,6 +175,14 @@
 		794F66E120FDAF2800901B0C /* TMSplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMSplashViewController.swift; sourceTree = "<group>"; };
 		7975433A211D99880090198E /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		797EDA032126E45D002E1438 /* TMStorePaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStorePaymentVC.swift; sourceTree = "<group>"; };
+		7981BE962167204400C27384 /* VideoCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCategoryModel.swift; sourceTree = "<group>"; };
+		7981BE9821672AB800C27384 /* VideoSubCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSubCategoryModel.swift; sourceTree = "<group>"; };
+		7981BE9A21672FBD00C27384 /* TMVideoDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMVideoDetailsVC.swift; sourceTree = "<group>"; };
+		7981BE9C21676D1000C27384 /* TMAlertsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMAlertsVC.swift; sourceTree = "<group>"; };
+		7981BE9E21676D3700C27384 /* TMAlertsDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMAlertsDetailVC.swift; sourceTree = "<group>"; };
+		7981BEA021676D4F00C27384 /* TMAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMAlertCell.swift; sourceTree = "<group>"; };
+		7981BEA32167709F00C27384 /* AlertNotificationsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertNotificationsModel.swift; sourceTree = "<group>"; };
+		7981BEA521678AE500C27384 /* TMCalculatorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMCalculatorVC.swift; sourceTree = "<group>"; };
 		7997DF46213535C600D22E92 /* TMSplitPaymentMasterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMSplitPaymentMasterVC.swift; sourceTree = "<group>"; };
 		7997DF48213535ED00D22E92 /* TMSplitPaymentDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMSplitPaymentDetailVC.swift; sourceTree = "<group>"; };
 		799924C820FF0CC30074BDE6 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -309,6 +331,8 @@
 		7912314121412F2600E475CF /* MoreTabModels */ = {
 			isa = PBXGroup;
 			children = (
+				7981BEA22167708F00C27384 /* Alerts */,
+				7981BE952167200D00C27384 /* VideoModel */,
 				7903C4ED216221F50065B51C /* AboutUs */,
 				7912313E21412E5C00E475CF /* MyBusiness */,
 			);
@@ -342,6 +366,42 @@
 				7933FCA72111B1D800E9B49B /* LoginModel */,
 			);
 			path = ResponseModels;
+			sourceTree = "<group>";
+		};
+		7915B41A216627830000CCC4 /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+				7981BE9C21676D1000C27384 /* TMAlertsVC.swift */,
+				7981BEA021676D4F00C27384 /* TMAlertCell.swift */,
+				7981BE9E21676D3700C27384 /* TMAlertsDetailVC.swift */,
+			);
+			path = Alerts;
+			sourceTree = "<group>";
+		};
+		7915B41B216627990000CCC4 /* Videos */ = {
+			isa = PBXGroup;
+			children = (
+				7915B41E21662A640000CCC4 /* TMVideoVC.swift */,
+				7915B422216635B80000CCC4 /* TMVideoCell.swift */,
+				7915B420216633B20000CCC4 /* TMVideoSubLisVC.swift */,
+				7981BE9A21672FBD00C27384 /* TMVideoDetailsVC.swift */,
+			);
+			path = Videos;
+			sourceTree = "<group>";
+		};
+		7915B41C216627B00000CCC4 /* Calculator */ = {
+			isa = PBXGroup;
+			children = (
+				7981BEA521678AE500C27384 /* TMCalculatorVC.swift */,
+			);
+			path = Calculator;
+			sourceTree = "<group>";
+		};
+		7915B41D216627BB0000CCC4 /* MyStaffAccounts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MyStaffAccounts;
 			sourceTree = "<group>";
 		};
 		792B540C20F5DD30000223F7 = {
@@ -517,6 +577,10 @@
 				79D94AC221103B9000D3FCD6 /* TMMoreViewController.swift */,
 				79E8C491213E489C008E152A /* TMMoreTableCell.swift */,
 				7912313B214103A400E475CF /* MyBusiness */,
+				7915B41D216627BB0000CCC4 /* MyStaffAccounts */,
+				7915B41B216627990000CCC4 /* Videos */,
+				7915B41A216627830000CCC4 /* Alerts */,
+				7915B41C216627B00000CCC4 /* Calculator */,
 				79FCACD6215515A4003BC2C8 /* AboutUs */,
 				79FCACD3215501F8003BC2C8 /* RateUs */,
 				79FCACCE2154C66B003BC2C8 /* ContactUs */,
@@ -530,6 +594,23 @@
 				794F66E120FDAF2800901B0C /* TMSplashViewController.swift */,
 			);
 			path = SplashScreen;
+			sourceTree = "<group>";
+		};
+		7981BE952167200D00C27384 /* VideoModel */ = {
+			isa = PBXGroup;
+			children = (
+				7981BE962167204400C27384 /* VideoCategoryModel.swift */,
+				7981BE9821672AB800C27384 /* VideoSubCategoryModel.swift */,
+			);
+			path = VideoModel;
+			sourceTree = "<group>";
+		};
+		7981BEA22167708F00C27384 /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+				7981BEA32167709F00C27384 /* AlertNotificationsModel.swift */,
+			);
+			path = Alerts;
 			sourceTree = "<group>";
 		};
 		7997DF452135358400D22E92 /* SplitView */ = {
@@ -744,6 +825,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				797EDA042126E45D002E1438 /* TMStorePaymentVC.swift in Sources */,
+				7981BEA121676D4F00C27384 /* TMAlertCell.swift in Sources */,
 				7975433B211D99880090198E /* AlertManager.swift in Sources */,
 				790D392B21084BF90073AE4C /* Events.swift in Sources */,
 				792534D9211C629E0028C45D /* RoundedImage.swift in Sources */,
@@ -762,16 +844,20 @@
 				790D392921084B4A0073AE4C /* GFunction.swift in Sources */,
 				7903C4F121622A630065B51C /* TMAboutUsSubLisDetailVC.swift in Sources */,
 				792F28C3212192C20033E7A2 /* GradientView.swift in Sources */,
+				7981BE9B21672FBD00C27384 /* TMVideoDetailsVC.swift in Sources */,
 				7903C4EF2162221A0065B51C /* GetAboutUsSectionModel.swift in Sources */,
 				79F4EFBE2150D6F30033AD51 /* TMContactRadioCell.swift in Sources */,
 				7997DF49213535ED00D22E92 /* TMSplitPaymentDetailVC.swift in Sources */,
+				7981BE9F21676D3700C27384 /* TMAlertsDetailVC.swift in Sources */,
 				79380A432105BFD800FB4776 /* TMTransactionViewController.swift in Sources */,
 				79380A3A2105B17100FB4776 /* TMTabbarViewController.swift in Sources */,
 				79CDF0242108778300CA7A9C /* LoaderWithLabel.swift in Sources */,
 				7900FB45214670EF00BC3D36 /* TMDatePickerVC.swift in Sources */,
+				7915B423216635B80000CCC4 /* TMVideoCell.swift in Sources */,
 				793578AA21423A0E00BA6D7B /* TMTradingJoinCell.swift in Sources */,
 				79CDF02C2108A13E00CA7A9C /* RequestModal.swift in Sources */,
 				7933FCAA2111B3FD00E9B49B /* TransactionDataModal.swift in Sources */,
+				7981BEA621678AE500C27384 /* TMCalculatorVC.swift in Sources */,
 				79FCACD22154D9BD003BC2C8 /* UserDetailsModel.swift in Sources */,
 				791B428B212ABCBA0064AF34 /* CircleView.swift in Sources */,
 				79FA3BE3211B1C16005F36F3 /* OutstandingLoyaltyModal.swift in Sources */,
@@ -780,9 +866,11 @@
 				79FCACD521550218003BC2C8 /* TMRateUsVC.swift in Sources */,
 				7933FCA621118E6000E9B49B /* TMHistoryTableViewCell.swift in Sources */,
 				7908E49B2122F6A500E908EC /* TMMemberTransactionVC.swift in Sources */,
+				7981BE9921672AB800C27384 /* VideoSubCategoryModel.swift in Sources */,
 				792B541920F5DD30000223F7 /* AppDelegate.swift in Sources */,
 				791231362141024B00E475CF /* TMBankDetailsVC.swift in Sources */,
 				79EE756821196B230041D5C4 /* TMHistoryDetailTableCell.swift in Sources */,
+				7981BEA42167709F00C27384 /* AlertNotificationsModel.swift in Sources */,
 				79E8C498213EAD18008E152A /* TMEditBusinessDetailVC.swift in Sources */,
 				791231442141534D00E475CF /* TMTradingSplitCell.swift in Sources */,
 				799924CD20FF1B270074BDE6 /* TMHomeViewController.swift in Sources */,
@@ -795,6 +883,7 @@
 				79E8C494213E6AEC008E152A /* TMMyBusinessVC.swift in Sources */,
 				7913DC412109B6A1000D1A9C /* UserLoginModel.swift in Sources */,
 				790D392321083B720073AE4C /* GAPIConstant.swift in Sources */,
+				7915B421216633B20000CCC4 /* TMVideoSubLisVC.swift in Sources */,
 				79FCACD8215515C4003BC2C8 /* TMAboutUsVC.swift in Sources */,
 				79D94AC321103B9000D3FCD6 /* TMMoreViewController.swift in Sources */,
 				79380A412105BBDB00FB4776 /* TMShareViewController.swift in Sources */,
@@ -812,12 +901,15 @@
 				791231322140FDA900E475CF /* TMTradingHoursVC.swift in Sources */,
 				79F05451215375FC005B9CAC /* StatesModel.swift in Sources */,
 				792B543C20F5F0DA000223F7 /* GExtentions.swift in Sources */,
+				7981BE972167204400C27384 /* VideoCategoryModel.swift in Sources */,
 				7905A0F6212C22EE0079712A /* TMStorePaymentTVCell.swift in Sources */,
 				792F28C52121B1040033E7A2 /* TMQRScannerVC.swift in Sources */,
 				79E5D91C21490075008CD66E /* TMTermOfUseVC.swift in Sources */,
 				79EE756621196B060041D5C4 /* TMHistoryDetailVC.swift in Sources */,
+				7981BE9D21676D1000C27384 /* TMAlertsVC.swift in Sources */,
 				792B543A20F5EFB4000223F7 /* GConstants.swift in Sources */,
 				792B544A20F5F485000223F7 /* DPPickerManager.swift in Sources */,
+				7915B41F21662A640000CCC4 /* TMVideoVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

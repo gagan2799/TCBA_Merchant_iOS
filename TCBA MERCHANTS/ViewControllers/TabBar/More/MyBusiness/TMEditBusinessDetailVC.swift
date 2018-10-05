@@ -43,6 +43,7 @@ class TMEditBusinessDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewProperties()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -104,27 +105,22 @@ class TMEditBusinessDetailVC: UIViewController {
     
     //MARK: - UIButton ActionMethods
     @IBAction func btnSaveAction(_ sender: UIButton) {
-       callPUTUpdateContentApi(withContent: getEditorContent())
-    }
-    
-    //MARK: - Coustom Methods
-    func getEditorContent() -> String {
         webV.evaluateJavaScript("CKEDITOR.instances.editor1.getData()") { (result, error) in
             if error == nil {
                 if let str = result as? String{
-                    let str1    = str.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-                    self.strContent  = str1.replacingOccurrences(of: "<p>&nbsp;</p>", with: "")
-                    print(self.strContent)
+                    let str1        = str.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                    self.strContent = str1.replacingOccurrences(of: "<p>&nbsp;</p>", with: "")
+                    self.callPUTUpdateContentApi(withContent: self.strContent)
                 }
             }
         }
-        return strContent
     }
     
+    //MARK: - Coustom Methods
     @objc func resizeEditorHeight() {
         webV.evaluateJavaScript("CKEDITOR.instances.editor1.resize( '100%', window.innerHeight)") { (result, error) in
             if error == nil {
-               
+                
             }
         }
     }
@@ -189,7 +185,7 @@ class TMEditBusinessDetailVC: UIViewController {
          Url        : "/Stores/PutUpdateStoreContent"
          Method     : PUT
          Parameters : { TypeStore.RawValue  : "<p>Cash Back on great on offers and services direct from The Cash Back App</p>",
-                        storeId             : 283
+         storeId             : 283
          }
          ===================================================
          */

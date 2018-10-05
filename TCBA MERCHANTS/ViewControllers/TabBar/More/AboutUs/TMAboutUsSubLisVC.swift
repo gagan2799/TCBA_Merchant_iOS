@@ -9,7 +9,7 @@
 import UIKit
 
 class TMAboutUsSubLisVC: UIViewController {
-
+    
     enum typeSection:String {
         case Corporate  = "corporate"
         case News       = "news"
@@ -112,7 +112,7 @@ extension TMAboutUsSubLisVC: UITableViewDataSource,UITableViewDelegate{
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         let objSecDetail = storyboard?.instantiateViewController(withIdentifier: "TMAboutUsSubLisDetailVC") as! TMAboutUsSubLisDetailVC
         objSecDetail.section  = sectionData?.about?[indexPath.row]
         self.navigationController?.pushViewController(objSecDetail, animated: true)

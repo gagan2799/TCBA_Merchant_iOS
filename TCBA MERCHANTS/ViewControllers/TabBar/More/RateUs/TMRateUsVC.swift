@@ -118,7 +118,6 @@ class TMRateUsVC: UIViewController {
         
         ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostRateUs, parameter: request.toDictionary(),debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
-                //FIXME:If Condition on Rating
                 if self.starRating.rating.isLessThanOrEqualTo(3){
                     AlertManager.shared.showAlertTitle(title: "", message: "Thanks for your valuable feedback. We will take your comments into consideration.")
                 } else {

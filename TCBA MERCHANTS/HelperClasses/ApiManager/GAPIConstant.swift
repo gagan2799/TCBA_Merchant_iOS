@@ -149,6 +149,20 @@ struct GAPIConstant {
         static var GetStates: String {
             return BaseURL + "/Content/GetStates"
         }
+        
+        //MARK:Videos
+        static var GetVideoMainCategories: String {
+            return BaseURL + "/Content/GetVideoMainCategories"
+        }
+        
+        static var GetVideoSubcategories: String {
+            return BaseURL + "/Content/GetVideoSubcategoriesOrVideosList"
+        }
+        
+        //MARK: Alerts
+        static var GetNotifications: String {
+            return BaseURL + "/Notification/GetNotifications"
+        }
         //MARK: AboutUs
         static var GetAboutUsSection: String {
             return BaseURL + "/Content/GetAboutUsSection"

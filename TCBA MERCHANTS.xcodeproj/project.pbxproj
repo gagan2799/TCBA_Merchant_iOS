@@ -62,6 +62,8 @@
 		79380A432105BFD800FB4776 /* TMTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79380A422105BFD800FB4776 /* TMTransactionViewController.swift */; };
 		79380A452105BFF200FB4776 /* TMHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79380A442105BFF200FB4776 /* TMHistoryViewController.swift */; };
 		794F66E220FDAF2800901B0C /* TMSplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F66E120FDAF2800901B0C /* TMSplashViewController.swift */; };
+		7953B789216B1B3900832AA7 /* TMCalculatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953B788216B1B3900832AA7 /* TMCalculatorCell.swift */; };
+		7953B78B216B1B5900832AA7 /* TMCalculatorHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953B78A216B1B5900832AA7 /* TMCalculatorHeaderCell.swift */; };
 		7975433B211D99880090198E /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7975433A211D99880090198E /* AlertManager.swift */; };
 		797EDA042126E45D002E1438 /* TMStorePaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797EDA032126E45D002E1438 /* TMStorePaymentVC.swift */; };
 		7981BE972167204400C27384 /* VideoCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981BE962167204400C27384 /* VideoCategoryModel.swift */; };
@@ -173,6 +175,8 @@
 		79380A422105BFD800FB4776 /* TMTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMTransactionViewController.swift; sourceTree = "<group>"; };
 		79380A442105BFF200FB4776 /* TMHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryViewController.swift; sourceTree = "<group>"; };
 		794F66E120FDAF2800901B0C /* TMSplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMSplashViewController.swift; sourceTree = "<group>"; };
+		7953B788216B1B3900832AA7 /* TMCalculatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMCalculatorCell.swift; sourceTree = "<group>"; };
+		7953B78A216B1B5900832AA7 /* TMCalculatorHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMCalculatorHeaderCell.swift; sourceTree = "<group>"; };
 		7975433A211D99880090198E /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		797EDA032126E45D002E1438 /* TMStorePaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStorePaymentVC.swift; sourceTree = "<group>"; };
 		7981BE962167204400C27384 /* VideoCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCategoryModel.swift; sourceTree = "<group>"; };
@@ -393,6 +397,8 @@
 			isa = PBXGroup;
 			children = (
 				7981BEA521678AE500C27384 /* TMCalculatorVC.swift */,
+				7953B788216B1B3900832AA7 /* TMCalculatorCell.swift */,
+				7953B78A216B1B5900832AA7 /* TMCalculatorHeaderCell.swift */,
 			);
 			path = Calculator;
 			sourceTree = "<group>";
@@ -843,6 +849,7 @@
 				79E8C492213E489C008E152A /* TMMoreTableCell.swift in Sources */,
 				790D392921084B4A0073AE4C /* GFunction.swift in Sources */,
 				7903C4F121622A630065B51C /* TMAboutUsSubLisDetailVC.swift in Sources */,
+				7953B78B216B1B5900832AA7 /* TMCalculatorHeaderCell.swift in Sources */,
 				792F28C3212192C20033E7A2 /* GradientView.swift in Sources */,
 				7981BE9B21672FBD00C27384 /* TMVideoDetailsVC.swift in Sources */,
 				7903C4EF2162221A0065B51C /* GetAboutUsSectionModel.swift in Sources */,
@@ -853,6 +860,7 @@
 				79380A3A2105B17100FB4776 /* TMTabbarViewController.swift in Sources */,
 				79CDF0242108778300CA7A9C /* LoaderWithLabel.swift in Sources */,
 				7900FB45214670EF00BC3D36 /* TMDatePickerVC.swift in Sources */,
+				7953B789216B1B3900832AA7 /* TMCalculatorCell.swift in Sources */,
 				7915B423216635B80000CCC4 /* TMVideoCell.swift in Sources */,
 				793578AA21423A0E00BA6D7B /* TMTradingJoinCell.swift in Sources */,
 				79CDF02C2108A13E00CA7A9C /* RequestModal.swift in Sources */,

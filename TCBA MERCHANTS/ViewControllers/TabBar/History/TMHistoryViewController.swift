@@ -224,6 +224,7 @@ extension TMHistoryViewController: UITableViewDataSource,UITableViewDelegate{
         cell.btnViewDetails.titleLabel?.font    = UIFont.applyOpenSansRegular(fontSize: 15.0)
         
         if indexPath.row == 2 {cell.viewOrange.isHidden = true}
+        
         if (transactionData) != nil {
             if indexPath.row == 0 {
                 cell.lblTotalDebValue.text  = "$\(String.init(format: "%.2f",  transactionData.totalCashBack!))"

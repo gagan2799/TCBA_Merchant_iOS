@@ -72,8 +72,7 @@ class TMAlertsDetailVC: UIViewController {
             self.txtDescription.attributedText = htmlText.html2AttributedString
         }
         
-        if let img = objAlert.image {
-            guard let url = URL(string: img) else { return }
+        if let url = URL(string:objAlert?.image ?? "") {
             imgV.setImageWithDownload(url, withIndicator: true)
         }
     }

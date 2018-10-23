@@ -12,7 +12,7 @@ import ESTabBarController_swift
 class TMMemberTransactionVC: UIViewController {
     
     //MARK: Modals
-    var memTranData : MemberTransactionDetailsModel!
+    var memTranData : MemberTrasactionModal!
     var posData     : PostCreatePOSModel!
     
 
@@ -106,13 +106,13 @@ class TMMemberTransactionVC: UIViewController {
         
         guard memTranData != nil else {return}
         
-        lblUserName.text                    = memTranData.firstName! + " " + memTranData.lastName!
-        lblMemberId.text                    = "Member Id: \(memTranData.memberID ?? 0)"
-        lblLCValue.text                     = "$\(Double(memTranData.availableLoyaltyCash ?? 0))"
-        lblTPValue.text                     = "$\(Double(memTranData.totalPurchaseValue ?? 0))"
-        lblCSValue.text                     = "\(memTranData.totalNumberOfMembers ?? 0)"
+        lblUserName.text                    = memTranData.firstName + " " + memTranData.lastName
+        lblMemberId.text                    = "Member Id: \(memTranData.memberID )"
+        lblLCValue.text                     = "$\(memTranData.availableLoyaltyCash)"
+        lblTPValue.text                     = "$\(Double(memTranData.totalPurchaseValue ))"
+        lblCSValue.text                     = "\(memTranData.totalNumberOfMembers )"
         
-        guard let urlProfile = URL.init(string: memTranData.profileImageURL ?? "") else {return}
+        guard let urlProfile = URL.init(string: memTranData.profileImageURL ) else {return}
         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
         
         consMainVHeight.constant   = GConstant.Screen.Height * 0.9

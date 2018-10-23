@@ -61,11 +61,37 @@ extension UIColor {
 }
 
 //MARK:- Decodable Extension
-
 extension Decodable {
+    
     static func decode(_data: Data) throws -> Self {
         let decoder = JSONDecoder()
         return try decoder.decode(Self.self, from: _data)
+    }
+    
+    
+    //<==== How to use this method ====>
+    //<==== Model.decodeData(_data: mData).response ===>
+    //
+    static func decodeData(_data: Data) -> (response: Self?, error: VAlert?) {
+        let decoder = JSONDecoder()
+        let Alert: VAlert!
+        do {
+            let model = try decoder.decode(Self.self, from: _data)
+            return (model, nil)
+        } catch DecodingError.dataCorrupted(let context) {
+            Alert = VAlert(title: "Data Corrupted", message: context.debugDescription)
+        } catch DecodingError.keyNotFound(let key, let context) {
+            Alert = VAlert(title: "\(key.stringValue) was not found", message: context.debugDescription)
+        } catch DecodingError.typeMismatch(let type, let context) {
+            Alert = VAlert(title: "\(type) was expected", message: context.debugDescription)
+        } catch DecodingError.valueNotFound(let type, let context) {
+            Alert = VAlert(title: "No value was found for \(type)", message: context.debugDescription)
+        } catch {
+            Alert = VAlert(title: "Decoding Error", message: "Error while try to Decoding JSON response")
+        }
+        
+        AlertManager.shared.showAlertTitle(title: Alert.title ?? "", message: Alert.message ?? "")
+        return (nil, Alert)
     }
 }
 

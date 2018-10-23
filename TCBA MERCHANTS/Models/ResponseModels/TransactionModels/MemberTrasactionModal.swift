@@ -5,23 +5,21 @@
 //  Created by varun@gsbitlabs on 14/08/18.
 //  Copyright © 2018 GS Bit Labs. All rights reserved.
 //
-
-// To parse the JSON, add this file to your project and do:
-//
-//   let memberTransactionDetailsModel = try MemberTransactionDetailsModel(json)
+// Generated with quicktype
+// For more options, try https://app.quicktype.io
 
 import Foundation
 
-struct MemberTransactionDetailsModel: Codable {
+struct MemberTrasactionModal: Codable {
     let memberID: Int?
-    let firstName, lastName: String?
-    let totalNumberOfMembers: Int?
-    let profileImageURL: String?
-    let totalNumberOfTransactions: Int?
-    let belongsToMerchantMatrix, firstTimeUse: Bool?
-    let totalPurchaseValue: Double?
-    let availableLoyaltyCash, availablePrizeCash: Int?
-    
+    let firstName, lastName: String
+    let totalNumberOfMembers: Int
+    let profileImageURL: String
+    let totalNumberOfTransactions: Int
+    let belongsToMerchantMatrix, firstTimeUse: Bool
+    let totalPurchaseValue, availableLoyaltyCash: Double
+    let availablePrizeCash: Int
+
     enum CodingKeys: String, CodingKey {
         case memberID, firstName, lastName, totalNumberOfMembers
         case profileImageURL = "profileImageUrl"
@@ -29,57 +27,31 @@ struct MemberTransactionDetailsModel: Codable {
     }
 }
 
-// MARK: Convenience initializers and mutators
+// MARK: Convenience initializers
 
-extension MemberTransactionDetailsModel {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(MemberTransactionDetailsModel.self, from: data)
+extension MemberTrasactionModal {
+    init?(data: Data) {
+        guard let me = try? JSONDecoder().decode(MemberTrasactionModal.self, from: data) else { return nil }
+        self = me
     }
-    
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
+
+    init?(_ json: String, using encoding: String.Encoding = .utf8) {
+        guard let data = json.data(using: encoding) else { return nil }
+        self.init(data: data)
     }
-    
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
+
+    init?(fromURL url: String) {
+        guard let url = URL(string: url) else { return nil }
+        guard let data = try? Data(contentsOf: url) else { return nil }
+        self.init(data: data)
     }
-    
-    func with(
-        memberID: Int?? = nil,
-        firstName: String?? = nil,
-        lastName: String?? = nil,
-        totalNumberOfMembers: Int?? = nil,
-        profileImageURL: String?? = nil,
-        totalNumberOfTransactions: Int?? = nil,
-        belongsToMerchantMatrix: Bool?? = nil,
-        firstTimeUse: Bool?? = nil,
-        totalPurchaseValue: Double?? = nil,
-        availableLoyaltyCash: Int?? = nil,
-        availablePrizeCash: Int?? = nil
-        ) -> MemberTransactionDetailsModel {
-        return MemberTransactionDetailsModel(
-            memberID: memberID ?? self.memberID,
-            firstName: firstName ?? self.firstName,
-            lastName: lastName ?? self.lastName,
-            totalNumberOfMembers: totalNumberOfMembers ?? self.totalNumberOfMembers,
-            profileImageURL: profileImageURL ?? self.profileImageURL,
-            totalNumberOfTransactions: totalNumberOfTransactions ?? self.totalNumberOfTransactions,
-            belongsToMerchantMatrix: belongsToMerchantMatrix ?? self.belongsToMerchantMatrix,
-            firstTimeUse: firstTimeUse ?? self.firstTimeUse,
-            totalPurchaseValue: totalPurchaseValue ?? self.totalPurchaseValue,
-            availableLoyaltyCash: availableLoyaltyCash ?? self.availableLoyaltyCash,
-            availablePrizeCash: availablePrizeCash ?? self.availablePrizeCash
-        )
+
+    var jsonData: Data? {
+        return try? JSONEncoder().encode(self)
     }
-    
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-    
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+
+    var json: String? {
+        guard let data = self.jsonData else { return nil }
+        return String(data: data, encoding: .utf8)
     }
 }

@@ -19,6 +19,7 @@ class TMCalculatorVC: UIViewController {
         var percentage: Double?
         var txt1, txt2, txt3: String?
     }
+    
     //MARK: Variables & Constants
     var arrCalculator = [CalculatorSection]()
     
@@ -42,11 +43,6 @@ class TMCalculatorVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewProperties()
-        
-        let value = savingCalculator(85.2, 1)
-        
-        print(value.savingInWeek)
-        print(value.savingInYear)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,20 +102,23 @@ class TMCalculatorVC: UIViewController {
     //MARK: - Coustom Methods
     func arrInit() {
         let section1 = CalculatorSection.init(section: "National Brand Discounts with Gift Cards", sectionData: [
-            SectionData.init(company: "Woolworths", data: "Groceries", percentage: 2, txt1: "", txt2: "", txt3: ""),
-            SectionData.init(company: "CALTEX", data: "Petrol", percentage: 2, txt1: "", txt2: "", txt3: ""),
-            SectionData.init(company: "Dan Murphy's", data: "Liquor", percentage: 2, txt1: "", txt2: "", txt3: ""),
-            SectionData.init(company: "Big W", data: "Homewares", percentage: 2, txt1: "", txt2: "", txt3: ""),
-            SectionData.init(company: "Masters", data: "Home Imprv", percentage: 2, txt1: "", txt2: "", txt3: ""),
-            SectionData.init(company: "BCF", data: "Recreation", percentage: 2, txt1: "", txt2: "", txt3: ""),
-            SectionData.init(company: "Ray's", data: "Outdoors", percentage: 2, txt1: "", txt2: "", txt3: ""),
-            SectionData.init(company: "Super Cheap", data: "Automotive", percentage: 2, txt1: "", txt2: "", txt3: ""),
-            SectionData.init(company: "Amart & Rebel", data: "Sports", percentage: 2, txt1: "", txt2: "", txt3: ""),
-            SectionData.init(company: "JB HiFi", data: "Electronics", percentage: 2, txt1: "", txt2: "", txt3: "")]
+            SectionData.init(company: "Woolworths", data: "Groceries", percentage: 3, txt1: "", txt2: "", txt3: ""),
+            SectionData.init(company: "CALTEX", data: "Petrol", percentage: 3, txt1: "", txt2: "", txt3: ""),
+            SectionData.init(company: "Dan Murphy's", data: "Liquor", percentage: 3, txt1: "", txt2: "", txt3: ""),
+            SectionData.init(company: "Big W", data: "Homewares", percentage: 5, txt1: "", txt2: "", txt3: ""),
+            SectionData.init(company: "Masters", data: "Furniture", percentage: 5, txt1: "", txt2: "", txt3: ""),
+            SectionData.init(company: "BCF", data: "Recreation", percentage: 4, txt1: "", txt2: "", txt3: ""),
+            SectionData.init(company: "Ray's", data: "Outdoors", percentage: 4, txt1: "", txt2: "", txt3: ""),
+            SectionData.init(company: "Super Cheap", data: "Automotive", percentage: 4, txt1: "", txt2: "", txt3: ""),
+            SectionData.init(company: "Amart & Rebel", data: "Sports", percentage: 4, txt1: "", txt2: "", txt3: ""),
+            SectionData.init(company: "JB HiFi", data: "Electronics", percentage: 3, txt1: "", txt2: "", txt3: ""),
+            SectionData.init(company: "_", data: "Leisure", percentage: 5, txt1: "", txt2: "", txt3: ""),
+            SectionData.init(company: "_", data: "Health & Beauty", percentage: 4, txt1: "", txt2: "", txt3: ""),
+            SectionData.init(company: "_", data: "Clothing", percentage: 5, txt1: "", txt2: "", txt3: "")]
         )
         
         let section2 = CalculatorSection.init(section: "Services & Utilities", sectionData: [
-            SectionData.init(company: "", data: "Telephone Internet", percentage: 5, txt1: "", txt2: "", txt3: ""),
+            SectionData.init(company: "", data: "Telephone Internet", percentage: 1, txt1: "", txt2: "", txt3: ""),
             SectionData.init(company: "", data: "Insurance", percentage: 1, txt1: "", txt2: "", txt3: ""),
             SectionData.init(company: "", data: "Mortgage", percentage: 1, txt1: "", txt2: "", txt3: "")])
         
@@ -141,7 +140,7 @@ class TMCalculatorVC: UIViewController {
         arrCalculator.insert(section2, at: 1)
         arrCalculator.insert(section3, at: 2)
     }
-
+    
     //MARK: - Tupples
     func savingCalculator(_ spendInWeek: Double, _ percentage:Double) -> (savingInWeek: String, savingInYear: String) {
         let saveInWeek  = String.init(format: "%.2f", (spendInWeek / 100)*percentage)
@@ -180,6 +179,7 @@ class TMCalculatorVC: UIViewController {
     
     //MARK: - UIButton Action Methods
     @IBAction func btnCalculatorAction(_ sender: UIButton) {
+        view.endEditing(true)
         let total               = totalSpendAndSaving()
         txtTotalSpndWeek.text   = total.totalSpend
         txtTotalSaveWeek.text   = total.totalSaveInWeek
@@ -187,10 +187,17 @@ class TMCalculatorVC: UIViewController {
     }
     
     @IBAction func btnShoppingCalAction(_ sender: UIButton) {
-        
+        if txtTotalSpndWeek.text == "" || txtTotalSpndWeek.text == "0.00" {
+            AlertManager.shared.showAlertTitle(title: "", message: "You must put values into the yellow boxes and tap the 'Calculate' before you can go to Matrix Calculator.")
+        }else{
+            let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.MatrixCalculator) as! TMMatrixCalculatorVC
+            obj.totalSpend = txtTotalSpndWeek.text
+            self.navigationController?.pushViewController(obj, animated: true)
+        }
     }
     
     //MARK: - Web Api's
+    
 }
 
 extension TMCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
@@ -200,11 +207,11 @@ extension TMCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITextFiel
         return arrCalculator.count
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "CalculatorHeader") as! TMCalculatorHeaderCell
         cell.lblTitle.text  = arrCalculator[section].section
         return cell
     }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 80 * GConstant.Screen.HeightAspectRatio
     }
@@ -224,6 +231,7 @@ extension TMCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITextFiel
         cell.txtSpendWeek.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: GConstant.AppColor.textDark, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.textLight, borderWidth: 0.5)
         cell.txtSaveWeek.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: GConstant.AppColor.textDark, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.textLight, borderWidth: 0.5)
         cell.txtSaveYear.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: GConstant.AppColor.textDark, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.textLight, borderWidth: 0.5)
+        
         cell.txtSpendWeek.setRightPaddingPoints(5.0)
         cell.txtSaveWeek.setRightPaddingPoints(5.0)
         cell.txtSaveYear.setRightPaddingPoints(5.0)
@@ -240,10 +248,6 @@ extension TMCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITextFiel
         cell.txtSaveWeek.text   = arrCalculator[indexPath.section].sectionData?[indexPath.row].txt2
         cell.txtSaveYear.text   = arrCalculator[indexPath.section].sectionData?[indexPath.row].txt3
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
     
     //MARK: - Textfield Delegates

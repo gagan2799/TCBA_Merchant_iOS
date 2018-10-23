@@ -25,7 +25,7 @@ class TMTradingHoursVC: UIViewController {
     var tradingData             : TradingHourModel!
     let footerHeight:CGFloat    = 80
     
-
+    
     
     //MARK: - TapGestures
     //    For split and Join cell
@@ -142,10 +142,10 @@ class TMTradingHoursVC: UIViewController {
         cell.lblStart1.text = convertTimeToAmPm(timeString: time.last?.startTime)
         cell.lblEnd1.text   = convertTimeToAmPm(timeString: time.last?.endTime)
         
-        let tapJLblStart     = UITapGestureRecognizer(target: self, action: #selector(TMTradingHoursVC.tapFunction))
-        let tapJLblEnd       = UITapGestureRecognizer(target: self, action: #selector(TMTradingHoursVC.tapFunction))
-        let tapJLblStart1    = UITapGestureRecognizer(target: self, action: #selector(TMTradingHoursVC.tapFunction))
-        let tapJLblEnd1      = UITapGestureRecognizer(target: self, action: #selector(TMTradingHoursVC.tapFunction))
+        let tapJLblStart    = UITapGestureRecognizer(target: self, action: #selector(TMTradingHoursVC.tapFunction))
+        let tapJLblEnd      = UITapGestureRecognizer(target: self, action: #selector(TMTradingHoursVC.tapFunction))
+        let tapJLblStart1   = UITapGestureRecognizer(target: self, action: #selector(TMTradingHoursVC.tapFunction))
+        let tapJLblEnd1     = UITapGestureRecognizer(target: self, action: #selector(TMTradingHoursVC.tapFunction))
         
         cell.lblStart.tag   = indexPath.row
         cell.lblEnd.tag     = 10 + indexPath.row
@@ -166,7 +166,7 @@ class TMTradingHoursVC: UIViewController {
     
     //MARK: - UITapGesture
     @objc func tapFunction(sender:UITapGestureRecognizer) {
-    
+        
         var tag     = sender.view?.tag ?? 0
         var index   = sender.view?.tag ?? 0
         if index < 10 {
@@ -188,7 +188,7 @@ class TMTradingHoursVC: UIViewController {
                         if dateString == "closed" || dateString == "byAppointment" {
                             self.tradingData.days![indexPath.row].status = dateString
                             if self.tradingData.days![indexPath.row].shifts != nil {
-                               self.tradingData.days![indexPath.row].shifts = nil
+                                self.tradingData.days![indexPath.row].shifts = nil
                             }
                         } else {
                             self.tradingData.days![indexPath.row].status = "open"
@@ -271,7 +271,6 @@ class TMTradingHoursVC: UIViewController {
                 }
             }
         }
-        
         tblTrading.reloadRows(at: [indexPath], with: .automatic)
     }
     

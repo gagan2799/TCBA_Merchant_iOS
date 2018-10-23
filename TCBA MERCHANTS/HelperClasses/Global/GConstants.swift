@@ -86,6 +86,7 @@ struct GConstant {
         static let Alerts                       = "TMAlertsVC"
         static let AlertsDetails                = "TMAlertsDetailVC"
         static let Calculator                   = "TMCalculatorVC"
+        static let MatrixCalculator             = "TMMatrixCalculatorVC"
     }
         
     //MARK:- UserDefaults

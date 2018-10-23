@@ -9,6 +9,11 @@
 import Foundation
 import UIKit
 
+struct VAlert {
+    let title:String?
+    let message:String?
+}
+
 class AlertManager: NSObject {
     
     static let shared : AlertManager = AlertManager()

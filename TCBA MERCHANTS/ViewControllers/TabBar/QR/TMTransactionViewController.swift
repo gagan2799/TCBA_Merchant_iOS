@@ -10,7 +10,7 @@ import UIKit
 
 class TMTransactionViewController: UIViewController {
     //MARK: variables
-    var memberTransactionData: MemberTransactionDetailsModel!
+    var memberTransactionData: MemberTrasactionModal!
     
     //MARK: - Outlets
     @IBOutlet weak var vBGGradient: UIView!
@@ -87,7 +87,7 @@ class TMTransactionViewController: UIViewController {
         self.navigationController?.customize()
         self.navigationItem.title   = "Customer Transaction"
         
-        guard scrQR != nil else {return}
+        guard scrQR != nil else {   return  }
         if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
             scrQR.isScrollEnabled = true
         }else{
@@ -143,7 +143,7 @@ class TMTransactionViewController: UIViewController {
         })
     }
     
-    func pushToMemberTransaction(data: MemberTransactionDetailsModel) {
+    func pushToMemberTransaction(data: MemberTrasactionModal) {
         let obj         = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.MemberTransaction) as! TMMemberTransactionVC
         obj.memTranData = data
         self.navigationController?.pushViewController(obj, animated: true)
@@ -162,18 +162,20 @@ class TMTransactionViewController: UIViewController {
          */
         let request         = RequestModal.mUserData()
         guard let storeId   = GConstant.UserData.stores else{return}
+        
         if code.isNumeric {
             request.memberID        = code
         } else {
             request.keyChainCode    = code
         }
+        
         request.storeID     = storeId
         
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetMemberTransactionDetails, parameter: request.toDictionary(),debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
-                self.txtId.text          = ""
-                guard let data           = data else{return}
-                if let memData = try? MemberTransactionDetailsModel.decode(_data: data) {
+                self.txtId.text = ""
+                guard let mData  = data else{return}
+                if let memData  = try? MemberTrasactionModal.decode(_data: mData) {
                     self.memberTransactionData = memData
                     self.pushToMemberTransaction(data: self.memberTransactionData)
                 } else {

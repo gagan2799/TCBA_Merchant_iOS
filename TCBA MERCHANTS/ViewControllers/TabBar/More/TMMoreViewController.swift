@@ -79,6 +79,26 @@ class TMMoreViewController: UIViewController {
             }
         }
     }
+    
+    //Navigation
+    func masterVC() {
+        guard let splitViewController   = storyboard?.instantiateViewController(withIdentifier: "SplitVC") as? UISplitViewController else { fatalError() }
+        
+        let nc : UINavigationController  = splitViewController.viewControllers[0] as! UINavigationController
+        
+        let vcm : TMMyStaffAccountMasterVC  = nc.viewControllers[0] as! TMMyStaffAccountMasterVC
+        
+        let vcd : TMMyStaffAccountDetailsVC = splitViewController.viewControllers[1] as! TMMyStaffAccountDetailsVC
+        
+        //Make sure pass data to Master & Details before setting preferredDisplayMode = .allVisible
+        splitViewController.preferredDisplayMode = .allVisible
+        
+        let transition: CATransition = CATransition()
+        transition.duration = 0.3
+        transition.type = CATransitionType.fade
+        rootWindow().layer.add(transition, forKey: nil)
+        rootWindow().rootViewController = splitViewController
+    }
 }
 
 extension TMMoreViewController: UITableViewDelegate, UITableViewDataSource {

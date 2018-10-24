@@ -81,23 +81,24 @@ class TMMoreViewController: UIViewController {
     }
     
     //Navigation
-    func masterVC() {
-        guard let splitViewController   = storyboard?.instantiateViewController(withIdentifier: "SplitVC") as? UISplitViewController else { fatalError() }
+    func toSplitVC() {
+        guard let splitViewController   = storyboard?.instantiateViewController(withIdentifier: "StaffSplitVC") as? UISplitViewController else { fatalError() }
         
         let nc : UINavigationController  = splitViewController.viewControllers[0] as! UINavigationController
         
-        let vcm : TMMyStaffAccountMasterVC  = nc.viewControllers[0] as! TMMyStaffAccountMasterVC
+        let masterVC : TMMyStaffAccountMasterVC  = nc.viewControllers[0] as! TMMyStaffAccountMasterVC
         
-        let vcd : TMMyStaffAccountDetailsVC = splitViewController.viewControllers[1] as! TMMyStaffAccountDetailsVC
+        let detailVC : TMMyStaffAccountDetailsVC = splitViewController.viewControllers[1] as! TMMyStaffAccountDetailsVC
         
         //Make sure pass data to Master & Details before setting preferredDisplayMode = .allVisible
         splitViewController.preferredDisplayMode = .allVisible
-        
         let transition: CATransition = CATransition()
-        transition.duration = 0.3
+        transition.duration = 0.2
         transition.type = CATransitionType.fade
         rootWindow().layer.add(transition, forKey: nil)
         rootWindow().rootViewController = splitViewController
+        nc.popToRootViewController(animated: false)
+    
     }
 }
 
@@ -128,7 +129,7 @@ extension TMMoreViewController: UITableViewDelegate, UITableViewDataSource {
             let objMB = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.MyBusiness) as! TMMyBusinessVC
             self.navigationController?.pushViewController(objMB, animated: true)
         } else if indexPath.row == 1 {
-            
+            toSplitVC()
         } else if indexPath.row == 2 {
             //Videos
             let objVID = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Video) as! TMVideoVC

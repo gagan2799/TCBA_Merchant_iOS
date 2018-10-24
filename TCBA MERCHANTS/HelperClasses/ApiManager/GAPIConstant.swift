@@ -155,6 +155,10 @@ struct GAPIConstant {
             return BaseURL + "/Staff/GetStaffMembers"
         }
         
+        static var PostNewStaffMember: String {
+            return BaseURL + "/Staff/PostNewStaffMember"
+        }
+        
         static var PutUpdateStaffMember: String {
             return BaseURL + "/Staff/PutUpdateStaffMember"
         }

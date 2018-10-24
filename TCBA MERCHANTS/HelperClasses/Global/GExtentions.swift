@@ -428,7 +428,51 @@ extension UIButton {
 }
 
 //MARK:- UILabel
-
+extension UILabel {
+    private struct AssociatedKeys {
+        static var padding = UIEdgeInsets()
+    }
+    
+    public var padding: UIEdgeInsets? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.padding) as? UIEdgeInsets
+        }
+        set {
+            if let newValue = newValue {
+                objc_setAssociatedObject(self, &AssociatedKeys.padding, newValue as UIEdgeInsets, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+        }
+    }
+    
+    override open func draw(_ rect: CGRect) {
+        if let insets = padding {
+            self.drawText(in: rect.inset(by: insets))
+        } else {
+            self.drawText(in: rect)
+        }
+    }
+    
+    override open var intrinsicContentSize: CGSize {
+        guard let text = self.text else { return super.intrinsicContentSize }
+        
+        var contentSize = super.intrinsicContentSize
+        var textWidth: CGFloat = frame.size.width
+        var insetsHeight: CGFloat = 0.0
+        
+        if let insets = padding {
+            textWidth -= insets.left + insets.right
+            insetsHeight += insets.top + insets.bottom
+        }
+        
+        let newSize = text.boundingRect(with: CGSize(width: textWidth, height: CGFloat.greatestFiniteMagnitude),
+                                        options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                        attributes: [NSAttributedString.Key.font: self.font], context: nil)
+        
+        contentSize.height = ceil(newSize.size.height) + insetsHeight
+        
+        return contentSize
+    }
+}
 extension UILabel {
     
     func applyStyle(
@@ -474,6 +518,7 @@ extension UILabel {
         }
     }
     
+    //This Methods is for Spaceing beetween UILable Character
     func addCharacterSpacing(value: CGFloat) {
         if let labelText = text, labelText.count > 0 {
             let attributedString = NSMutableAttributedString(string: labelText)
@@ -481,6 +526,8 @@ extension UILabel {
             attributedText = attributedString
         }
     }
+    
+    
     
     ///Find the index of character (in the attributedText) at point
     func indexOfAttributedTextCharacterAtPoint(point: CGPoint) -> Int {

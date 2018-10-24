@@ -46,6 +46,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     @IBOutlet weak var lblEnterEmailFP: UILabel!
     
     
+    @IBOutlet weak var consHeightMainView: NSLayoutConstraint!
     //MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,7 +139,6 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     func popUpPropertiesUpdate() {
         //<--------Set PopUp properties for orientation----->
         if UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight) {
-            
             lblForgotPass.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0))
             lblForgotUser.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0))
             lblEnterEmailFU.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 11.0))
@@ -148,17 +148,15 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
             btnSendUserOutlet.titleLabel?.font  = UIFont.applyRegular(fontSize: 12.0)
             txtPopEmailUser.font                = UIFont.applyOpenSansRegular(fontSize: 11.0)
             txtPopEmailPassword.font            = UIFont.applyOpenSansRegular(fontSize: 11.0)
-            
         }else if UIDevice.current.userInterfaceIdiom == .pad && (UIDevice.current.orientation == .portrait){
-            
             lblForgotPass.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 20.0))
             lblForgotUser.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 20.0))
             lblEnterEmailFU.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0))
             lblEnterEmailFP.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0))
             btnSendPassOutlet.titleLabel?.font  = UIFont.applyRegular(fontSize: 16.0)
             btnSendUserOutlet.titleLabel?.font  = UIFont.applyRegular(fontSize: 16.0)
-            txtPopEmailUser.font        = UIFont.applyOpenSansRegular(fontSize: 14.0)
-            txtPopEmailPassword.font    = UIFont.applyOpenSansRegular(fontSize: 14.0)
+            txtPopEmailUser.font                = UIFont.applyOpenSansRegular(fontSize: 14.0)
+            txtPopEmailPassword.font            = UIFont.applyOpenSansRegular(fontSize: 14.0)
         } else {
         }
     }

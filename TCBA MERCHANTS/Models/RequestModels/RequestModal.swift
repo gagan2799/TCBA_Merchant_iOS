@@ -162,6 +162,13 @@ class RequestModal: NSObject {
         var storeAddress        : [String:Any]!
         var storeEmail          : String!
         var storeTitle          : String!
+        var active              : String!
+        var staffMemberId       : String!
+        var firstName           : String!
+        var lastName            : String!
+        var stores              : String!
+        
+      
 
         override init() {
             super.init()
@@ -185,6 +192,12 @@ class RequestModal: NSObject {
             storeAddress                    = json["storeAddress"].dictionaryObject
             storeEmail                      = json["storeEmail"].stringValue
             storeTitle                      = json["storeTitle"].stringValue
+            active                          = json["active"].stringValue
+            staffMemberId                   = json["storeTitle"].stringValue
+            firstName                       = json["firstName"].stringValue
+            lastName                        = json["lastName"].stringValue
+            stores                          = json["stores"].stringValue
+            
         }
         
         func toDictionary() -> [String:Any]{
@@ -203,7 +216,12 @@ class RequestModal: NSObject {
             dictionary["storeAddress"]      = storeAddress
             dictionary["storeEmail"]        = storeEmail
             dictionary["storeTitle"]        = storeTitle
-            
+            dictionary["active"]            = active
+            dictionary["staffMemberId"]     = staffMemberId
+            dictionary["firstName"]         = firstName
+            dictionary["lastName"]          = lastName
+            dictionary["stores"]            = stores
+          
             return dictionary
         }
     }

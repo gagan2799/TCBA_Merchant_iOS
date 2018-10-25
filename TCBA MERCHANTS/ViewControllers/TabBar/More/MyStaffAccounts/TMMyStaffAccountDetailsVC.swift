@@ -15,9 +15,15 @@ enum typeStaff : String {
 
 class TMMyStaffAccountDetailsVC: UIViewController {
     
+    enum fromButton {
+        case save
+        case staffAcc
+    }
+    
     //MARK: Variables & Constants
     var typeStaffAcc    : typeStaff!
     var staffData       : StaffMember!
+    var merchantsStores : GetMerchantStoresModel!
     
     //MARK: Outlets
     //UILabels
@@ -43,11 +49,15 @@ class TMMyStaffAccountDetailsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setViewProperties()
+        if merchantsStores == nil{
+           GetMerchantStores()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -126,27 +136,27 @@ class TMMyStaffAccountDetailsVC: UIViewController {
         self.view.endEditing(true)
         let message = self.validateView()
         if (message == nil) {
-            typeStaffAcc == .editStaff ? callPutUpdateStaffMemberApi(withSatffAcc: staffData.active ? "true" : "false") : callPostNewStaffMemberApi()
+            typeStaffAcc == .editStaff ? callPutUpdateStaffMemberApi(withSatffAcc: staffData.active ? "true" : "false", fromBtnTap: .save) : callPostNewStaffMemberApi()
         } else { // Error
             AlertManager.shared.showAlertTitle(title: (message?[GConstant.Param.kError])! ,message: (message?[GConstant.Param.kMessage])!)
         }
     }
+    
     @IBAction func btnStaffAccAction(_ sender: UIButton) {
         self.view.endEditing(true)
         let message = self.validateView()
         if (message == nil) {
-//            For Activate/Deactivate account
-            callPutUpdateStaffMemberApi(withSatffAcc: staffData.active ? "false" : "true")
+            //  For Activate/Deactivate account
+            callPutUpdateStaffMemberApi(withSatffAcc: staffData.active ? "false" : "true", fromBtnTap: .staffAcc)
         } else { // Error
             AlertManager.shared.showAlertTitle(title: (message?[GConstant.Param.kError])! ,message: (message?[GConstant.Param.kMessage])!)
         }
-        
     }
     //MARK: - Custom Methods
     func validateView() -> Dictionary<String,String>? {
         var message : Dictionary<String,String>? = nil
-        let kError = GConstant.Param.kError
-        let kMessage = GConstant.Param.kMessage
+        let kError      = GConstant.Param.kError
+        let kMessage    = GConstant.Param.kMessage
         if txtFirstName.text == "" {
             message = [kError: "Incomplete Form", kMessage: "Please enter your FirstName"]
         } else if txtLastName.text == "" {
@@ -160,7 +170,7 @@ class TMMyStaffAccountDetailsVC: UIViewController {
     }
     
     //MARK: - Web Api's
-    func callPutUpdateStaffMemberApi(withSatffAcc active: String) {
+    func callPutUpdateStaffMemberApi(withSatffAcc active: String, fromBtnTap from:fromButton) {
         /*
          =====================API CALL=====================
          APIName    : PutUpdateStaffMember
@@ -176,6 +186,7 @@ class TMMyStaffAccountDetailsVC: UIViewController {
                   }
          ===================================================
          */
+        var url = ""
         
         let request             = RequestModal.mUpdateStoreContent()
         request.active          = active
@@ -183,11 +194,31 @@ class TMMyStaffAccountDetailsVC: UIViewController {
         request.lastName        = txtLastName.text
         request.staffMemberId   = "\(staffData.staffMemberID)"
         request.phoneNumber     = txtPhoneNo.text
-        request.stores          = txtStore.text
         
-        ApiManager.shared.PUTWithBearerAuth(strURL: GAPIConstant.Url.PutUpdateStaffMember, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
-            if statusCode == 200 {
-                AlertManager.shared.showAlertTitle(title: "Success", message: GConstant.Message.kUpdatesSaveMessage)
+        if from == .save {
+            url = GAPIConstant.Url.PutUpdateStaffMember
+        } else {
+            url = GAPIConstant.Url.PutUpdateStaffMember + "?staffMemberId=\(staffData.staffMemberID)"
+            request.stores      = self.merchantsStores.stores.map { Id in Id.storeID }
+        }
+        
+        ApiManager.shared.PUTWithBearerAuth(strURL: url, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 201 {
+                AlertManager.shared.showAlertTitle(title: "Success", message: GConstant.Message.kUpdatesSaveMessage, buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                    switch buttonIndex {
+                    case 0 :
+                        //Ok clicked
+                        if UIDevice.current.userInterfaceIdiom == .phone{
+                            CompletionHandler.shared.triggerEvent(.reloadStaffTable, passData: nil)
+                            self.navigationController?.popToRootViewController(animated: true)
+                        } else {
+                            CompletionHandler.shared.triggerEvent(.reloadStaffTable, passData: nil)
+                        }
+                        break
+                    default:
+                        break
+                    }
+                }
             } else {
                 if let data = data {
                     guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
@@ -217,12 +248,28 @@ class TMMyStaffAccountDetailsVC: UIViewController {
         request.firstName       = txtFirstName.text
         request.lastName        = txtLastName.text
         request.phoneNumber     = txtPhoneNo.text
-        request.stores          = txtStore.text
-        let url = GAPIConstant.Url.PostNewStaffMember
+        request.stores          = self.merchantsStores.stores.map { Id in Id.storeID }
+
         
-        ApiManager.shared.POSTWithBearerAuth(strURL: url, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
-            if statusCode == 200 {
-                guard data != nil else{return}
+        ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostNewStaffMember, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 201 {
+                AlertManager.shared.showAlertTitle(title: "Success", message: "New staff account created successfully.", buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                    switch buttonIndex {
+                    case 0 :
+                        //Ok clicked
+                        guard let mdata = data else{ return }
+                        self.staffData = StaffMember.decodeData(_data: mdata).response
+                        if UIDevice.current.userInterfaceIdiom == .phone{
+                            CompletionHandler.shared.triggerEvent(.reloadStaffTable, passData: self.staffData)
+                            self.navigationController?.popToRootViewController(animated: true)
+                        } else {
+                            CompletionHandler.shared.triggerEvent(.reloadStaffTable, passData: self.staffData)
+                        }
+                        break
+                    default:
+                        break
+                    }
+                }
                 
             } else {
                 if statusCode == 404{
@@ -244,4 +291,40 @@ class TMMyStaffAccountDetailsVC: UIViewController {
         }
     }
     
+    func GetMerchantStores() {
+        
+        /*
+         =====================API CALL=====================
+         APIName    : GetMerchantStores
+         Url        : "/Stores/GetMerchantStores"
+         Method     : GET
+         Parameters : nil
+         ===================================================
+         */
+        
+        ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetMerchantStores, parameter: nil,withLoader: false) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                guard let mData         = data else{return}
+                self.merchantsStores    = GetMerchantStoresModel.decodeData(_data: mData).response
+                guard self.merchantsStores != nil else { return }
+                self.txtStore.text      = self.merchantsStores.stores[0].storeTitle
+            }else{
+                if statusCode == 404{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }else{
+                    if let data = data {
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                            let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
+                        }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage)
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
+                }
+            }
+        }
+    }
 }

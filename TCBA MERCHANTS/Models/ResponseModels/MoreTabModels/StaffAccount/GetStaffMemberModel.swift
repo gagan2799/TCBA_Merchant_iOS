@@ -11,7 +11,7 @@
 import Foundation
 
 struct GetStaffMemberModel: Codable {
-    let staffMembers: [StaffMember]
+    var staffMembers: [StaffMember]
 }
 
 struct StaffMember: Codable {

@@ -96,6 +96,7 @@ struct GConstant {
         static let UserDataLogin       : String = "kLoginUserData"
         static let UserName            : String = "kUserNameLogin"
         static let UserDetails         : String = "kLoginUserDetails"
+        static let EnableStaffMode     : String = "kEnableStaffMode"
     }
     
     //MARK:- Messages

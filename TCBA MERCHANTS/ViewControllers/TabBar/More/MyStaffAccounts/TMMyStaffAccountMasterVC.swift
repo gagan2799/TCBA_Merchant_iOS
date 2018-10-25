@@ -9,10 +9,10 @@
 import UIKit
 
 class TMMyStaffAccountMasterVC: UIViewController {
-
+    
     //MARK: Variables & Constants
     var staffMembersData:GetStaffMemberModel!
-    
+    let staffLock = UISwitch(frame: .zero)
     
     //MARK: Outlets
     //UITableView
@@ -22,11 +22,25 @@ class TMMyStaffAccountMasterVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewProperties()
+        CompletionHandler.shared.litsenerEvent(.reloadStaffTable) { (member) in
+            if let staffMember = member as? StaffMember {
+                print(staffMember)
+                self.staffMembersData.staffMembers.append(staffMember)
+                self.tblStaff.beginUpdates()
+                let indexPath = IndexPath(row: self.staffMembersData.staffMembers.count-1, section: 0)
+                self.tblStaff.insertRows(at: [indexPath], with: .automatic)
+                self.tblStaff.endUpdates()
+            }else{
+                self.GetStaffMembersApi()
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         if staffMembersData == nil {
-            GetStaffMembersApi()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.GetStaffMembersApi()
+            }
         }
     }
     
@@ -63,16 +77,21 @@ class TMMyStaffAccountMasterVC: UIViewController {
         navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "back_button"), landscapeImagePhone: nil, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonAction))
         let addStaff                        = UIBarButtonItem(image: UIImage(named: "add_staff"), landscapeImagePhone: nil, style: UIBarButtonItem.Style.plain, target: self, action: #selector(addButtonAction))
         
-        let staffLock = UISwitch(frame: .zero)
-        staffLock.isOn = true // or false
+        staffLock.onTintColor               = GConstant.AppColor.orange
         staffLock.addTarget(self, action: #selector(switchToggled(_:)), for: .valueChanged)
-        let barSwitch = UIBarButtonItem(customView: staffLock)
+        let barSwitch                       = UIBarButtonItem(customView: staffLock)
         navigationItem.rightBarButtonItems  = [barSwitch,addStaff]
+        
+        if UserDefaults.standard.bool(forKey: GConstant.UserDefaultKeys.EnableStaffMode) {
+            staffLock.isOn = true
+        }else{
+            staffLock.isOn = false
+        }
     }
     
     //MARK: - BarButton Action Methods
     @objc func backButtonAction(sender: UIBarButtonItem){
-        backToMore()
+        backToTabBar(withIndex: 4)
     }
     
     @objc func addButtonAction(sender: UIBarButtonItem){
@@ -82,22 +101,41 @@ class TMMyStaffAccountMasterVC: UIViewController {
     @IBAction func switchToggled(_ sender: UISwitch) {
         if sender.isOn {
             print( "The switch is now true!" )
+            AlertManager.shared.showAlertTitle(title: "Enable Staff Mode?", message: "Staff mode is security feature that locks the History, QR and Share Tab out and requires your staff to use their PIN to open.Transactions are then tracked to a staff ID", buttonsArray: ["Enable staff mode","Cancel"]) { (buttonIndex : Int) in
+                switch buttonIndex {
+                case 0 :
+                    print( "Enable staff mode" )
+                    UserDefaults.standard.set(true, forKey: GConstant.UserDefaultKeys.EnableStaffMode)
+                    UserDefaults.standard.synchronize()
+                    self.backToTabBar(withIndex: 2)
+                    break
+                case 1 :
+                    print( "Cancel" )
+                    sender.setOn(false, animated: true)
+                    break
+                default:
+                    break
+                }
+            }
         }
         else{
             print( "The switch is now false!" )
+            UserDefaults.standard.set(false, forKey: GConstant.UserDefaultKeys.EnableStaffMode)
+            UserDefaults.standard.synchronize()
         }
     }
     
     //MARK: - UIButton Action methods
     
     //MARK: - Custom Methods
-    func backToMore() {
+    func backToTabBar(withIndex index : Int ) {
         //This method will get back to you to MoreViewController
+        let tabIndex = index > 5 ? 4 : index
         let transition: CATransition = CATransition()
         transition.duration = 0.2
         transition.type = CATransitionType.fade
         rootWindow().layer.add(transition, forKey: nil)
-        rootWindow().rootViewController = Tabbar.coustomTabBar(withIndex: 4)
+        rootWindow().rootViewController = Tabbar.coustomTabBar(withIndex: tabIndex)
     }
     // MARK: - Navigation
     func staffDetailVC(typeS: typeStaff? , data: StaffMember?) {

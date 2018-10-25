@@ -72,5 +72,36 @@ class AlertManager: NSObject {
             }
         })
     }
+    
+    /*
+     //use this if alertview getting number of line prob
+     
+     let customUiLableView:UILabel
+     let alert:UIAlertController
+     
+     if((message.count) < 100){
+     alert = UIAlertController(title: "", message: "\n\n\n\n", preferredStyle: .alert)
+     customUiLableView = UILabel(frame: CGRect(x: 10, y: 0, width: 250, height: 120))
+     customUiLableView.numberOfLines = 4
+     }else if((message.count) < 200){
+     alert = UIAlertController(title: "", message: "\n\n\n\n\n\n", preferredStyle: .alert)
+     customUiLableView = UILabel(frame: CGRect(x: 10, y: 0, width: 250, height: 160))
+     customUiLableView.numberOfLines = 6
+     }else{
+     alert = UIAlertController(title: "", message: "\n\n\n\n\n\n\n\n", preferredStyle: .alert)
+     customUiLableView = UILabel(frame: CGRect(x: 10, y: 0, width: 250, height: 200))
+     customUiLableView.numberOfLines = 8
+     }
+     customUiLableView.text = message
+     customUiLableView.textAlignment = .center
+     customUiLableView.textColor = UIColor.darkGray
+     customUiLableView.font = UIFont(name: "Helvetica", size: 16.0)
+     
+     let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+     alert.view.addSubview(customUiLableView)
+     alert.addAction(action)
+     
+     rootWindow().rootViewController?.present(alert, animated: true, completion: nil)
+     */
 }
 

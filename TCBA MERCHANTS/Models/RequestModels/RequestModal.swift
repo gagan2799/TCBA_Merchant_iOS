@@ -166,8 +166,7 @@ class RequestModal: NSObject {
         var staffMemberId       : String!
         var firstName           : String!
         var lastName            : String!
-        var stores              : String!
-        
+        var stores              : [Int]!
       
 
         override init() {
@@ -196,8 +195,7 @@ class RequestModal: NSObject {
             staffMemberId                   = json["storeTitle"].stringValue
             firstName                       = json["firstName"].stringValue
             lastName                        = json["lastName"].stringValue
-            stores                          = json["stores"].stringValue
-            
+            stores                          = json["stores"].arrayObject as? [Int]
         }
         
         func toDictionary() -> [String:Any]{

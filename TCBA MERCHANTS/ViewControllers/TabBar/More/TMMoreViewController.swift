@@ -80,15 +80,24 @@ class TMMoreViewController: UIViewController {
         }
     }
     
-    //Navigation
+    // MARK: - Navigation
+    func staffLoginVC() {
+        let obj = storyboard?.instantiateViewController(withIdentifier: "TMStaffLoginVC") as! TMStaffLoginVC
+        obj.userT = .merchant
+        obj.modalPresentationStyle = .overCurrentContext
+        obj.completionHandler   = { (password) in
+            self.callPostCheckPasswordApi(password: password)
+        }
+        rootWindow().rootViewController?.present(obj, animated: true, completion: nil)
+    }
     func toSplitVC() {
         guard let splitViewController   = storyboard?.instantiateViewController(withIdentifier: "StaffSplitVC") as? UISplitViewController else { fatalError() }
         
         let nc : UINavigationController  = splitViewController.viewControllers[0] as! UINavigationController
         
-        let masterVC : TMMyStaffAccountMasterVC  = nc.viewControllers[0] as! TMMyStaffAccountMasterVC
+        let _ : TMMyStaffAccountMasterVC  = nc.viewControllers[0] as! TMMyStaffAccountMasterVC
         
-        let detailVC : TMMyStaffAccountDetailsVC = splitViewController.viewControllers[1] as! TMMyStaffAccountDetailsVC
+        let _ : TMMyStaffAccountDetailsVC = splitViewController.viewControllers[1] as! TMMyStaffAccountDetailsVC
         
         //Make sure pass data to Master & Details before setting preferredDisplayMode = .allVisible
         splitViewController.preferredDisplayMode = .allVisible
@@ -98,7 +107,50 @@ class TMMoreViewController: UIViewController {
         rootWindow().layer.add(transition, forKey: nil)
         rootWindow().rootViewController = splitViewController
         nc.popToRootViewController(animated: false)
+        
+    }
     
+    //Mark: - Web Api's
+    func callPostCheckPasswordApi(password: String) {
+        /*
+         =====================API CALL=====================
+         APIName    : PostCheckPassword
+         Url        : "/Users/PostCheckPassword"
+         Method     : POST
+         Parameters : { password   : "" }
+         ===================================================
+         */
+        let request             = RequestModal.mUserData()
+        request.password        = password
+        
+        ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostCheckPassword, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                guard let mData = data else{return}
+                let isTrue = PostCheckPasswordModel.decodeData(_data: mData).response
+                if isTrue?.correctPassword == true {
+                    self.toSplitVC()
+                } else {
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:"Incorrect Password")
+                }
+                
+            } else {
+                if statusCode == 404{
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                }else{
+                    if let data = data{
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                            let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
+                        }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage)
+                    }else{
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -119,7 +171,7 @@ extension TMMoreViewController: UITableViewDelegate, UITableViewDataSource {
         cell.lblName.font   = UIFont.applyOpenSansRegular(fontSize: 16.0)
         cell.lblName.text   = arrCellNames[indexPath.row]
         cell.imgIcon.image  = UIImage(named: arrICellIcons[indexPath.row])
-
+        
         return cell
     }
     
@@ -129,7 +181,11 @@ extension TMMoreViewController: UITableViewDelegate, UITableViewDataSource {
             let objMB = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.MyBusiness) as! TMMyBusinessVC
             self.navigationController?.pushViewController(objMB, animated: true)
         } else if indexPath.row == 1 {
-            toSplitVC()
+            if UserDefaults.standard.bool(forKey: GConstant.UserDefaultKeys.EnableStaffMode){
+                staffLoginVC()
+            }else{
+                toSplitVC()
+            }
         } else if indexPath.row == 2 {
             //Videos
             let objVID = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Video) as! TMVideoVC

@@ -15,6 +15,7 @@ enum EventIdentity: String {
     case checkPayment               = "checkPaymentsForCollectionInPayments"
     case updateLoaderFrame          = "updateLoaderFrame"
     case hideTableContainerPayment  = "hideTableContainerPayment"
+    case reloadStaffTable           = "reloadStaffTable"
 }
 
 class CompletionHandler {

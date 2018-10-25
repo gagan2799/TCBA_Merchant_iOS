@@ -167,6 +167,10 @@ struct GAPIConstant {
             return BaseURL + "/Stores/GetMerchantStores"
         }
         
+        static var PostCheckPassword : String {
+            return BaseURL + "/Users/PostCheckPassword"
+        }
+        
         //MARK:Videos
         static var GetVideoMainCategories: String {
             return BaseURL + "/Content/GetVideoMainCategories"

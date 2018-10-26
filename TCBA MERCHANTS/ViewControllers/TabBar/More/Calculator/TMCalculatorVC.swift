@@ -9,6 +9,7 @@
 import UIKit
 
 class TMCalculatorVC: UIViewController {
+    
     struct CalculatorSection: Codable {
         let section: String?
         var sectionData: [SectionData]?

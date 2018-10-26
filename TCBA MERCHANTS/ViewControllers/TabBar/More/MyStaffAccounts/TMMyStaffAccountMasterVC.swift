@@ -91,7 +91,7 @@ class TMMyStaffAccountMasterVC: UIViewController {
     
     //MARK: - BarButton Action Methods
     @objc func backButtonAction(sender: UIBarButtonItem){
-        backToTabBar(withIndex: 4)
+        backToTabBar(withIndex:4)
     }
     
     @objc func addButtonAction(sender: UIBarButtonItem){
@@ -106,11 +106,15 @@ class TMMyStaffAccountMasterVC: UIViewController {
                 case 0 :
                     print( "Enable staff mode" )
                     UserDefaults.standard.set(true, forKey: GConstant.UserDefaultKeys.EnableStaffMode)
+                    UserDefaults.standard.set(false, forKey: GConstant.UserDefaultKeys.isStaffLoggedIn)
                     UserDefaults.standard.synchronize()
                     self.backToTabBar(withIndex: 2)
                     break
                 case 1 :
                     print( "Cancel" )
+                    UserDefaults.standard.set(false, forKey: GConstant.UserDefaultKeys.EnableStaffMode)
+                    UserDefaults.standard.set(false, forKey: GConstant.UserDefaultKeys.isStaffLoggedIn)
+                    UserDefaults.standard.synchronize()
                     sender.setOn(false, animated: true)
                     break
                 default:
@@ -121,6 +125,7 @@ class TMMyStaffAccountMasterVC: UIViewController {
         else{
             print( "The switch is now false!" )
             UserDefaults.standard.set(false, forKey: GConstant.UserDefaultKeys.EnableStaffMode)
+            UserDefaults.standard.set(false, forKey: GConstant.UserDefaultKeys.isStaffLoggedIn)
             UserDefaults.standard.synchronize()
         }
     }

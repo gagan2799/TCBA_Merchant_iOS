@@ -26,7 +26,11 @@ class TMMoreViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        if UserDefaults.standard.bool(forKey: GConstant.UserDefaultKeys.isStaffLoggedIn) == true {
+            navigationItem.leftBarButtonItem    = UIBarButtonItem(title: "Logout Staff", style: .done, target: self, action: #selector(logoutStaffAction))
+        } else {
+            self.navigationItem.leftBarButtonItem = nil
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -79,7 +83,12 @@ class TMMoreViewController: UIViewController {
             }
         }
     }
-    
+    //MARK: - BarButton Action Methods
+    @objc func logoutStaffAction(sender: UIBarButtonItem){
+        self.navigationItem.leftBarButtonItem = nil
+        UserDefaults.standard.set(false, forKey: GConstant.UserDefaultKeys.isStaffLoggedIn)
+        UserDefaults.standard.synchronize()
+    }
     // MARK: - Navigation
     func staffLoginVC() {
         let obj = storyboard?.instantiateViewController(withIdentifier: "TMStaffLoginVC") as! TMStaffLoginVC

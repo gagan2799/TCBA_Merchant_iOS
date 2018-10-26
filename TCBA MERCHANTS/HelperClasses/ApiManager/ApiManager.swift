@@ -114,9 +114,11 @@ class ApiManager {
                     if isPrint{ print(JSON) }
                     if response.response?.statusCode == 200 {
                         if let data = response.data {
-                            GFunction.shared.saveUserDataInDefaults(data)
-                            GConstant.UserData = GFunction.shared.getUserDataFromDefaults()
-                            completion(true)
+                            DispatchQueue.main.async {
+                                GFunction.shared.saveUserDataInDefaults(data)
+                                GConstant.UserData = GFunction.shared.getUserDataFromDefaults()
+                                completion(true)
+                            }
                         }
                     }else {
                         GFunction.shared.makeUserLoginAlert()
@@ -470,7 +472,6 @@ class ApiManager {
                                 GFunction.shared.removeLoader()
                             }
                             
-                            
                             var statusCode = 0
                             if let headerResponse = response.response {
                                 statusCode = headerResponse.statusCode
@@ -541,7 +542,6 @@ class ApiManager {
                 print("MethodType:- POST\n")
                 print("*****************End***********************\n")
             }
-            
             
             // add loader if isLoader is true
             if isLoader {
@@ -659,7 +659,7 @@ class ApiManager {
                 if isLoader {
                     GFunction.shared.addLoader()
                 }
-
+                
                 Alamofire.request(url, method: .put, parameters: param, encoding: encording, headers: APIHeaders.headersWithBearerToken(contentType: contentType)).responseJSON(completionHandler: { (response) in
                     
                     switch(response.result) {

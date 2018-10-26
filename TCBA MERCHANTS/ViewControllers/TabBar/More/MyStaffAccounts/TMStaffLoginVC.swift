@@ -92,7 +92,6 @@ class TMStaffLoginVC: UIViewController {
     @IBAction func viewBackAction(_ sender: UIControl) {
         dismiss(animated: true, completion: nil)
     }
-    
 }
 extension TMStaffLoginVC: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -106,7 +105,7 @@ extension TMStaffLoginVC: UITextFieldDelegate {
             if string == strFiltered {
                 let nsStr           = textField.text as NSString? ?? ""
                 let str             = nsStr.replacingCharacters(in: range, with: string).replacingOccurrences(of: ".", with: "")
-                let range: NSRange  = (str as NSString).range(of: "^0*", options: .regularExpression)
+                let range: NSRange  = (str as NSString).range(of: "^*", options: .regularExpression)
                 let newPin          = (str as NSString).replacingCharacters(in: range, with: "")
                 txtPin.text         = newPin
                 if newLength == 4 {

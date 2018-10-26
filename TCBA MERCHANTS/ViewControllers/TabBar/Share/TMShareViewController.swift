@@ -16,8 +16,8 @@ class TMShareViewController: UIViewController {
     @IBOutlet weak var lblShareWith: UILabel!
     @IBOutlet weak var lblYourShop: UILabel!
     @IBOutlet weak var scrShare: UIScrollView!
-    
     @IBOutlet weak var btnShare: UIButton!
+    @IBOutlet weak var viewLock: UIView!
     
     //MARK: View life Cycle
     override func viewDidLoad() {
@@ -25,8 +25,17 @@ class TMShareViewController: UIViewController {
 
         setViewProperties()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
-        
+        if UserDefaults.standard.bool(forKey: GConstant.UserDefaultKeys.EnableStaffMode) == true && UserDefaults.standard.bool(forKey: GConstant.UserDefaultKeys.isStaffLoggedIn) == false{
+            DispatchQueue.main.async {
+                self.viewLock.isHidden  = false
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.viewLock.isHidden  = true
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -80,6 +89,10 @@ class TMShareViewController: UIViewController {
         callGetShareAPI()
     }
     
+    @IBAction func btnLocklogin(_ sender: UIButton) {
+        staffLoginVC()
+    }
+    
     // MARK: - UIActivity Controller
     func share(text: String){
         guard let userId = GConstant.UserData.userID else{return}
@@ -115,6 +128,42 @@ class TMShareViewController: UIViewController {
                 self.share(text: strDescription)
             }else{
                 AlertManager.shared.showAlertTitle(title: "Error" ,message: GConstant.Message.kSomthingWrongMessage)
+            }
+        }
+    }
+    //MARK: CheckStaffLogin Method & Api
+    func staffLoginVC() {
+        let obj = storyboard?.instantiateViewController(withIdentifier: "TMStaffLoginVC") as! TMStaffLoginVC
+        obj.userT = .staff
+        obj.modalPresentationStyle = .overCurrentContext
+        obj.completionHandler   = { (pin) in
+            self.callGetStaffLoginApi(pin: pin)
+        }
+        rootWindow().rootViewController?.present(obj, animated: true, completion: nil)
+    }
+    func callGetStaffLoginApi(pin: String) {
+        /*
+         =====================API CALL=====================
+         APIName    : GetStaffLogin
+         Url        : "/Staff/GetStaffLogin"
+         Method     : GET
+         Parameters : { storeID : "", pinCode : "" }
+         ===================================================
+         */
+        let request = RequestModal.mCreatePOS()
+        guard let storeId = GConstant.UserData.stores else{return}
+        request.storeId = storeId
+        request.pinCode = pin
+        ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetStaffLogin, parameter: request.toDictionary(), withLoader : false) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                print("Correct PIN")
+                DispatchQueue.main.async {
+                    self.viewLock.isHidden  = true
+                    UserDefaults.standard.set(true, forKey: GConstant.UserDefaultKeys.isStaffLoggedIn)
+                    UserDefaults.standard.synchronize()
+                }
+            }else{
+                AlertManager.shared.showAlertTitle(title: "Incorrect PIN" ,message:"Your pin is incorrect, please try again.")
             }
         }
     }

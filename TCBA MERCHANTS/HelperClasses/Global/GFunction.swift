@@ -249,10 +249,10 @@ class GFunction: NSObject  {
         var currentDate                     = Date()
         let currentDateStr                  = dateFormatter.string(from: currentDate)
         currentDate                         = dateFormatter.date(from: currentDateStr)!
-        let yourDate                        = dateFormatter.date(from: dateString) //according to date format your date string
+        guard let yourDate                  = dateFormatter.date(from: dateString) else { return true }//according to date format your date string
         print("Current Date : \(currentDate)")
         print("Expiry Date : \(String(describing: yourDate))")
-        return yourDate! > currentDate
+        return yourDate < currentDate
     }
     
     

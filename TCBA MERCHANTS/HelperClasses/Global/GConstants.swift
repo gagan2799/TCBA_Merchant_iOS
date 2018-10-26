@@ -91,12 +91,13 @@ struct GConstant {
         
     //MARK:- UserDefaults
     struct UserDefaultKeys {
-        static let AppLaunch           : String = "kAppLaunch"
-        static let DeviceId            : String = "kDeviceId"
-        static let UserDataLogin       : String = "kLoginUserData"
-        static let UserName            : String = "kUserNameLogin"
-        static let UserDetails         : String = "kLoginUserDetails"
-        static let EnableStaffMode     : String = "kEnableStaffMode"
+        static let AppLaunch            : String = "kAppLaunch"
+        static let DeviceId             : String = "kDeviceId"
+        static let UserDataLogin        : String = "kLoginUserData"
+        static let UserName             : String = "kUserNameLogin"
+        static let UserDetails          : String = "kLoginUserDetails"
+        static let EnableStaffMode      : String = "kEnableStaffMode"
+        static let isStaffLoggedIn      : String = "kStaffLoggedIn"
     }
     
     //MARK:- Messages

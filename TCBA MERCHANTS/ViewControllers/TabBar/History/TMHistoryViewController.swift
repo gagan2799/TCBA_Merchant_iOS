@@ -16,6 +16,7 @@ class TMHistoryViewController: UIViewController {
     @IBOutlet weak var viewOutstanding: UIView!
     @IBOutlet weak var lblOutStanding: UILabel!
     @IBOutlet weak var lblOutstandingValue: UILabel!
+    @IBOutlet weak var viewLock: UIView!
     
     //MARK: Variables
     let arrTitles               = ["All Transactions","Today's Transactions","Incomplete Transactions"]
@@ -31,16 +32,28 @@ class TMHistoryViewController: UIViewController {
         super.viewDidLoad()
         setViewProperties()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if transactionData == nil || incompleteData == nil {
             // Calling TransactionData Api
             callTransactionDataApi()
         }
+        
         if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
-            tblHistory.isScrollEnabled = true
+            tblHistory.isScrollEnabled  = true
         }else{
-            tblHistory.isScrollEnabled = false
+            tblHistory.isScrollEnabled  = false
+        }
+        
+        if UserDefaults.standard.bool(forKey: GConstant.UserDefaultKeys.EnableStaffMode) == true && UserDefaults.standard.bool(forKey: GConstant.UserDefaultKeys.isStaffLoggedIn) == false{
+            DispatchQueue.main.async {
+                self.viewLock.isHidden  = false
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.viewLock.isHidden  = true
+            }
         }
     }
     
@@ -55,6 +68,7 @@ class TMHistoryViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         
     }
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         guard tblHistory != nil else {return}
@@ -64,14 +78,16 @@ class TMHistoryViewController: UIViewController {
             tblHistory.isScrollEnabled = false
         }
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     //MARK: - Set view properties
     func setViewProperties(){
         guard tblHistory != nil else {return}
-
+        
         // navigationBar customization
         self.navigationController?.customize()
         self.navigationItem.title = "History"
@@ -85,8 +101,8 @@ class TMHistoryViewController: UIViewController {
         lblCashBack.font            = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         lblStoreId.font             = UIFont.applyOpenSansRegular(fontSize: 15.0)
     }
-    //MARK: - UIButton Action Methods
     
+    //MARK: - UIButton Action Methods
     @IBAction func btnOutStandingAction(_ sender: UIButton) {
         let obj  = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.HistoryDetail) as! TMHistoryDetailVC
         obj.type = .outstanding
@@ -111,6 +127,11 @@ class TMHistoryViewController: UIViewController {
         }
         self.navigationController?.pushViewController(obj, animated: true)
     }
+    
+    @IBAction func btnLock(_ sender: UIButton) {
+        staffLoginVC()
+    }
+    
     //MARK: - Web Api's
     func callTransactionDataApi() {
         /*
@@ -133,7 +154,7 @@ class TMHistoryViewController: UIViewController {
                 }
                 
                 // Calling IncompleteTransactionData Api
-               
+                
                 self.callIncompleteTransactionDataApi()
             }else{
                 GFunction.shared.removeLoader()
@@ -197,6 +218,43 @@ class TMHistoryViewController: UIViewController {
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                     }
                 }
+            }
+        }
+    }
+    
+    //MARK: CheckStaffLogin Method & Api
+    func staffLoginVC() {
+        let obj = storyboard?.instantiateViewController(withIdentifier: "TMStaffLoginVC") as! TMStaffLoginVC
+        obj.userT = .staff
+        obj.modalPresentationStyle = .overCurrentContext
+        obj.completionHandler   = { (pin) in
+            self.callGetStaffLoginApi(pin: pin)
+        }
+        rootWindow().rootViewController?.present(obj, animated: true, completion: nil)
+    }
+    func callGetStaffLoginApi(pin: String) {
+        /*
+         =====================API CALL=====================
+         APIName    : GetStaffLogin
+         Url        : "/Staff/GetStaffLogin"
+         Method     : GET
+         Parameters : { storeID : "", pinCode : "" }
+         ===================================================
+         */
+        let request = RequestModal.mCreatePOS()
+        guard let storeId = GConstant.UserData.stores else { return }
+        request.storeId = storeId
+        request.pinCode = pin
+        ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetStaffLogin, parameter: request.toDictionary(), withLoader : false) { (data : Data?, statusCode : Int?, error: String) in
+            if statusCode == 200 {
+                print("Correct PIN")
+                DispatchQueue.main.async {
+                    self.viewLock.isHidden  = true
+                    UserDefaults.standard.set(true, forKey: GConstant.UserDefaultKeys.isStaffLoggedIn)
+                    UserDefaults.standard.synchronize()
+                }
+            }else{
+                AlertManager.shared.showAlertTitle(title: "Incorrect PIN" ,message:"Your pin is incorrect, please try again.")
             }
         }
     }

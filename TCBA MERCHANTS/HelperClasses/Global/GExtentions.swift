@@ -973,7 +973,7 @@ extension UINavigationController{
         //        self.navigationBar.backIndicatorImage = imgBack
         //        self.navigationBar.backIndicatorTransitionMaskImage = imgBack
         
-        let navigationFont                      = UIFont.applyBlocSSiBold(fontSize: UIDevice.current.userInterfaceIdiom == .pad ? 14.0 : 18.0)
+        let navigationFont                      = UIFont.applyBlocSSiBold(fontSize: UIDevice.current.userInterfaceIdiom == .pad ? 13.0 : 17.0)
         self.navigationBar.barTintColor         = GConstant.AppColor.blue
         self.navigationBar.tintColor = UIColor.white
         self.navigationBar.titleTextAttributes  = [NSAttributedString.Key.font:navigationFont, NSAttributedString.Key.foregroundColor: UIColor.white]

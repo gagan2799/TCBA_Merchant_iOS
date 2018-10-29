@@ -30,8 +30,7 @@ class TMHomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewProperties()
-
-//        GFunction.shared.makeUserLoginAlert()
+        print("Status Bar Height:- \(String(describing: UIApplication.shared.statusBarView?.bounds.height))")
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

@@ -19,7 +19,7 @@ class TMSplitPaymentMasterVC: UIViewController {
     @IBOutlet weak var consHeightCol: NSLayoutConstraint!
     
     // Variables
-    var arrCV           = [Dictionary<String,String>]()
+    var arrCV           = [PaymentMethod]()
     var arrCreditCards  = [PostCreatePOSPaymentOption]()
     var strCCToken      = ""
     var strPinCode      = ""
@@ -90,48 +90,13 @@ class TMSplitPaymentMasterVC: UIViewController {
         
         guard posData != nil else { return }
         // Array For Collecion View
-        arrCV = [
-            [   "image"            : "cash_icon",
-                "title"            : "Cash or EFTPOS",
-                "balance"          : "",
-                "selectedAmount"   : "",
-                "method"           : "CashOrEFTPOS",
-                "posPaymentID"     : ""],
-            
-            [   "image"            : "wallet_icon",
-                "title"            : "Wallet Funds",
-                "balance"          : "\(posData.walletBalance ?? 0.00)",
-                "selectedAmount"   : "",
-                "method"           : "Wallet",
-                "posPaymentID"     : ""],
-            
-            [   "image"            : "card_icon",
-                "title"            : "Saved Credit Cards",
-                "balance"          : "",
-                "selectedAmount"   : "",
-                "method"           : "TokenisedCreditCard",
-                "posPaymentID"     : ""],
-            
-            [   "image"            : "prizefundtrophy",
-                "title"            : "Prize Funds",
-                "balance"          : "\(posData.availablePrizeCash ?? 0.00)",
-                "selectedAmount"   : "",
-                "method"           : "PrizeWallet",
-                "posPaymentID"     : ""],
-            
-            [   "image"            : "loyality_icon",
-                "title"            : "Loyalty Credits",
-                "balance"          : "\(posData.availableLoyaltyCash ?? 0.00)",
-                "selectedAmount"   : "",
-                "method"           : "LoyaltyCash",
-                "posPaymentID"     : ""],
-            
-            [   "image"            : "mixpayment",
-                "title"            : "Mixed Payment",
-                "balance"          : "",
-                "selectedAmount"   : "",
-                "method"           : "",
-                "posPaymentID"     : ""]]
+        // Array For Collecion View
+        arrCV = [PaymentMethod.init(image: "cash_icon", title: "Cash or EFTPOS", method: "CashOrEFTPOS", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "wallet_icon", title: "Wallet Funds", method: "Wallet", balance: posData.walletBalance ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "card_icon", title: "Saved Credit Cards", method: "TokenisedCreditCard", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "prizefundtrophy", title: "Prize Funds", method: "PrizeWallet", balance: posData.availablePrizeCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "loyality_icon", title: "Loyalty Credits", method: "LoyaltyCash", balance: posData.availableLoyaltyCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "mixpayment", title: "Mixed Payment", method: "", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
         
         
         // Array of Credit Cards
@@ -445,10 +410,10 @@ extension TMSplitPaymentMasterVC: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CVCell", for: indexPath) as! TMStorePaymentCVCell
         
-        cell.imgV.image         = UIImage(named: arrCV[indexPath.item]["image"]!)
-        cell.lblTitle.text      = arrCV[indexPath.item]["title"]
+        cell.imgV.image         = UIImage(named: arrCV[indexPath.item].image!)
+        cell.lblTitle.text      = arrCV[indexPath.item].title
         cell.lblTitle.font      = UIFont.applyOpenSansRegular(fontSize: 10.0)
-        cell.contentView.alpha  = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item]["method"]!, withViewType: .home) ? 1.0 : 0.5
+        cell.contentView.alpha  = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) ? 1.0 : 0.5
         
         return cell
     }
@@ -460,7 +425,7 @@ extension TMSplitPaymentMasterVC: UICollectionViewDelegate, UICollectionViewData
             return
         }
         
-        if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item]["method"]!, withViewType: .home) {
+        if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) {
             return
         }
         

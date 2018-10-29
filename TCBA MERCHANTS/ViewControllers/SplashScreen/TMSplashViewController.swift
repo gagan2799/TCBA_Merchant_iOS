@@ -16,11 +16,11 @@ class TMSplashViewController: UIViewController {
         if  UIDevice.current.orientation.isLandscape == true  {
             GConstant.Screen.Height             = UIScreen.main.bounds.width
             GConstant.Screen.Width              = UIScreen.main.bounds.height
-            GConstant.Screen.HeightAspectRatio  = UIScreen.main.bounds.width / 667.0
+            GConstant.Screen.HeightAspectRatio  = GConstant.kRatio(height: UIScreen.main.bounds.width)
         }else{
             GConstant.Screen.Height             = UIScreen.main.bounds.height
             GConstant.Screen.Width              = UIScreen.main.bounds.width
-            GConstant.Screen.HeightAspectRatio  = UIScreen.main.bounds.height / 667.0
+            GConstant.Screen.HeightAspectRatio  = GConstant.kRatio(height: UIScreen.main.bounds.height)
         }
         self.animateView(view: vBackground)
     }
@@ -38,11 +38,11 @@ class TMSplashViewController: UIViewController {
             if  UIDevice.current.orientation.isLandscape == true  {
                 GConstant.Screen.Height             = UIScreen.main.bounds.width
                 GConstant.Screen.Width              = UIScreen.main.bounds.height
-                GConstant.Screen.HeightAspectRatio  = UIScreen.main.bounds.width / 667.0
+                GConstant.Screen.HeightAspectRatio  = GConstant.kRatio(height: UIScreen.main.bounds.width)
             }else{
                 GConstant.Screen.Height             = UIScreen.main.bounds.height
                 GConstant.Screen.Width              = UIScreen.main.bounds.width
-                GConstant.Screen.HeightAspectRatio  = UIScreen.main.bounds.height / 667.0
+                GConstant.Screen.HeightAspectRatio  = GConstant.kRatio(height: UIScreen.main.bounds.height)
             }
             
         }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in

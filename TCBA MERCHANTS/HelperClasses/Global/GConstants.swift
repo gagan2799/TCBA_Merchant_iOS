@@ -27,7 +27,7 @@ struct GConstant {
         static let textDark         = UIColor(hexString: "#3A3A3A")
         static let textLight        = UIColor(hexString: "#747474")
         static let grayBorder       = UIColor(hexString: "#D2D2D2")
-    
+        
         // Alert Popup Colors
         struct AlertView {
             static let Text     = UIColor.black
@@ -42,7 +42,20 @@ struct GConstant {
         static var kHeight                      =  UIScreen.main.bounds.size.height
         static var Width                        =  UIScreen.main.bounds.size.width
         static var Height                       =  UIScreen.main.bounds.size.height
-        static var HeightAspectRatio:CGFloat    =  kHeight / 667.0
+        static var HeightAspectRatio:CGFloat    =  kRatio(height: kHeight)
+        
+    }
+    
+    static func kRatio(height: CGFloat) -> CGFloat {
+        if UIApplication.shared.statusBarFrame.height > 40.0 && height == 812.0 {
+            //iphone X, iPhone Xs
+            return 1
+        } else if UIApplication.shared.statusBarFrame.height > 40.0 && height == 896.0 {
+            //iPhone XR, Iphone Xs Max
+            return 736.0 / 667.0
+        } else {
+            return height / 667.0
+        }
     }
     
     // MARK:- Viewcontrollers Identifiers
@@ -88,7 +101,7 @@ struct GConstant {
         static let Calculator                   = "TMCalculatorVC"
         static let MatrixCalculator             = "TMMatrixCalculatorVC"
     }
-        
+    
     //MARK:- UserDefaults
     struct UserDefaultKeys {
         static let AppLaunch            : String = "kAppLaunch"

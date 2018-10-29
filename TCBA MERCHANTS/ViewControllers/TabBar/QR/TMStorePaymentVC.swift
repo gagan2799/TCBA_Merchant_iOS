@@ -8,6 +8,12 @@
 
 import UIKit
 import Alamofire
+//MARK: Structurs
+struct PaymentMethod: Codable {
+    var image, title, method: String?
+    var balance, selectedAmount : Double?
+    var posPaymentID: Int?
+}
 
 //MARK: Enums
 enum viewType: uint {
@@ -28,7 +34,7 @@ enum methodType: String {
 }
 
 class TMStorePaymentVC: UIViewController {
-
+    
     //MARK: Modals Object
     var posData         : PostCreatePOSModel!
     var paymentOptionsBackUp  : [PostCreatePOSPaymentOption]!
@@ -40,8 +46,8 @@ class TMStorePaymentVC: UIViewController {
     @IBOutlet weak var consTopView: NSLayoutConstraint!
     
     // Variables
-    var arrCV           = [Dictionary<String,String>]()
-    var arrTV           = [Dictionary<String,String>]()
+    var arrCV           = [PaymentMethod]()
+    var arrTV           = [PaymentMethod]()
     var arrCreditCards  = [PostCreatePOSPaymentOption]()
     var strCCToken      = ""
     var strPinCode      = ""
@@ -124,7 +130,7 @@ class TMStorePaymentVC: UIViewController {
         lblMemberId.text                    = "Member Id: \(posData.memberID ?? 0)"
         guard let urlProfile = URL.init(string: posData.profileImageURL ?? "") else {return}
         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
-       
+        
         //Top View
         lblDateTime.text                    = Date().currentDate()
         lblCity.text                        = posData.storeCity
@@ -133,88 +139,20 @@ class TMStorePaymentVC: UIViewController {
         lblAmount.text                      = "Amount: $\(posData.totalPurchaseAmount ?? 0.00)"
         lblOutStandingValue.text            = "$\(posData.balanceRemaining ?? 0.00)"
         
-        
         // Array For Collecion View
-        arrCV = [
-            ["image"            : "cash_icon",
-             "title"            : "Cash or EFTPOS",
-             "balance"          : "",
-             "selectedAmount"   : "",
-             "method"           : "CashOrEFTPOS",
-             "posPaymentID"     : ""],
-            
-            ["image"            : "wallet_icon",
-             "title"            : "Wallet Funds",
-             "balance"          : "\(posData.walletBalance ?? 0.00)",
-             "selectedAmount"   : "",
-             "method"           : "Wallet",
-             "posPaymentID"     : ""],
-            
-            ["image"            : "card_icon",
-             "title"            : "Saved Credit Cards",
-             "balance"          : "",
-             "selectedAmount"   : "",
-             "method"           : "TokenisedCreditCard",
-             "posPaymentID"     : ""],
-            
-            ["image"            : "prizefundtrophy",
-             "title"            : "Prize Funds",
-             "balance"          : "\(posData.availablePrizeCash ?? 0.00)",
-             "selectedAmount"   : "",
-             "method"           : "PrizeWallet",
-             "posPaymentID"     : ""],
-            
-            ["image"            : "loyality_icon",
-             "title"            : "Loyalty Credits",
-             "balance"          : "\(posData.availableLoyaltyCash ?? 0.00)",
-             "selectedAmount"   : "",
-             "method"           : "LoyaltyCash",
-             "posPaymentID"     : ""],
-            
-            ["image"            : "mixpayment",
-             "title"            : "Mixed Payment",
-             "balance"          : "",
-             "selectedAmount"   : "",
-             "method"           : "",
-             "posPaymentID"     : ""]]
+        arrCV = [PaymentMethod.init(image: "cash_icon", title: "Cash or EFTPOS", method: "CashOrEFTPOS", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "wallet_icon", title: "Wallet Funds", method: "Wallet", balance: posData.walletBalance ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "card_icon", title: "Saved Credit Cards", method: "TokenisedCreditCard", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "prizefundtrophy", title: "Prize Funds", method: "PrizeWallet", balance: posData.availablePrizeCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "loyality_icon", title: "Loyalty Credits", method: "LoyaltyCash", balance: posData.availableLoyaltyCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "mixpayment", title: "Mixed Payment", method: "", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
         
         // Array for TableView in mix payments
-        
-        arrTV = [
-            ["image"            : "cash_icon",
-             "title"            : "Cash or EFTPOS",
-             "balance"          : "",
-             "selectedAmount"   : "",
-             "method"           : "CashOrEFTPOS",
-             "posPaymentID"     : ""],
-            
-            ["image"            : "loyality_icon",
-             "title"            : "Loyalty Credits",
-             "balance"          : "\(posData.availableLoyaltyCash ?? 0.00)",
-             "selectedAmount"   : "",
-             "method"           : "LoyaltyCash",
-             "posPaymentID"     : ""],
-            
-            ["image"            : "wallet_icon",
-             "title"            : "Wallet Funds",
-             "balance"          : "\(posData.walletBalance ?? 0.00)",
-             "selectedAmount"   : "",
-             "method"           : "Wallet",
-             "posPaymentID"     : ""],
-            
-            ["image"            : "prizefundtrophy",
-             "title"            : "Prize Funds",
-             "balance"          : "\(posData.availablePrizeCash ?? 0.00)",
-             "selectedAmount"   : "",
-             "method"           : "PrizeWallet",
-             "posPaymentID"     : ""],
-            
-            ["image"            : "card_icon",
-             "title"            : "Saved Credit Cards",
-             "balance"          : "",
-             "selectedAmount"   : "",
-             "method"           : "TokenisedCreditCard",
-             "posPaymentID"     : ""]]
+        arrTV = [PaymentMethod.init(image: "cash_icon", title: "Cash or EFTPOS", method: "CashOrEFTPOS", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
+            PaymentMethod.init(image: "loyality_icon", title: "Loyalty Credits", method: "LoyaltyCash", balance: posData.availableLoyaltyCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+            PaymentMethod.init(image: "wallet_icon", title: "Wallet Funds", method: "Wallet", balance: posData.walletBalance ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+            PaymentMethod.init(image: "prizefundtrophy", title: "Prize Funds", method: "PrizeWallet", balance: posData.availablePrizeCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+            PaymentMethod.init(image: "card_icon", title: "Saved Credit Cards", method: "TokenisedCreditCard", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
         
         // Array of Credit Cards
         if let paymentOptions = posData.paymentOptions {
@@ -304,7 +242,7 @@ class TMStorePaymentVC: UIViewController {
         typeTable = type
         tblVpayment.reloadData()
     }
-
+    
     func showPin(withMethod method: methodType, currentBalance: Double? = 0.00,transactionAmount: Double?, completion   : @escaping (_ pinCode : String) -> Void){
         let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.PinView) as! TMPinViewController
         obj.method              = method.rawValue
@@ -516,9 +454,9 @@ class TMStorePaymentVC: UIViewController {
                         for item in payments {
                             if item.type == type.rawValue {
                                 for index in self.arrTV.indices{
-                                    if self.arrTV[index]["method"] == type.rawValue{
-                                        self.arrTV[index]["selectedAmount"] = "\(item.amountPaidByMember ?? 0.00)"
-                                        self.arrTV[index]["posPaymentID"]   = "\(item.posPaymentID ?? 0)"
+                                    if self.arrTV[index].method == type.rawValue{
+                                        self.arrTV[index].selectedAmount    = item.amountPaidByMember ?? 0.00
+                                        self.arrTV[index].posPaymentID      = item.posPaymentID ?? 0
                                     }
                                 }
                             }
@@ -606,7 +544,7 @@ class TMStorePaymentVC: UIViewController {
                 }else{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }
-
+                
             }else{
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
@@ -645,8 +583,8 @@ class TMStorePaymentVC: UIViewController {
                 let str = String(data: data!, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                 AlertManager.shared.showAlertTitle(title: "" ,message:str)
                 for index in self.arrTV.indices{
-                    self.arrTV[index]["selectedAmount"] = ""
-                    self.arrTV[index]["posPaymentID"]   = ""
+                    self.arrTV[index].selectedAmount = 0.00
+                    self.arrTV[index].posPaymentID   = 0
                 }
                 self.lblOutStandingValue.text   = "\(self.posData.totalPurchaseAmount ?? 0.00)"
                 self.btnFinish.isHidden         = true
@@ -702,17 +640,17 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CVCell", for: indexPath) as! TMStorePaymentCVCell
         
-        cell.imgV.image         = UIImage(named: arrCV[indexPath.item]["image"]!)
-        cell.lblTitle.text      = arrCV[indexPath.item]["title"]
+        cell.imgV.image         = UIImage(named: arrCV[indexPath.item].image!)
+        cell.lblTitle.text      = arrCV[indexPath.item].title
         cell.lblTitle.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
-        cell.contentView.alpha  = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item]["method"]!, withViewType: .home) ? 1.0 : 0.5
+        cell.contentView.alpha  = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) ? 1.0 : 0.5
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item]["method"]!, withViewType: .home) {
+        
+        if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) {
             return
         }
         
@@ -804,19 +742,19 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if typeTable == .mix {// Table for Mix payment
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoreTVCell") as! TMStorePaymentTVCell
-
+            
             cell.lblTitle.font          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
             cell.lblBal.font            = UIFont.applyOpenSansRegular(fontSize: 15.0)
             cell.lblAvailable.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
             cell.lblAmtPaid.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 15.0), borderColor: GConstant.AppColor.textDark, backgroundColor: .white, borderWidth: 1.0)
             
-            cell.imgVTV.image           = UIImage(named: arrTV[indexPath.item]["image"]!)
-            cell.lblTitle.text          = arrTV[indexPath.item]["title"]
-            cell.lblBal.text            = "$" + arrTV[indexPath.item]["balance"]!
+            cell.imgVTV.image           = UIImage(named: arrTV[indexPath.item].image!)
+            cell.lblTitle.text          = arrTV[indexPath.item].title
+            cell.lblBal.text            = "$\(arrTV[indexPath.item].balance!)"
             
-            cell.contentView.alpha      = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) ? 1.0 : 0.5
+            cell.contentView.alpha      = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrTV[indexPath.item].method!, withViewType: .mixPayment) ? 1.0 : 0.5
             
-            if arrTV[indexPath.item]["method"] == "TokenisedCreditCard" || arrTV[indexPath.item]["method"] == "CashOrEFTPOS" {
+            if arrTV[indexPath.item].method == "TokenisedCreditCard" || arrTV[indexPath.item].method == "CashOrEFTPOS" {
                 cell.lblBal.isHidden        = true
                 cell.lblAvailable.isHidden  = true
             }else{
@@ -831,11 +769,11 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
             if let payments = posData.payments{
                 if payments.count > 0{
                     for item in payments{
-                        if item.type == arrTV[indexPath.row]["method"] {
+                        if item.type == arrTV[indexPath.row].method {
                             cell.vBlueLine.isHidden     = false
                             cell.lblAmtPaid.isHidden    = false
                             cell.consLblWidth.constant  = GConstant.Screen.Width * 0.18
-                            cell.lblAmtPaid.text        = arrTV[indexPath.row]["selectedAmount"]
+                            cell.lblAmtPaid.text        = "\(arrTV[indexPath.row].selectedAmount ?? 0.00)"
                         }
                     }
                 }
@@ -864,12 +802,12 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if typeTable == .mix {
-            if arrTV[indexPath.row]["selectedAmount"] != "" {
+            if arrTV[indexPath.row].selectedAmount != 0.00 {
                 resetPayments()
                 return
             }
             
-            if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrTV[indexPath.item]["method"]!, withViewType: .mixPayment) {
+            if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrTV[indexPath.item].method!, withViewType: .mixPayment) {
                 return
             }
             if indexPath.row == 0 {

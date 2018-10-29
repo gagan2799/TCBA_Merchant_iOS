@@ -12,11 +12,11 @@ class TMMatrixCalculatorVC: UIViewController {
     //MARK: - Structure
     struct MatrixData: Codable {
         let headerTitle     :String
-        let averageSpend    :String
-        let totalPeople     :String
-        let totalIncWeek    :String
-        let totalIncYear    :String
-        let UserMatrixData  :[SectionData]
+        var averageSpend    :String
+        var totalPeople     :String
+        var totalIncWeek    :String
+        var totalIncYear    :String
+        var UserMatrixData  :[SectionData]
     }
     
     struct SectionData: Codable {
@@ -30,7 +30,8 @@ class TMMatrixCalculatorVC: UIViewController {
     var arrMatrixData       = [MatrixData]()
     var modelUserMatrix     : GetUserMatrixModel!
     var totalSpend          : String!
-    
+    var header              : TMMatrixHeaderCell!
+    var footer              : TMMatrixFooterCell!
     //MARK: Outlets
     //UITableView
     @IBOutlet weak var tblMatrixCal: UITableView!
@@ -133,7 +134,7 @@ class TMMatrixCalculatorVC: UIViewController {
                 }
                 let totalMatrix         = self.totalMatrix(matrixData: section1)
                 self.arrMatrixData      = [MatrixData.init(headerTitle: "Weekly spend based on your average", averageSpend: self.totalSpend, totalPeople: totalMatrix.totalPeople, totalIncWeek: totalMatrix.totalIncWeek, totalIncYear: totalMatrix.totalIncYear, UserMatrixData: section1),
-                MatrixData.init(headerTitle: "Example Shopping Community Income", averageSpend: "", totalPeople: "", totalIncWeek: "", totalIncYear: "", UserMatrixData: section2)]
+                                           MatrixData.init(headerTitle: "Example Shopping Community Income", averageSpend: "", totalPeople: "", totalIncWeek: "", totalIncYear: "", UserMatrixData: section2)]
                 
                 self.tblMatrixCal.reloadData()
             }else{
@@ -165,14 +166,17 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableCell(withIdentifier: "MatrixHeaderCell") as! TMMatrixHeaderCell
+        header = tableView.dequeueReusableCell(withIdentifier: "MatrixHeaderCell") as? TMMatrixHeaderCell
         header.txtAverageSpend.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: GConstant.AppColor.textDark, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.textLight, borderWidth: 0.5)
         header.txtAverageSpend.setRightPaddingPoints(5.0)
         header.txtAverageSpend.setLeftPaddingPoints(10.0*GConstant.Screen.HeightAspectRatio)
         
         header.lblTitle.text        = arrMatrixData[section].headerTitle
         header.txtAverageSpend.text = arrMatrixData[section].averageSpend
-        return header
+        header.txtAverageSpend.tag  = section
+        header.txtAverageSpend.isUserInteractionEnabled = section == 0 ? false : true
+        
+        return header.contentView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -204,7 +208,9 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
         cell.txtIncYear.setLeftPaddingPoints(10.0*GConstant.Screen.HeightAspectRatio)
         
         cell.txtPeople.keyboardType = UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation: .numberPad
-        cell.txtPeople.tag          = 10001;
+        cell.txtPeople.tag          =  indexPath.section == 0 ? 1 : 10001;
+        cell.txtPeople.isUserInteractionEnabled = indexPath.section == 0 ? false : true
+        
         
         cell.lblLevel.text          = "Level \(String(describing: arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].level))"
         cell.lblPercentage.text     = "\(arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].percentage)"
@@ -219,8 +225,7 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footer = tableView.dequeueReusableCell(withIdentifier: "TMMatrixFooterCell") as! TMMatrixFooterCell
-        
+        footer = tableView.dequeueReusableCell(withIdentifier: "TMMatrixFooterCell") as? TMMatrixFooterCell
         footer.txtTotalPeople.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: GConstant.AppColor.textDark, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.textLight, borderWidth: 0.5)
         footer.txtTotalIncWeek.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: GConstant.AppColor.textDark, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.textLight, borderWidth: 0.5)
         footer.txtTotalIncYear.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: GConstant.AppColor.textDark, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.textLight, borderWidth: 0.5)
@@ -236,7 +241,12 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
         footer.txtTotalPeople.text  = arrMatrixData[section].totalPeople
         footer.txtTotalIncWeek.text = arrMatrixData[section].totalIncWeek
         footer.txtTotalIncYear.text = arrMatrixData[section].totalIncYear
-        return footer
+        
+        footer.txtTotalPeople.tag  = 100 + section
+        footer.txtTotalIncWeek.tag = 200 + section
+        footer.txtTotalIncYear.tag = 300 + section
+        
+        return footer.contentView
     }
     //MARK: - Textfield Delegates
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -245,29 +255,46 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        //        if textField.tag == 10001 {
-        //            guard let cell = textField.superview?.superview?.superview?.superview?.superview as? TMCalculatorCell else { return false }
-        //            guard let indexPath = tblMatrixCal.indexPath(for: cell) else { return false }
-        //            if let doubleVal = NumberFormatter().number(from: cell.txtSpendWeek?.text ?? "")?.doubleValue {
-        //                let values  = savingCalculator(doubleVal, arrCalculator[indexPath.section].sectionData?[indexPath.row].percentage ?? 0)
-        //                let data    = SectionData.init(company: arrCalculator[indexPath.section].sectionData?[indexPath.row].company, data: arrCalculator[indexPath.section].sectionData?[indexPath.row].data, percentage: arrCalculator[indexPath.section].sectionData?[indexPath.row].percentage, txt1: textField.text, txt2: values.savingInWeek, txt3: values.savingInYear)
-        //                self.arrCalculator[indexPath.section].sectionData?[indexPath.row] = data
-        //                DispatchQueue.main.async {
-        //                    cell.txtSaveWeek.text   = self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt2
-        //                    cell.txtSaveYear.text   = self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt3
-        //                }
-        //            }else{
-        //                let data    = SectionData.init(company: arrCalculator[indexPath.section].sectionData?[indexPath.row].company, data: arrCalculator[indexPath.section].sectionData?[indexPath.row].data, percentage: arrCalculator[indexPath.section].sectionData?[indexPath.row].percentage, txt1: "", txt2: "", txt3: "")
-        //                self.arrCalculator[indexPath.section].sectionData?[indexPath.row] = data
-        //                DispatchQueue.main.async {
-        //                    cell.txtSaveWeek.text   = self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt2
-        //                    cell.txtSaveYear.text   = self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt3
-        //                }
-        //            }
-        //            return true
-        //        }else{
-        return false
-        //        }
+        if textField.tag == 10001 {
+            guard let cell = textField.superview?.superview?.superview?.superview?.superview as? TMMatrixCell else { return true }
+            guard let indexPath = tblMatrixCal.indexPath(for: cell) else { return true }
+            if let peopleVal = NumberFormatter().number(from: cell.txtPeople?.text ?? "")?.intValue {
+                // ====getting Header cell for AverageSpend value & set value to array====
+                guard let txtAverage = header.contentView.viewWithTag(indexPath.section) as? UITextField else { return true }
+                self.arrMatrixData[indexPath.section].averageSpend = txtAverage.text ?? ""
+                guard let avarageSpendVal = NumberFormatter().number(from: txtAverage.text ?? "")?.doubleValue else { return true }
+                
+                // ====Getting values for incWeek & incYear====
+                let values  = matrixCalculator(avarageSpendVal, peopleVal, arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].percentage)
+                
+                let data    = SectionData.init(totalUsers: peopleVal, totalMatrixCash: self.arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].totalMatrixCash, percentage: self.arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].percentage, level: self.arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].level, totalMatrixCashPending: self.arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].totalMatrixCashPending, incWeek: values.incWeek, incYear: values.incYear)
+                self.arrMatrixData[indexPath.section].UserMatrixData[indexPath.row] = data
+                
+                DispatchQueue.main.async {
+                    cell.txtIncWeek.text   = self.arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].incWeek
+                    cell.txtIncYear.text   = self.arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].incYear
+                }
+                
+                //Getting Footer cell for Setting total values
+                let totalVals   = self.totalMatrix(matrixData: arrMatrixData[indexPath.section].UserMatrixData)
+                self.arrMatrixData[indexPath.section].totalPeople = totalVals.totalPeople
+                self.arrMatrixData[indexPath.section].totalIncWeek = totalVals.totalIncWeek
+                self.arrMatrixData[indexPath.section].totalIncYear = totalVals.totalIncYear
+                
+                DispatchQueue.main.async {
+                    self.footer.txtTotalPeople.text  = totalVals.totalPeople
+                    self.footer.txtTotalIncWeek.text = totalVals.totalIncWeek
+                    self.footer.txtTotalIncYear.text = totalVals.totalIncYear
+                }
+            }
+            return true
+        }else{
+            return true
+        }
+    }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        textField.text = ""
+        return true
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

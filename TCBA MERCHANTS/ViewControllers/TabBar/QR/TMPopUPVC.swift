@@ -72,7 +72,7 @@ class TMPopUPVC: UIViewController {
     
     //MARK: - Set view properties
     func setViewProperties(){
-        lblTitleMethod.text     = method
+        lblTitleMethod.text     = method == "PaywaveCredit" ? "Credit Card" : method
         txtAmount.isUserInteractionEnabled = txtUserIntrection
         txtAmount.text          = transactionAmount != "" ? "$" + transactionAmount : "$0.00"
         

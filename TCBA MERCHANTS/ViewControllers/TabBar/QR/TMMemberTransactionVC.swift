@@ -107,7 +107,7 @@ class TMMemberTransactionVC: UIViewController {
         guard memTranData != nil else {return}
         
         lblUserName.text                    = memTranData.firstName + " " + memTranData.lastName
-        lblMemberId.text                    = "Member Id: \(memTranData.memberID )"
+        lblMemberId.text                    = "Member Id: \(memTranData.memberID ?? 0)"
         lblLCValue.text                     = "$\(memTranData.availableLoyaltyCash)"
         lblTPValue.text                     = "$\(Double(memTranData.totalPurchaseValue ))"
         lblCSValue.text                     = "\(memTranData.totalNumberOfMembers )"

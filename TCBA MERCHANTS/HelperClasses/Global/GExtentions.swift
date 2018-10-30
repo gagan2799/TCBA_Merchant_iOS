@@ -473,6 +473,19 @@ extension UILabel {
         return contentSize
     }
 }
+
+extension UILabel {
+    @IBInspectable
+    var rotation: Int {
+        get {
+            return 0
+        } set {
+            let radians = CGFloat(CGFloat.pi * CGFloat(newValue) / CGFloat(180.0))
+            self.transform = CGAffineTransform(rotationAngle: radians)
+        }
+    }
+}
+
 extension UILabel {
     
     func applyStyle(

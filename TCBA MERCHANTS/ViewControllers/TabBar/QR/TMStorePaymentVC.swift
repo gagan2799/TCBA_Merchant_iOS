@@ -26,6 +26,7 @@ enum tableType: uint {
 }
 enum methodType: String {
     case CashOrEFTPOS           = "CashOrEFTPOS"
+    case PaywaveCredit          = "PaywaveCredit"
     case Wallet                 = "Wallet"
     case TokenisedCreditCard    = "TokenisedCreditCard"
     case PrizeWallet            = "PrizeWallet"
@@ -42,11 +43,12 @@ class TMStorePaymentVC: UIViewController {
     
     //MARK: Outlets & Variables
     //Constraints
-    @IBOutlet weak var consCvHeight: NSLayoutConstraint!
+    @IBOutlet weak var consBottomVHeight: NSLayoutConstraint!
     @IBOutlet weak var consTopView: NSLayoutConstraint!
     
     // Variables
     var arrCV           = [PaymentMethod]()
+    var arrCVMerchant   = [PaymentMethod]()
     var arrTV           = [PaymentMethod]()
     var arrCreditCards  = [PostCreatePOSPaymentOption]()
     var strCCToken      = ""
@@ -61,6 +63,8 @@ class TMStorePaymentVC: UIViewController {
     // UIVIew
     @IBOutlet weak var viewCollection: UIView!
     @IBOutlet weak var viewTable: UIView!
+    @IBOutlet weak var viewMerchantCol: UIView!
+    @IBOutlet weak var viewCustomerCol: UIView!
     
     
     // UIImageView
@@ -70,19 +74,21 @@ class TMStorePaymentVC: UIViewController {
     @IBOutlet weak var lblUserName: UILabel!
     @IBOutlet weak var lblMemberId: UILabel!
     
-    
-    @IBOutlet weak var lblTransaction: UILabel!
     @IBOutlet weak var lblCashBack: UILabel!
     @IBOutlet weak var lblDateTime: UILabel!
     @IBOutlet weak var lblCity: UILabel!
     @IBOutlet weak var lblStoreID: UILabel!
     @IBOutlet weak var lblPOSID: UILabel!
     @IBOutlet weak var lblAmount: UILabel!
-    @IBOutlet weak var lblBalanceOutStanding: UILabel!
+    @IBOutlet weak var lblChoosePaymentTitle: UILabel!
+    @IBOutlet weak var lblMerchant: UILabel!
+    @IBOutlet weak var lblCustomer: UILabel!
     @IBOutlet weak var lblOutStandingValue: UILabel!
     
     // CollectionView
-    @IBOutlet weak var colVPayment: UICollectionView!
+    @IBOutlet weak var colVMerchant: UICollectionView!
+    @IBOutlet weak var colVCustomer: UICollectionView!
+    
     // TableView
     @IBOutlet weak var tblVpayment: UITableView!
     //UIButton
@@ -93,6 +99,7 @@ class TMStorePaymentVC: UIViewController {
         super.viewDidLoad()
         setViewProperties()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -138,21 +145,28 @@ class TMStorePaymentVC: UIViewController {
         lblPOSID.text                       = "POS ID:\(posData.posid ?? 0)"
         lblAmount.text                      = "Amount: $\(posData.totalPurchaseAmount ?? 0.00)"
         lblOutStandingValue.text            = "$\(posData.balanceRemaining ?? 0.00)"
+        DispatchQueue.main.async {
+            self.lblMerchant.frame          = CGRect(x: -((self.lblMerchant.bounds.width/2)-(15*GConstant.Screen.HeightAspectRatio)), y: 0, width: 35*GConstant.Screen.HeightAspectRatio, height: self.colVMerchant.bounds.height)
+            self.lblCustomer.frame          = CGRect(x: -((self.lblCustomer.bounds.width/2)-(15*GConstant.Screen.HeightAspectRatio)), y: 0, width: 35*GConstant.Screen.HeightAspectRatio, height: self.colVCustomer.bounds.height)
+            self.viewMerchantCol.applyStyle(cornerRadius: 5*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.orange, borderWidth: 5*GConstant.Screen.HeightAspectRatio, backgroundColor: .clear)
+            self.viewCustomerCol.applyStyle(cornerRadius: 5*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.blue, borderWidth: 5*GConstant.Screen.HeightAspectRatio, backgroundColor: .clear)
+        }
+        // Arrays For Collecion View
+        arrCVMerchant = [PaymentMethod.init(image: "cash_icon", title: "Cash/EFTPOS", method: "CashOrEFTPOS", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                         PaymentMethod.init(image: "card_icon", title: "Credit Card", method: "PaywaveCredit", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
         
-        // Array For Collecion View
-        arrCV = [PaymentMethod.init(image: "cash_icon", title: "Cash or EFTPOS", method: "CashOrEFTPOS", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "wallet_icon", title: "Wallet Funds", method: "Wallet", balance: posData.walletBalance ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "card_icon", title: "Saved Credit Cards", method: "TokenisedCreditCard", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "prizefundtrophy", title: "Prize Funds", method: "PrizeWallet", balance: posData.availablePrizeCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "loyality_icon", title: "Loyalty Credits", method: "LoyaltyCash", balance: posData.availableLoyaltyCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "mixpayment", title: "Mixed Payment", method: "", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
+        arrCV = [PaymentMethod.init(image: "wallet_icon", title: "Wallet Funds", method: "Wallet", balance: posData.walletBalance ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "card_icon", title: "Card", method: "TokenisedCreditCard", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "loyality_icon", title: "Loyalty", method: "LoyaltyCash", balance: posData.availableLoyaltyCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "prizefundtrophy", title: "Prize Cash", method: "PrizeWallet", balance: posData.availablePrizeCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "mixpayment", title: "Mixed Method", method: "", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
         
         // Array for TableView in mix payments
         arrTV = [PaymentMethod.init(image: "cash_icon", title: "Cash or EFTPOS", method: "CashOrEFTPOS", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
-            PaymentMethod.init(image: "loyality_icon", title: "Loyalty Credits", method: "LoyaltyCash", balance: posData.availableLoyaltyCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
-            PaymentMethod.init(image: "wallet_icon", title: "Wallet Funds", method: "Wallet", balance: posData.walletBalance ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
-            PaymentMethod.init(image: "prizefundtrophy", title: "Prize Funds", method: "PrizeWallet", balance: posData.availablePrizeCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
-            PaymentMethod.init(image: "card_icon", title: "Saved Credit Cards", method: "TokenisedCreditCard", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
+                 PaymentMethod.init(image: "loyality_icon", title: "Loyalty Credits", method: "LoyaltyCash", balance: posData.availableLoyaltyCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "wallet_icon", title: "Wallet Funds", method: "Wallet", balance: posData.walletBalance ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "prizefundtrophy", title: "Prize Funds", method: "PrizeWallet", balance: posData.availablePrizeCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "card_icon", title: "Saved Credit Cards", method: "TokenisedCreditCard", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
         
         // Array of Credit Cards
         if let paymentOptions = posData.paymentOptions {
@@ -164,9 +178,9 @@ class TMStorePaymentVC: UIViewController {
             }
         }
         // Top View Height
-        consTopView.constant    = GConstant.Screen.Height * 0.42
+        consTopView.constant            = GConstant.Screen.Height * 0.23
         // ColectionView Layout setup
-        consCvHeight.constant   = GConstant.Screen.Height * 0.4
+        consBottomVHeight.constant      = GConstant.Screen.Height * 0.7
         view.setNeedsLayout()
     }
     
@@ -275,7 +289,6 @@ class TMStorePaymentVC: UIViewController {
     }
     
     //MARK: Web Api's
-    
     func callPostCreateTransactionWithFullPayment(payMethodType type:methodType, withPin pin: String = "", isExecute: Int = 1, withToken token: String = "") {
         /*
          =====================API CALL=====================
@@ -372,7 +385,6 @@ class TMStorePaymentVC: UIViewController {
                         let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
                         return }
-                    
                     if statusCode == 400 {
                         print(json as Any)
                         if json?["message"] == "PIN Locked." {
@@ -617,12 +629,23 @@ class TMStorePaymentVC: UIViewController {
 extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource {
     //MARK: CollectionView Delegates & DataSource
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: 0, bottom: 10, right: 0)
+        return UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let collectionViewWidth = GConstant.Screen.Width
-        return CGSize(width: collectionViewWidth/3, height: collectionViewWidth/4)
+        if collectionView == colVMerchant {
+            let colWidth    = self.colVMerchant.bounds.width
+            let colHeight   = self.colVMerchant.bounds.height
+            return CGSize(width: colWidth/2, height: colHeight*0.8)
+        } else {
+            let colWidth    = self.colVCustomer.bounds.width
+            let colHeight   = self.colVCustomer.bounds.height
+            if indexPath.item < 3 {
+                return CGSize(width: colWidth/3, height: colHeight*0.4)
+            }else{
+                return CGSize(width: colWidth/2, height: colHeight*0.4)
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -634,71 +657,87 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard posData != nil else { return 0}
-        return arrCV.count
+        if collectionView == colVMerchant {
+            return arrCVMerchant.count
+        } else {
+            return arrCV.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CVCell", for: indexPath) as! TMStorePaymentCVCell
-        
-        cell.imgV.image         = UIImage(named: arrCV[indexPath.item].image!)
-        cell.lblTitle.text      = arrCV[indexPath.item].title
-        cell.lblTitle.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
-        cell.contentView.alpha  = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) ? 1.0 : 0.5
-        
+        if collectionView == colVMerchant{
+            cell.imgV.image         = UIImage(named: arrCVMerchant[indexPath.item].image!)
+            cell.lblTitle.text      = arrCVMerchant[indexPath.item].title
+            cell.lblTitle.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
+            cell.contentView.alpha  = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCVMerchant[indexPath.item].method!, withViewType: .home) ? 1.0 : 0.5
+        }else{
+            cell.imgV.image         = UIImage(named: arrCV[indexPath.item].image!)
+            cell.lblTitle.text      = arrCV[indexPath.item].title
+            cell.lblTitle.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
+            cell.contentView.alpha  = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) ? 1.0 : 0.5
+        }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) {
-            return
-        }
-        
-        if indexPath.row == 0 {
-            //<===CashOrEFTPOS===>
-            showPopUp(withMethod: .CashOrEFTPOS, transactionAmount: posData.balanceRemaining, completion: {(amount) in
-                self.callPostCreateTransactionWithFullPayment(payMethodType: .CashOrEFTPOS)
-            })
-        } else if indexPath.row == 1 {
-            //<===Wallet===>
-            if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
-                AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.walletBalance!))
-            }else{
-                showPin(withMethod: .Wallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
-                    self.callPostCreateTransactionWithFullPayment(payMethodType: .Wallet, withPin: pinCode)
-                }
+        if collectionView == colVMerchant{
+            if indexPath.row == 0 {
+                //<===CashOrEFTPOS===>
+                showPopUp(withMethod: .CashOrEFTPOS, transactionAmount: posData.balanceRemaining, completion: {(amount) in
+                    self.callPostCreateTransactionWithFullPayment(payMethodType: .CashOrEFTPOS)
+                })
+            } else if indexPath.row == 1 {
+                //<===Credit Card===>
+                showPopUp(withMethod: .PaywaveCredit, transactionAmount: posData.balanceRemaining, completion: {(amount) in
+                    self.callPostCreateTransactionWithFullPayment(payMethodType: .PaywaveCredit)
+                })
             }
-        } else if indexPath.row == 2 {
-            //<===TokenisedCreditCard===>
-            if arrCreditCards.count == 0{
-                AlertManager.shared.showAlertTitle(title: "", message: "Please attach a credit card to your wallet to use this feature.")
-            }else{
-                typeView = .home
-                reloadTableView(withTblType: .card)
+        }else{
+            if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) {
+                return
+            }
+            if indexPath.row == 0 {
+                //<===Wallet===>
+                if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+                    AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.walletBalance!))
+                }else{
+                    showPin(withMethod: .Wallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                        self.callPostCreateTransactionWithFullPayment(payMethodType: .Wallet, withPin: pinCode)
+                    }
+                }
+            } else if indexPath.row == 1 {
+                //<===TokenisedCreditCard===>
+                if arrCreditCards.count == 0{
+                    AlertManager.shared.showAlertTitle(title: "", message: "Please attach a credit card to your wallet to use this feature.")
+                }else{
+                    typeView = .home
+                    reloadTableView(withTblType: .card)
+                    viewTable.animateHideShow()
+                }
+            } else if indexPath.row == 2 {
+                //<===LoyaltyCash===>
+                if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+                    AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
+                }else{
+                    showPin(withMethod: .LoyaltyCash, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                        self.callPostCreateTransactionWithFullPayment(payMethodType: .LoyaltyCash, withPin: pinCode)
+                    }
+                }
+            } else if indexPath.row == 3 {
+                //<===PrizeWallet===>
+                if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+                    AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availablePrizeCash!))
+                }else{
+                    showPin(withMethod: .PrizeWallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                        self.callPostCreateTransactionWithFullPayment(payMethodType: .PrizeWallet, withPin: pinCode)
+                    }
+                }
+            } else if indexPath.row == 4 {
+                //<===MixPayments===>
+                reloadTableView(withTblType: .mix)
                 viewTable.animateHideShow()
             }
-        } else if indexPath.row == 3 {
-            //<===PrizeWallet===>
-            if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
-                AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availablePrizeCash!))
-            }else{
-                showPin(withMethod: .PrizeWallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
-                    self.callPostCreateTransactionWithFullPayment(payMethodType: .PrizeWallet, withPin: pinCode)
-                }
-            }
-        } else if indexPath.row == 4 {
-            //<===LoyaltyCash===>
-            if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
-                AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
-            }else{
-                showPin(withMethod: .LoyaltyCash, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
-                    self.callPostCreateTransactionWithFullPayment(payMethodType: .LoyaltyCash, withPin: pinCode)
-                }
-            }
-        } else if indexPath.row == 5 {
-            //<===MixPayments===>
-            reloadTableView(withTblType: .mix)
-            viewTable.animateHideShow()
         }
     }
     
@@ -723,7 +762,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
             cell.lblAvailable.isHidden  = true
             cell.vBlueLine.isHidden     = false
             cell.contentView.alpha      = 1.0
-            return cell
+            return cell.contentView
         }
         return nil
     }
@@ -736,7 +775,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60 * GConstant.Screen.HeightAspectRatio
+        return 58 * GConstant.Screen.HeightAspectRatio
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -762,9 +801,9 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
                 cell.lblAvailable.isHidden  = false
             }
             
-            cell.vBlueLine.isHidden     = true
-            cell.lblAmtPaid.isHidden    = true
-            cell.consLblWidth.constant  = 0.0
+            cell.vBlueLine.isHidden         = true
+            cell.lblAmtPaid.isHidden        = true
+            cell.consLblWidth.constant      = 0.0
             
             if let payments = posData.payments{
                 if payments.count > 0{

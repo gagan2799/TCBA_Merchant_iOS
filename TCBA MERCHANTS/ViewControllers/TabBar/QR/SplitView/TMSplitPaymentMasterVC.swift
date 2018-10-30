@@ -90,7 +90,6 @@ class TMSplitPaymentMasterVC: UIViewController {
         
         guard posData != nil else { return }
         // Array For Collecion View
-        // Array For Collecion View
         arrCV = [PaymentMethod.init(image: "cash_icon", title: "Cash or EFTPOS", method: "CashOrEFTPOS", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
                  PaymentMethod.init(image: "wallet_icon", title: "Wallet Funds", method: "Wallet", balance: posData.walletBalance ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
                  PaymentMethod.init(image: "card_icon", title: "Saved Credit Cards", method: "TokenisedCreditCard", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
@@ -352,7 +351,7 @@ class TMSplitPaymentMasterVC: UIViewController {
                     self.posData.paymentOptions = self.paymentOptionsBackUp
                 }
                 self.posData.balanceRemaining   = self.posData.totalPurchaseAmount
-    
+                
             } else {
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
@@ -398,6 +397,7 @@ extension TMSplitPaymentMasterVC: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }

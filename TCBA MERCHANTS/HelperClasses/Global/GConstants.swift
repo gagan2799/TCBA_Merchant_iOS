@@ -76,6 +76,7 @@ struct GConstant {
         static let SplitDetail                  = "TMSplitPaymentDetailVC"
         static let PinView                      = "TMPinViewController"
         static let PopUP                        = "TMPopUPVC"
+        static let PaymentSuccessPopUp          = "TMPaySuccessPopUpVC"
         //Share Tab
         static let Share                        = "TMShareViewController"
         //More Tab

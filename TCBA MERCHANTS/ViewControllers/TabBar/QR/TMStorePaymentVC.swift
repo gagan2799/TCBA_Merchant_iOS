@@ -288,6 +288,15 @@ class TMStorePaymentVC: UIViewController {
         self.navigationController?.present(obj, animated: true, completion: nil)
     }
     
+    func showPaymentSuccessPopUp(withPosData pData: PostCreatePOSModel, completion   : @escaping (_ amount : String) -> Void){
+        let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.PaymentSuccessPopUp) as! TMPaySuccessPopUpVC
+        obj.posData             = pData
+        obj.completionHandler   = { (True) in
+            completion(True)
+        }
+        obj.modalPresentationStyle  = .overCurrentContext
+        self.navigationController?.present(obj, animated: false, completion: nil)
+    }
     //MARK: Web Api's
     func callPostCreateTransactionWithFullPayment(payMethodType type:methodType, withPin pin: String = "", isExecute: Int = 1, withToken token: String = "") {
         /*
@@ -362,18 +371,10 @@ class TMStorePaymentVC: UIViewController {
                             }
                         }
                     }else{
-                        if pData.paidInFull == true{
-                            AlertManager.shared.showAlertTitle(title: "Success", message: "Payment successful.", buttonsArray: ["OK"]) { (buttonIndex : Int) in
-                                switch buttonIndex {
-                                case 0 :
-                                    //OK clicked
-                                    self.navigationController?.popToRootViewController(animated: true)
-                                    break
-                                default:
-                                    self.navigationController?.popToRootViewController(animated: true)
-                                    break
-                                }
-                            }
+                        if pData.paidInFull == true {
+                            self.showPaymentSuccessPopUp(withPosData: pData, completion: { (_) in
+                                self.navigationController?.popToRootViewController(animated: true)
+                            })
                         }
                     }
                 }else{
@@ -540,17 +541,9 @@ class TMStorePaymentVC: UIViewController {
                         }
                     }else{
                         if pData.paidInFull == true{
-                            AlertManager.shared.showAlertTitle(title: "Success", message: "Payment successful.", buttonsArray: ["OK"]) { (buttonIndex : Int) in
-                                switch buttonIndex {
-                                case 0 :
-                                    //OK clicked
-                                    self.navigationController?.popToRootViewController(animated: true)
-                                    break
-                                default:
-                                    self.navigationController?.popToRootViewController(animated: true)
-                                    break
-                                }
-                            }
+                            self.showPaymentSuccessPopUp(withPosData: pData, completion: { (_) in
+                                self.navigationController?.popToRootViewController(animated: true)
+                            })
                         }
                     }
                 }else{

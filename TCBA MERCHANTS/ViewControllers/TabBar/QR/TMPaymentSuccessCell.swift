@@ -9,7 +9,11 @@
 import UIKit
 
 class TMPaymentSuccessCell: UITableViewCell {
-
+    @IBOutlet weak var lblMethod: UILabel!
+    @IBOutlet weak var lblMethodVal: UILabel!
+    @IBOutlet weak var lblAmount: UILabel!
+    @IBOutlet weak var lblAmountVal: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

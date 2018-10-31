@@ -14,7 +14,7 @@ class TMPaySuccessPopUpVC: UIViewController {
     var strTransactionID    = String()
     var strCustomer         = String()
     var strPurchaseAmount   = ""
-    
+    var posData             : PostCreatePOSModel!
     //UIView
     @IBOutlet weak var viewBack: UIControl!
     @IBOutlet weak var viewPop: UIView!
@@ -22,9 +22,15 @@ class TMPaySuccessPopUpVC: UIViewController {
     //UIButton
     @IBOutlet weak var btnConfirm: UIButton!
     //UILabel
+    @IBOutlet weak var lblTransaction: UILabel!
     @IBOutlet weak var lblTransactionID: UILabel!
+    @IBOutlet weak var lblCus: UILabel!
     @IBOutlet weak var lblCustomer: UILabel!
+    @IBOutlet weak var lblPurchase: UILabel!
     @IBOutlet weak var lblPurchaseAmount: UILabel!
+    
+    @IBOutlet weak var tblPopUp: UITableView!
+    
     //Constraints
     @IBOutlet weak var consHeightPopUp: NSLayoutConstraint!
     
@@ -63,33 +69,51 @@ class TMPaySuccessPopUpVC: UIViewController {
     func setViewProperties(){
         //UIView
         viewPop.applyCornerRadius(cornerRadius: UIDevice.current.userInterfaceIdiom == .pad ? 7.0 * GConstant.Screen.HeightAspectRatio : 5.0)
+        
+        lblTransactionID.text   = "\(posData.transactionID ?? 0)"
+        lblCustomer.text        = posData.memberFullName
+        lblPurchaseAmount.text  = "$\(posData.totalPurchaseAmount ?? 0.0)"
         popUpPropertiesUpdate()
     }
     func popUpPropertiesUpdate() {
-        
         //<--------Set PopUp properties for orientation----->
         if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
             btnConfirm.titleLabel?.font = UIFont.applyRegular(fontSize: 12.0)
+            lblTransaction.font         = UIFont.applyOpenSansRegular(fontSize: 12.0)
+            lblTransactionID.font       = UIFont.applyOpenSansRegular(fontSize: 12.0)
+            lblCus.font                 = UIFont.applyOpenSansRegular(fontSize: 12.0)
+            lblCustomer.font            = UIFont.applyOpenSansRegular(fontSize: 12.0)
+            lblPurchase.font            = UIFont.applyOpenSansRegular(fontSize: 12.0)
+            lblPurchaseAmount.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
         }else{
             btnConfirm.titleLabel?.font = UIFont.applyRegular(fontSize: 15.0)
+            lblTransaction.font         = UIFont.applyOpenSansRegular(fontSize: 14.0)
+            lblTransactionID.font       = UIFont.applyOpenSansRegular(fontSize: 14.0)
+            lblCus.font                 = UIFont.applyOpenSansRegular(fontSize: 14.0)
+            lblCustomer.font            = UIFont.applyOpenSansRegular(fontSize: 14.0)
+            lblPurchase.font            = UIFont.applyOpenSansRegular(fontSize: 14.0)
+            lblPurchaseAmount.font      = UIFont.applyOpenSansRegular(fontSize: 14.0)
+            
         }
+        tblPopUp.reloadData()
         consHeightPopUp.constant        = 0.5 * UIScreen.main.bounds.height
         self.view.layoutIfNeeded()
     }
     
     //MARK: - UIButton & UIViewAction methods
     @IBAction func btnConfirmAction(_ sender: UIButton) {
+        dismiss(animated: false, completion: nil)
         completionHandler("")
     }
     
     @IBAction func viewBackAction(_ sender: UIControl) {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: false, completion: nil)
     }
 }
 extension TMPaySuccessPopUpVC : UITableViewDelegate,UITableViewDataSource {
     //MARK: TableView Delegates & DataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return posData.payments?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -97,14 +121,22 @@ extension TMPaySuccessPopUpVC : UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TMPaymentSuccessCell") as! TMPaymentSuccessCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentSuccessCell") as! TMPaymentSuccessCell
+        if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
+            cell.lblMethod.font     = UIFont.applyOpenSansRegular(fontSize: 12.0)
+            cell.lblMethodVal.font  = UIFont.applyOpenSansRegular(fontSize: 12.0)
+            cell.lblAmount.font     = UIFont.applyOpenSansRegular(fontSize: 12.0)
+            cell.lblAmountVal.font  = UIFont.applyOpenSansRegular(fontSize: 12.0)
+        }else{
+            cell.lblMethod.font     = UIFont.applyOpenSansRegular(fontSize: 14.0)
+            cell.lblMethodVal.font  = UIFont.applyOpenSansRegular(fontSize: 14.0)
+            cell.lblAmount.font     = UIFont.applyOpenSansRegular(fontSize: 14.0)
+            cell.lblAmountVal.font  = UIFont.applyOpenSansRegular(fontSize: 14.0)
+        }
+        cell.lblMethodVal.text      = posData.payments?[indexPath.row].name
+        cell.lblAmountVal.text      = "$\(posData.payments?[indexPath.row].amountReceivedByStore ?? 0.00)"
         
-//        cell.lblTitle.font          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
-//        cell.lblBal.font            = UIFont.applyOpenSansRegular(fontSize: 15.0)
-//        cell.lblAvailable.font      = UIFont.applyOpenSansRegular(fontSize: 12.0)
-//        cell.lblAmtPaid.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 15.0), borderColor: GConstant.AppColor.textDark, backgroundColor: .white, borderWidth: 1.0)
-        
-//        cell.layoutIfNeeded()
+        cell.layoutIfNeeded()
         return cell
     }
 }

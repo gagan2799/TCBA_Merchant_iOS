@@ -90,7 +90,7 @@ extension Decodable {
             Alert = VAlert(title: "Decoding Error", message: "Error while try to Decoding JSON response")
         }
         
-        AlertManager.shared.showAlertTitle(title: Alert.title ?? "", message: Alert.message ?? "")
+        print("Error : \(String(describing: Alert.title)) \n \(String(describing: Alert.message))"  )
         return (nil, Alert)
     }
 }
@@ -254,7 +254,7 @@ extension UIView {
     }
     
     func animateHideShow(){
-        UIView.transition(with: self, duration: 0.3, options: [.showHideTransitionViews,.transitionCrossDissolve], animations: {
+        UIView.transition(with: self, duration: 0.2, options: [.showHideTransitionViews,.transitionCrossDissolve], animations: {
             if self.isHidden == false{
                 self.isHidden = true
             }
@@ -489,14 +489,17 @@ extension UILabel {
 extension UILabel {
     
     func applyStyle(
-        labelFont      : UIFont?  = nil
+          labelFont      : UIFont?  = nil
         , labelColor     : UIColor? = nil
         , cornerRadius   : CGFloat? = nil
         , borderColor    : UIColor? = nil
         , backgroundColor: UIColor? = nil
         , borderWidth    : CGFloat? = nil
-        , labelShadow    : CGSize? = nil
         ) {
+        
+        if labelFont != nil {
+            self.font = labelFont
+        }
         
         if cornerRadius != nil {
             self.layer.cornerRadius = cornerRadius!
@@ -522,13 +525,11 @@ extension UILabel {
             self.layer.borderWidth = 0
         }
         
-        if labelFont != nil {
-            self.font = labelFont
-        }
-        
         if labelColor != nil {
             self.textColor = labelColor
         }
+        
+        self.layer.masksToBounds = true
     }
     
     //This Methods is for Spaceing beetween UILable Character

@@ -88,7 +88,7 @@ class TMHomeViewController: UIViewController {
         }
         self.view.layoutIfNeeded()
         // lbl properties set
-        lblStoreId.applyStyle(labelFont: nil, labelColor: .white, cornerRadius: nil, borderColor: .white, borderWidth: 1.0, labelShadow: nil)
+        lblStoreId.applyStyle(labelFont: nil, labelColor: .white, cornerRadius: nil, borderColor: .white, borderWidth: 1.0)
         lblStoreId.backgroundColor          = UIColor.black.withAlphaComponent(0.4)
         lblStoreId.text                     = "Store Id:\(GConstant.UserData.stores ?? "")"
     }
@@ -158,7 +158,7 @@ extension TMHomeViewController: UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let lblTitle = UILabel.init(frame: CGRect(x: 0, y: 0, width:self.view.bounds.width, height: 50 * GConstant.Screen.HeightAspectRatio))
-        lblTitle.applyStyle(labelFont:UIFont.applyBlocSSiBold(fontSize: 20) , labelColor: GConstant.AppColor.blue, cornerRadius: nil, borderColor: nil, borderWidth: nil, labelShadow: nil)
+        lblTitle.applyStyle(labelFont:UIFont.applyBlocSSiBold(fontSize: 20) , labelColor: GConstant.AppColor.blue)
         lblTitle.text = " Get Cash Back on:"
         return lblTitle
     }
@@ -167,7 +167,7 @@ extension TMHomeViewController: UITableViewDataSource,UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let lblTitle = UILabel.init(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 40 * GConstant.Screen.HeightAspectRatio))
-        lblTitle.applyStyle(labelFont:UIFont.applyOpenSansBold(fontSize: 15) , labelColor: GConstant.AppColor.textDark , cornerRadius: nil, borderColor: nil, borderWidth: nil, labelShadow: nil)
+        lblTitle.applyStyle(labelFont:UIFont.applyOpenSansBold(fontSize: 15) , labelColor: GConstant.AppColor.textDark)
         lblTitle.textAlignment              = .center
         lblTitle.backgroundColor            = GConstant.AppColor.grayBG
         lblTitle.text                       = "SHOP.SAVE.SIMPLE"

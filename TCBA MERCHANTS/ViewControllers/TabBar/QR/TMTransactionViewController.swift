@@ -118,7 +118,7 @@ class TMTransactionViewController: UIViewController {
         
         // Set lbl properties
         lblCashBack.font = UIFont.applyOpenSansSemiBold(fontSize: 18.0)
-        lblStoreId.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 15.0), labelColor: .white, cornerRadius: 2.0, borderColor: .white, borderWidth: 1.0, labelShadow: nil)
+        lblStoreId.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 15.0), labelColor: .white, cornerRadius: 2.0, borderColor: .white, borderWidth: 1.0)
         lblStoreId.backgroundColor          = .clear
         lblStoreId.text                     = "Store Id: \(GConstant.UserData.stores ?? "")"
         lblOR.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 15.0, isAspectRasio: false), labelColor: GConstant.AppColor.textDark, cornerRadius: lblOR.bounds.midY, borderColor: GConstant.AppColor.textLight, backgroundColor: .white, borderWidth: 1.0)

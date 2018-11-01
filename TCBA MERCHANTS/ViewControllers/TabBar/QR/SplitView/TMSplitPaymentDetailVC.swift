@@ -85,7 +85,6 @@ class TMSplitPaymentDetailVC: UIViewController {
         }
         
         setViewProperties()
-        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -115,8 +114,8 @@ class TMSplitPaymentDetailVC: UIViewController {
         
         /*   navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "back_button"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.plain, target: self, action: #selector(backButtonAction)) */
         if Thread.isMainThread {
-            self.lblUserName.font           = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
-            self.lblMemberId.font           = UIFont.applyOpenSansRegular(fontSize: 11.0)
+            self.lblUserName.font           = UIFont.applyOpenSansSemiBold(fontSize: 12.0, isAspectRasio: false)
+            self.lblMemberId.font           = UIFont.applyOpenSansRegular(fontSize: 11.0, isAspectRasio: false)
             
             self.lblTransaction.font        = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
             self.lblCashBack.font           = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
@@ -130,8 +129,8 @@ class TMSplitPaymentDetailVC: UIViewController {
             self.lblOutStandingValue.font   = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
         }else{
             DispatchQueue.main.async {
-                self.lblUserName.font           = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
-                self.lblMemberId.font           = UIFont.applyOpenSansRegular(fontSize: 11.0)
+                self.lblUserName.font           = UIFont.applyOpenSansSemiBold(fontSize: 12.0, isAspectRasio: false)
+                self.lblMemberId.font           = UIFont.applyOpenSansRegular(fontSize: 11.0, isAspectRasio: false)
                 
                 self.lblTransaction.font        = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
                 self.lblCashBack.font           = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
@@ -297,7 +296,7 @@ class TMSplitPaymentDetailVC: UIViewController {
     }
     
     @IBAction func btnFinishAction(_ sender: UIButton) {
-        showPin(withMethod: .Mix, transactionAmount: posData.totalTransactionFees) { (pinCode) in
+        showPin(withMethod: .Mix, transactionAmount: Double(posData?.totalTransactionFees ?? 0)) { (pinCode) in
             var execute = 1
             if let payments = self.posData.payments{
                 for item in payments{
@@ -708,7 +707,12 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50 * GConstant.Screen.HeightAspectRatio
+        if typeTable == .card {
+            if arrCreditCards[indexPath.row].isPremium ?? false {
+                return 80 * GConstant.Screen.HeightAspectRatio
+            }
+        }
+        return 58 * GConstant.Screen.HeightAspectRatio
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -759,25 +763,47 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
             cell.layoutIfNeeded()
             return cell
         } else { // Table for Card list
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CardTVCell") as! TMCardTVCell
-            
-            DispatchQueue.main.async {
-                cell.lblCardNo.font          = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
-            }
-            
-            if let name = arrCreditCards[indexPath.row].name {
-                cell.lblCardNo.text = name
-                if name.contains("MASTERCARD") {
-                    cell.imgVIcon.image = UIImage(named: "master")
-                }else if name.contains("VISA"){
-                    cell.imgVIcon.image = UIImage(named: "visa")
-                }else if name.contains("AMEX"){
-                    cell.imgVIcon.image = UIImage(named: "amex")
-                }else if name.contains("DINER"){
-                    cell.imgVIcon.image = UIImage(named: "diner")
+            if arrCreditCards[indexPath.row].isPremium ?? false {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "PremiumCardCell") as! TMPremiumCardCell
+                DispatchQueue.main.async {
+                    cell.lblCardNo.font         = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
+                    cell.lblPremium.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 14.0), cornerRadius: 4.0*GConstant.Screen.HeightAspectRatio)
                 }
+                if let name = arrCreditCards[indexPath.row].name {
+                    cell.lblCardNo.text = name
+                    if name.contains("MASTERCARD") {
+                        cell.imgVIcon.image = UIImage(named: "master")
+                    }else if name.contains("VISA"){
+                        cell.imgVIcon.image = UIImage(named: "visa")
+                    }else if name.contains("AMEX"){
+                        cell.imgVIcon.image = UIImage(named: "amex")
+                    }else if name.contains("DINER"){
+                        cell.imgVIcon.image = UIImage(named: "diner")
+                    }
+                }
+                cell.setNeedsDisplay()
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "CardTVCell") as! TMCardTVCell
+                DispatchQueue.main.async {
+                    cell.lblCardNo.font = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
+                }
+                
+                if let name = arrCreditCards[indexPath.row].name {
+                    cell.lblCardNo.text = name
+                    if name.contains("MASTERCARD") {
+                        cell.imgVIcon.image = UIImage(named: "master")
+                    }else if name.contains("VISA"){
+                        cell.imgVIcon.image = UIImage(named: "visa")
+                    }else if name.contains("AMEX"){
+                        cell.imgVIcon.image = UIImage(named: "amex")
+                    }else if name.contains("DINER"){
+                        cell.imgVIcon.image = UIImage(named: "diner")
+                    }
+                }
+                cell.setNeedsDisplay()
+                return cell
             }
-            return cell
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -791,6 +817,7 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
             if !GFunction.shared.checkPaymentOptions(withPosData: self.posData, Method:  arrTV[indexPath.row]["method"]!, withViewType: .mixPayment) {
                 return
             }
+            
             if indexPath.row == 0 {
                 //<===CashOrEFTPOS===>
                 showPopUp(withMethod: .CashOrEFTPOS, transactionAmount: posData.balanceRemaining, txtUserIntrection: true) { (amount) in

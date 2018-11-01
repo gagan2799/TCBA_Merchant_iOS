@@ -90,6 +90,7 @@
 		799924C920FF0CC30074BDE6 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 799924C820FF0CC30074BDE6 /* Launch Screen.storyboard */; };
 		799924CD20FF1B270074BDE6 /* TMHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799924CC20FF1B270074BDE6 /* TMHomeViewController.swift */; };
 		799924CF20FF1B480074BDE6 /* TMHomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799924CE20FF1B480074BDE6 /* TMHomeTableViewCell.swift */; };
+		799E2F62218AC312007D04A3 /* TMPremiumCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799E2F61218AC312007D04A3 /* TMPremiumCardCell.swift */; };
 		799F3CEC218889D900051677 /* TMPaySuccessPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799F3CEB218889D900051677 /* TMPaySuccessPopUpVC.swift */; };
 		799F3CEE21888E8C00051677 /* TMPaymentSuccessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799F3CED21888E8C00051677 /* TMPaymentSuccessCell.swift */; };
 		79BDBCCB218030CA00D0DFC4 /* TMStaffMasterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BDBCCA218030CA00D0DFC4 /* TMStaffMasterCell.swift */; };
@@ -217,6 +218,7 @@
 		799924C820FF0CC30074BDE6 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		799924CC20FF1B270074BDE6 /* TMHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHomeViewController.swift; sourceTree = "<group>"; };
 		799924CE20FF1B480074BDE6 /* TMHomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHomeTableViewCell.swift; sourceTree = "<group>"; };
+		799E2F61218AC312007D04A3 /* TMPremiumCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMPremiumCardCell.swift; sourceTree = "<group>"; };
 		799F3CEB218889D900051677 /* TMPaySuccessPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMPaySuccessPopUpVC.swift; sourceTree = "<group>"; };
 		799F3CED21888E8C00051677 /* TMPaymentSuccessCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMPaymentSuccessCell.swift; sourceTree = "<group>"; };
 		79BDBCCA218030CA00D0DFC4 /* TMStaffMasterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStaffMasterCell.swift; sourceTree = "<group>"; };
@@ -598,10 +600,7 @@
 				79E690D9212E998400550A98 /* TMPinViewController.swift */,
 				790E31FD212FC78500224EDB /* TMPopUPVC.swift */,
 				799F3CEB218889D900051677 /* TMPaySuccessPopUpVC.swift */,
-				799F3CED21888E8C00051677 /* TMPaymentSuccessCell.swift */,
-				791B4288212AA1070064AF34 /* TMStorePaymentCVCell.swift */,
-				7905A0F5212C22EE0079712A /* TMStorePaymentTVCell.swift */,
-				79FD4D1A212D3A0C003AC29F /* TMCardTVCell.swift */,
+				799E2F63218AC32D007D04A3 /* StorePaymentCells */,
 			);
 			path = QR;
 			sourceTree = "<group>";
@@ -722,6 +721,18 @@
 				79380A3F2105BB9E00FB4776 /* More */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		799E2F63218AC32D007D04A3 /* StorePaymentCells */ = {
+			isa = PBXGroup;
+			children = (
+				799F3CED21888E8C00051677 /* TMPaymentSuccessCell.swift */,
+				791B4288212AA1070064AF34 /* TMStorePaymentCVCell.swift */,
+				7905A0F5212C22EE0079712A /* TMStorePaymentTVCell.swift */,
+				79FD4D1A212D3A0C003AC29F /* TMCardTVCell.swift */,
+				799E2F61218AC312007D04A3 /* TMPremiumCardCell.swift */,
+			);
+			path = StorePaymentCells;
 			sourceTree = "<group>";
 		};
 		79F4EFBF215103AF0033AD51 /* ContactCells */ = {
@@ -917,6 +928,7 @@
 				7998D1CF217F4B23008710F9 /* TMMyStaffAccountMasterVC.swift in Sources */,
 				791231342141000700E475CF /* TMContactDetailVC.swift in Sources */,
 				7913DC3F2109A525000D1A9C /* Time.swift in Sources */,
+				799E2F62218AC312007D04A3 /* TMPremiumCardCell.swift in Sources */,
 				7905A0F4212BE9770079712A /* DynamicColView.swift in Sources */,
 				7998D1C8217EF0F8008710F9 /* TMMatrixCell.swift in Sources */,
 				792B544C20F5F485000223F7 /* StringHelper.swift in Sources */,

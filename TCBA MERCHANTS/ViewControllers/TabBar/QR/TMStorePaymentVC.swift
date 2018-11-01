@@ -177,6 +177,7 @@ class TMStorePaymentVC: UIViewController {
                 }
             }
         }
+        
         // Top View Height
         consTopView.constant            = GConstant.Screen.Height * 0.23
         // ColectionView Layout setup
@@ -207,7 +208,7 @@ class TMStorePaymentVC: UIViewController {
     }
     
     @IBAction func btnFinishAction(_ sender: UIButton) {
-        showPin(withMethod: .Mix, transactionAmount: posData.totalTransactionFees) { (pinCode) in
+        showPin(withMethod: .Mix, transactionAmount: posData?.totalTransactionFees) { (pinCode) in
             var execute = 1
             if let payments = self.posData.payments{
                 for item in payments{
@@ -454,15 +455,13 @@ class TMStorePaymentVC: UIViewController {
         } else if type == .TokenisedCreditCard {
             request.creditCardToken = token
         }
-        
-        
         ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostAddPOSPayment, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 print("statusCode = 200")
-                guard data != nil else{return}
-                if let pData = try? PostCreatePOSModel.decode(_data: data!) {
-                    self.posData    = pData
-                    self.lblOutStandingValue.text  = "$\(self.posData.balanceRemaining ?? 0.00)"
+                guard let pdata = data else{return}
+                if let posData  = PostCreatePOSModel.decodeData(_data: pdata).response {
+                    self.posData = posData
+                    self.lblOutStandingValue.text  = "$\(self.posData?.balanceRemaining ?? 0.0 )"
                     if let payments = self.posData.payments {
                         for item in payments {
                             if item.type == type.rawValue {
@@ -475,8 +474,9 @@ class TMStorePaymentVC: UIViewController {
                             }
                         }
                     }
+                    
                     self.reloadTableView(withTblType: .mix)
-                    if pData.balanceRemaining == 0 {
+                    if self.posData.balanceRemaining == 0 {
                         self.btnFinish.isHidden = false
                     }
                 } else {
@@ -591,7 +591,7 @@ class TMStorePaymentVC: UIViewController {
                     self.arrTV[index].selectedAmount = 0.00
                     self.arrTV[index].posPaymentID   = 0
                 }
-                self.lblOutStandingValue.text   = "\(self.posData.totalPurchaseAmount ?? 0.00)"
+                self.lblOutStandingValue.text   = "$\(self.posData.totalPurchaseAmount ?? 0.00)"
                 self.btnFinish.isHidden         = true
                 self.posData.payments?.removeAll()
                 if self.posData.paymentOptions?.count == 0 {
@@ -622,7 +622,7 @@ class TMStorePaymentVC: UIViewController {
 extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource {
     //MARK: CollectionView Delegates & DataSource
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+        return UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -768,6 +768,11 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if typeTable == .card {
+            if arrCreditCards[indexPath.row].isPremium ?? false {
+                return 80 * GConstant.Screen.HeightAspectRatio
+            }
+        }
         return 58 * GConstant.Screen.HeightAspectRatio
     }
     
@@ -813,22 +818,42 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
             cell.layoutIfNeeded()
             return cell
         } else { // Table for Card list
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CardTVCell") as! TMCardTVCell
-            cell.lblCardNo.font          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
-            
-            if let name = arrCreditCards[indexPath.row].name {
-                cell.lblCardNo.text = name
-                if name.contains("MASTERCARD") {
-                    cell.imgVIcon.image = UIImage(named: "master")
-                }else if name.contains("VISA"){
-                    cell.imgVIcon.image = UIImage(named: "visa")
-                }else if name.contains("AMEX"){
-                    cell.imgVIcon.image = UIImage(named: "amex")
-                }else if name.contains("DINER"){
-                    cell.imgVIcon.image = UIImage(named: "diner")
+            if arrCreditCards[indexPath.row].isPremium ?? false {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "PremiumCardCell") as! TMPremiumCardCell
+                cell.lblCardNo.font         = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
+                cell.lblPremium.applyStyle(labelFont: UIFont.applyOpenSansSemiBold(fontSize: 15.0), cornerRadius: 4.0*GConstant.Screen.HeightAspectRatio)
+                if let name = arrCreditCards[indexPath.row].name {
+                    cell.lblCardNo.text = name
+                    if name.contains("MASTERCARD") {
+                        cell.imgVIcon.image = UIImage(named: "master")
+                    }else if name.contains("VISA"){
+                        cell.imgVIcon.image = UIImage(named: "visa")
+                    }else if name.contains("AMEX"){
+                        cell.imgVIcon.image = UIImage(named: "amex")
+                    }else if name.contains("DINER"){
+                        cell.imgVIcon.image = UIImage(named: "diner")
+                    }
                 }
+                
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "CardTVCell") as! TMCardTVCell
+                cell.lblCardNo.font          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
+                
+                if let name = arrCreditCards[indexPath.row].name {
+                    cell.lblCardNo.text = name
+                    if name.contains("MASTERCARD") {
+                        cell.imgVIcon.image = UIImage(named: "master")
+                    }else if name.contains("VISA"){
+                        cell.imgVIcon.image = UIImage(named: "visa")
+                    }else if name.contains("AMEX"){
+                        cell.imgVIcon.image = UIImage(named: "amex")
+                    }else if name.contains("DINER"){
+                        cell.imgVIcon.image = UIImage(named: "diner")
+                    }
+                }
+                return cell
             }
-            return cell
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

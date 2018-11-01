@@ -70,11 +70,15 @@ class TMPaySuccessPopUpVC: UIViewController {
         //UIView
         viewPop.applyCornerRadius(cornerRadius: UIDevice.current.userInterfaceIdiom == .pad ? 7.0 * GConstant.Screen.HeightAspectRatio : 5.0)
         
-        lblTransactionID.text   = "\(posData.transactionID ?? 0)"
-        lblCustomer.text        = posData.memberFullName
-        lblPurchaseAmount.text  = "$\(posData.totalPurchaseAmount ?? 0.0)"
+        lblTransactionID.text           = "\(posData.transactionID ?? 0)"
+        lblCustomer.text                = posData.memberFullName
+        lblPurchaseAmount.text          = "$\(posData.totalPurchaseAmount ?? 0.0)"
+        tblPopUp.layer.borderWidth      = 1.0
+        tblPopUp.layer.borderColor      = GConstant.AppColor.textDark.cgColor
+        tblPopUp.layer.masksToBounds    = true
         popUpPropertiesUpdate()
     }
+    
     func popUpPropertiesUpdate() {
         //<--------Set PopUp properties for orientation----->
         if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
@@ -93,7 +97,6 @@ class TMPaySuccessPopUpVC: UIViewController {
             lblCustomer.font            = UIFont.applyOpenSansRegular(fontSize: 14.0)
             lblPurchase.font            = UIFont.applyOpenSansRegular(fontSize: 14.0)
             lblPurchaseAmount.font      = UIFont.applyOpenSansRegular(fontSize: 14.0)
-            
         }
         tblPopUp.reloadData()
         consHeightPopUp.constant        = 0.5 * UIScreen.main.bounds.height
@@ -110,6 +113,7 @@ class TMPaySuccessPopUpVC: UIViewController {
         dismiss(animated: false, completion: nil)
     }
 }
+
 extension TMPaySuccessPopUpVC : UITableViewDelegate,UITableViewDataSource {
     //MARK: TableView Delegates & DataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

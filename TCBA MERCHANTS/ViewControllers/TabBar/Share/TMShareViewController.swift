@@ -77,7 +77,7 @@ class TMShareViewController: UIViewController {
             lblStoreID.text       = "Store id: \(storeId)"
         }
         
-        lblStoreID.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 16.0), labelColor: GConstant.AppColor.blue, cornerRadius: nil, borderColor: GConstant.AppColor.blue, borderWidth: 1.0, labelShadow: nil)
+        lblStoreID.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 16.0), labelColor: GConstant.AppColor.blue, borderColor: GConstant.AppColor.blue, borderWidth: 1.0)
         lblCashBack.font                = UIFont.applyOpenSansSemiBold(fontSize: 18.0)
         lblShareWith.font               = UIFont.applyOpenSansSemiBold(fontSize: 18.0)
         lblYourShop.font                = UIFont.applyOpenSansRegular(fontSize: 16.0)

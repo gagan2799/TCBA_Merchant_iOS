@@ -7,12 +7,15 @@ import Foundation
 struct PostCreatePOSModel: Codable {
     let posid, storeID: Int?
     let storeIsPremium: Bool?
-    let storeIcon, storeTitle, storeCity: String?
+    let storeIcon: String?
+    let storeTitle, storeCity: String?
     let memberID: Int?
-    let keyChainCode, memberFullName, profileImageURL: String?
-    let walletBalance, availableLoyaltyCash, availablePrizeCash, totalServiceFees: Double?
-    let totalTransactionFees, totalAmountPaidByMember, totalAmountReceivedByStore, totalPurchaseAmount: Double?
-    var balanceRemaining: Double?
+    let keyChainCode, memberFullName: String?
+    let profileImageURL: String?
+    let walletBalance, availableLoyaltyCash, availablePrizeCash: Double?
+    let totalServiceFees: Int?
+    let totalTransactionFees: Double?
+    var totalAmountPaidByMember, totalAmountReceivedByStore, totalPurchaseAmount, balanceRemaining: Double?
     let paidInFull: Bool?
     let transactionID, storeCardID: Int?
     var payments: [PostCreatePOSPayment]?
@@ -27,15 +30,54 @@ struct PostCreatePOSModel: Codable {
 
 struct PostCreatePOSPaymentOption: Codable {
     let name, type, accountNumber, token: String?
-    let serviceFee, transactionFee, amountPaidByMember, amountReceivedByStore: Double?
+    let serviceFee: Int?
+    let transactionFee, amountPaidByMember, amountReceivedByStore: Double?
+    let isPremium: Bool?
 }
 
 struct PostCreatePOSPayment: Codable {
     let posPaymentID: Int?
     let name, type, accountNumber, token: String?
-    let serviceFee, transactionFee, amountPaidByMember, amountReceivedByStore: Double?
+    let serviceFee: Int?
+    let transactionFee: PostCreatePOSTransactionFee?
+    let amountPaidByMember, amountReceivedByStore, amountReceivedByCba: Double?
     let paid: Bool?
     let uniqueReference: String?
+}
+
+enum PostCreatePOSTransactionFee: Codable {
+    case double(Double)
+    case string(String)
+    case int(Int)
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let x = try? container.decode(Int.self) {
+            self = .int(x)
+            return
+        }
+        if let x = try? container.decode(Double.self) {
+            self = .double(x)
+            return
+        }
+        if let x = try? container.decode(String.self) {
+            self = .string(x)
+            return
+        }
+        throw DecodingError.typeMismatch(PostCreatePOSTransactionFee.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for PostCreatePOSTransactionFee"))
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .int(let x):
+            try container.encode(x)
+        case .double(let x):
+            try container.encode(x)
+        case .string(let x):
+            try container.encode(x)
+        }
+    }
 }
 
 // MARK: Convenience initializers and mutators
@@ -70,7 +112,7 @@ extension PostCreatePOSModel {
         walletBalance: Double?? = nil,
         availableLoyaltyCash: Double?? = nil,
         availablePrizeCash: Double?? = nil,
-        totalServiceFees: Double?? = nil,
+        totalServiceFees: Int?? = nil,
         totalTransactionFees: Double?? = nil,
         totalAmountPaidByMember: Double?? = nil,
         totalAmountReceivedByStore: Double?? = nil,
@@ -140,10 +182,11 @@ extension PostCreatePOSPaymentOption {
         type: String?? = nil,
         accountNumber: String?? = nil,
         token: String?? = nil,
-        serviceFee: Double?? = nil,
+        serviceFee: Int?? = nil,
         transactionFee: Double?? = nil,
         amountPaidByMember: Double?? = nil,
-        amountReceivedByStore: Double?? = nil
+        amountReceivedByStore: Double?? = nil,
+        isPremium: Bool?? = nil
         ) -> PostCreatePOSPaymentOption {
         return PostCreatePOSPaymentOption(
             name: name ?? self.name,
@@ -153,7 +196,8 @@ extension PostCreatePOSPaymentOption {
             serviceFee: serviceFee ?? self.serviceFee,
             transactionFee: transactionFee ?? self.transactionFee,
             amountPaidByMember: amountPaidByMember ?? self.amountPaidByMember,
-            amountReceivedByStore: amountReceivedByStore ?? self.amountReceivedByStore
+            amountReceivedByStore: amountReceivedByStore ?? self.amountReceivedByStore,
+            isPremium: isPremium ?? self.isPremium
         )
     }
     
@@ -188,10 +232,11 @@ extension PostCreatePOSPayment {
         type: String?? = nil,
         accountNumber: String?? = nil,
         token: String?? = nil,
-        serviceFee: Double?? = nil,
-        transactionFee: Double?? = nil,
+        serviceFee: Int?? = nil,
+        transactionFee: PostCreatePOSTransactionFee?? = nil,
         amountPaidByMember: Double?? = nil,
         amountReceivedByStore: Double?? = nil,
+        amountReceivedByCba: Double?? = nil,
         paid: Bool?? = nil,
         uniqueReference: String?? = nil
         ) -> PostCreatePOSPayment {
@@ -205,6 +250,7 @@ extension PostCreatePOSPayment {
             transactionFee: transactionFee ?? self.transactionFee,
             amountPaidByMember: amountPaidByMember ?? self.amountPaidByMember,
             amountReceivedByStore: amountReceivedByStore ?? self.amountReceivedByStore,
+            amountReceivedByCba: amountReceivedByCba ?? self.amountReceivedByCba,
             paid: paid ?? self.paid,
             uniqueReference: uniqueReference ?? self.uniqueReference
         )

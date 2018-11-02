@@ -23,7 +23,7 @@ class TMMatrixCalculatorVC: UIViewController {
         var totalUsers: Int
         var totalMatrixCash,percentage: Double
         var level,totalMatrixCashPending: Int
-        var incWeek, incYear: String
+        var incWeek, incYear: Double
     }
     
     //MARK: - Variables & Constants
@@ -78,10 +78,10 @@ class TMMatrixCalculatorVC: UIViewController {
         self.navigationItem.title   = "Cash Back Calculator"
     }
     //MARK: - Tupples
-    func matrixCalculator(_ avrageSpend: Double, _ people: Int, _ percentage: Double) -> (incWeek: String, incYear: String) {
-        let InWeek  = String.init(format: "%.2f", (Double(people) * percentage * avrageSpend)/100)
-        let InYear  = String.init(format: "%.2f", ((Double(people) * percentage * avrageSpend)/100)*52)
-        return (incWeek:InWeek, incYear:InYear)
+    func matrixCalculator(_ avrageSpend: Double, _ people: Int, _ percentage: Double) -> (incWeek: Double, incYear: Double) {
+        let InWeek  = String.init(format: "%.0f", (Double(people) * percentage * avrageSpend)/100)
+        let InYear  = String.init(format: "%.0f", ((Double(people) * percentage * avrageSpend)/100)*52)
+        return (incWeek:Double(InWeek) ?? 0, incYear:Double(InYear) ?? 0)
     }
     
     func totalMatrix(matrixData: [SectionData]) -> (totalPeople: String, totalIncWeek: String, totalIncYear: String) {
@@ -92,17 +92,13 @@ class TMMatrixCalculatorVC: UIViewController {
             //Adding values of totalpeople
             people += Double(total.totalUsers)
             //Adding values of incWeek
-            if let doubleVal = NumberFormatter().number(from: total.incWeek)?.doubleValue {
-                incWeek += doubleVal
-            }
+                incWeek += total.incWeek
             //Adding values of totalSaveInYear
-            if let doubleVal = NumberFormatter().number(from: total.incYear)?.doubleValue {
-                incYear += doubleVal
-            }
+                incYear += total.incYear
         }
         let totalPeople     = String.init(format: "%.0f", people)
-        let totalIncWeek    = String.init(format: "%.2f", incWeek)
-        let totalIncYear    = String.init(format: "%.2f", incYear)
+        let totalIncWeek    = Double(String.init(format: "%.0f", incWeek))?.strWithComma() ?? ""
+        let totalIncYear    = Double(String.init(format: "%.0f", incYear))?.strWithComma() ?? ""//String.init(format: "%.0f", incYear)
         
         return (totalPeople,totalIncWeek,totalIncYear)
     }
@@ -129,7 +125,7 @@ class TMMatrixCalculatorVC: UIViewController {
                     if indexArr > 0 && indexArr < 6 {
                         let total       = self.matrixCalculator(Double(self.totalSpend) ?? 0.00 , UserMatrix.totalUsers, indexArr == 1 ? 0.5 : 0.25)
                         section1.append(SectionData.init(totalUsers: UserMatrix.totalUsers, totalMatrixCash: UserMatrix.totalMatrixCash, percentage: indexArr == 1 ? 0.5 : 0.25, level: UserMatrix.level, totalMatrixCashPending: UserMatrix.totalMatrixCashPending, incWeek: total.incWeek, incYear: total.incYear))
-                        section2.append(SectionData.init(totalUsers: 0, totalMatrixCash: UserMatrix.totalMatrixCash, percentage: indexArr == 1 ? 0.5 : 0.25, level: UserMatrix.level, totalMatrixCashPending: UserMatrix.totalMatrixCashPending, incWeek: "", incYear: ""))
+                        section2.append(SectionData.init(totalUsers: 0, totalMatrixCash: UserMatrix.totalMatrixCash, percentage: indexArr == 1 ? 0.5 : 0.25, level: UserMatrix.level, totalMatrixCashPending: UserMatrix.totalMatrixCashPending, incWeek: 0, incYear: 0))
                     }
                 }
                 let totalMatrix         = self.totalMatrix(matrixData: section1)
@@ -215,8 +211,8 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
         cell.lblLevel.text          = "Level \(String(describing: arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].level))"
         cell.lblPercentage.text     = "\(arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].percentage)"
         cell.txtPeople.text         = "\(String(describing: arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].totalUsers))"
-        cell.txtIncWeek.text        = arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].incWeek
-        cell.txtIncYear.text        = arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].incYear
+        cell.txtIncWeek.text        = arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].incWeek.strWithComma()
+        cell.txtIncYear.text        = arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].incYear.strWithComma()
         return cell
     }
     
@@ -260,7 +256,7 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
             guard let indexPath = tblMatrixCal.indexPath(for: cell) else { return true }
             if let peopleVal = NumberFormatter().number(from: cell.txtPeople?.text ?? "")?.intValue {
                 // ====getting Header cell for AverageSpend value & set value to array====
-                guard let txtAverage = header.contentView.viewWithTag(indexPath.section) as? UITextField else { return true }
+                guard let txtAverage = header.contentView.viewWithTag(1) as? UITextField else { return true }
                 self.arrMatrixData[indexPath.section].averageSpend = txtAverage.text ?? ""
                 guard let avarageSpendVal = NumberFormatter().number(from: txtAverage.text ?? "")?.doubleValue else { return true }
                 
@@ -271,8 +267,8 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
                 self.arrMatrixData[indexPath.section].UserMatrixData[indexPath.row] = data
                 
                 DispatchQueue.main.async {
-                    cell.txtIncWeek.text   = self.arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].incWeek
-                    cell.txtIncYear.text   = self.arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].incYear
+                    cell.txtIncWeek.text   = self.arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].incWeek.strWithComma()
+                    cell.txtIncYear.text   = self.arrMatrixData[indexPath.section].UserMatrixData[indexPath.row].incYear.strWithComma()
                 }
                 
                 //Getting Footer cell for Setting total values

@@ -141,11 +141,11 @@ class TMCalculatorVC: UIViewController {
         arrCalculator.insert(section2, at: 1)
         arrCalculator.insert(section3, at: 2)
     }
-    
+
     //MARK: - Tupples
     func savingCalculator(_ spendInWeek: Double, _ percentage:Double) -> (savingInWeek: String, savingInYear: String) {
-        let saveInWeek  = String.init(format: "%.2f", (spendInWeek / 100)*percentage)
-        let saveInYear  = String.init(format: "%.2f", ((spendInWeek / 100)*percentage)*52)
+        let saveInWeek  = String.init(format: "%.0f", (spendInWeek / 100)*percentage)
+        let saveInYear  = String.init(format: "%.0f", ((spendInWeek / 100)*percentage)*52)
         return (savingInWeek:saveInWeek, savingInYear:saveInYear)
     }
     
@@ -171,9 +171,9 @@ class TMCalculatorVC: UIViewController {
             }
         }
         
-        let totalSpend  = String.init(format: "%.2f", totalSpendVal)
-        let saveInWeek  = String.init(format: "%.2f", totalSaveInWeek)
-        let saveInYear  = String.init(format: "%.2f", totalSaveInYear)
+        let totalSpend  = totalSpendVal.strWithComma()//String.init(format: "%.0f", totalSpendVal)
+        let saveInWeek  = totalSaveInWeek.strWithComma()//String.init(format: "%.0f", totalSaveInWeek)
+        let saveInYear  = totalSaveInYear.strWithComma()//String.init(format: "%.0f", totalSaveInYear)
         
         return (totalSpend,saveInWeek,saveInYear)
     }
@@ -192,7 +192,7 @@ class TMCalculatorVC: UIViewController {
             AlertManager.shared.showAlertTitle(title: "", message: "You must put values into the yellow boxes and tap the 'Calculate' before you can go to Matrix Calculator.")
         }else{
             let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.MatrixCalculator) as! TMMatrixCalculatorVC
-            obj.totalSpend = txtTotalSpndWeek.text
+            obj.totalSpend = txtTotalSpndWeek.text?.replacingOccurrences(of: ",", with: "")
             self.navigationController?.pushViewController(obj, animated: true)
         }
     }
@@ -245,9 +245,9 @@ extension TMCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITextFiel
         cell.txtSpendWeek.tag   = 10001;
         cell.lblName.text       = arrCalculator[indexPath.section].sectionData?[indexPath.row].data
         cell.lblPercentage.text = "\(arrCalculator[indexPath.section].sectionData?[indexPath.row].percentage ?? 0)"
-        cell.txtSpendWeek.text  = arrCalculator[indexPath.section].sectionData?[indexPath.row].txt1
-        cell.txtSaveWeek.text   = arrCalculator[indexPath.section].sectionData?[indexPath.row].txt2
-        cell.txtSaveYear.text   = arrCalculator[indexPath.section].sectionData?[indexPath.row].txt3
+        cell.txtSpendWeek.text  = Double(arrCalculator[indexPath.section].sectionData?[indexPath.row].txt1 ?? "0")?.strWithComma()
+        cell.txtSaveWeek.text   = Double(arrCalculator[indexPath.section].sectionData?[indexPath.row].txt2 ?? "0")?.strWithComma()
+        cell.txtSaveYear.text   = Double(arrCalculator[indexPath.section].sectionData?[indexPath.row].txt3 ?? "0")?.strWithComma()
         return cell
     }
     
@@ -261,20 +261,22 @@ extension TMCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITextFiel
         if textField.tag == 10001 {
             guard let cell = textField.superview?.superview?.superview?.superview?.superview as? TMCalculatorCell else { return false }
             guard let indexPath = tblCalculator.indexPath(for: cell) else { return false }
-            if let doubleVal = NumberFormatter().number(from: cell.txtSpendWeek?.text ?? "")?.doubleValue {
-                let values  = savingCalculator(doubleVal, arrCalculator[indexPath.section].sectionData?[indexPath.row].percentage ?? 0)
-                let data    = SectionData.init(company: arrCalculator[indexPath.section].sectionData?[indexPath.row].company, data: arrCalculator[indexPath.section].sectionData?[indexPath.row].data, percentage: arrCalculator[indexPath.section].sectionData?[indexPath.row].percentage, txt1: textField.text, txt2: values.savingInWeek, txt3: values.savingInYear)
+            if let doubleVal    = NumberFormatter().number(from: cell.txtSpendWeek?.text ?? "")?.doubleValue {
+                let values      = savingCalculator(doubleVal, arrCalculator[indexPath.section].sectionData?[indexPath.row].percentage ?? 0)
+                let data        = SectionData.init(company: arrCalculator[indexPath.section].sectionData?[indexPath.row].company, data: arrCalculator[indexPath.section].sectionData?[indexPath.row].data, percentage: arrCalculator[indexPath.section].sectionData?[indexPath.row].percentage, txt1: textField.text?.replacingOccurrences(of: ",", with: ""), txt2: values.savingInWeek, txt3: values.savingInYear)
                 self.arrCalculator[indexPath.section].sectionData?[indexPath.row] = data
                 DispatchQueue.main.async {
-                    cell.txtSaveWeek.text   = self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt2
-                    cell.txtSaveYear.text   = self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt3
+                    cell.txtSpendWeek.text  = Double(self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt1 ?? "0")?.strWithComma()
+                    cell.txtSaveWeek.text   = Double(self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt2 ?? "0")?.strWithComma()
+                    cell.txtSaveYear.text   = Double(self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt3 ?? "0")?.strWithComma()
                 }
             }else{
                 let data    = SectionData.init(company: arrCalculator[indexPath.section].sectionData?[indexPath.row].company, data: arrCalculator[indexPath.section].sectionData?[indexPath.row].data, percentage: arrCalculator[indexPath.section].sectionData?[indexPath.row].percentage, txt1: "", txt2: "", txt3: "")
                 self.arrCalculator[indexPath.section].sectionData?[indexPath.row] = data
                 DispatchQueue.main.async {
-                    cell.txtSaveWeek.text   = self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt2
-                    cell.txtSaveYear.text   = self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt3
+                    cell.txtSpendWeek.text  = Double(self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt1 ?? "0")?.strWithComma()
+                    cell.txtSaveWeek.text   = Double(self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt2 ?? "0")?.strWithComma()
+                    cell.txtSaveYear.text   = Double(self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt3 ?? "0")?.strWithComma()
                 }
             }
             return true
@@ -288,7 +290,6 @@ extension TMCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITextFiel
         let editedString    = str.replacingCharacters(in: range, with: string)
         let regex           = "\\d{0,4}(\\d{0,0})?"
         let predicate       = NSPredicate(format: "SELF MATCHES %@", regex)
-        
         return predicate.evaluate(with: editedString)
     }
 }

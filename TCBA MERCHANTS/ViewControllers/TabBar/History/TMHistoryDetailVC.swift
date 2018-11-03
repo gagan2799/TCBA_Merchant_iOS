@@ -8,18 +8,20 @@
 
 import UIKit
 
+enum types: UInt {
+    case all
+    case today
+    case incomplete
+    case outstanding
+}
+enum TransDetailstypes: String {
+    case all            = "all"
+    case today          = "today"
+    case outstanding    = "outstanding"
+}
+
 class TMHistoryDetailVC: UIViewController {
-    enum types: UInt {
-        case all
-        case today
-        case incomplete
-        case outstanding
-    }
-    enum TransDetailstypes: String {
-        case all            = "all"
-        case today          = "today"
-        case outstanding    = "outstanding"
-    }
+    
     // Modal object
     var posData     : PostCreatePOSModel!
     

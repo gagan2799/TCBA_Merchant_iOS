@@ -66,6 +66,7 @@ struct GConstant {
         static let Home                         = "TMHomeViewController"
         //History Tab
         static let History                      = "TMHistoryViewController"
+        static let HistoryTransDetail           = "TMHistoryTransDetail"
         static let HistoryDetail                = "TMHistoryDetailVC"
         //QR Tab
         static let Transaction                  = "TMTransactionViewController"

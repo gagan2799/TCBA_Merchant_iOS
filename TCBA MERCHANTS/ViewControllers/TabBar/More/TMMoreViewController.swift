@@ -23,6 +23,8 @@ class TMMoreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewProperties()
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

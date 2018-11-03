@@ -110,22 +110,19 @@ class TMHistoryViewController: UIViewController {
     }
     @objc func btnViewDetailsAction(sender: UIButton) {
         print(sender.tag)
-        let obj = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.HistoryDetail) as! TMHistoryDetailVC
-        
-        if sender.tag == 0 {
+        if sender.tag == 0 || sender.tag == 1{
+            let obj = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.HistoryTransDetail) as! TMHistoryTransDetail
             guard transactionData != nil else{return}
             obj.transactionData = transactionData
-            obj.type            = .all
-        }else if sender.tag == 1{
-            guard transactionData != nil else{return}
-            obj.transactionData = transactionData
-            obj.type            = .today
+            obj.type            = sender.tag == 0 ? .all : .today
+            self.navigationController?.pushViewController(obj, animated: true)
         }else{
+            let obj = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: GConstant.VCIdentifier.HistoryDetail) as! TMHistoryDetailVC
             guard incompleteData != nil else{return}
             obj.incompleteData  = incompleteData
             obj.type            = .incomplete
+            self.navigationController?.pushViewController(obj, animated: true)
         }
-        self.navigationController?.pushViewController(obj, animated: true)
     }
     
     @IBAction func btnLock(_ sender: UIButton) {
@@ -152,9 +149,7 @@ class TMHistoryViewController: UIViewController {
                 if let outstanding = self.transactionData.outstandingLoyalty {
                     self.lblOutstandingValue.text = "$\(outstanding)"
                 }
-                
                 // Calling IncompleteTransactionData Api
-                
                 self.callIncompleteTransactionDataApi()
             }else{
                 GFunction.shared.removeLoader()

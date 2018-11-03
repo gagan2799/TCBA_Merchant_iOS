@@ -188,7 +188,7 @@ class TMCalculatorVC: UIViewController {
     }
     
     @IBAction func btnShoppingCalAction(_ sender: UIButton) {
-        if txtTotalSpndWeek.text == "" || txtTotalSpndWeek.text == "0.00" {
+        if txtTotalSpndWeek.text == "" || txtTotalSpndWeek.text == "0" {
             AlertManager.shared.showAlertTitle(title: "", message: "You must put values into the yellow boxes and tap the 'Calculate' before you can go to Matrix Calculator.")
         }else{
             let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.MatrixCalculator) as! TMMatrixCalculatorVC

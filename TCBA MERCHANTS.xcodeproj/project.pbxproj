@@ -74,6 +74,9 @@
 		7981BEA121676D4F00C27384 /* TMAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981BEA021676D4F00C27384 /* TMAlertCell.swift */; };
 		7981BEA42167709F00C27384 /* AlertNotificationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981BEA32167709F00C27384 /* AlertNotificationsModel.swift */; };
 		7981BEA621678AE500C27384 /* TMCalculatorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981BEA521678AE500C27384 /* TMCalculatorVC.swift */; };
+		798FA56E218DA06C0054A9B1 /* TMHistoryTransDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798FA56D218DA06C0054A9B1 /* TMHistoryTransDetailCell.swift */; };
+		798FA570218DA0C40054A9B1 /* TMHistoryTransDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798FA56F218DA0C40054A9B1 /* TMHistoryTransDetail.swift */; };
+		798FA578218DC0D40054A9B1 /* MerchantTnsxHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798FA577218DC0D40054A9B1 /* MerchantTnsxHistoryModel.swift */; };
 		79968BB0218183AE00162928 /* GetMerchantStoresModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79968BAF218183AE00162928 /* GetMerchantStoresModel.swift */; };
 		79968BB22181C4C300162928 /* TMStaffLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79968BB12181C4C300162928 /* TMStaffLoginVC.swift */; };
 		79968BB42181EDF800162928 /* PostCheckPasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79968BB32181EDF800162928 /* PostCheckPasswordModel.swift */; };
@@ -202,6 +205,9 @@
 		7981BEA021676D4F00C27384 /* TMAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMAlertCell.swift; sourceTree = "<group>"; };
 		7981BEA32167709F00C27384 /* AlertNotificationsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertNotificationsModel.swift; sourceTree = "<group>"; };
 		7981BEA521678AE500C27384 /* TMCalculatorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMCalculatorVC.swift; sourceTree = "<group>"; };
+		798FA56D218DA06C0054A9B1 /* TMHistoryTransDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryTransDetailCell.swift; sourceTree = "<group>"; };
+		798FA56F218DA0C40054A9B1 /* TMHistoryTransDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryTransDetail.swift; sourceTree = "<group>"; };
+		798FA577218DC0D40054A9B1 /* MerchantTnsxHistoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MerchantTnsxHistoryModel.swift; sourceTree = "<group>"; };
 		79968BAF218183AE00162928 /* GetMerchantStoresModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMerchantStoresModel.swift; sourceTree = "<group>"; };
 		79968BB12181C4C300162928 /* TMStaffLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStaffLoginVC.swift; sourceTree = "<group>"; };
 		79968BB32181EDF800162928 /* PostCheckPasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCheckPasswordModel.swift; sourceTree = "<group>"; };
@@ -574,6 +580,7 @@
 				7933FCAB2111BA7E00E9B49B /* IncompleteTransactionData.swift */,
 				79EE75692119CACF0041D5C4 /* TransactionDetailsModal.swift */,
 				79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */,
+				798FA577218DC0D40054A9B1 /* MerchantTnsxHistoryModel.swift */,
 			);
 			path = HistoryModels;
 			sourceTree = "<group>";
@@ -585,6 +592,8 @@
 				7933FCA521118E5F00E9B49B /* TMHistoryTableViewCell.swift */,
 				79EE756521196B060041D5C4 /* TMHistoryDetailVC.swift */,
 				79EE756721196B230041D5C4 /* TMHistoryDetailTableCell.swift */,
+				798FA56F218DA0C40054A9B1 /* TMHistoryTransDetail.swift */,
+				798FA56D218DA06C0054A9B1 /* TMHistoryTransDetailCell.swift */,
 			);
 			path = History;
 			sourceTree = "<group>";
@@ -946,6 +955,7 @@
 				79F4EFBE2150D6F30033AD51 /* TMContactRadioCell.swift in Sources */,
 				7997DF49213535ED00D22E92 /* TMSplitPaymentDetailVC.swift in Sources */,
 				7981BE9F21676D3700C27384 /* TMAlertsDetailVC.swift in Sources */,
+				798FA56E218DA06C0054A9B1 /* TMHistoryTransDetailCell.swift in Sources */,
 				79380A432105BFD800FB4776 /* TMTransactionViewController.swift in Sources */,
 				79380A3A2105B17100FB4776 /* TMTabbarViewController.swift in Sources */,
 				7998D1CD217F4A54008710F9 /* GetStaffMemberModel.swift in Sources */,
@@ -971,7 +981,9 @@
 				791231362141024B00E475CF /* TMBankDetailsVC.swift in Sources */,
 				79EE756821196B230041D5C4 /* TMHistoryDetailTableCell.swift in Sources */,
 				7981BEA42167709F00C27384 /* AlertNotificationsModel.swift in Sources */,
+				798FA578218DC0D40054A9B1 /* MerchantTnsxHistoryModel.swift in Sources */,
 				79E8C498213EAD18008E152A /* TMEditBusinessDetailVC.swift in Sources */,
+				798FA570218DA0C40054A9B1 /* TMHistoryTransDetail.swift in Sources */,
 				7998D1BF217EE1E9008710F9 /* TMMatrixCalculatorVC.swift in Sources */,
 				791231442141534D00E475CF /* TMTradingSplitCell.swift in Sources */,
 				799924CD20FF1B270074BDE6 /* TMHomeViewController.swift in Sources */,

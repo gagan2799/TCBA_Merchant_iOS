@@ -20,22 +20,66 @@ class AlertManager: NSObject {
     
     var completionBlock: ((_ selectedIndex: Int) -> Void)? = nil
     
+     // This alert fuction getting prob to show multiline alert , i dont know it's Apple's bug or something wrong with my project if you got this prob Coment this and un coment below method
+     
+     func showAlertTitle(title: String, message: String, buttonsArray : [Any] = ["OK"]
+     , completionBlock : ((_ : Int) -> ())? = nil) {
+     
+     self.completionBlock = completionBlock
+     
+     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+     for i in 0..<buttonsArray.count {
+     let buttonTitle: String = buttonsArray[i] as! String
+     alertController.addAction(UIAlertAction.init(title: buttonTitle, style: .default, handler: { (action) in
+     if self.completionBlock != nil {
+     self.completionBlock!(i)
+     }
+     }))
+     }
+     rootWindow().rootViewController?.present(alertController, animated: true, completion: nil)
+     }
+    /*
     func showAlertTitle(title: String, message: String, buttonsArray : [Any] = ["OK"]
         , completionBlock : ((_ : Int) -> ())? = nil) {
         
         self.completionBlock = completionBlock
+        let customUiLableView:UILabel
+        let alert:UIAlertController
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        if((message.count) < 70){
+            alert = UIAlertController(title: title, message: "\n\n", preferredStyle: .alert)
+            customUiLableView = UILabel(frame: CGRect(x: 10, y: 0, width: 250, height: 60))
+        }else if((message.count) < 100){
+            alert = UIAlertController(title: title, message: "\n\n\n", preferredStyle: .alert)
+            customUiLableView = UILabel(frame: CGRect(x: 10, y: 0, width: 250, height: 90))
+        }else if((message.count) < 150){
+            alert = UIAlertController(title: title, message: "\n\n\n\n", preferredStyle: .alert)
+            customUiLableView = UILabel(frame: CGRect(x: 10, y: 0, width: 250, height: 120))
+        }else if((message.count) < 200){
+            alert = UIAlertController(title: title, message: "\n\n\n\n\n", preferredStyle: .alert)
+            customUiLableView = UILabel(frame: CGRect(x: 10, y: 0, width: 250, height: 160))
+        }else{
+            alert = UIAlertController(title: title, message: "\n\n\n\n\n\n\n", preferredStyle: .alert)
+            customUiLableView = UILabel(frame: CGRect(x: 10, y: 0, width: 250, height: 200))
+        }
+        customUiLableView.numberOfLines = 0
+        customUiLableView.text = message
+        customUiLableView.textAlignment = .center
+        customUiLableView.textColor = GConstant.AppColor.textDark
+        customUiLableView.font = UIFont(name: "Helvetica", size: 15.0)
+   
+        alert.view.addSubview(customUiLableView)
+        
         for i in 0..<buttonsArray.count {
             let buttonTitle: String = buttonsArray[i] as! String
-            alertController.addAction(UIAlertAction.init(title: buttonTitle, style: .default, handler: { (action) in
+            alert.addAction(UIAlertAction.init(title: buttonTitle, style: .default, handler: { (action) in
                 if self.completionBlock != nil {
                     self.completionBlock!(i)
                 }
             }))
         }
-        rootWindow().rootViewController?.present(alertController, animated: true, completion: nil)
-    }
+        rootWindow().rootViewController?.present(alert, animated: true, completion: nil)
+    }*/
     
     func showPopUpAlert(_ title : String?
         , message : String?
@@ -72,36 +116,5 @@ class AlertManager: NSObject {
             }
         })
     }
-    
-    /*
-     //use this if alertview getting number of line prob
-     
-     let customUiLableView:UILabel
-     let alert:UIAlertController
-     
-     if((message.count) < 100){
-     alert = UIAlertController(title: "", message: "\n\n\n\n", preferredStyle: .alert)
-     customUiLableView = UILabel(frame: CGRect(x: 10, y: 0, width: 250, height: 120))
-     customUiLableView.numberOfLines = 4
-     }else if((message.count) < 200){
-     alert = UIAlertController(title: "", message: "\n\n\n\n\n\n", preferredStyle: .alert)
-     customUiLableView = UILabel(frame: CGRect(x: 10, y: 0, width: 250, height: 160))
-     customUiLableView.numberOfLines = 6
-     }else{
-     alert = UIAlertController(title: "", message: "\n\n\n\n\n\n\n\n", preferredStyle: .alert)
-     customUiLableView = UILabel(frame: CGRect(x: 10, y: 0, width: 250, height: 200))
-     customUiLableView.numberOfLines = 8
-     }
-     customUiLableView.text = message
-     customUiLableView.textAlignment = .center
-     customUiLableView.textColor = UIColor.darkGray
-     customUiLableView.font = UIFont(name: "Helvetica", size: 16.0)
-     
-     let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-     alert.view.addSubview(customUiLableView)
-     alert.addAction(action)
-     
-     rootWindow().rootViewController?.present(alert, animated: true, completion: nil)
-     */
 }
 

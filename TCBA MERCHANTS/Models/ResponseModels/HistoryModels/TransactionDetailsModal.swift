@@ -40,7 +40,7 @@ struct TransactionDetailsPayment: Codable {
 
 extension TransactionDetailsModel {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(TransactionDetailsModel.self, from: data)
+        self = try newJSONDecoder().decode(TransactionDetailsModel.self, from: data)
     }
     
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -63,7 +63,7 @@ extension TransactionDetailsModel {
     }
     
     func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
+        return try newJSONEncoder().encode(self)
     }
     
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
@@ -73,7 +73,7 @@ extension TransactionDetailsModel {
 
 extension TransactionDetailsTransaction {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(TransactionDetailsTransaction.self, from: data)
+        self = try newJSONDecoder().decode(TransactionDetailsTransaction.self, from: data)
     }
     
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -114,7 +114,7 @@ extension TransactionDetailsTransaction {
     }
     
     func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
+        return try newJSONEncoder().encode(self)
     }
     
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
@@ -124,7 +124,7 @@ extension TransactionDetailsTransaction {
 
 extension TransactionDetailsPayment {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(TransactionDetailsPayment.self, from: data)
+        self = try newJSONDecoder().decode(TransactionDetailsPayment.self, from: data)
     }
     
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -149,7 +149,7 @@ extension TransactionDetailsPayment {
     }
     
     func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
+        return try newJSONEncoder().encode(self)
     }
     
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

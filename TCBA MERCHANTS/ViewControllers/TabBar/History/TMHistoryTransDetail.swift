@@ -188,26 +188,26 @@ extension TMHistoryTransDetail: UITableViewDataSource,UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryCellHeader") as! TMHistoryDetailTableCell
-        cell.lblDateOrID.font    = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
-        cell.lblMember.font      = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
-        cell.lblPrice.font       = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
-        switch type {
-        case .all?:
-            cell.lblDateOrID.text   = "Date"
-            cell.lblMember.text     = "Member"
-            cell.lblPrice.text      = "Amount"
-            break
-        case .today?:
-            cell.lblDateOrID.text   = "Date"
-            cell.lblMember.text     = "Member"
-            cell.lblPrice.text      = "Amount"
-            break
-        default:
-            cell.lblDateOrID.text   = "Date"
-            cell.lblDateOrID.text   = "Member"
-            cell.lblDateOrID.text   = "Amount"
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryTransDetailHeaaderCell") as! TMHistoryTransDetailCell
+//        cell.lblDateOrID.font    = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
+//        cell.lblMember.font      = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
+//        cell.lblPrice.font       = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
+//        switch type {
+//        case .all?:
+//            cell.lblDateOrID.text   = "Date"
+//            cell.lblMember.text     = "Member"
+//            cell.lblPrice.text      = "Amount"
+//            break
+//        case .today?:
+//            cell.lblDateOrID.text   = "Date"
+//            cell.lblMember.text     = "Member"
+//            cell.lblPrice.text      = "Amount"
+//            break
+//        default:
+//            cell.lblDateOrID.text   = "Date"
+//            cell.lblMember.text     = "Member"
+//            cell.lblPrice.text      = "Amount"
+//        }
         return cell
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

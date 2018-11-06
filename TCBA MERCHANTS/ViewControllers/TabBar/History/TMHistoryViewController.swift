@@ -145,7 +145,7 @@ class TMHistoryViewController: UIViewController {
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.TransactionData, parameter: nil, withLoader : false) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 guard let data = data else{return}
-                self.transactionData = try! TransactionDataModel.decode(_data: data)
+                self.transactionData = TransactionDataModel.decodeData(_data: data).response
                 if let outstanding = self.transactionData.outstandingLoyalty {
                     self.lblOutstandingValue.text = "$\(outstanding)"
                 }

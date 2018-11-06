@@ -35,6 +35,7 @@ class TMHistoryDetailVC: UIViewController {
     @IBOutlet weak var lblTransaction: UILabel!
     @IBOutlet weak var lblValue: UILabel!
     @IBOutlet var lblSubTitles: [UILabel]!
+    @IBOutlet weak var stackVDebits: UIStackView!
     
     //MARK: Modal objects
     var transactionData         : TransactionDataModel!
@@ -115,9 +116,10 @@ class TMHistoryDetailVC: UIViewController {
         }
         lblMainTitle.font                  = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         lblTitle.font                      = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
-        lblTotalDebValue.font              = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
+        lblTotalDebValue.font              = UIFont.applyOpenSansRegular(fontSize: 15.0)
         lblValue.font                      = UIFont.applyOpenSansRegular(fontSize: 15.0)
         lblTransaction.font                = UIFont.applyOpenSansRegular(fontSize: 15.0)
+        
         lblTopHeaderTitle.font             = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         lblStoreId.font                    = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
 
@@ -162,22 +164,25 @@ class TMHistoryDetailVC: UIViewController {
         lblMainTitle.text = "Incomplete Transactions"
         if let incompleteData = incompleteData {
             var totalDebits = 0.00
+            var totalValue  = 0.00
             for dic in incompleteData {
-                totalDebits  += dic.totalPurchaseAmount!
+                totalValue   += dic.balanceRemaining ?? 0.00
+                totalDebits  += dic.totalPurchaseAmount ?? 0.00
             }
-            lblTotalDebValue.text  = "$\(String.init(format: "%.2f", totalDebits))"
             lblTransaction.text    = "\(incompleteData.count)"
-            lblValue.text          = "$\(String.init(format: "%.2f", totalDebits))"
+            lblValue.text          = "$\(String.init(format: "%.2f", totalValue))"
+            lblTotalDebValue.text  = "$\(String.init(format: "%.2f", totalDebits))"
         }
     }
     
     func setPropForOutstanding() {
         lblMainTitle.text       = "Outstanding Loyalty Balances"
-        lblSubTitles[2].text    = "Total Loyalty"
+        lblSubTitles[0].text    = "Members"
+        lblSubTitles[1].text    = "Value"
+        stackVDebits.isHidden   = true
         if let data = outstandingData {
             lblTransaction.text    = "\(data.totalNumber!)"
             lblValue.text          = "$\(String.init(format: "%.2f", data.totalOutstanding!))"
-            lblTotalDebValue.text  = "$\(String.init(format: "%.2f", data.totalOutstanding!))"
         }
     }
     
@@ -186,7 +191,7 @@ class TMHistoryDetailVC: UIViewController {
         /*
          =====================API CALL=====================
          APIName    : TransactionData
-         Url        : "/Merchant/GetMerchantTransactionSummary"
+         Url        : outstanding ? "/Merchant/GetOutstandingLoyalty" : "/Merchant/GetMerchantTransactionDetail"
          Method     : GET
          Parameters : { storeID : "",
                         type    : "" }
@@ -347,27 +352,27 @@ extension TMHistoryDetailVC: UITableViewDataSource,UITableViewDelegate{
         case .all?:
             cell.lblDateOrID.text   = "Date"
             cell.lblMember.text     = "Member"
-            cell.lblPrice.text      = "$"
+            cell.lblPrice.text      = "Amount"
             break
         case .today?:
             cell.lblDateOrID.text   = "Date"
             cell.lblMember.text     = "Member"
-            cell.lblPrice.text      = "$"
+            cell.lblPrice.text      = "Amount"
             break
         case .incomplete?:
             cell.lblDateOrID.text   = "Member ID"
             cell.lblMember.text     = "Member"
-            cell.lblPrice.text      = "$"
+            cell.lblPrice.text      = "Amount"
             break
         case .outstanding?:
-            cell.lblDateOrID.text   = "id"
+            cell.lblDateOrID.text   = "Id"
             cell.lblMember.text     = "Member"
-            cell.lblPrice.text      = "Loyalty"
+            cell.lblPrice.text      = "Amount"
             break
         default:
             cell.lblDateOrID.text   = "Date"
             cell.lblDateOrID.text   = "Member"
-            cell.lblDateOrID.text   = "$"
+            cell.lblDateOrID.text   = "Amount"
         }
         return cell
     }

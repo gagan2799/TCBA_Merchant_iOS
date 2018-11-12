@@ -26,6 +26,7 @@ class TMHistoryTransDetail: UIViewController {
     
     @IBOutlet var lblSubTitles: [UILabel]!
     
+    @IBOutlet weak var consWidthTbl: NSLayoutConstraint!
     //MARK: Modal objects
     var transactionData: TransactionDataModel!
     var transactionHistory: MerchantTnsxHistoryModel!
@@ -98,6 +99,9 @@ class TMHistoryTransDetail: UIViewController {
             lblStoreId.text         = "Store id: \(storeId)"
         }
         
+        consWidthTbl.constant       = 800*GConstant.Screen.HeightAspectRatio
+        tblHistoryTrans.layoutIfNeeded()
+        
         lblMainTitle.text           = type == .all ? "All Transactions" : "Today's Transactions"
         
         lblTopHeaderTitle.font      = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
@@ -125,6 +129,10 @@ class TMHistoryTransDetail: UIViewController {
         }
     }
     
+    //MARK: - IBAction methods
+    @objc func btnDropDownAction(_ sender: UIButton) {
+        print("dropDown pressed \(sender.tag)")
+    }
     //MARK: - Web Api's
     func callMerchantTransactionHistoryApi(transType: TransDetailstypes) {
         /*
@@ -167,6 +175,7 @@ class TMHistoryTransDetail: UIViewController {
         }
     }
 }
+
 extension TMHistoryTransDetail: UITableViewDataSource,UITableViewDelegate{
     // MARK: - UITableView Delegates & Data Source
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -183,63 +192,55 @@ extension TMHistoryTransDetail: UITableViewDataSource,UITableViewDelegate{
         
         return 0
     }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 45 * GConstant.Screen.HeightAspectRatio
-    }
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryTransDetailHeaaderCell") as! TMHistoryTransDetailCell
-//        cell.lblDateOrID.font    = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
-//        cell.lblMember.font      = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
-//        cell.lblPrice.font       = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
-//        switch type {
-//        case .all?:
-//            cell.lblDateOrID.text   = "Date"
-//            cell.lblMember.text     = "Member"
-//            cell.lblPrice.text      = "Amount"
-//            break
-//        case .today?:
-//            cell.lblDateOrID.text   = "Date"
-//            cell.lblMember.text     = "Member"
-//            cell.lblPrice.text      = "Amount"
-//            break
-//        default:
-//            cell.lblDateOrID.text   = "Date"
-//            cell.lblMember.text     = "Member"
-//            cell.lblPrice.text      = "Amount"
-//        }
-        return cell
-    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 45 * GConstant.Screen.HeightAspectRatio
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryTransDetailHeaaderCell") as! TMHistoryTransDetailCell
+        let fontSize                        = CGFloat(15.0)
+        cell.btnDropDown.titleLabel?.font   = UIFont.applyOpenSansSemiBold(fontSize: fontSize)
+        cell.lblDate.font                   = UIFont.applyOpenSansSemiBold(fontSize: fontSize)
+        cell.lblDetail.font                 = UIFont.applyOpenSansSemiBold(fontSize: fontSize)
+        cell.lblAmount.font                 = UIFont.applyOpenSansSemiBold(fontSize: fontSize)
+        cell.lblCredits.font                = UIFont.applyOpenSansSemiBold(fontSize: fontSize)
+        cell.lblDebits.font                 = UIFont.applyOpenSansSemiBold(fontSize: fontSize)
+        cell.lblNet.font                    = UIFont.applyOpenSansSemiBold(fontSize: fontSize)
+        cell.lblBalance.font                = UIFont.applyOpenSansSemiBold(fontSize: fontSize)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40 * GConstant.Screen.HeightAspectRatio
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryTransDetailCell") as! TMHistoryTransDetailCell
         
-//        cell.lblDateOrID.font    = UIFont.applyOpenSansRegular(fontSize: 14.0)
-//        cell.lblMember.font      = UIFont.applyOpenSansRegular(fontSize: 14.0)
-//        cell.lblPrice.font       = UIFont.applyOpenSansRegular(fontSize: 14.0)
-//
-//        switch type {
-//        case .all?:
-//            if let transactions = transactionDetailsData.transactions{
-//                let date = Date().dateToDDMMYYYY(date: transactions[indexPath.row].transactionDate!)
-//                cell.lblDateOrID.text       = date
-//                cell.lblMember.text         = transactions[indexPath.row].customerName
-//                cell.lblPrice.text          = "$\(transactions[indexPath.row].transactionAmount!)"
-//            }
-//            break
-//        case .today?:
-//            if let transactions     = transactionDetailsData.transactions{
-//                let date = Date().dateToDDMMYYYY(date: transactions[indexPath.row].transactionDate!)
-//                cell.lblDateOrID.text       = date
-//                cell.lblMember.text         = transactions[indexPath.row].customerName
-//                cell.lblPrice.text          = "$\(transactions[indexPath.row].transactionAmount!)"
-//            }
-//            break
-//        default: break
-//
-//        }
+        let fontSize                        = CGFloat(14.0)
+        cell.btnDropDown.titleLabel?.font   = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblDate.font                   = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblDetail.font                 = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblAmount.font                 = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblCredits.font                = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblDebits.font                 = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblNet.font                    = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblBalance.font                = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        
+        cell.btnDropDown.setImage(transactionHistory?.transactions?[indexPath.row].payments?.count != 0 ? UIImage(named: "arrow_dropdown_black") : nil, for: .normal)
+        cell.btnDropDown.tag                = indexPath.row
+        cell.btnDropDown.addTarget(self, action: #selector(btnDropDownAction(_:)), for: .touchUpInside)
+        
+        //2018-07-19T01:22:09.15Z
+        cell.lblDate.text                   = transactionHistory?.transactions?[indexPath.row].createDate?.applyDateWithFormat(format: "YYYY-MM-dd'T'HH:mm:ss.SSS")
+        
+        cell.lblDetail.text                 = transactionHistory?.transactions?[indexPath.row].title
+        cell.lblAmount.text                 = "$\(transactionHistory?.transactions?[indexPath.row].amount ?? 0.00)"
+        cell.lblCredits.text                = "$\(transactionHistory?.transactions?[indexPath.row].credits ?? 0.00)"
+        cell.lblDebits.text                 = "$\(transactionHistory?.transactions?[indexPath.row].debits ?? 0.00)"
+        cell.lblNet.text                    = "$\(transactionHistory?.transactions?[indexPath.row].net ?? 0.00)"
+        cell.lblBalance.text                = "$\(transactionHistory?.transactions?[indexPath.row].runningBalance ?? 0.00)"
         
         return cell
     }

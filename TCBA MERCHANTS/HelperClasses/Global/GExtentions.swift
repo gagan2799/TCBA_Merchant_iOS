@@ -853,6 +853,17 @@ extension String {
         return dateStr
     }
     
+    //EEE, dd MM yyyy HH:mm:ss zzz
+    func applyDateWithFormat(format: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        guard let date = dateFormatter.date(from: self) else { return "" }
+        
+        dateFormatter.dateFormat  = "MMM dd, yyyy"
+        let dateStr = dateFormatter.string(from: date)
+        return dateStr
+    }
+    
     func decodeBase64() -> String {
         let decodedData = Data(base64Encoded: self, options: .ignoreUnknownCharacters)
         if let aData = decodedData {

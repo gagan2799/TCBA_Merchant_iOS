@@ -854,12 +854,12 @@ extension String {
     }
     
     //EEE, dd MM yyyy HH:mm:ss zzz
-    func applyDateWithFormat(format: String) -> String {
+    func applyDateWithFormat(format: String , outPutFormat: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
         guard let date = dateFormatter.date(from: self) else { return "" }
         
-        dateFormatter.dateFormat  = "MMM dd, yyyy"
+        dateFormatter.dateFormat  = outPutFormat
         let dateStr = dateFormatter.string(from: date)
         return dateStr
     }

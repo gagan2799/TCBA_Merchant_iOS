@@ -9,6 +9,10 @@
 import UIKit
 
 class TMHistoryTransDetail: UIViewController {
+    struct txnsHistoryModal: Codable {
+        var isExpandable,isExpanded,isVisible :Bool
+        var transactions: MerchantTnsxHistoryTransaction?
+    }
     
     // Modal object
     var posData     : PostCreatePOSModel!
@@ -30,6 +34,8 @@ class TMHistoryTransDetail: UIViewController {
     //MARK: Modal objects
     var transactionData: TransactionDataModel!
     var transactionHistory: MerchantTnsxHistoryModel!
+    var txnsHistory = [txnsHistoryModal]()
+    
     
     //MARK: Variables
     var type : types!
@@ -132,6 +138,9 @@ class TMHistoryTransDetail: UIViewController {
     //MARK: - IBAction methods
     @objc func btnDropDownAction(_ sender: UIButton) {
         print("dropDown pressed \(sender.tag)")
+        let indexPath           = IndexPath.init(item: sender.tag, section: 0)
+        
+        
     }
     //MARK: - Web Api's
     func callMerchantTransactionHistoryApi(transType: TransDetailstypes) {
@@ -154,6 +163,14 @@ class TMHistoryTransDetail: UIViewController {
                 guard let data = data else{ return }
                 self.transactionHistory = MerchantTnsxHistoryModel.decodeData(_data: data).response
                 self.setHeaderValues(data: self.transactionHistory)
+            
+                if let transactions = self.transactionHistory?.transactions {
+                    for tranaction in transactions {
+                        let rowData = txnsHistoryModal.init(isExpandable: tranaction.payments?.count != 0 ? true : false , isExpanded: false, isVisible: false, transactions: tranaction)
+                        self.txnsHistory.append(rowData)
+                    }
+                }
+                
                 self.tblHistoryTrans.reloadData()
             }else{
                 if statusCode == 404{
@@ -182,14 +199,13 @@ extension TMHistoryTransDetail: UITableViewDataSource,UITableViewDelegate{
         
         if type == .all {
             if transactionHistory != nil{
-                return (transactionHistory.transactions?.count)!
+                return txnsHistory.count
             }
         }else if type == .today{
             if transactionHistory != nil{
-                return (transactionHistory.transactions?.count)!
+                return txnsHistory.count
             }
         }
-        
         return 0
     }
     
@@ -216,6 +232,10 @@ extension TMHistoryTransDetail: UITableViewDataSource,UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let isExpandable                    = txnsHistory[indexPath.row].isExpandable
+        
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryTransDetailCell") as! TMHistoryTransDetailCell
         
         let fontSize                        = CGFloat(14.0)
@@ -228,19 +248,18 @@ extension TMHistoryTransDetail: UITableViewDataSource,UITableViewDelegate{
         cell.lblNet.font                    = UIFont.applyOpenSansRegular(fontSize: fontSize)
         cell.lblBalance.font                = UIFont.applyOpenSansRegular(fontSize: fontSize)
         
-        cell.btnDropDown.setImage(transactionHistory?.transactions?[indexPath.row].payments?.count != 0 ? UIImage(named: "arrow_dropdown_black") : nil, for: .normal)
+        cell.btnDropDown.setImage(isExpandable ? UIImage(named: "arrow_dropdown_black") : nil, for: .normal)
         cell.btnDropDown.tag                = indexPath.row
         cell.btnDropDown.addTarget(self, action: #selector(btnDropDownAction(_:)), for: .touchUpInside)
         
-        //2018-07-19T01:22:09.15Z
-        cell.lblDate.text                   = transactionHistory?.transactions?[indexPath.row].createDate?.applyDateWithFormat(format: "YYYY-MM-dd'T'HH:mm:ss.SSS")
-        
-        cell.lblDetail.text                 = transactionHistory?.transactions?[indexPath.row].title
-        cell.lblAmount.text                 = "$\(transactionHistory?.transactions?[indexPath.row].amount ?? 0.00)"
-        cell.lblCredits.text                = "$\(transactionHistory?.transactions?[indexPath.row].credits ?? 0.00)"
-        cell.lblDebits.text                 = "$\(transactionHistory?.transactions?[indexPath.row].debits ?? 0.00)"
-        cell.lblNet.text                    = "$\(transactionHistory?.transactions?[indexPath.row].net ?? 0.00)"
-        cell.lblBalance.text                = "$\(transactionHistory?.transactions?[indexPath.row].runningBalance ?? 0.00)"
+        //2018-07-19T01:22:09.15Z = YYYY-MM-dd'T'HH:mm:ss.SSS
+        cell.lblDate.text                   = transactionHistory?.transactions?[indexPath.row].createDate?.applyDateWithFormat(format: "YYYY-MM-dd'T'HH:mm:ss.SSS" ,outPutFormat: "dd/MM/yyyy HH:mm:ss")
+        cell.lblDetail.text                 = txnsHistory[indexPath.row].transactions?.title
+        cell.lblAmount.text                 = "$\(txnsHistory[indexPath.row].transactions?.amount ?? 0.00)"
+        cell.lblCredits.text                = "$\(txnsHistory[indexPath.row].transactions?.credits ?? 0.00)"
+        cell.lblDebits.text                 = "$\(txnsHistory[indexPath.row].transactions?.debits ?? 0.00)"
+        cell.lblNet.text                    = "$\(txnsHistory[indexPath.row].transactions?.net ?? 0.00)"
+        cell.lblBalance.text                = "$\(txnsHistory[indexPath.row].transactions?.runningBalance ?? 0.00)"
         
         return cell
     }

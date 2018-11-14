@@ -10,13 +10,13 @@ import UIKit
 
 class TMHistoryTransDetailCell: UITableViewCell {
     @IBOutlet weak var btnDropDown: UIButton!
-    @IBOutlet weak var lblDate: UILabel!
-    @IBOutlet weak var lblDetail: UILabel!
-    @IBOutlet weak var lblAmount: UILabel!
-    @IBOutlet weak var lblCredits: UILabel!
-    @IBOutlet weak var lblDebits: UILabel!
-    @IBOutlet weak var lblNet: UILabel!
-    @IBOutlet weak var lblBalance: UILabel!
+    @IBOutlet weak var lblDate: CustomLabel!
+    @IBOutlet weak var lblDetail: CustomLabel!
+    @IBOutlet weak var lblAmount: CustomLabel!
+    @IBOutlet weak var lblCredits: CustomLabel!
+    @IBOutlet weak var lblDebits: CustomLabel!
+    @IBOutlet weak var lblNet: CustomLabel!
+    @IBOutlet weak var lblBalance: CustomLabel!
     
     
     

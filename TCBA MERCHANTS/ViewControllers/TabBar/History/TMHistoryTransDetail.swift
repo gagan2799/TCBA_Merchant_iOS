@@ -10,7 +10,7 @@ import UIKit
 
 class TMHistoryTransDetail: UIViewController {
     struct txnsHistoryModal: Codable {
-        var isExpandable,isExpanded,isVisible :Bool
+        var isExpandable,isExpanded :Bool
         var transactions: MerchantTnsxHistoryTransaction?
     }
     
@@ -27,14 +27,14 @@ class TMHistoryTransDetail: UIViewController {
     @IBOutlet weak var lblValueVal: UILabel!
     @IBOutlet weak var lblDebitsVal: UILabel!
     @IBOutlet weak var lblCreditsVal: UILabel!
-    
     @IBOutlet var lblSubTitles: [UILabel]!
     
     @IBOutlet weak var consWidthTbl: NSLayoutConstraint!
+    
     //MARK: Modal objects
     var transactionData: TransactionDataModel!
     var transactionHistory: MerchantTnsxHistoryModel!
-    var txnsHistory = [txnsHistoryModal]()
+    var txnsHistory = NSMutableArray()
     
     
     //MARK: Variables
@@ -43,11 +43,13 @@ class TMHistoryTransDetail: UIViewController {
     //MARK: View life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if type == .all {
             callMerchantTransactionHistoryApi(transType: .all)
         }else if type == .today{
             callMerchantTransactionHistoryApi(transType: .today)
         }
+        
         setViewProperties()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -137,10 +139,114 @@ class TMHistoryTransDetail: UIViewController {
     
     //MARK: - IBAction methods
     @objc func btnDropDownAction(_ sender: UIButton) {
-        print("dropDown pressed \(sender.tag)")
         let indexPath           = IndexPath.init(item: sender.tag, section: 0)
+        guard let isExpanded = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpanded else { return }
+
+        if isExpanded == false {
+            insertRows(indexPath: indexPath, sender: sender)
+        } else {
+            removeRows(indexPath: indexPath, sender: sender)
+        }
+    }
+    
+    //MARK: - TableCells
+    func txnsCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        let isExpandable                    = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpandable
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryTransDetailCell") as! TMHistoryTransDetailCell
+        
+        cell.btnDropDown.isUserInteractionEnabled = isExpandable ?? false ? true : false
+        
+        let lblBackgroundColor              = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions?.title == "Auto Balance" ? UIColor.lightGray.withAlphaComponent(0.8) : UIColor.white
+        cell.btnDropDown.backgroundColor    = lblBackgroundColor
+        cell.lblDate.backgroundColor        = lblBackgroundColor
+        cell.lblDetail.backgroundColor      = lblBackgroundColor
+        cell.lblAmount.backgroundColor      = lblBackgroundColor
+        cell.lblCredits.backgroundColor     = lblBackgroundColor
+        cell.lblDebits.backgroundColor      = lblBackgroundColor
+        cell.lblNet.backgroundColor         = lblBackgroundColor
+        cell.lblBalance.backgroundColor     = lblBackgroundColor
+        
+        let fontSize                        = CGFloat(14.0)
+        cell.btnDropDown.titleLabel?.font   = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblDate.font                   = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblDetail.font                 = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblAmount.font                 = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblCredits.font                = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblDebits.font                 = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblNet.font                    = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblBalance.font                = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        
+        cell.btnDropDown.setImage(isExpandable ?? false ? UIImage(named: "arrow_dropdown_black") : nil, for: .normal)
+        cell.btnDropDown.tag                = indexPath.row
+        cell.btnDropDown.addTarget(self, action: #selector(btnDropDownAction(_:)), for: .touchUpInside)
         
         
+        //2018-07-19T01:22:09.15Z = YYYY-MM-dd'T'HH:mm:ss.SSS
+        cell.lblDate?.text                   = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions?.createDate?.applyDateWithFormat(format: "YYYY-MM-dd'T'HH:mm:ss.SSS" ,outPutFormat: "dd/MM/yyyy HH:mm:ss")
+        cell.lblDetail.text                 = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions?.title
+        cell.lblAmount.text                 = "$\((txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions?.amount ?? 0.00)"
+        cell.lblCredits.text                = "$\((txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions?.credits ?? 0.00)"
+        cell.lblDebits.text                 = "$\((txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions?.debits ?? 0.00)"
+        cell.lblNet.text                    = "$\((txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions?.net ?? 0.00)"
+        cell.lblBalance.text                = "$\((txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions?.runningBalance ?? 0.00)"
+        return cell
+    }
+    
+    func paymentCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryTransSubDetailCell") as! TMHistoryTransDetailCell
+        
+        let fontSize                        = CGFloat(14.0)
+        cell.lblDetail.font                 = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblAmount.font                 = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblCredits.font                = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblDebits.font                 = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblNet.font                    = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        cell.lblBalance.font                = UIFont.applyOpenSansRegular(fontSize: fontSize)
+        
+        cell.lblDetail.text                 = (txnsHistory[indexPath.row] as? MerchantTnsxHistoryPayment)?.description
+        cell.lblAmount.text                 = "$\((txnsHistory[indexPath.row] as? MerchantTnsxHistoryPayment)?.amount ?? 0.00)"
+        cell.lblCredits.text                = "$\((txnsHistory[indexPath.row] as? MerchantTnsxHistoryPayment)?.credits ?? 0.00)"
+        cell.lblDebits.text                 = "$\((txnsHistory[indexPath.row] as? MerchantTnsxHistoryPayment)?.debits ?? 0.00)"
+        cell.lblNet.text                    = ""
+        cell.lblBalance.text                = ""
+        return cell
+    }
+    //MARK: - Coustom Methods
+    func insertRows(indexPath : IndexPath , sender : UIButton) {
+        let rowData = txnsHistoryModal.init(isExpandable: (txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpandable ?? false  , isExpanded: true, transactions: (txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions)
+        self.txnsHistory.replaceObject(at: sender.tag, with: rowData)
+        
+        var index               = [IndexPath]()
+        guard let arrPayment    = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions?.payments else {return}
+        for i in 0..<arrPayment.count{
+            let obj = arrPayment[i]
+            txnsHistory.insert(obj, at: sender.tag + i + 1)
+            index.append(IndexPath.init(item: sender.tag + i + 1, section: 0))
+        }
+        tblHistoryTrans.insertRows(at: index, with: .fade)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.tblHistoryTrans.reloadData()
+            if (sender.tag + arrPayment.count == self.txnsHistory.count - 1) {
+                let indexPathBottomRow = IndexPath.init(item: sender.tag, section: 0)
+                self.tblHistoryTrans.scrollToRow(at: indexPathBottomRow, at: .top, animated: true)
+            }
+        }
+    }
+    func removeRows(indexPath : IndexPath , sender : UIButton) {
+        let rowData = txnsHistoryModal.init(isExpandable: (txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpandable ?? false  , isExpanded: false, transactions: (txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions)
+        self.txnsHistory.replaceObject(at: sender.tag, with: rowData)
+        
+        var index               = [IndexPath]()
+        guard let arrPayment    = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions?.payments else {return}
+        for i in 0..<arrPayment.count{
+            txnsHistory.removeObject(at: sender.tag + 1)
+            index.append(IndexPath.init(item: sender.tag + i + 1, section: 0))
+        }
+        tblHistoryTrans.deleteRows(at: index, with: .fade)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.tblHistoryTrans.reloadData()
+        }
     }
     //MARK: - Web Api's
     func callMerchantTransactionHistoryApi(transType: TransDetailstypes) {
@@ -166,8 +272,8 @@ class TMHistoryTransDetail: UIViewController {
             
                 if let transactions = self.transactionHistory?.transactions {
                     for tranaction in transactions {
-                        let rowData = txnsHistoryModal.init(isExpandable: tranaction.payments?.count != 0 ? true : false , isExpanded: false, isVisible: false, transactions: tranaction)
-                        self.txnsHistory.append(rowData)
+                        let rowData = txnsHistoryModal.init(isExpandable: tranaction.payments?.count != 0 ? true : false , isExpanded: false, transactions: tranaction)
+                        self.txnsHistory.add(rowData)
                     }
                 }
                 
@@ -224,7 +330,7 @@ extension TMHistoryTransDetail: UITableViewDataSource,UITableViewDelegate{
         cell.lblDebits.font                 = UIFont.applyOpenSansSemiBold(fontSize: fontSize)
         cell.lblNet.font                    = UIFont.applyOpenSansSemiBold(fontSize: fontSize)
         cell.lblBalance.font                = UIFont.applyOpenSansSemiBold(fontSize: fontSize)
-        return cell
+        return cell.contentView
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -232,35 +338,10 @@ extension TMHistoryTransDetail: UITableViewDataSource,UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let isExpandable                    = txnsHistory[indexPath.row].isExpandable
-        
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryTransDetailCell") as! TMHistoryTransDetailCell
-        
-        let fontSize                        = CGFloat(14.0)
-        cell.btnDropDown.titleLabel?.font   = UIFont.applyOpenSansRegular(fontSize: fontSize)
-        cell.lblDate.font                   = UIFont.applyOpenSansRegular(fontSize: fontSize)
-        cell.lblDetail.font                 = UIFont.applyOpenSansRegular(fontSize: fontSize)
-        cell.lblAmount.font                 = UIFont.applyOpenSansRegular(fontSize: fontSize)
-        cell.lblCredits.font                = UIFont.applyOpenSansRegular(fontSize: fontSize)
-        cell.lblDebits.font                 = UIFont.applyOpenSansRegular(fontSize: fontSize)
-        cell.lblNet.font                    = UIFont.applyOpenSansRegular(fontSize: fontSize)
-        cell.lblBalance.font                = UIFont.applyOpenSansRegular(fontSize: fontSize)
-        
-        cell.btnDropDown.setImage(isExpandable ? UIImage(named: "arrow_dropdown_black") : nil, for: .normal)
-        cell.btnDropDown.tag                = indexPath.row
-        cell.btnDropDown.addTarget(self, action: #selector(btnDropDownAction(_:)), for: .touchUpInside)
-        
-        //2018-07-19T01:22:09.15Z = YYYY-MM-dd'T'HH:mm:ss.SSS
-        cell.lblDate.text                   = transactionHistory?.transactions?[indexPath.row].createDate?.applyDateWithFormat(format: "YYYY-MM-dd'T'HH:mm:ss.SSS" ,outPutFormat: "dd/MM/yyyy HH:mm:ss")
-        cell.lblDetail.text                 = txnsHistory[indexPath.row].transactions?.title
-        cell.lblAmount.text                 = "$\(txnsHistory[indexPath.row].transactions?.amount ?? 0.00)"
-        cell.lblCredits.text                = "$\(txnsHistory[indexPath.row].transactions?.credits ?? 0.00)"
-        cell.lblDebits.text                 = "$\(txnsHistory[indexPath.row].transactions?.debits ?? 0.00)"
-        cell.lblNet.text                    = "$\(txnsHistory[indexPath.row].transactions?.net ?? 0.00)"
-        cell.lblBalance.text                = "$\(txnsHistory[indexPath.row].transactions?.runningBalance ?? 0.00)"
-        
-        return cell
+        if ((txnsHistory[indexPath.row] as? MerchantTnsxHistoryPayment) != nil){
+            return paymentCell(tableView, indexPath: indexPath)
+        } else {
+            return txnsCell(tableView, indexPath: indexPath)
+        }
     }
 }

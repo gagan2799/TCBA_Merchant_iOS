@@ -111,8 +111,12 @@ extension TMAlertsVC: UITableViewDelegate, UITableViewDataSource {
         let date = Date().dateToDDMMYYYY(date: modelAlerts?.notifications?[indexPath.row].dateCreated ?? "")
         cell.lblDate.text   = date
         guard let imgURL    = modelAlerts.notifications?[indexPath.row].image else { return cell }
-        guard let url       = URL(string: imgURL) else { return cell }
-        cell.imgV.setImageWithDownload(url)
+
+        if let img = URL(string: imgURL) {
+            cell.imgV.setImageWithDownload(img)
+        } else {
+            cell.imgV.image = UIImage.init(named: "placeholder")
+        }
         
         return cell
     }

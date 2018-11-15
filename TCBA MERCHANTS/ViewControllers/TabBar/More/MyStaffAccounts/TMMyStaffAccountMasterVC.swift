@@ -201,10 +201,10 @@ extension TMMyStaffAccountMasterVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "StaffMasterCell") as! TMStaffMasterCell
-        cell.lblName.font       = UIFont.applyOpenSansRegular(fontSize: 15.0)
-        cell.lblPin.font        = UIFont.applyOpenSansRegular(fontSize: 15.0)
-        cell.lblPhone.font      = UIFont.applyOpenSansRegular(fontSize: 14.0)
-        cell.lblActive.font     = UIFont.applyOpenSansRegular(fontSize: 15.0)
+        cell.lblName.font       = UIFont.applyOpenSansRegular(fontSize: 14.0)
+        cell.lblPin.font        = UIFont.applyOpenSansRegular(fontSize: 14.0)
+        cell.lblPhone.font      = UIFont.applyOpenSansRegular(fontSize: 13.0)
+        cell.lblActive.font     = UIFont.applyOpenSansRegular(fontSize: 14.0)
         
         cell.lblName.text       = staffMembersData.staffMembers[indexPath.row].firstName + " " + staffMembersData.staffMembers[indexPath.row].lastName
         cell.lblPin.text        = "PIN:\(staffMembersData.staffMembers[indexPath.row].pinCode)"

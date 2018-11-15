@@ -144,7 +144,7 @@ class TMSplitPaymentDetailVC: UIViewController {
                 self.lblOutStandingValue.font   = UIFont.applyOpenSansSemiBold(fontSize: 12.0)
             }
         }
-       
+        
         
         lblUserName.text                    = posData.memberFullName!
         lblMemberId.text                    = "Member Id: \(posData.memberID ?? 0)"
@@ -209,9 +209,9 @@ class TMSplitPaymentDetailVC: UIViewController {
             }
         }
         //        // Top View Height
-        consTopV.constant    = GConstant.Screen.Height * 0.3
+        consTopV.constant       = GConstant.Screen.Height * 0.3
         // ColectionView Layout setup
-        consHeightTbl.constant   = GConstant.Screen.Height * 0.7
+        consHeightTbl.constant  = GConstant.Screen.Height * 0.65
         view.setNeedsLayout()
     }
     
@@ -285,8 +285,17 @@ class TMSplitPaymentDetailVC: UIViewController {
         rootWindow().rootViewController?.present(obj, animated: true, completion: nil)
     }
     
-    //MARK: UIButton action methods
+    func showPaymentSuccessPopUp(withPosData pData: PostCreatePOSModel, completion   : @escaping (_ amount : String) -> Void){
+        let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.PaymentSuccessPopUp) as! TMPaySuccessPopUpVC
+        obj.posData             = pData
+        obj.completionHandler   = { (True) in
+            completion(True)
+        }
+        obj.modalPresentationStyle  = .overCurrentContext
+        rootWindow().rootViewController?.present(obj, animated: true, completion: nil)
+    }
     
+    //MARK: UIButton action methods
     @IBAction func btnCancelAction(_ sender: UIButton) {
         if let payments = posData.payments {
             if payments.count > 0{
@@ -387,18 +396,10 @@ class TMSplitPaymentDetailVC: UIViewController {
                             }
                         }
                     }else{
-                        if pData.paidInFull == true{
-                            AlertManager.shared.showAlertTitle(title: "Success", message: "Payment successful.", buttonsArray: ["OK"]) { (buttonIndex : Int) in
-                                switch buttonIndex {
-                                case 0 :
-                                    //OK clicked
-                                    self.backToQR()
-                                    break
-                                default:
-                                    self.backToQR()
-                                    break
-                                }
-                            }
+                        if pData.paidInFull == true {
+                            self.showPaymentSuccessPopUp(withPosData: pData, completion: { (_) in
+                                self.backToQR()
+                            })
                         }
                     }
                 }else{
@@ -479,7 +480,6 @@ class TMSplitPaymentDetailVC: UIViewController {
         } else if type == .TokenisedCreditCard {
             request.creditCardToken = token
         }
-        
         
         ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostAddPOSPayment, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
@@ -572,22 +572,14 @@ class TMSplitPaymentDetailVC: UIViewController {
                                 break
                             }
                         }
-                    }else{
-                        if pData.paidInFull == true{
-                            AlertManager.shared.showAlertTitle(title: "Success", message: "Payment successful.", buttonsArray: ["OK"]) { (buttonIndex : Int) in
-                                switch buttonIndex {
-                                case 0 :
-                                    //OK clicked
-                                    self.backToQR()
-                                    break
-                                default:
-                                    self.backToQR()
-                                    break
-                                }
-                            }
+                    } else {
+                        if pData.paidInFull == true {
+                            self.showPaymentSuccessPopUp(withPosData: pData, completion: { (_) in
+                                self.backToQR()
+                            })
                         }
                     }
-                }else{
+                } else {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }
                 
@@ -742,7 +734,7 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
                 cell.vBlueLine.isHidden     = true
                 cell.lblAmtPaid.isHidden    = true
                 cell.consLblWidth.constant  = 0.0
-               
+                
             }
             guard self.posData != nil else { return cell }
             if let payments = self.posData.payments {

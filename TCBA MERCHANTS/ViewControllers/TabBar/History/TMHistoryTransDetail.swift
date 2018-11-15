@@ -139,22 +139,22 @@ class TMHistoryTransDetail: UIViewController {
     
     //MARK: - IBAction methods
     @objc func btnDropDownAction(_ sender: UIButton) {
-        let indexPath           = IndexPath.init(item: sender.tag, section: 0)
+        
+        let indexPath               = IndexPath.init(item: sender.tag, section: 0)
         guard let isExpanded = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpanded else { return }
-
-        if isExpanded == false {
-            insertRows(indexPath: indexPath, sender: sender)
-        } else {
-            removeRows(indexPath: indexPath, sender: sender)
+        UIView.animate(withDuration: 0.3) { () -> Void in
+            sender.transform    = !isExpanded ? CGAffineTransform(rotationAngle: CGFloat.pi) : CGAffineTransform(rotationAngle: CGFloat.pi * 2)
         }
+        !isExpanded ? insertPaymentRows(indexPath: indexPath, sender: sender) : removePaymentRows(indexPath: indexPath, sender: sender)
     }
     
     //MARK: - TableCells
     func txnsCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let isExpandable                    = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpandable
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryTransDetailCell") as! TMHistoryTransDetailCell
         
+        cell.btnDropDown.transform      = (self.txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpanded ?? false ?CGAffineTransform(rotationAngle: CGFloat.pi) : CGAffineTransform(rotationAngle: CGFloat.pi * 2)
+
         cell.btnDropDown.isUserInteractionEnabled = isExpandable ?? false ? true : false
         
         let lblBackgroundColor              = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions?.title == "Auto Balance" ? UIColor.lightGray.withAlphaComponent(0.8) : UIColor.white
@@ -180,7 +180,6 @@ class TMHistoryTransDetail: UIViewController {
         cell.btnDropDown.setImage(isExpandable ?? false ? UIImage(named: "arrow_dropdown_black") : nil, for: .normal)
         cell.btnDropDown.tag                = indexPath.row
         cell.btnDropDown.addTarget(self, action: #selector(btnDropDownAction(_:)), for: .touchUpInside)
-        
         
         //2018-07-19T01:22:09.15Z = YYYY-MM-dd'T'HH:mm:ss.SSS
         cell.lblDate?.text                   = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions?.createDate?.applyDateWithFormat(format: "YYYY-MM-dd'T'HH:mm:ss.SSS" ,outPutFormat: "dd/MM/yyyy HH:mm:ss")
@@ -210,10 +209,11 @@ class TMHistoryTransDetail: UIViewController {
         cell.lblDebits.text                 = "$\((txnsHistory[indexPath.row] as? MerchantTnsxHistoryPayment)?.debits ?? 0.00)"
         cell.lblNet.text                    = ""
         cell.lblBalance.text                = ""
+        
         return cell
     }
     //MARK: - Coustom Methods
-    func insertRows(indexPath : IndexPath , sender : UIButton) {
+    func insertPaymentRows(indexPath : IndexPath , sender : UIButton) {
         let rowData = txnsHistoryModal.init(isExpandable: (txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpandable ?? false  , isExpanded: true, transactions: (txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions)
         self.txnsHistory.replaceObject(at: sender.tag, with: rowData)
         
@@ -233,7 +233,7 @@ class TMHistoryTransDetail: UIViewController {
             }
         }
     }
-    func removeRows(indexPath : IndexPath , sender : UIButton) {
+    func removePaymentRows(indexPath : IndexPath , sender : UIButton) {
         let rowData = txnsHistoryModal.init(isExpandable: (txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpandable ?? false  , isExpanded: false, transactions: (txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions)
         self.txnsHistory.replaceObject(at: sender.tag, with: rowData)
         

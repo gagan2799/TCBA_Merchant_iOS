@@ -20,10 +20,12 @@ enum viewType: uint {
     case home
     case mixPayment
 }
+
 enum tableType: uint {
     case mix
     case card
 }
+
 enum methodType: String {
     case CashOrEFTPOS           = "CashOrEFTPOS"
     case PaywaveCredit          = "PaywaveCredit"
@@ -39,7 +41,6 @@ class TMStorePaymentVC: UIViewController {
     //MARK: Modals Object
     var posData         : PostCreatePOSModel!
     var paymentOptionsBackUp  : [PostCreatePOSPaymentOption]!
-    
     
     //MARK: Outlets & Variables
     //Constraints

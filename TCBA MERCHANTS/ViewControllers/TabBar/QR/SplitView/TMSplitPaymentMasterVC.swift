@@ -18,19 +18,27 @@ class TMSplitPaymentMasterVC: UIViewController {
     //Constraints
     @IBOutlet weak var consHeightCol: NSLayoutConstraint!
     
+    //UILabel
+    @IBOutlet weak var lblMerchant: UILabel!
+    @IBOutlet weak var lblCustomer: UILabel!
+    
     // Variables
     var arrCV           = [PaymentMethod]()
+    var arrCVMerchant   = [PaymentMethod]()
     var arrCreditCards  = [PostCreatePOSPaymentOption]()
     var strCCToken      = ""
     var strPinCode      = ""
     
-    //CollectionView
-    @IBOutlet weak var cvSplit: UICollectionView!
+    // CollectionView
+    @IBOutlet weak var colVMerchant: UICollectionView!
+    @IBOutlet weak var colVCustomer: UICollectionView!
     
     //View
     @IBOutlet weak var ViewTop: UIView!
-    
+    @IBOutlet weak var viewMerchantCol: UIView!
+    @IBOutlet weak var viewCustomerCol: UIView!
     var mixPayFlag = false
+    
     //MARK: View life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +46,7 @@ class TMSplitPaymentMasterVC: UIViewController {
         CompletionHandler.shared.litsenerEvent(.checkPayment) { (bool) in
             if let flag = bool as? Bool {
                 self.mixPayFlag = flag
-                self.cvSplit.reloadData()
+                self.colVCustomer.reloadData()
             }
         }
         setViewProperties()
@@ -63,13 +71,7 @@ class TMSplitPaymentMasterVC: UIViewController {
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        
-        guard cvSplit != nil else { return }
-        DispatchQueue.main.async {
-            self.cvSplit.frame = CGRect(x: 0, y: self.ViewTop.bounds.maxY, width: self.view.bounds.width, height: GConstant.Screen.Height * 0.7)
-            self.cvSplit.setNeedsDisplay()
-            self.cvSplit.reloadData()
-        }        
+    
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -84,19 +86,25 @@ class TMSplitPaymentMasterVC: UIViewController {
         
         navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "back_button"), landscapeImagePhone: nil, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonAction))
         
+        DispatchQueue.main.async {
+            self.viewMerchantCol.applyStyle(cornerRadius: 5*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.orange, borderWidth: 5*GConstant.Screen.HeightAspectRatio, backgroundColor: .clear)
+            self.viewCustomerCol.applyStyle(cornerRadius: 5*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.blue, borderWidth: 5*GConstant.Screen.HeightAspectRatio, backgroundColor: .clear)
+        }
+        
         // ColectionView Layout setup
         consHeightCol.constant   = GConstant.Screen.Height * 0.7
         view.setNeedsLayout()
         
         guard posData != nil else { return }
-        // Array For Collecion View
-        arrCV = [PaymentMethod.init(image: "cash_icon", title: "Cash or EFTPOS", method: "CashOrEFTPOS", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "wallet_icon", title: "Wallet Funds", method: "Wallet", balance: posData.walletBalance ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "card_icon", title: "Saved Credit Cards", method: "TokenisedCreditCard", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "prizefundtrophy", title: "Prize Funds", method: "PrizeWallet", balance: posData.availablePrizeCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "loyality_icon", title: "Loyalty Credits", method: "LoyaltyCash", balance: posData.availableLoyaltyCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "mixpayment", title: "Mixed Payment", method: "", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
+        // Arrays For Collecion View
+        arrCVMerchant = [PaymentMethod.init(image: "cash_icon", title: "Cash/EFTPOS", method: "CashOrEFTPOS", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                         PaymentMethod.init(image: "card_icon", title: "Credit Card", method: "PaywaveCredit", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
         
+        arrCV = [PaymentMethod.init(image: "wallet_icon", title: "Wallet Funds", method: "Wallet", balance: posData.walletBalance ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "card_icon", title: "Card", method: "TokenisedCreditCard", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "loyality_icon", title: "Loyalty", method: "LoyaltyCash", balance: posData.availableLoyaltyCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "prizefundtrophy", title: "Prize Cash", method: "PrizeWallet", balance: posData.availablePrizeCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "mixpayment", title: "Mixed Method", method: "", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
         
         // Array of Credit Cards
         if let paymentOptions = posData.paymentOptions {
@@ -191,6 +199,15 @@ class TMSplitPaymentMasterVC: UIViewController {
         rootWindow().rootViewController?.present(obj, animated: true, completion: nil)
     }
     
+    func showPaymentSuccessPopUp(withPosData pData: PostCreatePOSModel, completion   : @escaping (_ amount : String) -> Void){
+        let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.PaymentSuccessPopUp) as! TMPaySuccessPopUpVC
+        obj.posData             = pData
+        obj.completionHandler   = { (True) in
+            completion(True)
+        }
+        obj.modalPresentationStyle  = .overCurrentContext
+        rootWindow().rootViewController?.present(obj, animated: true, completion: nil)
+    }
     //MARK: Web Api's
     
     func callPostCreateTransactionWithFullPayment(payMethodType type:methodType, withPin pin: String = "", isExecute: Int = 1, withToken token: String = "") {
@@ -266,18 +283,10 @@ class TMSplitPaymentMasterVC: UIViewController {
                             }
                         }
                     }else{
-                        if pData.paidInFull == true{
-                            AlertManager.shared.showAlertTitle(title: "Success", message: "Payment successful.", buttonsArray: ["OK"]) { (buttonIndex : Int) in
-                                switch buttonIndex {
-                                case 0 :
-                                    //OK clicked
-                                    self.backToQR()
-                                    break
-                                default:
-                                    
-                                    break
-                                }
-                            }
+                        if pData.paidInFull == true {
+                            self.showPaymentSuccessPopUp(withPosData: pData, completion: { (_) in
+                               self.backToQR()
+                            })
                         }
                     }
                 }else{
@@ -386,95 +395,172 @@ class TMSplitPaymentMasterVC: UIViewController {
 extension TMSplitPaymentMasterVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     //MARK: CollectionView Delegates & DataSource
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: 0, bottom: 10, right: 0)
+        return UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let collectionViewWidth = collectionView.bounds.width
-        return CGSize(width: collectionViewWidth/2, height: collectionViewWidth/2)
+        if collectionView == colVMerchant {
+            let colWidth    = self.colVMerchant.bounds.width
+            let colHeight   = self.colVMerchant.bounds.height
+            return CGSize(width: colWidth/2, height: colHeight*0.8)
+        } else {
+            let colWidth    = self.colVCustomer.bounds.width
+            let colHeight   = self.colVCustomer.bounds.height
+            if indexPath.item < 4 {
+                return CGSize(width: colWidth/2, height: colHeight*0.26)
+            } else {
+                return CGSize(width: colWidth, height: colHeight*0.26)
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard posData != nil else { return 0}
-        return arrCV.count
+        if collectionView == colVMerchant {
+            return arrCVMerchant.count
+        } else {
+            return arrCV.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CVCell", for: indexPath) as! TMStorePaymentCVCell
-        
-        cell.imgV.image         = UIImage(named: arrCV[indexPath.item].image!)
-        cell.lblTitle.text      = arrCV[indexPath.item].title
-        cell.lblTitle.font      = UIFont.applyOpenSansRegular(fontSize: 10.0)
-        cell.contentView.alpha  = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) ? 1.0 : 0.5
-        
+        if collectionView == colVMerchant{
+            cell.imgV.image         = UIImage(named: arrCVMerchant[indexPath.item].image!)
+            cell.lblTitle.text      = arrCVMerchant[indexPath.item].title
+            cell.lblTitle.font      = UIFont.applyOpenSansRegular(fontSize: 10.0)
+            cell.contentView.alpha  = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCVMerchant[indexPath.item].method!, withViewType: .home) ? 1.0 : 0.5
+        } else {
+            cell.imgV.image         = UIImage(named: arrCV[indexPath.item].image!)
+            cell.lblTitle.text      = arrCV[indexPath.item].title
+            cell.lblTitle.font      = UIFont.applyOpenSansRegular(fontSize: 10.0)
+            cell.contentView.alpha  = GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) ? 1.0 : 0.5
+        }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if mixPayFlag == true {
-            AlertManager.shared.showAlertTitle(title: "", message: "Please cancel mix payment method first to countinue with this payment method")
-            return
-        }
-        
-        if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) {
-            return
-        }
-        
-        if indexPath.row != 5 || indexPath.row != 2 {
-            CompletionHandler.shared.triggerEvent(.hideTableContainerPayment, passData: nil)
-        }
-        
-        if indexPath.row == 0 {
-            //<===CashOrEFTPOS===>
-            showPopUp(withMethod: .CashOrEFTPOS, transactionAmount: posData.balanceRemaining, completion: {(amount) in
-                self.callPostCreateTransactionWithFullPayment(payMethodType: .CashOrEFTPOS)
-            })
-        } else if indexPath.row == 1 {
-            //<===Wallet===>
-            if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
-                AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.walletBalance!))
-            }else{
-                showPin(withMethod: .Wallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
-                    self.callPostCreateTransactionWithFullPayment(payMethodType: .Wallet, withPin: pinCode)
+        if collectionView == colVMerchant {
+            if indexPath.row == 0 {
+                //<===CashOrEFTPOS===>
+                showPopUp(withMethod: .CashOrEFTPOS, transactionAmount: posData.balanceRemaining, completion: {(amount) in
+                    self.callPostCreateTransactionWithFullPayment(payMethodType: .CashOrEFTPOS)
+                })
+            } else if indexPath.row == 1 {
+                //<===Credit Card===>
+                showPopUp(withMethod: .PaywaveCredit, transactionAmount: posData.balanceRemaining, completion: {(amount) in
+                    self.callPostCreateTransactionWithFullPayment(payMethodType: .PaywaveCredit)
+                })
+            }
+        }else{
+            if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) {
+                return
+            }
+            if indexPath.row == 0 {
+                //<===Wallet===>
+                if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+                    AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.walletBalance!))
+                }else{
+                    showPin(withMethod: .Wallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                        self.callPostCreateTransactionWithFullPayment(payMethodType: .Wallet, withPin: pinCode)
+                    }
                 }
-            }
-        } else if indexPath.row == 2 {
-            //<===TokenisedCreditCard===>
-            if arrCreditCards.count == 0{
-                AlertManager.shared.showAlertTitle(title: "", message: "Please attach a credit card to your wallet to use this feature.")
-            }else{
-                CompletionHandler.shared.triggerEvent(.svReloadTbl, passData: tableType.card)
-            }
-        } else if indexPath.row == 3 {
-            //<===PrizeWallet===>
-            if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
-                AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availablePrizeCash!))
-            }else{
-                showPin(withMethod: .PrizeWallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
-                    self.callPostCreateTransactionWithFullPayment(payMethodType: .PrizeWallet, withPin: pinCode)
+            } else if indexPath.row == 1 {
+                //<===TokenisedCreditCard===>
+                if arrCreditCards.count == 0{
+                    AlertManager.shared.showAlertTitle(title: "", message: "Please attach a credit card to your wallet to use this feature.")
+                }else{
+                    CompletionHandler.shared.triggerEvent(.svReloadTbl, passData: tableType.card)
                 }
-            }
-        } else if indexPath.row == 4 {
-            //<===LoyaltyCash===>
-            if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
-                AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
-            }else{
-                showPin(withMethod: .LoyaltyCash, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
-                    self.callPostCreateTransactionWithFullPayment(payMethodType: .LoyaltyCash, withPin: pinCode)
+            } else if indexPath.row == 2 {
+                //<===LoyaltyCash===>
+                if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+                    AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
+                }else{
+                    showPin(withMethod: .LoyaltyCash, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                        self.callPostCreateTransactionWithFullPayment(payMethodType: .LoyaltyCash, withPin: pinCode)
+                    }
                 }
+            } else if indexPath.row == 3 {
+                //<===PrizeWallet===>
+                if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+                    AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availablePrizeCash!))
+                }else{
+                    showPin(withMethod: .PrizeWallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                        self.callPostCreateTransactionWithFullPayment(payMethodType: .PrizeWallet, withPin: pinCode)
+                    }
+                }
+            } else if indexPath.row == 4 {
+                //<===MixPayments===>
+                CompletionHandler.shared.triggerEvent(.svReloadTbl, passData: tableType.mix)
             }
-        } else if indexPath.row == 5 {
-            //<===MixPayments===>
-            CompletionHandler.shared.triggerEvent(.svReloadTbl, passData: tableType.mix)
         }
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//
+//        if mixPayFlag == true {
+//            AlertManager.shared.showAlertTitle(title: "", message: "Please cancel mix payment method first to countinue with this payment method")
+//            return
+//        }
+//
+//        if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) {
+//            return
+//        }
+//
+//        if indexPath.row != 5 || indexPath.row != 2 {
+//            CompletionHandler.shared.triggerEvent(.hideTableContainerPayment, passData: nil)
+//        }
+//
+//        if indexPath.row == 0 {
+//            //<===CashOrEFTPOS===>
+//            showPopUp(withMethod: .CashOrEFTPOS, transactionAmount: posData.balanceRemaining, completion: {(amount) in
+//                self.callPostCreateTransactionWithFullPayment(payMethodType: .CashOrEFTPOS)
+//            })
+//        } else if indexPath.row == 1 {
+//            //<===Wallet===>
+//            if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+//                AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.walletBalance!))
+//            }else{
+//                showPin(withMethod: .Wallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+//                    self.callPostCreateTransactionWithFullPayment(payMethodType: .Wallet, withPin: pinCode)
+//                }
+//            }
+//        } else if indexPath.row == 2 {
+//            //<===TokenisedCreditCard===>
+//            if arrCreditCards.count == 0{
+//                AlertManager.shared.showAlertTitle(title: "", message: "Please attach a credit card to your wallet to use this feature.")
+//            }else{
+//                CompletionHandler.shared.triggerEvent(.svReloadTbl, passData: tableType.card)
+//            }
+//        } else if indexPath.row == 3 {
+//            //<===PrizeWallet===>
+//            if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+//                AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availablePrizeCash!))
+//            }else{
+//                showPin(withMethod: .PrizeWallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+//                    self.callPostCreateTransactionWithFullPayment(payMethodType: .PrizeWallet, withPin: pinCode)
+//                }
+//            }
+//        } else if indexPath.row == 4 {
+//            //<===LoyaltyCash===>
+//            if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+//                AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
+//            }else{
+//                showPin(withMethod: .LoyaltyCash, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+//                    self.callPostCreateTransactionWithFullPayment(payMethodType: .LoyaltyCash, withPin: pinCode)
+//                }
+//            }
+//        } else if indexPath.row == 5 {
+//            //<===MixPayments===>
+//            CompletionHandler.shared.triggerEvent(.svReloadTbl, passData: tableType.mix)
+//        }
+//    }
 }

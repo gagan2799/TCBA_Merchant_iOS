@@ -714,7 +714,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
                 if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
                     AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
                 }else{
-                    showPin(withMethod: .LoyaltyCash, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                    showPin(withMethod: .LoyaltyCash, currentBalance: posData.availableLoyaltyCash, transactionAmount: posData.balanceRemaining) { (pinCode) in
                         self.callPostCreateTransactionWithFullPayment(payMethodType: .LoyaltyCash, withPin: pinCode)
                     }
                 }
@@ -723,7 +723,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
                 if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
                     AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availablePrizeCash!))
                 }else{
-                    showPin(withMethod: .PrizeWallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                    showPin(withMethod: .PrizeWallet, currentBalance: posData.availablePrizeCash, transactionAmount: posData.balanceRemaining) { (pinCode) in
                         self.callPostCreateTransactionWithFullPayment(payMethodType: .PrizeWallet, withPin: pinCode)
                     }
                 }

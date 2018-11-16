@@ -37,6 +37,43 @@ extension String {
     var html2String: String {
         return html2AttributedString?.string ?? ""
     }
+    var html2AttributedStringWithCustomFont: NSAttributedString? {
+        do {
+            return try NSAttributedString(htmlString: self, font: UIFont.applyOpenSansRegular(fontSize: 12.0))
+        } catch {
+            print("html2AttributedStringWithCustomFontError is :", error)
+            return  nil
+        }
+    }
+}
+extension NSAttributedString {
+    convenience init(htmlString html: String, font: UIFont? = nil, useDocumentFontSize: Bool = false) throws {
+        let options: [NSAttributedString.DocumentReadingOptionKey : Any] = [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue]
+        let data = html.data(using: .utf8, allowLossyConversion: true)
+        guard (data != nil), let fontFamily = font?.familyName, let attr = try? NSMutableAttributedString(data: data!, options: options, documentAttributes: nil) else {
+            try self.init(data: data ?? Data(html.utf8), options: options, documentAttributes: nil)
+            return
+        }
+        let fontSize: CGFloat? = useDocumentFontSize ? nil : font!.pointSize
+        let range = NSRange(location: 0, length: attr.length)
+        attr.enumerateAttribute(.font, in: range, options: .longestEffectiveRangeNotRequired) { attrib, range, _ in
+            if let htmlFont = attrib as? UIFont {
+                let traits = htmlFont.fontDescriptor.symbolicTraits
+                var descrip = htmlFont.fontDescriptor.withFamily(fontFamily)
+                
+                if (traits.rawValue & UIFontDescriptor.SymbolicTraits.traitBold.rawValue) != 0 {
+                    descrip = descrip.withSymbolicTraits(.traitBold)!
+                }
+                
+                if (traits.rawValue & UIFontDescriptor.SymbolicTraits.traitItalic.rawValue) != 0 {
+                    descrip = descrip.withSymbolicTraits(.traitItalic)!
+                }
+                attr.addAttribute(.font, value: UIFont(descriptor: descrip, size: fontSize ?? htmlFont.pointSize), range: range)
+            }
+        }
+        self.init(attributedString: attr)
+    }
+    
 }
 extension String {
     var isNumeric: Bool {
@@ -62,7 +99,7 @@ extension String {
         let Test = NSPredicate(format:"SELF MATCHES %@", RegEx)
         return Test.evaluate(with: self)
     }
-
+    
     func randomStringWithLength(_ len:Int)-> String{
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         let randomString : NSMutableString = NSMutableString(capacity: len)
@@ -107,7 +144,7 @@ extension String {
                 specialCharacter = (CharacterSet.symbols as NSCharacterSet).characterIsMember(c)
             }
         }
-
+        
         return self.checkFourBoolHigh(first: lowerCaseletter, second: upperCaseletter, third: digit, fourth: specialCharacter)
     }
     
@@ -378,7 +415,7 @@ extension String {
         let digitsString = self.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
         return digitsString.replacingOccurrences(of: "(\\d{3})(\\d{2})(\\d+)", with: "$1-$2-$3", options: .regularExpression, range: nil)
     }
-
+    
     
 }
 

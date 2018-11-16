@@ -51,7 +51,6 @@ class TMAlertsDetailVC: UIViewController {
         }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
             
         })
-        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -69,7 +68,7 @@ class TMAlertsDetailVC: UIViewController {
         lblDate.text                    = Date().dateToDDMMYYYY(date: objAlert?.dateCreated ?? "")
         guard let htmlText              = objAlert.description  else { return }
         DispatchQueue.main.async {
-            self.txtDescription.attributedText = htmlText.html2AttributedString
+            self.txtDescription.attributedText = htmlText.html2AttributedStringWithCustomFont
         }
         
         if let url = URL(string:objAlert?.image ?? "") {

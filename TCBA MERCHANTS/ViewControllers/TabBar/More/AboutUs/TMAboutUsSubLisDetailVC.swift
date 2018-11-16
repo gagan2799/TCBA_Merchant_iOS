@@ -59,10 +59,11 @@ class TMAboutUsSubLisDetailVC: UIViewController {
             imgV.setImageWithDownload(URL(string: img)!, withIndicator: true)
         }
         viewContainer.applyViewShadow(shadowOffset: CGSize(width: 0.5, height: 0.5), shadowColor: UIColor.lightGray, shadowOpacity: 50.0, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, backgroundColor: UIColor.white, backgroundOpacity: nil)
+        lblTitle.font       = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
         lblTitle.text       = section.title
         guard let htmlText  = section.description  else { return }
         DispatchQueue.main.async {
-            self.txtView.attributedText  = htmlText.html2AttributedString
+            self.txtView.attributedText  = htmlText.html2AttributedStringWithCustomFont
         }
     }
 }

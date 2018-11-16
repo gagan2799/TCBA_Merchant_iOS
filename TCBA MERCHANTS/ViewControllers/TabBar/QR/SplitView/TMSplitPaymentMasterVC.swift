@@ -71,7 +71,11 @@ class TMSplitPaymentMasterVC: UIViewController {
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-    
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        colVMerchant.collectionViewLayout.invalidateLayout()
+        colVCustomer.collectionViewLayout.invalidateLayout()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -87,13 +91,16 @@ class TMSplitPaymentMasterVC: UIViewController {
         navigationItem.leftBarButtonItem    = UIBarButtonItem(image: UIImage(named: "back_button"), landscapeImagePhone: nil, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonAction))
         
         DispatchQueue.main.async {
+            self.lblMerchant.font         = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
+            self.lblCustomer.font         = UIFont.applyOpenSansSemiBold(fontSize: 14.0)
             self.viewMerchantCol.applyStyle(cornerRadius: 5*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.orange, borderWidth: 5*GConstant.Screen.HeightAspectRatio, backgroundColor: .clear)
             self.viewCustomerCol.applyStyle(cornerRadius: 5*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.blue, borderWidth: 5*GConstant.Screen.HeightAspectRatio, backgroundColor: .clear)
         }
         
         // ColectionView Layout setup
-        consHeightCol.constant   = GConstant.Screen.Height * 0.7
+        consHeightCol.constant   = GConstant.Screen.Height * 0.72
         view.setNeedsLayout()
+        
         
         guard posData != nil else { return }
         // Arrays For Collecion View
@@ -399,6 +406,7 @@ extension TMSplitPaymentMasterVC: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        print(collectionViewLayout)
         if collectionView == colVMerchant {
             let colWidth    = self.colVMerchant.bounds.width
             let colHeight   = self.colVMerchant.bounds.height
@@ -484,7 +492,7 @@ extension TMSplitPaymentMasterVC: UICollectionViewDelegate, UICollectionViewData
                 if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
                     AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
                 }else{
-                    showPin(withMethod: .LoyaltyCash, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                    showPin(withMethod: .LoyaltyCash, currentBalance: posData.availableLoyaltyCash, transactionAmount: posData.balanceRemaining) { (pinCode) in
                         self.callPostCreateTransactionWithFullPayment(payMethodType: .LoyaltyCash, withPin: pinCode)
                     }
                 }
@@ -493,7 +501,7 @@ extension TMSplitPaymentMasterVC: UICollectionViewDelegate, UICollectionViewData
                 if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
                     AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availablePrizeCash!))
                 }else{
-                    showPin(withMethod: .PrizeWallet, currentBalance: posData.walletBalance, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                    showPin(withMethod: .PrizeWallet, currentBalance: posData.availablePrizeCash, transactionAmount: posData.balanceRemaining) { (pinCode) in
                         self.callPostCreateTransactionWithFullPayment(payMethodType: .PrizeWallet, withPin: pinCode)
                     }
                 }

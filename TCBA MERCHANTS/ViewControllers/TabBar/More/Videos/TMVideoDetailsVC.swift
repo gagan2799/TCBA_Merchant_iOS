@@ -69,7 +69,7 @@ class TMVideoDetailsVC: UIViewController {
         viewContainer.applyViewShadow(shadowOffset: CGSize(width: 0.5, height: 0.5), shadowColor: UIColor.lightGray, shadowOpacity: 50.0, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, backgroundColor: UIColor.white, backgroundOpacity: nil)
         guard let htmlText = objVideoSub?.videoDescription  else { return }
         DispatchQueue.main.async {
-            self.txtView.attributedText  = htmlText.html2AttributedString
+            self.txtView.attributedText  = htmlText.html2AttributedStringWithCustomFont
         }
     }
     

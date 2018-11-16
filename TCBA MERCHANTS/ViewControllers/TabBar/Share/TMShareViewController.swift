@@ -18,6 +18,7 @@ class TMShareViewController: UIViewController {
     @IBOutlet weak var scrShare: UIScrollView!
     @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var viewLock: UIView!
+    @IBOutlet weak var consMainVHeight: NSLayoutConstraint!
     
     //MARK: View life Cycle
     override func viewDidLoad() {
@@ -74,8 +75,9 @@ class TMShareViewController: UIViewController {
         // navigationBar customization
         self.navigationController?.isNavigationBarHidden = true
         if let storeId = GConstant.UserData.stores {
-            lblStoreID.text       = "Store id: \(storeId)"
+            lblStoreID.text         = "Store id: \(storeId)"
         }
+        consMainVHeight.constant    = GConstant.Screen.Height * 0.9
         
         lblStoreID.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 16.0), labelColor: GConstant.AppColor.blue, borderColor: GConstant.AppColor.blue, borderWidth: 1.0)
         lblCashBack.font                = UIFont.applyOpenSansSemiBold(fontSize: 18.0)

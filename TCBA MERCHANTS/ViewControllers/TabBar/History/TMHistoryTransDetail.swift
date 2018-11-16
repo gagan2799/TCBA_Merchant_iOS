@@ -143,7 +143,7 @@ class TMHistoryTransDetail: UIViewController {
         let indexPath               = IndexPath.init(item: sender.tag, section: 0)
         guard let isExpanded = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpanded else { return }
         UIView.animate(withDuration: 0.3) { () -> Void in
-            sender.transform    = !isExpanded ? CGAffineTransform(rotationAngle: CGFloat.pi) : CGAffineTransform(rotationAngle: CGFloat.pi * 2)
+            sender.transform    = !isExpanded ? CGAffineTransform(rotationAngle: CGFloat.pi) : CGAffineTransform(rotationAngle: CGFloat.pi * -2)
         }
         !isExpanded ? insertPaymentRows(indexPath: indexPath, sender: sender) : removePaymentRows(indexPath: indexPath, sender: sender)
     }
@@ -153,7 +153,7 @@ class TMHistoryTransDetail: UIViewController {
         let isExpandable                    = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpandable
         let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryTransDetailCell") as! TMHistoryTransDetailCell
         
-        cell.btnDropDown.transform      = (self.txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpanded ?? false ?CGAffineTransform(rotationAngle: CGFloat.pi) : CGAffineTransform(rotationAngle: CGFloat.pi * 2)
+        cell.btnDropDown.transform      = (self.txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpanded ?? false ?CGAffineTransform(rotationAngle: CGFloat.pi) : CGAffineTransform(rotationAngle: CGFloat.pi * -2)
 
         cell.btnDropDown.isUserInteractionEnabled = isExpandable ?? false ? true : false
         

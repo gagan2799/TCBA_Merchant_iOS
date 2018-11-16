@@ -50,6 +50,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     //MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Screen Bounds are:<<<<\(self.view.bounds)>>>>")
         // hide the default back buttons if is from splashViewController
         self.navigationItem.hidesBackButton = true
         // Show navigationBar
@@ -111,6 +112,8 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     func setViewProperties(){
         //<--------Fogot user & password buttons Attributes setup----->
         // create attributed string
+        consHeightMainView.constant = GConstant.Screen.Height
+        self.view.layoutIfNeeded()
         let attributes = [NSAttributedString.Key.foregroundColor:GConstant.AppColor.textDark , NSAttributedString.Key.font: UIFont.applyRegular(fontSize: 12.0) , NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue] as [NSAttributedString.Key : Any]
         
         let strTitleForgotUser = "Forgot Username "

@@ -61,6 +61,15 @@
 		79380A412105BBDB00FB4776 /* TMShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79380A402105BBDB00FB4776 /* TMShareViewController.swift */; };
 		79380A432105BFD800FB4776 /* TMTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79380A422105BFD800FB4776 /* TMTransactionViewController.swift */; };
 		79380A452105BFF200FB4776 /* TMHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79380A442105BFF200FB4776 /* TMHistoryViewController.swift */; };
+		7941F33121A2E4BA00EF833C /* onboarding_f_score.png in Resources */ = {isa = PBXBuildFile; fileRef = 7941F32921A2E4B600EF833C /* onboarding_f_score.png */; };
+		7941F33221A2E4BA00EF833C /* onboarding_a_around.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7941F32A21A2E4B600EF833C /* onboarding_a_around.jpg */; };
+		7941F33321A2E4BA00EF833C /* onboarding_e_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 7941F32B21A2E4B600EF833C /* onboarding_e_share.png */; };
+		7941F33421A2E4BA00EF833C /* onboarding_g_started.png in Resources */ = {isa = PBXBuildFile; fileRef = 7941F32C21A2E4B700EF833C /* onboarding_g_started.png */; };
+		7941F33521A2E4BA00EF833C /* onboarding_d_gift_cards_in_store.png in Resources */ = {isa = PBXBuildFile; fileRef = 7941F32D21A2E4B800EF833C /* onboarding_d_gift_cards_in_store.png */; };
+		7941F33621A2E4BA00EF833C /* onboarding_b_major_brands.png in Resources */ = {isa = PBXBuildFile; fileRef = 7941F32E21A2E4B800EF833C /* onboarding_b_major_brands.png */; };
+		7941F33721A2E4BA00EF833C /* onboading_aa_main.png in Resources */ = {isa = PBXBuildFile; fileRef = 7941F32F21A2E4B900EF833C /* onboading_aa_main.png */; };
+		7941F33821A2E4BA00EF833C /* onboarding_c_cashback_qr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7941F33021A2E4B900EF833C /* onboarding_c_cashback_qr.png */; };
+		7941F33A21A2E63400EF833C /* TMAppOverViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7941F33921A2E63400EF833C /* TMAppOverViewVC.swift */; };
 		794F66E220FDAF2800901B0C /* TMSplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F66E120FDAF2800901B0C /* TMSplashViewController.swift */; };
 		7953B789216B1B3900832AA7 /* TMCalculatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953B788216B1B3900832AA7 /* TMCalculatorCell.swift */; };
 		7953B78B216B1B5900832AA7 /* TMCalculatorHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953B78A216B1B5900832AA7 /* TMCalculatorHeaderCell.swift */; };
@@ -166,8 +175,6 @@
 		792534DE211C77870028C45D /* IQKeyboardManagerSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IQKeyboardManagerSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		792534E0211C778B0028C45D /* EmptyDataSet_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EmptyDataSet_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		792534E2211C778E0028C45D /* SDWebImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		792534E4211C77920028C45D /* SIAlertView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SIAlertView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		792534E6211C77950028C45D /* INSPullToRefresh.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = INSPullToRefresh.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		792534E8211C77990028C45D /* SwiftGifOrigin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftGifOrigin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		792534EA211C779C0028C45D /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		792B541520F5DD30000223F7 /* TCBA MERCHANTS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TCBA MERCHANTS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -193,6 +200,15 @@
 		79380A402105BBDB00FB4776 /* TMShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMShareViewController.swift; sourceTree = "<group>"; };
 		79380A422105BFD800FB4776 /* TMTransactionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMTransactionViewController.swift; sourceTree = "<group>"; };
 		79380A442105BFF200FB4776 /* TMHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMHistoryViewController.swift; sourceTree = "<group>"; };
+		7941F32921A2E4B600EF833C /* onboarding_f_score.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onboarding_f_score.png; sourceTree = "<group>"; };
+		7941F32A21A2E4B600EF833C /* onboarding_a_around.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = onboarding_a_around.jpg; sourceTree = "<group>"; };
+		7941F32B21A2E4B600EF833C /* onboarding_e_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onboarding_e_share.png; sourceTree = "<group>"; };
+		7941F32C21A2E4B700EF833C /* onboarding_g_started.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onboarding_g_started.png; sourceTree = "<group>"; };
+		7941F32D21A2E4B800EF833C /* onboarding_d_gift_cards_in_store.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onboarding_d_gift_cards_in_store.png; sourceTree = "<group>"; };
+		7941F32E21A2E4B800EF833C /* onboarding_b_major_brands.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onboarding_b_major_brands.png; sourceTree = "<group>"; };
+		7941F32F21A2E4B900EF833C /* onboading_aa_main.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onboading_aa_main.png; sourceTree = "<group>"; };
+		7941F33021A2E4B900EF833C /* onboarding_c_cashback_qr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onboarding_c_cashback_qr.png; sourceTree = "<group>"; };
+		7941F33921A2E63400EF833C /* TMAppOverViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMAppOverViewVC.swift; sourceTree = "<group>"; };
 		794F66E120FDAF2800901B0C /* TMSplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMSplashViewController.swift; sourceTree = "<group>"; };
 		7953B788216B1B3900832AA7 /* TMCalculatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMCalculatorCell.swift; sourceTree = "<group>"; };
 		7953B78A216B1B5900832AA7 /* TMCalculatorHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMCalculatorHeaderCell.swift; sourceTree = "<group>"; };
@@ -276,8 +292,6 @@
 			children = (
 				792534EA211C779C0028C45D /* SwiftyJSON.framework */,
 				792534E8211C77990028C45D /* SwiftGifOrigin.framework */,
-				792534E6211C77950028C45D /* INSPullToRefresh.framework */,
-				792534E4211C77920028C45D /* SIAlertView.framework */,
 				792534E2211C778E0028C45D /* SDWebImage.framework */,
 				792534E0211C778B0028C45D /* EmptyDataSet_Swift.framework */,
 				792534DE211C77870028C45D /* IQKeyboardManagerSwift.framework */,
@@ -326,6 +340,7 @@
 		790D392C210864C40073AE4C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7941F32821A2E47500EF833C /* AppInfoImages */,
 				790D392D210865100073AE4C /* Loader */,
 			);
 			path = Resources;
@@ -642,6 +657,21 @@
 			path = More;
 			sourceTree = "<group>";
 		};
+		7941F32821A2E47500EF833C /* AppInfoImages */ = {
+			isa = PBXGroup;
+			children = (
+				7941F32F21A2E4B900EF833C /* onboading_aa_main.png */,
+				7941F32A21A2E4B600EF833C /* onboarding_a_around.jpg */,
+				7941F32E21A2E4B800EF833C /* onboarding_b_major_brands.png */,
+				7941F33021A2E4B900EF833C /* onboarding_c_cashback_qr.png */,
+				7941F32D21A2E4B800EF833C /* onboarding_d_gift_cards_in_store.png */,
+				7941F32B21A2E4B600EF833C /* onboarding_e_share.png */,
+				7941F32921A2E4B600EF833C /* onboarding_f_score.png */,
+				7941F32C21A2E4B700EF833C /* onboarding_g_started.png */,
+			);
+			path = AppInfoImages;
+			sourceTree = "<group>";
+		};
 		794F66E320FDB3DD00901B0C /* SplashScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -778,6 +808,7 @@
 				79FCACD7215515C4003BC2C8 /* TMAboutUsVC.swift */,
 				79FCACD9215521BF003BC2C8 /* TMAboutUsSubLisVC.swift */,
 				7903C4F021622A630065B51C /* TMAboutUsSubLisDetailVC.swift */,
+				7941F33921A2E63400EF833C /* TMAppOverViewVC.swift */,
 			);
 			path = AboutUs;
 			sourceTree = "<group>";
@@ -853,14 +884,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7941F33621A2E4BA00EF833C /* onboarding_b_major_brands.png in Resources */,
+				7941F33121A2E4BA00EF833C /* onboarding_f_score.png in Resources */,
 				792B545920F63663000223F7 /* OpenSans-Regular.ttf in Resources */,
+				7941F33821A2E4BA00EF833C /* onboarding_c_cashback_qr.png in Resources */,
 				792B545A20F63663000223F7 /* OpenSans-Bold.ttf in Resources */,
 				799924C920FF0CC30074BDE6 /* Launch Screen.storyboard in Resources */,
 				790F0B9020F71ACB00082B79 /* BlocSSiBold.ttf in Resources */,
 				792B542020F5DD32000223F7 /* Assets.xcassets in Resources */,
+				7941F33321A2E4BA00EF833C /* onboarding_e_share.png in Resources */,
+				7941F33421A2E4BA00EF833C /* onboarding_g_started.png in Resources */,
+				7941F33521A2E4BA00EF833C /* onboarding_d_gift_cards_in_store.png in Resources */,
 				792B545B20F63663000223F7 /* OpenSans-Semibold.ttf in Resources */,
 				7901887E213FE8A100C9110B /* CKEditor in Resources */,
 				790D392F210865110073AE4C /* LoaderAnim.gif in Resources */,
+				7941F33221A2E4BA00EF833C /* onboarding_a_around.jpg in Resources */,
+				7941F33721A2E4BA00EF833C /* onboading_aa_main.png in Resources */,
 				792B541E20F5DD30000223F7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1009,6 +1048,7 @@
 				7998D1C3217EE22C008710F9 /* TMMatrixFooterCell.swift in Sources */,
 				7998D1C1217EE217008710F9 /* TMMatrixHeaderCell.swift in Sources */,
 				7933FCAC2111BA7E00E9B49B /* IncompleteTransactionData.swift in Sources */,
+				7941F33A21A2E63400EF833C /* TMAppOverViewVC.swift in Sources */,
 				790E31FE212FC78500224EDB /* TMPopUPVC.swift in Sources */,
 				7997DF47213535C600D22E92 /* TMSplitPaymentMasterVC.swift in Sources */,
 				7912313D2141136500E475CF /* TMTradingCell.swift in Sources */,

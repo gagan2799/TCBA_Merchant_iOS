@@ -52,25 +52,29 @@ class TMMyBusinessVC: UIViewController {
                 }
             }
             self.cvBusiness.reloadData()
-            
+
         }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
-            
+
             DispatchQueue.main.async {
                 let y = self.cvBusiness.bounds.width/2
                 var x = UIDevice.current.userInterfaceIdiom == .pad ? self.cvBusiness.bounds.height/4 : self.cvBusiness.bounds.height/3.8
-                
+
                 guard let verticalLine = GFunction.shared.getDoubleGradientView(CGRect(x: y, y: 0, width: 1, height: x*4), start: .clear, midColor: UIColor.init(red: 116.0/255.0, green: 162.0/255.0, blue: 178.0/255, alpha: 0.5), end: .clear, direction: .vertical) else { return }
                 self.cvBusiness.addSubview(verticalLine)
-                
+
                 for _ in 0...2 {
                     guard let horizontalLine = GFunction.shared.getDoubleGradientView(CGRect(x: 10*GConstant.Screen.HeightAspectRatio, y: x, width: self.cvBusiness.bounds.width-20*GConstant.Screen.HeightAspectRatio, height: 1), start: .clear, midColor: UIColor.init(red: 116.0/255.0, green: 162.0/255.0, blue: 178.0/255, alpha: 0.5), end: .clear, direction: .horizontal) else { return }
                     self.cvBusiness.addSubview(horizontalLine)
-                    
+
                     x = x + (UIDevice.current.userInterfaceIdiom == .pad ? self.cvBusiness.bounds.height/4 : self.cvBusiness.bounds.height/3.8)
                 }
             }
         })
         
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        cvBusiness.collectionViewLayout.invalidateLayout()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -37,6 +37,7 @@ class TMHistoryDetailVC: UIViewController {
     @IBOutlet var lblSubTitles: [UILabel]!
     @IBOutlet weak var stackVDebits: UIStackView!
     
+    @IBOutlet weak var consHeightTotalView: NSLayoutConstraint!
     //MARK: Modal objects
     var transactionData         : TransactionDataModel!
     var incompleteData          : IncompleteTransactionDataModel!
@@ -111,6 +112,8 @@ class TMHistoryDetailVC: UIViewController {
         self.navigationController?.customize()
         self.navigationItem.title = "History"
 
+        consHeightTotalView.constant = GConstant.Screen.Height * 0.2
+        
         if let storeId = GConstant.UserData.stores {
             lblStoreId.text       = "Store id: \(storeId)"
         }

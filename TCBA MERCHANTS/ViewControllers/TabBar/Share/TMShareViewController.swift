@@ -133,6 +133,7 @@ class TMShareViewController: UIViewController {
             }
         }
     }
+    
     //MARK: CheckStaffLogin Method & Api
     func staffLoginVC() {
         let obj = storyboard?.instantiateViewController(withIdentifier: "TMStaffLoginVC") as! TMStaffLoginVC
@@ -143,6 +144,7 @@ class TMShareViewController: UIViewController {
         }
         rootWindow().rootViewController?.present(obj, animated: true, completion: nil)
     }
+    
     func callGetStaffLoginApi(pin: String) {
         /*
          =====================API CALL=====================

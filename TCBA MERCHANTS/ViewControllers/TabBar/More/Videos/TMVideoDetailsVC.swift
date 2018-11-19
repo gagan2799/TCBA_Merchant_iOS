@@ -9,10 +9,10 @@
 import UIKit
 import WebKit
 
-class TMVideoDetailsVC: UIViewController {
+class TMVideoDetailsVC: UIViewController , WKNavigationDelegate{
     //MARK: Variables & Constants
     var objVideoSub: VideoSubCategoryVideo!
-    
+    var indicator: UIActivityIndicatorView!
     //MARK: Outlets
     //WebKit
     @IBOutlet weak var webV: WKWebView!
@@ -63,6 +63,11 @@ class TMVideoDetailsVC: UIViewController {
         // navigationBar customization
         self.navigationController?.customize()
         self.navigationItem.title   = "Videos"
+        webV.navigationDelegate     = self
+        indicator                   = UIActivityIndicatorView.init(style: .gray)
+        indicator.frame             = CGRect(x: self.view.center.x - 10, y: webV.bounds.midY + 20, width: 20, height: 20)
+        self.view.addSubview(indicator)
+        indicator.startAnimating()
         loadYoutube(videoURL: objVideoSub?.videoLink ?? "")
         lblTitle.font               = UIFont.applyOpenSansRegular(fontSize: 16.0)
         lblTitle.text               = objVideoSub?.videoTitle
@@ -78,5 +83,11 @@ class TMVideoDetailsVC: UIViewController {
         guard let youtubeURL = URL(string: "https://www.youtube.com/embed/\(videoID[1])")
             else { return }
         webV.load(URLRequest(url: youtubeURL))
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        indicator.stopAnimating()
+        indicator.isHidden  = true
+        indicator.removeFromSuperview()
     }
 }

@@ -452,26 +452,27 @@ extension UILabel {
         }
     }
     
-    override open var intrinsicContentSize: CGSize {
-        guard let text = self.text else { return super.intrinsicContentSize }
-        
-        var contentSize = super.intrinsicContentSize
-        var textWidth: CGFloat = frame.size.width
-        var insetsHeight: CGFloat = 0.0
-        
-        if let insets = padding {
-            textWidth -= insets.left + insets.right
-            insetsHeight += insets.top + insets.bottom
-        }
-        
-        let newSize = text.boundingRect(with: CGSize(width: textWidth, height: CGFloat.greatestFiniteMagnitude),
-                                        options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                        attributes: [NSAttributedString.Key.font: self.font], context: nil)
-        
-        contentSize.height = ceil(newSize.size.height) + insetsHeight
-        
-        return contentSize
-    }
+    //<<<_____ Don't uncomment this method this is getting prob with UIAlertController
+//    override open var intrinsicContentSize: CGSize {
+//        guard let text = self.text else { return super.intrinsicContentSize }
+//        
+//        var contentSize = super.intrinsicContentSize
+//        var textWidth: CGFloat = frame.size.width
+//        var insetsHeight: CGFloat = 0.0
+//        
+//        if let insets = padding {
+//            textWidth -= insets.left + insets.right
+//            insetsHeight += insets.top + insets.bottom
+//        }
+//        
+//        let newSize = text.boundingRect(with: CGSize(width: textWidth, height: CGFloat.greatestFiniteMagnitude),
+//                                        options: NSStringDrawingOptions.usesLineFragmentOrigin,
+//                                        attributes: [NSAttributedString.Key.font: self.font], context: nil)
+//        
+//        contentSize.height = ceil(newSize.size.height) + insetsHeight
+//        
+//        return contentSize
+//    }
 }
 
 extension UILabel {
@@ -1051,21 +1052,21 @@ extension UIViewController {
      }
      }
      */
-    func showAlertWithButtons(title: String, message: String, buttons: String..., completion: @escaping (Int) -> Void) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        for (index, option) in buttons.enumerated() {
-            alertController.addAction(UIAlertAction.init(title: option, style: .default, handler: { (action) in
-                completion(index)
-            }))
-        }
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
-    func showAlert(title: String, message: String)  {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
+//    func showAlertWithButtons(title: String, message: String, buttons: String..., completion: @escaping (Int) -> Void) {
+//        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//        for (index, option) in buttons.enumerated() {
+//            alertController.addAction(UIAlertAction.init(title: option, style: .default, handler: { (action) in
+//                completion(index)
+//            }))
+//        }
+//        self.present(alertController, animated: true, completion: nil)
+//    }
+//
+//    func showAlert(title: String, message: String)  {
+//        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+//        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+//        self.present(alert, animated: true, completion: nil)
+//    }
     
     func toolBarDoneButtonClicked() {
         self.view.endEditing(true)

@@ -48,14 +48,17 @@ class TMHomeViewController: UIViewController {
         }
     }
     override func viewDidAppear(_ animated: Bool) {
-        
+       
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         
     }
+    
     override func viewDidDisappear(_ animated: Bool) {
         
     }
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
         guard scrollVHome != nil else {return}
@@ -65,10 +68,12 @@ class TMHomeViewController: UIViewController {
             scrollVHome.isScrollEnabled = false
         }
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
     }
+    
     //MARK: - Set view properties
     func setViewProperties(){
         // navigationBar customization

@@ -92,9 +92,9 @@ class TMMatrixCalculatorVC: UIViewController {
             //Adding values of totalpeople
             people += Double(total.totalUsers)
             //Adding values of incWeek
-                incWeek += total.incWeek
+            incWeek += total.incWeek
             //Adding values of totalSaveInYear
-                incYear += total.incYear
+            incYear += total.incYear
         }
         let totalPeople     = String.init(format: "%.0f", people)
         let totalIncWeek    = Double(String.init(format: "%.0f", incWeek))?.strWithComma() ?? ""
@@ -166,6 +166,12 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
         header.txtAverageSpend.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: GConstant.AppColor.textDark, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.textLight, borderWidth: 0.5)
         header.txtAverageSpend.setRightPaddingPoints(5.0)
         header.txtAverageSpend.setLeftPaddingPoints(10.0*GConstant.Screen.HeightAspectRatio)
+        header.lblTitle.font        = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
+        header.lblAverageSpend.font = UIFont.applyOpenSansRegular(fontSize: 15.0)
+        header.lblPeopleH.font      = UIFont.applyOpenSansRegular(fontSize: 15.0)
+        header.lblPercentageH.font  = UIFont.applyOpenSansRegular(fontSize: 15.0)
+        header.lblIncWeekH.font     = UIFont.applyOpenSansRegular(fontSize: 15.0)
+        header.lblIncYearH.font     = UIFont.applyOpenSansRegular(fontSize: 15.0)
         
         header.lblTitle.text        = arrMatrixData[section].headerTitle
         header.txtAverageSpend.text = arrMatrixData[section].averageSpend
@@ -226,6 +232,8 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
         footer.txtTotalIncWeek.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: GConstant.AppColor.textDark, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.textLight, borderWidth: 0.5)
         footer.txtTotalIncYear.applyStyle(textFont: UIFont.applyOpenSansRegular(fontSize: 14.0), textColor: GConstant.AppColor.textDark, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, borderColor: GConstant.AppColor.textLight, borderWidth: 0.5)
         
+        footer.lblTotal.font        = UIFont.applyOpenSansRegular(fontSize: 15.0)
+        
         footer.txtTotalPeople.setRightPaddingPoints(5.0)
         footer.txtTotalIncWeek.setRightPaddingPoints(5.0)
         footer.txtTotalIncYear.setRightPaddingPoints(5.0)
@@ -238,9 +246,9 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
         footer.txtTotalIncWeek.text = arrMatrixData[section].totalIncWeek
         footer.txtTotalIncYear.text = arrMatrixData[section].totalIncYear
         
-        footer.txtTotalPeople.tag  = 100 + section
-        footer.txtTotalIncWeek.tag = 200 + section
-        footer.txtTotalIncYear.tag = 300 + section
+        footer.txtTotalPeople.tag   = 100 + section
+        footer.txtTotalIncWeek.tag  = 200 + section
+        footer.txtTotalIncYear.tag  = 300 + section
         
         return footer.contentView
     }
@@ -252,9 +260,9 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if textField.tag == 10001 {
-            guard let cell = textField.superview?.superview?.superview?.superview?.superview as? TMMatrixCell else { return true }
-            guard let indexPath = tblMatrixCal.indexPath(for: cell) else { return true }
-            if let peopleVal = NumberFormatter().number(from: cell.txtPeople?.text ?? "")?.intValue {
+            guard let cell          = textField.superview?.superview?.superview?.superview?.superview as? TMMatrixCell else { return true }
+            guard let indexPath     = tblMatrixCal.indexPath(for: cell) else { return true }
+            if let peopleVal        = NumberFormatter().number(from: cell.txtPeople?.text ?? "")?.intValue {
                 // ====getting Header cell for AverageSpend value & set value to array====
                 guard let txtAverage = header.contentView.viewWithTag(1) as? UITextField else { return true }
                 self.arrMatrixData[indexPath.section].averageSpend = txtAverage.text ?? ""
@@ -273,9 +281,9 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
                 
                 //Getting Footer cell for Setting total values
                 let totalVals   = self.totalMatrix(matrixData: arrMatrixData[indexPath.section].UserMatrixData)
-                self.arrMatrixData[indexPath.section].totalPeople = totalVals.totalPeople
-                self.arrMatrixData[indexPath.section].totalIncWeek = totalVals.totalIncWeek
-                self.arrMatrixData[indexPath.section].totalIncYear = totalVals.totalIncYear
+                self.arrMatrixData[indexPath.section].totalPeople   = totalVals.totalPeople
+                self.arrMatrixData[indexPath.section].totalIncWeek  = totalVals.totalIncWeek
+                self.arrMatrixData[indexPath.section].totalIncYear  = totalVals.totalIncYear
                 
                 DispatchQueue.main.async {
                     self.footer.txtTotalPeople.text  = totalVals.totalPeople
@@ -288,6 +296,7 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
             return true
         }
     }
+    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         textField.text = ""
         return true

@@ -29,6 +29,8 @@ class TMHistoryTransDetail: UIViewController {
     @IBOutlet weak var lblCreditsVal: UILabel!
     @IBOutlet var lblSubTitles: [UILabel]!
     
+    
+    @IBOutlet weak var consHeightTotalView: NSLayoutConstraint!
     @IBOutlet weak var consWidthTbl: NSLayoutConstraint!
     
     //MARK: Modal objects
@@ -102,6 +104,7 @@ class TMHistoryTransDetail: UIViewController {
         // navigationBar customization
         self.navigationController?.customize()
         self.navigationItem.title   = "History"
+        consHeightTotalView.constant = GConstant.Screen.Height * 0.2
         
         if let storeId = GConstant.UserData.stores {
             lblStoreId.text         = "Store id: \(storeId)"

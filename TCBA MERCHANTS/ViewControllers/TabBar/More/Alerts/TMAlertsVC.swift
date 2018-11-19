@@ -115,7 +115,7 @@ extension TMAlertsVC: UITableViewDelegate, UITableViewDataSource {
         if let img = URL(string: imgURL) {
             cell.imgV.setImageWithDownload(img)
         } else {
-            cell.imgV.image = UIImage.init(named: "placeholder")
+            cell.imgV.image = UIImage.init(named: "cardPlaceholder")
         }
         
         return cell

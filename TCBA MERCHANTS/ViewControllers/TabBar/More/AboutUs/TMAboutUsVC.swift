@@ -17,7 +17,7 @@ class TMAboutUsVC: UIViewController {
     //MARK: Variables & Constants
     let arrAboutUs = [AboutUs.init(image: "corportae", title: "Corporate"),
                       AboutUs.init(image: "news", title: "News"),
-                      AboutUs.init(image: "about_Icon", title: "App Introduction Video")]
+                      AboutUs.init(image: "about_Icon", title: "App Overview")]
     
     //MARK: Outlets
     //UILabel
@@ -90,7 +90,8 @@ extension TMAboutUsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 2 {
-            
+            let objAppOverview      = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.AppOverView) as! TMAppOverViewVC
+            self.navigationController?.pushViewController(objAppOverview, animated: true)
         } else {
             let objSubLis           = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.AboutUsSubLis) as! TMAboutUsSubLisVC
             if indexPath.row == 0 {

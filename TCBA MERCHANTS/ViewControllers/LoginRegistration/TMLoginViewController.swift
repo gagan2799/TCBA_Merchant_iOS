@@ -112,7 +112,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     func setViewProperties(){
         //<--------Fogot user & password buttons Attributes setup----->
         // create attributed string
-        consHeightMainView.constant = GConstant.Screen.Height
+        consHeightMainView.constant = GConstant.Screen.Height * 0.95
         self.view.layoutIfNeeded()
         let attributes = [NSAttributedString.Key.foregroundColor:GConstant.AppColor.textDark , NSAttributedString.Key.font: UIFont.applyRegular(fontSize: 12.0) , NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue] as [NSAttributedString.Key : Any]
         

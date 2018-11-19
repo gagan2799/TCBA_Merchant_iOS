@@ -73,6 +73,8 @@ class TMAlertsDetailVC: UIViewController {
         
         if let url = URL(string:objAlert?.image ?? "") {
             imgV.setImageWithDownload(url, withIndicator: true)
+        } else {
+            imgV.image                  = UIImage.init(named: "cardPlaceholder")
         }
     }
 }

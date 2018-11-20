@@ -73,6 +73,10 @@ class TMAlertsDetailVC: UIViewController {
         
         if let url = URL(string:objAlert?.image ?? "") {
             imgV.setImageWithDownload(url, withIndicator: true)
+            DispatchQueue.main.async {
+                self.imgV.layoutIfNeeded()
+                self.setNeedsFocusUpdate()
+            }
         } else {
             imgV.image                  = UIImage.init(named: "cardPlaceholder")
         }

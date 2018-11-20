@@ -57,6 +57,12 @@ class TMAboutUsSubLisDetailVC: UIViewController {
         self.navigationItem.title = section.title
         if let img = section.image {
             imgV.setImageWithDownload(URL(string: img)!, withIndicator: true)
+        } else {
+            imgV.image            = UIImage.init(named: "cardPlaceholder")
+        }
+        DispatchQueue.main.async {
+            self.imgV.layoutIfNeeded()
+            self.setNeedsFocusUpdate()
         }
         viewContainer.applyViewShadow(shadowOffset: CGSize(width: 0.5, height: 0.5), shadowColor: UIColor.lightGray, shadowOpacity: 50.0, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, backgroundColor: UIColor.white, backgroundOpacity: nil)
         lblTitle.font       = UIFont.applyOpenSansSemiBold(fontSize: 15.0)

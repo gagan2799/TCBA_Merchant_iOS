@@ -8,13 +8,16 @@
 
 import UIKit
 
-class TMAppOverViewVC: UIViewController {
-
+class TMAppOverViewVC: UIViewController, UIScrollViewDelegate {
+    
     //MARK: Variables & Constants
     let arrImages   = ["onboading_aa_main.png","onboarding_a_around.jpg","onboarding_b_major_brands.png","onboarding_c_cashback_qr.png","onboarding_d_gift_cards_in_store.png","onboarding_e_share.png","onboarding_f_score.png","onboarding_g_started.png"]
     //MARK: Outlets
     @IBOutlet weak var scrollV: UIScrollView!
-    //UILabel
+    
+    @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var btnSkip: UIButton!
+    @IBOutlet weak var btnGetStarted: UIButton!
     
     //MARK: View Life Cycle
     override func viewDidLoad() {
@@ -31,7 +34,7 @@ class TMAppOverViewVC: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -52,17 +55,53 @@ class TMAppOverViewVC: UIViewController {
     }
     
     func setViewProperties() {
-        // navigationBar customization
-//        self.navigationController?.customize()
-//        self.navigationItem.title   = "App Overview"
-        
-        self.navigationController?.isNavigationBarHidden    = true
-
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         for (indexValue , image) in arrImages.enumerated() {
-            let imgV = UIImageView.init(frame: CGRect(x: scrollV.bounds.width * CGFloat(indexValue) , y: 0, width: scrollV.bounds.width, height: scrollV.bounds.height))
-            imgV.image  = UIImage.init(named: image)
+            let imgV                = UIImageView.init(frame: CGRect(x: GConstant.Screen.Width * CGFloat(indexValue) , y: 0, width: GConstant.Screen.Width, height: scrollV.bounds.height - 50))
+            imgV.contentMode        = .scaleToFill
+            imgV.backgroundColor    = UIColor.purple
+            imgV.image              = UIImage.init(named: image)
             scrollV.addSubview(imgV)
         }
-       //CGSizeMake(scrollV.frame.size.width * CGFloat(arrImages.count), scrollV.bounds.height);
+        print("percentageHorizontalOffset: \(scrollV.bounds.height)")
+        scrollV.contentSize = CGSize(width: GConstant.Screen.Width * CGFloat(arrImages.count), height: scrollV.bounds.height - 50)
+    }
+    
+    //MARK: UIButton Actions
+    @IBAction func btnSkipAction(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func btnGetstartedAction(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    //MARK: UIScrollView Delegates
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let pageIndex = round(scrollView.contentOffset.x/view.frame.width)
+        pageControl.currentPage = Int(pageIndex)
+        
+        let maximumHorizontalOffset: CGFloat = scrollView.contentSize.width - scrollView.frame.width
+        let currentHorizontalOffset: CGFloat = scrollView.contentOffset.x
+        
+        let percentageHorizontalOffset: CGFloat = currentHorizontalOffset / maximumHorizontalOffset
+        
+        print("percentageHorizontalOffset: \(percentageHorizontalOffset)")
+        if(currentHorizontalOffset > 2497 && currentHorizontalOffset <= maximumHorizontalOffset) {
+            UIView.animate(withDuration: 0.2) {
+                if self.btnSkip.alpha == 1 && self.btnGetStarted.alpha == 0 {
+                    self.btnSkip.alpha          = 0
+                    self.btnGetStarted.alpha    = 1
+                }
+            }
+        } else {
+            UIView.animate(withDuration: 0.2) {
+                if self.btnSkip.alpha == 0 && self.btnGetStarted.alpha == 1 {
+                    self.btnSkip.alpha          = 1
+                    self.btnGetStarted.alpha    = 0
+                }
+            }
+        }
     }
 }
+

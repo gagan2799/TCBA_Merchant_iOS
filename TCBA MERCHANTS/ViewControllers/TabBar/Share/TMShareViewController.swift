@@ -18,7 +18,7 @@ class TMShareViewController: UIViewController {
     @IBOutlet weak var scrShare: UIScrollView!
     @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var viewLock: UIView!
-    @IBOutlet weak var consMainVHeight: NSLayoutConstraint!
+    @IBOutlet weak var consStackVHeight: NSLayoutConstraint!
     
     //MARK: View life Cycle
     override func viewDidLoad() {
@@ -53,12 +53,12 @@ class TMShareViewController: UIViewController {
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
-            guard self.scrShare != nil else {return}
-            if UIDevice.current.orientation.isLandscape == true {
-                self.scrShare.isScrollEnabled = true
-            }else{
-                self.scrShare.isScrollEnabled = false
-            }
+//            guard self.scrShare != nil else {return}
+//            if UIDevice.current.orientation.isLandscape == true {
+//                self.scrShare.isScrollEnabled = true
+//            }else{
+//                self.scrShare.isScrollEnabled = false
+//            }
         }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
             //refresh view once rotation is completed not in will transition as it returns incorrect frame size.Refresh here
         })
@@ -77,7 +77,7 @@ class TMShareViewController: UIViewController {
         if let storeId = GConstant.UserData.stores {
             lblStoreID.text         = "Store id: \(storeId)"
         }
-        consMainVHeight.constant    = GConstant.Screen.Height * 0.9
+        consStackVHeight.constant   = UIDevice.current.userInterfaceIdiom == .pad ? GConstant.Screen.Height * 0.2 : GConstant.Screen.iPhoneXSeries ? GConstant.Screen.Height * 0.18  : GConstant.Screen.Height * 0.15
         
         lblStoreID.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 16.0), labelColor: GConstant.AppColor.blue, borderColor: GConstant.AppColor.blue, borderWidth: 1.0)
         lblCashBack.font                = UIFont.applyOpenSansSemiBold(fontSize: 18.0)

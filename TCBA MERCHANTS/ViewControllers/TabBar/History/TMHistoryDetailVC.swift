@@ -112,7 +112,7 @@ class TMHistoryDetailVC: UIViewController {
         self.navigationController?.customize()
         self.navigationItem.title = "History"
 
-        consHeightTotalView.constant = GConstant.Screen.Height * 0.2
+        consHeightTotalView.constant = GConstant.Screen.iPhoneXSeries ? GConstant.Screen.Height * 0.16 : GConstant.Screen.Height * 0.2
         
         if let storeId = GConstant.UserData.stores {
             lblStoreId.text       = "Store id: \(storeId)"

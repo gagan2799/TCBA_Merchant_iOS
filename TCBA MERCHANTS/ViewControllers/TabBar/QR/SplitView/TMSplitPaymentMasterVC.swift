@@ -489,7 +489,7 @@ extension TMSplitPaymentMasterVC: UICollectionViewDelegate, UICollectionViewData
                 }
             } else if indexPath.row == 2 {
                 //<===LoyaltyCash===>
-                if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+                if (posData.availableLoyaltyCash?.isLess(than: posData.balanceRemaining!))!{
                     AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
                 }else{
                     showPin(withMethod: .LoyaltyCash, currentBalance: posData.availableLoyaltyCash, transactionAmount: posData.balanceRemaining) { (pinCode) in
@@ -498,7 +498,7 @@ extension TMSplitPaymentMasterVC: UICollectionViewDelegate, UICollectionViewData
                 }
             } else if indexPath.row == 3 {
                 //<===PrizeWallet===>
-                if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+                if (posData.availablePrizeCash?.isLess(than: posData.balanceRemaining!))!{
                     AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availablePrizeCash!))
                 }else{
                     showPin(withMethod: .PrizeWallet, currentBalance: posData.availablePrizeCash, transactionAmount: posData.balanceRemaining) { (pinCode) in

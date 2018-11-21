@@ -142,7 +142,7 @@ class TMPopUPVC: UIViewController {
             btnConfirm.titleLabel?.font     = UIFont.applyRegular(fontSize: 15.0)
             txtAmount.font                  = UIFont.applyOpenSansRegular(fontSize: 14.0)
         }
-        consHeightPopUp.constant        = 0.5 * UIScreen.main.bounds.height
+        consHeightPopUp.constant        = GConstant.Screen.iPhoneXSeries ? 0.4 * UIScreen.main.bounds.height : 0.5 * UIScreen.main.bounds.height
         self.view.layoutIfNeeded()
     }
     

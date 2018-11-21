@@ -103,8 +103,8 @@ class TMHistoryTransDetail: UIViewController {
     func setViewProperties(){
         // navigationBar customization
         self.navigationController?.customize()
-        self.navigationItem.title   = "History"
-        consHeightTotalView.constant = GConstant.Screen.Height * 0.2
+        self.navigationItem.title       = "History"
+        consHeightTotalView.constant    = GConstant.Screen.iPhoneXSeries ? GConstant.Screen.Height * 0.16 : GConstant.Screen.Height * 0.2
         
         if let storeId = GConstant.UserData.stores {
             lblStoreId.text         = "Store id: \(storeId)"

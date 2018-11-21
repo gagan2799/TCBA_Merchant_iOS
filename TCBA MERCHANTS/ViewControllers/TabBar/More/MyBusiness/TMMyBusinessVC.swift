@@ -66,7 +66,7 @@ class TMMyBusinessVC: UIViewController {
                     guard let horizontalLine = GFunction.shared.getDoubleGradientView(CGRect(x: 10*GConstant.Screen.HeightAspectRatio, y: x, width: self.cvBusiness.bounds.width-20*GConstant.Screen.HeightAspectRatio, height: 1), start: .clear, midColor: UIColor.init(red: 116.0/255.0, green: 162.0/255.0, blue: 178.0/255, alpha: 0.5), end: .clear, direction: .horizontal) else { return }
                     self.cvBusiness.addSubview(horizontalLine)
 
-                    x = x + (UIDevice.current.userInterfaceIdiom == .pad ? self.cvBusiness.bounds.height/4 : UIApplication.shared.statusBarFrame.height > 40.0 ? self.cvBusiness.bounds.height/3.6 : self.cvBusiness.bounds.height/3.8)
+                    x = x + (UIDevice.current.userInterfaceIdiom == .pad ? self.cvBusiness.bounds.height/4 : GConstant.Screen.iPhoneXSeries ? self.cvBusiness.bounds.height/3.6 : self.cvBusiness.bounds.height/3.8)
                 }
             }
         })
@@ -96,7 +96,7 @@ class TMMyBusinessVC: UIViewController {
                 guard let horizontalLine = GFunction.shared.getDoubleGradientView(CGRect(x: 10*GConstant.Screen.HeightAspectRatio, y: x, width: self.cvBusiness.bounds.width-20*GConstant.Screen.HeightAspectRatio, height: 1), start: .clear, midColor: UIColor.init(red: 116.0/255.0, green: 162.0/255.0, blue: 178.0/255, alpha: 0.5), end: .clear, direction: .horizontal) else { return }
                 self.cvBusiness.addSubview(horizontalLine)
                 
-                x = x + (UIDevice.current.userInterfaceIdiom == .pad ? self.cvBusiness.bounds.height/4 : UIApplication.shared.statusBarFrame.height > 40.0 ? self.cvBusiness.bounds.height/4.0 : self.cvBusiness.bounds.height/3.8)
+                x = x + (UIDevice.current.userInterfaceIdiom == .pad ? self.cvBusiness.bounds.height/4 : GConstant.Screen.iPhoneXSeries ? self.cvBusiness.bounds.height/4.0 : self.cvBusiness.bounds.height/3.8)
             }
         }
     }

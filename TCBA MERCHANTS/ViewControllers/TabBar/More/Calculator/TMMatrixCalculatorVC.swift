@@ -182,7 +182,7 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 125 * GConstant.Screen.HeightAspectRatio
+        return 120 * GConstant.Screen.HeightAspectRatio
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -190,7 +190,7 @@ extension TMMatrixCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITe
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 55 * GConstant.Screen.HeightAspectRatio
+        return 50 * GConstant.Screen.HeightAspectRatio
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

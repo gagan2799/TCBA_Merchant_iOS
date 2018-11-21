@@ -43,7 +43,7 @@ struct GConstant {
         static var Width                        =  UIScreen.main.bounds.size.width
         static var Height                       =  UIScreen.main.bounds.size.height
         static var HeightAspectRatio:CGFloat    =  kRatio(height: kHeight)
-        
+        static var iPhoneXSeries:Bool           =  UIApplication.shared.statusBarFrame.height > 40.0
     }
     
     static func kRatio(height: CGFloat) -> CGFloat {

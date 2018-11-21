@@ -63,7 +63,6 @@ class TMAppOverViewVC: UIViewController, UIScrollViewDelegate {
             imgV.image              = UIImage.init(named: image)
             scrollV.addSubview(imgV)
         }
-        print("percentageHorizontalOffset: \(scrollV.bounds.height)")
         scrollV.contentSize = CGSize(width: GConstant.Screen.Width * CGFloat(arrImages.count), height: scrollV.bounds.height - 50)
     }
     
@@ -81,12 +80,9 @@ class TMAppOverViewVC: UIViewController, UIScrollViewDelegate {
         let pageIndex = round(scrollView.contentOffset.x/view.frame.width)
         pageControl.currentPage = Int(pageIndex)
         
-        let maximumHorizontalOffset: CGFloat = scrollView.contentSize.width - scrollView.frame.width
-        let currentHorizontalOffset: CGFloat = scrollView.contentOffset.x
+        let maximumHorizontalOffset: CGFloat    = scrollView.contentSize.width - scrollView.frame.width
+        let currentHorizontalOffset: CGFloat    = scrollView.contentOffset.x
         
-        let percentageHorizontalOffset: CGFloat = currentHorizontalOffset / maximumHorizontalOffset
-        
-        print("percentageHorizontalOffset: \(percentageHorizontalOffset)")
         if(currentHorizontalOffset > 2497 && currentHorizontalOffset <= maximumHorizontalOffset) {
             UIView.animate(withDuration: 0.2) {
                 if self.btnSkip.alpha == 1 && self.btnGetStarted.alpha == 0 {
@@ -95,11 +91,9 @@ class TMAppOverViewVC: UIViewController, UIScrollViewDelegate {
                 }
             }
         } else {
-            UIView.animate(withDuration: 0.2) {
-                if self.btnSkip.alpha == 0 && self.btnGetStarted.alpha == 1 {
-                    self.btnSkip.alpha          = 1
-                    self.btnGetStarted.alpha    = 0
-                }
+            if self.btnSkip.alpha == 0 && self.btnGetStarted.alpha == 1 {
+                self.btnSkip.alpha          = 1
+                self.btnGetStarted.alpha    = 0
             }
         }
     }

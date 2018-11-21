@@ -97,7 +97,7 @@ class TMCalculatorVC: UIViewController {
         
         btnShoppingComu.applyStyle(titleLabelFont: UIFont.applyOpenSansSemiBold(fontSize: 12.0), titleLabelColor: UIColor.white, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, borderColor: nil, borderWidth: nil, state: .normal, backgroundColor: GConstant.AppColor.orange, backgroundOpacity: nil)
         
-        consHeightBotmView.constant = 0.24*GConstant.Screen.Height
+        consHeightBotmView.constant = GConstant.Screen.iPhoneXSeries ? 0.21*GConstant.Screen.Height : 0.24*GConstant.Screen.Height
         self.view.layoutIfNeeded()
     }
     //MARK: - Coustom Methods

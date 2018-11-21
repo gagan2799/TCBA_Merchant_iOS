@@ -97,12 +97,12 @@ class TMPinViewController: UIViewController {
             lblCurr.isHidden    = true
             lblCurBal.isHidden  = true
             consHeightLblCurr.constant  = 0.0
-            consHeightPopUp.constant    = 0.55 * UIScreen.main.bounds.height
+            consHeightPopUp.constant    = GConstant.Screen.iPhoneXSeries ? 0.45 * UIScreen.main.bounds.height : 0.55 * UIScreen.main.bounds.height
         }else{
             lblCurr.isHidden    = false
             lblCurBal.isHidden  = false
             consHeightLblCurr.constant  = 0.05 * UIScreen.main.bounds.height
-            consHeightPopUp.constant    = 0.6 * UIScreen.main.bounds.height
+            consHeightPopUp.constant    = GConstant.Screen.iPhoneXSeries ? 0.5 * UIScreen.main.bounds.height : 0.6 * UIScreen.main.bounds.height
         }
         self.view.layoutIfNeeded()
         //<--------Set PopUp properties for orientation----->

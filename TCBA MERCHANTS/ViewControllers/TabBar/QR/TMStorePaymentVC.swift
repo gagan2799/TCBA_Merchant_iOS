@@ -119,6 +119,12 @@ class TMStorePaymentVC: UIViewController {
         super.viewDidDisappear(animated)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        colVMerchant.collectionViewLayout.invalidateLayout()
+        colVCustomer.collectionViewLayout.invalidateLayout()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -182,7 +188,7 @@ class TMStorePaymentVC: UIViewController {
         // Top View Height
         consTopView.constant            = GConstant.Screen.Height * 0.23
         // ColectionView Layout setup
-        consBottomVHeight.constant      = GConstant.Screen.Height * 0.7
+        consBottomVHeight.constant      = GConstant.Screen.iPhoneXSeries ? GConstant.Screen.Height * 0.65 : GConstant.Screen.Height * 0.7
         view.setNeedsLayout()
     }
     
@@ -635,9 +641,9 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
             let colWidth    = self.colVCustomer.bounds.width
             let colHeight   = self.colVCustomer.bounds.height
             if indexPath.item < 3 {
-                return CGSize(width: colWidth/3, height: colHeight*0.4)
+                return GConstant.Screen.iPhoneXSeries ? CGSize(width: colWidth/3.2, height: colHeight*0.4) :CGSize(width: colWidth/3, height: colHeight*0.4)
             }else{
-                return CGSize(width: colWidth/2, height: colHeight*0.4)
+                return GConstant.Screen.iPhoneXSeries ? CGSize(width: colWidth/2, height: colHeight*0.4) :CGSize(width: colWidth/2, height: colHeight*0.4)
             }
         }
     }
@@ -712,7 +718,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
                 }
             } else if indexPath.row == 2 {
                 //<===LoyaltyCash===>
-                if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+                if (posData.availableLoyaltyCash?.isLess(than: posData.balanceRemaining!))!{
                     AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
                 }else{
                     showPin(withMethod: .LoyaltyCash, currentBalance: posData.availableLoyaltyCash, transactionAmount: posData.balanceRemaining) { (pinCode) in
@@ -721,7 +727,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
                 }
             } else if indexPath.row == 3 {
                 //<===PrizeWallet===>
-                if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
+                if (posData.availablePrizeCash?.isLess(than: posData.balanceRemaining!))!{
                     AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availablePrizeCash!))
                 }else{
                     showPin(withMethod: .PrizeWallet, currentBalance: posData.availablePrizeCash, transactionAmount: posData.balanceRemaining) { (pinCode) in

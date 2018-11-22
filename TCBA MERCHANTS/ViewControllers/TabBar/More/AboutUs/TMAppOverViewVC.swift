@@ -22,11 +22,12 @@ class TMAppOverViewVC: UIViewController, UIScrollViewDelegate {
     //MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setViewProperties()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        super.viewWillAppear(animated)
+        setViewProperties()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -56,14 +57,16 @@ class TMAppOverViewVC: UIViewController, UIScrollViewDelegate {
     
     func setViewProperties() {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        for (indexValue , image) in arrImages.enumerated() {
-            let imgV                = UIImageView.init(frame: CGRect(x: GConstant.Screen.Width * CGFloat(indexValue) , y: 0, width: GConstant.Screen.Width, height: scrollV.bounds.height - 50))
-            imgV.contentMode        = .scaleToFill
-            imgV.backgroundColor    = UIColor.purple
-            imgV.image              = UIImage.init(named: image)
-            scrollV.addSubview(imgV)
+        DispatchQueue.main.async {
+            for (indexValue , image) in self.arrImages.enumerated() {
+                let imgV                = UIImageView.init(frame: CGRect(x: GConstant.Screen.Width * CGFloat(indexValue) , y: 0, width: GConstant.Screen.Width, height: self.scrollV.bounds.height))
+                imgV.contentMode        = .scaleToFill
+                imgV.backgroundColor    = UIColor.purple
+                imgV.image              = UIImage.init(named: image)
+                self.scrollV.addSubview(imgV)
+            }
+            self.scrollV.contentSize = CGSize(width: GConstant.Screen.Width * CGFloat(self.arrImages.count), height: self.scrollV.bounds.height - 50)
         }
-        scrollV.contentSize = CGSize(width: GConstant.Screen.Width * CGFloat(arrImages.count), height: scrollV.bounds.height - 50)
     }
     
     //MARK: UIButton Actions

@@ -99,7 +99,7 @@ class TMPaySuccessPopUpVC: UIViewController {
             lblPurchaseAmount.font      = UIFont.applyOpenSansRegular(fontSize: 14.0)
         }
         tblPopUp.reloadData()
-        consHeightPopUp.constant        = 0.5 * UIScreen.main.bounds.height
+        consHeightPopUp.constant        = GConstant.Screen.iPhoneXSeries ? 0.4 * UIScreen.main.bounds.height : 0.5 * UIScreen.main.bounds.height
         self.view.layoutIfNeeded()
     }
     

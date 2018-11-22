@@ -20,8 +20,8 @@ struct GAPIConstant {
         static let kShareUrl = "http://tcba.mobi/dl/"
         
         private struct Domains {
-            static let Dev   = "http://api.tcbadev.com/api/" //Development
-            static let Live  = "https://api.thecashbackapp.com/api/" //Production
+            static let Dev   = "http://api.tcbadev.com/api/" /////////////-----> Development
+            static let Live  = "https://api.thecashbackapp.com/api/" /////-----> Production
         }
         
         private  struct Routes {

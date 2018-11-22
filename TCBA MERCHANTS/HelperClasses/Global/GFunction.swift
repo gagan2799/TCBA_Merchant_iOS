@@ -33,7 +33,6 @@ class CompletionHandler {
 }
 
 class GFunction: NSObject  {
-    
     static let shared   : GFunction = GFunction()
     //------------------------------------------------------
     
@@ -53,7 +52,6 @@ class GFunction: NSObject  {
     
     func addActivityIndicator(view : UIView) {
         removeActivityIndicator()
-        
     }
     
     func removeActivityIndicator() {
@@ -63,11 +61,10 @@ class GFunction: NSObject  {
     //------------------------------------------------------
     
     //MARK:-
-    
     func checkPaymentOptions(withPosData posData: PostCreatePOSModel?,Method type: String ,withViewType viewT: viewType) -> Bool {
         var flag = type == "" ? true : false
-        guard posData != nil  else { return flag}
-        guard let data = posData?.paymentOptions else { return flag}
+        guard posData != nil  else { return flag }
+        guard let data = posData?.paymentOptions else { return flag }
         if data.count > 0 {
             for item in data {
                 if item.type == type {
@@ -166,6 +163,7 @@ class GFunction: NSObject  {
         }
         return String(data: data, encoding: .utf8)
     }
+    
     func convertToDictionary(text: String) -> [Dictionary<String,Any>]? {
         if let data = text.data(using: .utf8) {
             do {
@@ -177,17 +175,17 @@ class GFunction: NSObject  {
         return nil
     }
     
-    
-    
     enum TimeFormatType {
         case short
         case full
     }
+    
     //MARK: Gradient Line
     enum LineType {
         case vertical
         case horizontal
     }
+    
     func getDoubleGradientView(_ frame: CGRect, start startColor: UIColor?, midColor: UIColor?, end endColor: UIColor?, direction: LineType) -> UIView? {
         let completeView = UIView(frame: frame)
         completeView.backgroundColor = UIColor.clear
@@ -223,6 +221,7 @@ class GFunction: NSObject  {
         }
         return completeView
     }
+    
     func getGradientviewWithFrame(_ frm: CGRect, start startColor: UIColor?, end endColor: UIColor?, start startPoint: CGPoint, end endPoint: CGPoint) -> UIView? {
         let lineView = UIView(frame: frm)
         let gradientlayer = CAGradientLayer()

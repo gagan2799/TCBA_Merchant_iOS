@@ -367,7 +367,16 @@ class TMTradingHoursVC: UIViewController {
         
         ApiManager.shared.PUTWithBearerAuth(strURL: url, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
-                AlertManager.shared.showAlertTitle(title: "Success", message: GConstant.Message.kUpdatesSaveMessage)
+                AlertManager.shared.showAlertTitle(title: "Success", message: GConstant.Message.kUpdatesSaveMessage, buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                    switch buttonIndex {
+                    case 0 :
+                        //OK clicked
+                        self.navigationController?.popViewController(animated: true)
+                        break
+                    default:
+                        break
+                    }
+                }
             }else{
                 if let data = data{
                     guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {

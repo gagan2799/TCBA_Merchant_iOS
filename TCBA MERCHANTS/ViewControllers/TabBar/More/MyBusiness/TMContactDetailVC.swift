@@ -275,7 +275,16 @@ class TMContactDetailVC: UIViewController {
         
         ApiManager.shared.PUTWithBearerAuth(strURL: GAPIConstant.Url.PutUpdateStore, parameter:request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
-                AlertManager.shared.showAlertTitle(title: "Success", message: GConstant.Message.kUpdatesSaveMessage)
+                AlertManager.shared.showAlertTitle(title: "Success", message: GConstant.Message.kUpdatesSaveMessage, buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                    switch buttonIndex {
+                    case 0 :
+                        //OK clicked
+                        self.navigationController?.popViewController(animated: true)
+                        break
+                    default:
+                        break
+                    }
+                }
             }else{
                 if let data = data{
                     guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
@@ -308,58 +317,70 @@ extension TMContactDetailVC: UITableViewDataSource,UITableViewDelegate,UITextFie
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 3 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ContactRadioCell") as! TMContactRadioCell
-            //Setting fonts
+            return contactRadioCell(tableView: tableView, cellForRowAt: indexPath)
+        } else {
+            return contactDetailsCell(tableView: tableView, cellForRowAt: indexPath)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
+    //MARK: - Table cells
+    func contactDetailsCell(tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactDetailsCell") as! TMContactDetailsCell
+        //Setting fonts
+        cell.lblTitle.font              = UIFont.applyOpenSansRegular(fontSize: 12.0)
+        cell.txtTitleVal.font           = UIFont.applyOpenSansRegular(fontSize: 14.0)
+        
+        //Setting textfiels placeholder
+        cell.txtTitleVal.placeholder    = contactDetailsData[indexPath.row].placeholder
+        
+        //Setting tag
+        cell.txtTitleVal.tag            = indexPath.row
+        
+        //Setting values
+        cell.lblTitle.text              = contactDetailsData[indexPath.row].title
+        cell.txtTitleVal.text           = contactDetailsData[indexPath.row].titleValue
+        
+        if indexPath.row == 1 {
+            cell.txtTitleVal.keyboardType  = .emailAddress
+        } else if indexPath.row == 5 || indexPath.row == 6{
+            cell.txtTitleVal.inputView = self.pickerV
+        } else if indexPath.row == 7 || indexPath.row == 9 {
+            cell.txtTitleVal.keyboardType   = UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation: .numberPad
+        } else if indexPath.row == 8 {
+            cell.txtTitleVal.keyboardType   = UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation: .phonePad
+        } else {
+            cell.txtTitleVal.keyboardType  = .default
+        }
+        return cell
+    }
+    
+    func contactRadioCell(tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactRadioCell") as! TMContactRadioCell
+        //Setting fonts
+        
+        DispatchQueue.main.async {
             cell.lblInfo.font               = UIFont.applyOpenSansRegular(fontSize: 15.0)
             cell.btnNo.titleLabel?.font     = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
             cell.btnYes.titleLabel?.font    = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
             //Setting buttons tag
             cell.btnNo.tag                  = indexPath.row
             cell.btnYes.tag                 = indexPath.row
-            if isShowAddress {
+            if self.isShowAddress {
                 cell.btnNo.setImage(#imageLiteral(resourceName: "radioUncheck"), for: .normal)
                 cell.btnYes.setImage(#imageLiteral(resourceName: "radioCheck"), for: .normal)
             } else {
                 cell.btnNo.setImage(#imageLiteral(resourceName: "radioCheck"), for: .normal)
                 cell.btnYes.setImage(#imageLiteral(resourceName: "radioUncheck"), for: .normal)
             }
-            cell.btnNo.addTarget(self, action: #selector(btnNoAct), for: .touchUpInside)
-            cell.btnYes.addTarget(self, action: #selector(btnYesAct), for: .touchUpInside)
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ContactDetailsCell") as! TMContactDetailsCell
-            //Setting fonts
-            cell.lblTitle.font              = UIFont.applyOpenSansRegular(fontSize: 12.0)
-            cell.txtTitleVal.font           = UIFont.applyOpenSansRegular(fontSize: 14.0)
-            
-            //Setting textfiels placeholder
-            cell.txtTitleVal.placeholder    = contactDetailsData[indexPath.row].placeholder
-            
-            //Setting tag
-            cell.txtTitleVal.tag            = indexPath.row
-            
-            //Setting values
-            cell.lblTitle.text              = contactDetailsData[indexPath.row].title
-            cell.txtTitleVal.text           = contactDetailsData[indexPath.row].titleValue
-            
-            if indexPath.row == 1 {
-                cell.txtTitleVal.keyboardType  = .emailAddress
-            } else if indexPath.row == 5 || indexPath.row == 6{
-                cell.txtTitleVal.inputView = self.pickerV
-            } else if indexPath.row == 7 || indexPath.row == 9 {
-                cell.txtTitleVal.keyboardType   = UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation: .numberPad
-            } else if indexPath.row == 8 {
-                cell.txtTitleVal.keyboardType   = UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation: .phonePad
-            } else {
-                cell.txtTitleVal.keyboardType  = .default
-            }
-            
-            return cell
+            cell.btnNo.addTarget(self, action: #selector(self.btnNoAct), for: .touchUpInside)
+            cell.btnYes.addTarget(self, action: #selector(self.btnYesAct), for: .touchUpInside)
         }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        return cell
     }
     
     //MARK: - UITextfield delegates

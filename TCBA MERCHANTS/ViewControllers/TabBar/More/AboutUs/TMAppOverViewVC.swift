@@ -95,8 +95,8 @@ class TMAppOverViewVC: UIViewController, UIScrollViewDelegate {
             }
         } else {
             if self.btnSkip.alpha == 0 && self.btnGetStarted.alpha == 1 {
-                self.btnSkip.alpha          = 1
-                self.btnGetStarted.alpha    = 0
+                self.btnSkip.alpha              = 1
+                self.btnGetStarted.alpha        = 0
             }
         }
     }

@@ -68,7 +68,8 @@ class TMAlertsDetailVC: UIViewController {
         lblDate.text                    = Date().dateToDDMMYYYY(date: objAlert?.dateCreated ?? "")
         guard let htmlText              = objAlert.description  else { return }
         DispatchQueue.main.async {
-            self.txtDescription.attributedText = htmlText.html2AttributedStringWithCustomFont
+            self.txtDescription.attributedText  = htmlText.html2AttributedStringWithCustomFont
+            self.txtDescription.textAlignment   = .justified
         }
         
         if let url = URL(string:objAlert?.image ?? "") {

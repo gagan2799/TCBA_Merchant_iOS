@@ -69,7 +69,8 @@ class TMAboutUsSubLisDetailVC: UIViewController {
         lblTitle.text       = section.title
         guard let htmlText  = section.description  else { return }
         DispatchQueue.main.async {
-            self.txtView.attributedText  = htmlText.html2AttributedStringWithCustomFont
+            self.txtView.attributedText     = htmlText.html2AttributedStringWithCustomFont
+            self.txtView.textAlignment      = .justified
         }
     }
 }

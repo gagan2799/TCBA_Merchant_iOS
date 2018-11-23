@@ -35,11 +35,12 @@ class TMHistoryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if transactionData == nil || incompleteData == nil {
-            // Calling TransactionData Api
-            callTransactionDataApi()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if self.transactionData == nil || self.incompleteData == nil {
+                // Calling TransactionData Api
+                self.callTransactionDataApi()
+            }
         }
-        
         if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
             tblHistory.isScrollEnabled  = true
         }else{

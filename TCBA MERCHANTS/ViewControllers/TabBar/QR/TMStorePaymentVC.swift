@@ -356,8 +356,9 @@ class TMStorePaymentVC: UIViewController {
         }
         
         ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostCreateTransactionWithFullPayment, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
+            
+            print("statusCode = \(statusCode ?? 0)")
             if statusCode == 200 {
-                print("statusCode = 200")
                 guard data != nil else{return}
                 if let pData = try? PostCreatePOSModel.decode(_data: data!) {
                     self.posData = pData

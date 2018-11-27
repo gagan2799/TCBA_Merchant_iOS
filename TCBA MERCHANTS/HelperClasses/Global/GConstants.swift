@@ -37,7 +37,6 @@ struct GConstant {
     
     //MARK: - Screen (Width - Height)
     struct Screen {
-        
         static let kWidth                       =  UIScreen.main.bounds.size.width
         static var kHeight                      =  UIScreen.main.bounds.size.height
         static var Width                        =  UIScreen.main.bounds.size.width

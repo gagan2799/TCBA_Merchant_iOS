@@ -46,6 +46,7 @@ extension String {
         }
     }
 }
+
 extension NSAttributedString {
     convenience init(htmlString html: String, font: UIFont? = nil, useDocumentFontSize: Bool = false) throws {
         let options: [NSAttributedString.DocumentReadingOptionKey : Any] = [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue]

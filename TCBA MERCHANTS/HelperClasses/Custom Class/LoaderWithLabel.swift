@@ -88,6 +88,7 @@ public class LoaderWithLabel {
     }
     
     @objc func rotated() {
+        //This method will call if device will change orientation
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             let message1 : String = "Loading data"
             self.containerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)

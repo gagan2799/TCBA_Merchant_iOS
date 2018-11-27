@@ -308,6 +308,7 @@ extension TMContactDetailVC: UITableViewDataSource,UITableViewDelegate,UITextFie
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contactDetailsData.count
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 3 {
             return 80 * GConstant.Screen.HeightAspectRatio
@@ -315,6 +316,7 @@ extension TMContactDetailVC: UITableViewDataSource,UITableViewDelegate,UITextFie
             return 60 * GConstant.Screen.HeightAspectRatio
         }
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 3 {
             return contactRadioCell(tableView: tableView, cellForRowAt: indexPath)

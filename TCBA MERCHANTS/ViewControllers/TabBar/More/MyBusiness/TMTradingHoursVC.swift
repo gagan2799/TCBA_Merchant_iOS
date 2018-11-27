@@ -227,8 +227,8 @@ class TMTradingHoursVC: UIViewController {
             if let arrDay = tradingData.days {
                 for day in arrDay{
                     if let shifts = day.shifts{
-                        for shi in shifts{
-                            if shi.startTime == "" || shi.endTime == "" {
+                        for shift in shifts{
+                            if shift.startTime == "" || shift.endTime == "" {
                                 AlertManager.shared.showAlertTitle(title: "" ,message:"Please enter a valid time")
                                 return
                             }

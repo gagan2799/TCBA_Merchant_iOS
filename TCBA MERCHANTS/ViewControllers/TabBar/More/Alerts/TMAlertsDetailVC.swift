@@ -67,11 +67,14 @@ class TMAlertsDetailVC: UIViewController {
         lblTitle.text                   = objAlert.title
         lblDate.text                    = Date().dateToDDMMYYYY(date: objAlert?.dateCreated ?? "")
         guard let htmlText              = objAlert.description  else { return }
-        DispatchQueue.main.async {
-            self.txtDescription.attributedText  = htmlText.html2AttributedStringWithCustomFont
-            self.txtDescription.textAlignment   = .justified
+        if htmlText == "" {
+            viewContainerDes.isHidden   = true
+        } else {
+            DispatchQueue.main.async {
+                self.txtDescription.attributedText  = htmlText.html2AttributedStringWithCustomFont
+                self.txtDescription.textAlignment   = .justified
+            }
         }
-        
         if let url = URL(string:objAlert?.image ?? "") {
             imgV.setImageWithDownload(url, withIndicator: true)
             DispatchQueue.main.async {

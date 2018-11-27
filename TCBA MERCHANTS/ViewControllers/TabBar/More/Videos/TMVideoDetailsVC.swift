@@ -64,18 +64,21 @@ class TMVideoDetailsVC: UIViewController , WKNavigationDelegate{
         self.navigationController?.customize()
         self.navigationItem.title   = "Videos"
         webV.navigationDelegate     = self
-        indicator                   = UIActivityIndicatorView.init(style: .gray)
-        indicator.frame             = CGRect(x: self.view.center.x - 10, y: webV.bounds.midY + 20, width: 20, height: 20)
-        self.view.addSubview(indicator)
-        indicator.startAnimating()
+        
+        guard let htmlText = objVideoSub?.videoDescription  else { return }
+        DispatchQueue.main.async {
+            self.txtView.attributedText  = htmlText.html2AttributedStringWithCustomFont
+            self.indicator                   = UIActivityIndicatorView.init(style: .gray)
+            self.indicator.frame             = CGRect(x: self.view.center.x - 10, y: self.webV.bounds.midY, width: 20, height: 20)
+            self.view.addSubview(self.indicator)
+            self.indicator.startAnimating()
+        }
+        
         loadYoutube(videoURL: objVideoSub?.videoLink ?? "")
         lblTitle.font               = UIFont.applyOpenSansRegular(fontSize: 16.0)
         lblTitle.text               = objVideoSub?.videoTitle
         viewContainer.applyViewShadow(shadowOffset: CGSize(width: 0.5, height: 0.5), shadowColor: UIColor.lightGray, shadowOpacity: 50.0, cornerRadius: 5.0*GConstant.Screen.HeightAspectRatio, backgroundColor: UIColor.white, backgroundOpacity: nil)
-        guard let htmlText = objVideoSub?.videoDescription  else { return }
-        DispatchQueue.main.async {
-            self.txtView.attributedText  = htmlText.html2AttributedStringWithCustomFont
-        }
+        
     }
     
     func loadYoutube(videoURL:String) {

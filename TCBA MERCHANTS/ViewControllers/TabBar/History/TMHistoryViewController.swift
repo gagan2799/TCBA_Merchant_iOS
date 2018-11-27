@@ -35,12 +35,7 @@ class TMHistoryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            if self.transactionData == nil || self.incompleteData == nil {
-                // Calling TransactionData Api
-                self.callTransactionDataApi()
-            }
-        }
+        
         if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
             tblHistory.isScrollEnabled  = true
         }else{
@@ -54,6 +49,12 @@ class TMHistoryViewController: UIViewController {
         } else {
             DispatchQueue.main.async {
                 self.viewLock.isHidden  = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                if self.transactionData == nil || self.incompleteData == nil {
+                    // Calling TransactionData Api
+                    self.callTransactionDataApi()
+                }
             }
         }
     }
@@ -202,7 +203,7 @@ class TMHistoryViewController: UIViewController {
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{
-                    if let data = data{
+                    if let data = data {
                         guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
                             let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                             AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
@@ -248,6 +249,10 @@ class TMHistoryViewController: UIViewController {
                     self.viewLock.isHidden  = true
                     UserDefaults.standard.set(true, forKey: GConstant.UserDefaultKeys.isStaffLoggedIn)
                     UserDefaults.standard.synchronize()
+                }
+                if self.transactionData == nil || self.incompleteData == nil {
+                    // Calling TransactionData Api
+                    self.callTransactionDataApi()
                 }
             }else{
                 AlertManager.shared.showAlertTitle(title: "Incorrect PIN" ,message:"Your pin is incorrect, please try again.")

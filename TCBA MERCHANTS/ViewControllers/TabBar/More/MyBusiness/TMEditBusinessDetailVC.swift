@@ -89,9 +89,10 @@ class TMEditBusinessDetailVC: UIViewController {
         lblInfo.font                    = UIFont.applyOpenSansRegular(fontSize: 15.0)
         lblInfo.text                    = "Delete contents to remove from display on your\n store detail view in the app"
         
-        webV.scrollView.isScrollEnabled = false
+        webV.scrollView.isScrollEnabled = true
         webV.scrollView.bounces         = false
         webV.navigationDelegate         = self
+        
         DispatchQueue.main.async {
             guard let path                  = Bundle.main.path(forResource:"CKEditor/demo", ofType: "html") else { return }
             let myURL                       = URL(fileURLWithPath: path)
@@ -118,9 +119,11 @@ class TMEditBusinessDetailVC: UIViewController {
     
     //MARK: - Coustom Methods
     @objc func resizeEditorHeight() {
-        webV.evaluateJavaScript("CKEDITOR.instances.editor1.resize( '100%', window.innerHeight)") { (result, error) in
-            if error == nil {
-                
+        DispatchQueue.main.async {
+            self.webV.evaluateJavaScript("CKEDITOR.instances.editor1.resize( '100%', window.innerHeight)") { (result, error) in
+                if error == nil {
+                    
+                }
             }
         }
     }

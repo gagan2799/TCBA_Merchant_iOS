@@ -191,11 +191,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/TabBar/QR/TMStorePaymentVC.swift"
-            timestampString = "564985436.271148"
+            timestampString = "565013407.029984"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "594"
-            endingLineNumber = "594"
+            startingLineNumber = "593"
+            endingLineNumber = "593"
             landmarkName = "callPostRemoveAllPOSPayments()"
             landmarkType = "7">
          </BreakpointContent>
@@ -207,7 +207,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/TabBar/QR/TMStorePaymentVC.swift"
-            timestampString = "564985436.27204"
+            timestampString = "565013407.030306"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "528"
@@ -223,7 +223,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/TabBar/QR/TMStorePaymentVC.swift"
-            timestampString = "564985436.272365"
+            timestampString = "565013407.030357"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "527"
@@ -239,11 +239,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/TabBar/QR/TMStorePaymentVC.swift"
-            timestampString = "564985436.2726541"
+            timestampString = "565013407.030401"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "593"
-            endingLineNumber = "593"
+            startingLineNumber = "592"
+            endingLineNumber = "592"
             landmarkName = "callPostRemoveAllPOSPayments()"
             landmarkType = "7">
          </BreakpointContent>
@@ -255,11 +255,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/TabBar/QR/TMStorePaymentVC.swift"
-            timestampString = "564985436.2729321"
+            timestampString = "565013407.030443"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "687"
-            endingLineNumber = "687"
+            startingLineNumber = "686"
+            endingLineNumber = "686"
             landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -303,7 +303,7 @@
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/TabBar/More/ContactUs/TMContactUsVC.swift"
-                  timestampString = "564987067.026332"
+                  timestampString = "565012419.389901"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "114"
@@ -318,7 +318,7 @@
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/TabBar/More/ContactUs/TMContactUsVC.swift"
-                  timestampString = "564987067.027961"
+                  timestampString = "565012419.391587"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "115"
@@ -351,7 +351,7 @@
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/TabBar/More/ContactUs/TMContactUsVC.swift"
-                  timestampString = "564987067.032746"
+                  timestampString = "565012419.396475"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "114"
@@ -366,7 +366,7 @@
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/TabBar/More/ContactUs/TMContactUsVC.swift"
-                  timestampString = "564987067.034983"
+                  timestampString = "565012419.398163"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "115"
@@ -431,7 +431,7 @@
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/TabBar/More/RateUs/TMRateUsVC.swift"
-                  timestampString = "564987067.046652"
+                  timestampString = "565012419.410375"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "119"
@@ -446,7 +446,7 @@
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/TabBar/More/RateUs/TMRateUsVC.swift"
-                  timestampString = "564987067.048337"
+                  timestampString = "565012419.4126101"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "120"
@@ -543,7 +543,7 @@
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/TabBar/More/MyStaffAccounts/TMMyStaffAccountDetailsVC.swift"
-                  timestampString = "564987067.052665"
+                  timestampString = "565012419.418789"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "205"
@@ -558,7 +558,7 @@
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/TabBar/More/MyStaffAccounts/TMMyStaffAccountDetailsVC.swift"
-                  timestampString = "564987067.0544291"
+                  timestampString = "565012419.42109"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "206"
@@ -667,11 +667,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/TabBar/QR/TMStorePaymentVC.swift"
-            timestampString = "564985436.273374"
+            timestampString = "565013407.030681"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "468"
@@ -680,33 +680,33 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  shouldBeEnabled = "No"
+                  shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "TCBA_MERCHANTS.TMStorePaymentVC.callPostAddPOSPayment(amount: Swift.String, payMethodType: TCBA_MERCHANTS.methodType, withToken: Swift.String) -&gt; ()"
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/TabBar/QR/TMStorePaymentVC.swift"
-                  timestampString = "562750970.3673609"
+                  timestampString = "565012419.437624"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "459"
-                  endingLineNumber = "459"
+                  startingLineNumber = "468"
+                  endingLineNumber = "468"
                   offsetFromSymbolStart = "3341">
                </Location>
                <Location
-                  shouldBeEnabled = "No"
+                  shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;Swift.Int&gt;, Swift.String) -&gt; () in TCBA_MERCHANTS.TMStorePaymentVC.callPostAddPOSPayment(amount: Swift.String, payMethodType: TCBA_MERCHANTS.methodType, withToken: Swift.String) -&gt; ()"
                   moduleName = "TCBA MERCHANTS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Projects/TCBA_IOS_MERCHANTS/TCBA%20MERCHANTS/TCBA%20MERCHANTS/ViewControllers/TabBar/QR/TMStorePaymentVC.swift"
-                  timestampString = "562750970.369151"
+                  timestampString = "565012419.4412481"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "460"
-                  endingLineNumber = "460"
+                  startingLineNumber = "469"
+                  endingLineNumber = "469"
                   offsetFromSymbolStart = "181">
                </Location>
             </Locations>
@@ -799,11 +799,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/TabBar/QR/TMStorePaymentVC.swift"
-            timestampString = "564985436.274021"
+            timestampString = "565013407.0307831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "644"
-            endingLineNumber = "644"
+            startingLineNumber = "643"
+            endingLineNumber = "643"
             landmarkName = "collectionView(_:layout:sizeForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -863,12 +863,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TCBA MERCHANTS/ViewControllers/TabBar/QR/TMStorePaymentVC.swift"
-            timestampString = "564985436.27432"
+            timestampString = "565013407.030864"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "393"
             endingLineNumber = "393"
             landmarkName = "callPostCreateTransactionWithFullPayment(payMethodType:withPin:isExecute:withToken:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TCBA MERCHANTS/ViewControllers/TabBar/QR/TMStorePaymentVC.swift"
+            timestampString = "565013407.030907"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "530"
+            endingLineNumber = "530"
+            landmarkName = "callPostCreateTransaction(payMethodType:withPin:isExecute:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TCBA MERCHANTS/ViewControllers/TabBar/QR/TMStorePaymentVC.swift"
+            timestampString = "565013407.03095"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "469"
+            endingLineNumber = "469"
+            landmarkName = "callPostAddPOSPayment(amount:payMethodType:withToken:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

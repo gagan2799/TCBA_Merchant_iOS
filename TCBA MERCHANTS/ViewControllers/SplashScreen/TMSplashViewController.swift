@@ -13,7 +13,7 @@ class TMSplashViewController: UIViewController {
     @IBOutlet weak var vBackground: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        if  UIDevice.current.orientation.isLandscape == true  {
+        if UIDevice.current.orientation.isLandscape == true {
             GConstant.Screen.Height             = UIScreen.main.bounds.width
             GConstant.Screen.Width              = UIScreen.main.bounds.height
             GConstant.Screen.HeightAspectRatio  = GConstant.kRatio(height: UIScreen.main.bounds.width)

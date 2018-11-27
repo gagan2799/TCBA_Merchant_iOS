@@ -341,10 +341,6 @@ extension TMHistoryTransDetail: UITableViewDataSource,UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if ((txnsHistory[indexPath.row] as? MerchantTnsxHistoryPayment) != nil){
-            return paymentCell(tableView, indexPath: indexPath)
-        } else {
-            return txnsCell(tableView, indexPath: indexPath)
-        }
+        return ((txnsHistory[indexPath.row] as? MerchantTnsxHistoryPayment) != nil) ? paymentCell(tableView, indexPath: indexPath) : txnsCell(tableView, indexPath: indexPath)
     }
 }

@@ -559,7 +559,6 @@ class TMStorePaymentVC: UIViewController {
                 }else{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }
-                
             }else{
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)

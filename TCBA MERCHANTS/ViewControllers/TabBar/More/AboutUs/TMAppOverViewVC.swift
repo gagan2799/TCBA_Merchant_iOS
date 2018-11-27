@@ -23,6 +23,7 @@ class TMAppOverViewVC: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,9 +60,8 @@ class TMAppOverViewVC: UIViewController, UIScrollViewDelegate {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         DispatchQueue.main.async {
             for (indexValue , image) in self.arrImages.enumerated() {
-                let imgV                = UIImageView.init(frame: CGRect(x: GConstant.Screen.Width * CGFloat(indexValue) , y: 0, width: GConstant.Screen.Width, height: self.scrollV.bounds.height))
+                let imgV                = UIImageView.init(frame: CGRect(x: GConstant.Screen.Width * CGFloat(indexValue) , y: 0, width: self.scrollV.bounds.width, height: self.scrollV.bounds.height))
                 imgV.contentMode        = .scaleToFill
-                imgV.backgroundColor    = UIColor.purple
                 imgV.image              = UIImage.init(named: image)
                 self.scrollV.addSubview(imgV)
             }
@@ -86,7 +86,7 @@ class TMAppOverViewVC: UIViewController, UIScrollViewDelegate {
         let maximumHorizontalOffset: CGFloat    = scrollView.contentSize.width - scrollView.frame.width
         let currentHorizontalOffset: CGFloat    = scrollView.contentOffset.x
         
-        if(currentHorizontalOffset > 2497 && currentHorizontalOffset <= maximumHorizontalOffset) {
+        if(currentHorizontalOffset > (scrollV.bounds.width * 6.6) && currentHorizontalOffset <= maximumHorizontalOffset) {
             UIView.animate(withDuration: 0.2) {
                 if self.btnSkip.alpha == 1 && self.btnGetStarted.alpha == 0 {
                     self.btnSkip.alpha          = 0

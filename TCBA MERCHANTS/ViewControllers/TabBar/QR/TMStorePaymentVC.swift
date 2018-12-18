@@ -141,7 +141,7 @@ class TMStorePaymentVC: UIViewController {
         lblMemberId.font                    = UIFont.applyOpenSansRegular(fontSize: 15.0)
         guard posData != nil else { return }
         lblUserName.text                    = posData.memberFullName ?? "TCBA"
-        lblMemberId.text                    = "Member Id: \(posData.memberID ?? 0)"
+        lblMemberId.text                    = "Member ID: \(posData.memberID ?? 0)"
         guard let urlProfile = URL.init(string: posData.profileImageURL ?? "") else {return}
         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
         
@@ -164,9 +164,9 @@ class TMStorePaymentVC: UIViewController {
         
         arrCV = [PaymentMethod.init(image: "wallet_icon", title: "Wallet Funds", method: "Wallet", balance: posData.walletBalance ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
                  PaymentMethod.init(image: "card_icon", title: "Card", method: "TokenisedCreditCard", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "prizefundtrophy", title: "Prize Funds", method: "PrizeWallet", balance: posData.availablePrizeCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
                  PaymentMethod.init(image: "loyality_icon", title: "Loyalty", method: "LoyaltyCash", balance: posData.availableLoyaltyCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "prizefundtrophy", title: "Prize Cash", method: "PrizeWallet", balance: posData.availablePrizeCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "mixpayment", title: "Mixed Method", method: "", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
+                 PaymentMethod.init(image: "mixpayment", title: "Mixed Payment", method: "", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
         
         // Array for TableView in mix payments
         arrTV = [PaymentMethod.init(image: "cash_icon", title: "Cash or EFTPOS", method: "CashOrEFTPOS", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
@@ -697,9 +697,6 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
                 })
             }
         }else{
-            if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrCV[indexPath.item].method!, withViewType: .home) {
-                return
-            }
             if indexPath.row == 0 {
                 //<===Wallet===>
                 if (posData.walletBalance?.isLess(than: posData.balanceRemaining!))!{
@@ -719,21 +716,21 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
                     viewTable.animateHideShow()
                 }
             } else if indexPath.row == 2 {
-                //<===LoyaltyCash===>
-                if (posData.availableLoyaltyCash?.isLess(than: posData.balanceRemaining!))!{
-                    AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
-                }else{
-                    showPin(withMethod: .LoyaltyCash, currentBalance: posData.availableLoyaltyCash, transactionAmount: posData.balanceRemaining) { (pinCode) in
-                        self.callPostCreateTransactionWithFullPayment(payMethodType: .LoyaltyCash, withPin: pinCode)
-                    }
-                }
-            } else if indexPath.row == 3 {
                 //<===PrizeWallet===>
                 if (posData.availablePrizeCash?.isLess(than: posData.balanceRemaining!))!{
                     AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availablePrizeCash!))
                 }else{
                     showPin(withMethod: .PrizeWallet, currentBalance: posData.availablePrizeCash, transactionAmount: posData.balanceRemaining) { (pinCode) in
                         self.callPostCreateTransactionWithFullPayment(payMethodType: .PrizeWallet, withPin: pinCode)
+                    }
+                }
+            } else if indexPath.row == 3 {
+                //<===LoyaltyCash===>
+                if (posData.availableLoyaltyCash?.isLess(than: posData.balanceRemaining!))!{
+                    AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
+                }else{
+                    showPin(withMethod: .LoyaltyCash, currentBalance: posData.availableLoyaltyCash, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                        self.callPostCreateTransactionWithFullPayment(payMethodType: .LoyaltyCash, withPin: pinCode)
                     }
                 }
             } else if indexPath.row == 4 {
@@ -825,6 +822,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
                     }
                 }
             }
+            
             cell.layoutIfNeeded()
             return cell
         } else { // Table for Card list

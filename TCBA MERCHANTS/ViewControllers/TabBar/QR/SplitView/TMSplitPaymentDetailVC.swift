@@ -147,7 +147,7 @@ class TMSplitPaymentDetailVC: UIViewController {
         
         
         lblUserName.text                    = posData.memberFullName!
-        lblMemberId.text                    = "Member Id: \(posData.memberID ?? 0)"
+        lblMemberId.text                    = "Member ID: \(posData.memberID ?? 0)"
         guard let urlProfile = URL.init(string: posData.profileImageURL ?? "") else {return}
         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
         

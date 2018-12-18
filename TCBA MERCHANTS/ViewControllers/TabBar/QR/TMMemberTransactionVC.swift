@@ -107,10 +107,12 @@ class TMMemberTransactionVC: UIViewController {
         guard memTranData != nil else {return}
         
         lblUserName.text                    = memTranData.firstName + " " + memTranData.lastName
-        lblMemberId.text                    = "Member Id: \(memTranData.memberID ?? 0)"
+        lblMemberId.text                    = "Member ID: \(memTranData.memberID ?? 0)"
         lblLCValue.text                     = "$\(memTranData.availableLoyaltyCash)"
         lblTPValue.text                     = "$\(Double(memTranData.totalPurchaseValue ))"
         lblCSValue.text                     = "\(memTranData.totalNumberOfMembers )"
+        
+        txtAmount.keyboardType              = UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation : .numberPad
         
         guard let urlProfile = URL.init(string: memTranData.profileImageURL ) else {return}
         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)

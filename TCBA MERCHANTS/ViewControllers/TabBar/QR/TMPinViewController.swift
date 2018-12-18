@@ -80,20 +80,20 @@ class TMPinViewController: UIViewController {
         viewPop.applyCornerRadius(cornerRadius: UIDevice.current.userInterfaceIdiom == .pad ? 7.0 * GConstant.Screen.HeightAspectRatio : 5.0)
         //Textfields
         txt1.applyStyle(textColor: GConstant.AppColor.textDark
-            , borderColor: GConstant.AppColor.textDark, borderWidth: 1.0)
+            , borderColor: GConstant.AppColor.textDark, borderWidth: 1.0, keybordType: UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation : .numberPad)
         txt2.applyStyle(textColor: GConstant.AppColor.textDark
-            , borderColor: GConstant.AppColor.textDark, borderWidth: 1.0)
+            , borderColor: GConstant.AppColor.textDark, borderWidth: 1.0, keybordType: UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation : .numberPad)
         txt3.applyStyle(textColor: GConstant.AppColor.textDark
-            , borderColor: GConstant.AppColor.textDark, borderWidth: 1.0)
+            , borderColor: GConstant.AppColor.textDark, borderWidth: 1.0, keybordType: UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation : .numberPad)
         txt4.applyStyle(textColor: GConstant.AppColor.textDark
-            , borderColor: GConstant.AppColor.textDark, borderWidth: 1.0)
+            , borderColor: GConstant.AppColor.textDark, borderWidth: 1.0, keybordType: UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation : .numberPad)
         txt1.becomeFirstResponder()
 
         popUpPropertiesUpdate()
     }
     
     func popUpPropertiesUpdate() {
-        if balance == "" || balance == "0.00"{
+        if balance == "" || balance == "0.00" {
             lblCurr.isHidden    = true
             lblCurBal.isHidden  = true
             consHeightLblCurr.constant  = 0.0

@@ -109,9 +109,9 @@ class TMSplitPaymentMasterVC: UIViewController {
         
         arrCV = [PaymentMethod.init(image: "wallet_icon", title: "Wallet Funds", method: "Wallet", balance: posData.walletBalance ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
                  PaymentMethod.init(image: "card_icon", title: "Card", method: "TokenisedCreditCard", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0),
+                 PaymentMethod.init(image: "prizefundtrophy", title: "Prize Funds", method: "PrizeWallet", balance: posData.availablePrizeCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
                  PaymentMethod.init(image: "loyality_icon", title: "Loyalty", method: "LoyaltyCash", balance: posData.availableLoyaltyCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "prizefundtrophy", title: "Prize Cash", method: "PrizeWallet", balance: posData.availablePrizeCash ?? 0.00, selectedAmount: 0.00, posPaymentID: 0),
-                 PaymentMethod.init(image: "mixpayment", title: "Mixed Method", method: "", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
+                 PaymentMethod.init(image: "mixpayment", title: "Mixed Payment", method: "", balance: 0.00, selectedAmount: 0.00, posPaymentID: 0)]
         
         // Array of Credit Cards
         if let paymentOptions = posData.paymentOptions {
@@ -490,21 +490,21 @@ extension TMSplitPaymentMasterVC: UICollectionViewDelegate, UICollectionViewData
                     CompletionHandler.shared.triggerEvent(.svReloadTbl, passData: tableType.card)
                 }
             } else if indexPath.row == 2 {
-                //<===LoyaltyCash===>
-                if (posData.availableLoyaltyCash?.isLess(than: posData.balanceRemaining!))!{
-                    AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
-                }else{
-                    showPin(withMethod: .LoyaltyCash, currentBalance: posData.availableLoyaltyCash, transactionAmount: posData.balanceRemaining) { (pinCode) in
-                        self.callPostCreateTransactionWithFullPayment(payMethodType: .LoyaltyCash, withPin: pinCode)
-                    }
-                }
-            } else if indexPath.row == 3 {
                 //<===PrizeWallet===>
                 if (posData.availablePrizeCash?.isLess(than: posData.balanceRemaining!))!{
                     AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availablePrizeCash!))
                 }else{
                     showPin(withMethod: .PrizeWallet, currentBalance: posData.availablePrizeCash, transactionAmount: posData.balanceRemaining) { (pinCode) in
                         self.callPostCreateTransactionWithFullPayment(payMethodType: .PrizeWallet, withPin: pinCode)
+                    }
+                }
+            } else if indexPath.row == 3 {
+                //<===LoyaltyCash===>
+                if (posData.availableLoyaltyCash?.isLess(than: posData.balanceRemaining!))!{
+                    AlertManager.shared.showAlertTitle(title: "Insufficent Funds", message: String(format: "You do not have enough funds.\nCurrent balance is $%.2f.\nPlease try another method or pay with Mixed Payment", posData.availableLoyaltyCash!))
+                }else{
+                    showPin(withMethod: .LoyaltyCash, currentBalance: posData.availableLoyaltyCash, transactionAmount: posData.balanceRemaining) { (pinCode) in
+                        self.callPostCreateTransactionWithFullPayment(payMethodType: .LoyaltyCash, withPin: pinCode)
                     }
                 }
             } else if indexPath.row == 4 {

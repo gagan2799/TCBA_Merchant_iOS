@@ -115,7 +115,7 @@ class TMHistoryDetailVC: UIViewController {
         consHeightTotalView.constant = GConstant.Screen.iPhoneXSeries ? GConstant.Screen.Height * 0.16 : GConstant.Screen.Height * 0.2
         
         if let storeId = GConstant.UserData.stores {
-            lblStoreId.text       = "Store id: \(storeId)"
+            lblStoreId.text       = "Store ID: \(storeId)"
         }
         lblMainTitle.font                  = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         lblTitle.font                      = UIFont.applyOpenSansSemiBold(fontSize: 16.0)

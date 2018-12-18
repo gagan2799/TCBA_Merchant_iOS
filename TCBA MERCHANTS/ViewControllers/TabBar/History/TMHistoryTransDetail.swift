@@ -107,7 +107,7 @@ class TMHistoryTransDetail: UIViewController {
         consHeightTotalView.constant    = GConstant.Screen.iPhoneXSeries ? GConstant.Screen.Height * 0.16 : GConstant.Screen.Height * 0.2
         
         if let storeId = GConstant.UserData.stores {
-            lblStoreId.text         = "Store id: \(storeId)"
+            lblStoreId.text         = "Store ID: \(storeId)"
         }
         
         consWidthTbl.constant       = 800*GConstant.Screen.HeightAspectRatio
@@ -142,7 +142,6 @@ class TMHistoryTransDetail: UIViewController {
     
     //MARK: - IBAction methods
     @objc func btnDropDownAction(_ sender: UIButton) {
-        
         let indexPath               = IndexPath.init(item: sender.tag, section: 0)
         guard let isExpanded = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpanded else { return }
         UIView.animate(withDuration: 0.3) { () -> Void in
@@ -279,7 +278,6 @@ class TMHistoryTransDetail: UIViewController {
                         self.txnsHistory.add(rowData)
                     }
                 }
-                
                 self.tblHistoryTrans.reloadData()
             }else{
                 if statusCode == 404{

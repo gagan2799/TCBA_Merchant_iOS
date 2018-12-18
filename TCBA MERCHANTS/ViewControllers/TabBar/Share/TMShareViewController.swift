@@ -75,7 +75,7 @@ class TMShareViewController: UIViewController {
         // navigationBar customization
         self.navigationController?.isNavigationBarHidden = true
         if let storeId = GConstant.UserData.stores {
-            lblStoreID.text         = "Store id: \(storeId)"
+            lblStoreID.text         = "Store ID: \(storeId)"
         }
         consStackVHeight.constant   = UIDevice.current.userInterfaceIdiom == .pad ? GConstant.Screen.Height * 0.2 : GConstant.Screen.iPhoneXSeries ? GConstant.Screen.Height * 0.18  : GConstant.Screen.Height * 0.15
         
@@ -136,10 +136,10 @@ class TMShareViewController: UIViewController {
     
     //MARK: CheckStaffLogin Method & Api
     func staffLoginVC() {
-        let obj = storyboard?.instantiateViewController(withIdentifier: "TMStaffLoginVC") as! TMStaffLoginVC
-        obj.userT = .staff
-        obj.modalPresentationStyle = .overCurrentContext
-        obj.completionHandler   = { (pin) in
+        let obj                     = storyboard?.instantiateViewController(withIdentifier: "TMStaffLoginVC") as! TMStaffLoginVC
+        obj.userT                   = .staff
+        obj.modalPresentationStyle  = .overCurrentContext
+        obj.completionHandler       = { (pin) in
             self.callGetStaffLoginApi(pin: pin)
         }
         rootWindow().rootViewController?.present(obj, animated: true, completion: nil)
@@ -154,10 +154,10 @@ class TMShareViewController: UIViewController {
          Parameters : { storeID : "", pinCode : "" }
          ===================================================
          */
-        let request = RequestModal.mCreatePOS()
-        guard let storeId = GConstant.UserData.stores else{return}
-        request.storeId = storeId
-        request.pinCode = pin
+        let request         = RequestModal.mCreatePOS()
+        guard let storeId   = GConstant.UserData.stores else{return}
+        request.storeId     = storeId
+        request.pinCode     = pin
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetStaffLogin, parameter: request.toDictionary(), withLoader : false) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 print("Correct PIN")

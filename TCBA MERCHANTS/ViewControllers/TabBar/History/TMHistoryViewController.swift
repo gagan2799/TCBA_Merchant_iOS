@@ -95,7 +95,7 @@ class TMHistoryViewController: UIViewController {
         self.navigationItem.title = "History"
         
         if let storeId = GConstant.UserData.stores {
-            lblStoreId.text       = "Store id: \(storeId)"
+            lblStoreId.text       = "Store ID: \(storeId)"
         }
         viewOutstanding.frame = CGRect(x: 0, y: 0, width: GConstant.Screen.Width, height: GConstant.Screen.Height * 0.07)
         lblOutStanding.font         = UIFont.applyOpenSansRegular(fontSize: 16.0)
@@ -287,14 +287,14 @@ extension TMHistoryViewController: UITableViewDataSource,UITableViewDelegate{
         if (transactionData) != nil {
             if indexPath.row == 0 {
                 cell.lblTotalDebValue.text  = "$\(String.init(format: "%.2f",  transactionData.totalCashBack!))"
-                cell.lblTransaction.text    = "\(transactionData.totalTransaction!)"
+                cell.lblTransaction.text    = "\(Int(transactionData.totalTransaction ?? 0))"
                 cell.lblValue.text          = "$\(String.init(format: "%.2f", transactionData.totalAmount!))"
             }else if indexPath.row == 1{
                 cell.lblTotalDebValue.text  = "$\(String.init(format: "%.2f", transactionData.todayCashBack!))"
-                cell.lblTransaction.text    = "\(transactionData.todayTransaction!)"
+                cell.lblTransaction.text    = "\(Int(transactionData.todayTransaction ?? 0))"
                 cell.lblValue.text          = "$\(String.init(format: "%.2f", transactionData.todayAmount!))"
             } else {
-                cell.lblTransaction.text    = "\(incompleteTransaction)"
+                cell.lblTransaction.text    = "\(Int(incompleteTransaction))"
                 cell.lblValue.text          = "$\(String.init(format: "%.2f", incompleteValue))"
             }
             cell.btnViewDetails.tag = indexPath.row

@@ -10,10 +10,9 @@ import UIKit
 
 class TMHomeViewController: UIViewController {
     
-    
     var arryObjects = ["Groceries and Alcohol",
-                       "Petrol, Tyres an service",
-                       "Telephone, Internet,Power and Gas",
+                       "Petrol, Tyres and service",
+                       "Telephone, Internet, Power and Gas",
                        "Finance, Insurance, Travel and Accommodation",
                        "Dining and Entertainment",
                        "Hair and Beauty",
@@ -62,11 +61,7 @@ class TMHomeViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
         guard scrollVHome != nil else {return}
-        if UIDevice.current.orientation.isLandscape == true {
-            scrollVHome.isScrollEnabled = true
-        }else{
-            scrollVHome.isScrollEnabled = false
-        }
+        scrollVHome.isScrollEnabled = UIDevice.current.orientation.isLandscape
     }
     
     override func didReceiveMemoryWarning() {
@@ -95,7 +90,7 @@ class TMHomeViewController: UIViewController {
         // lbl properties set
         lblStoreId.applyStyle(labelFont: nil, labelColor: .white, cornerRadius: nil, borderColor: .white, borderWidth: 1.0)
         lblStoreId.backgroundColor          = UIColor.black.withAlphaComponent(0.4)
-        lblStoreId.text                     = "Store Id:\(GConstant.UserData.stores ?? "")"
+        lblStoreId.text                     = "Store ID:\(GConstant.UserData.stores ?? "")"
     }
     
     //MARK: - Web Api's

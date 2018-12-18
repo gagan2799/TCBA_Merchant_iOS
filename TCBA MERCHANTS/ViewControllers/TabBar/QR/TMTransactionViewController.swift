@@ -120,7 +120,7 @@ class TMTransactionViewController: UIViewController {
         lblCashBack.font = UIFont.applyOpenSansSemiBold(fontSize: 18.0)
         lblStoreId.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 15.0), labelColor: .white, cornerRadius: 2.0, borderColor: .white, borderWidth: 1.0)
         lblStoreId.backgroundColor          = .clear
-        lblStoreId.text                     = "Store Id: \(GConstant.UserData.stores ?? "")"
+        lblStoreId.text                     = "Store ID: \(GConstant.UserData.stores ?? "")"
         lblOR.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 15.0, isAspectRasio: false), labelColor: GConstant.AppColor.textDark, cornerRadius: lblOR.bounds.midY, borderColor: GConstant.AppColor.textLight, backgroundColor: .white, borderWidth: 1.0)
         lblScanCode.font                    = UIFont.applyOpenSansBold(fontSize: 20.0)
         
@@ -196,7 +196,18 @@ class TMTransactionViewController: UIViewController {
                 } else {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }
-            }else{
+            } else if statusCode == 400 {
+                print("status code is 400")
+                if let data = data{
+                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                        let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                        return
+                    }
+                    print(json as Any)
+                    AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage)
+                }
+            } else{
                 if statusCode == 404{
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{

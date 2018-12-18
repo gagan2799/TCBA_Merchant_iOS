@@ -573,6 +573,7 @@ extension UITextField {
         , cornerRadius       : CGFloat? = nil
         , borderColor       : UIColor? = nil
         , borderWidth       : CGFloat? = nil
+        , keybordType       : UIKeyboardType = .default
         ) {
         
         if cornerRadius != nil {
@@ -602,6 +603,8 @@ extension UITextField {
         if textColor != nil {
             self.textColor = textColor
         }
+        
+        self.keyboardType = keybordType
     }
     
     func setAttributedPlaceHolder(placeHolderText : String , color : UIColor) {

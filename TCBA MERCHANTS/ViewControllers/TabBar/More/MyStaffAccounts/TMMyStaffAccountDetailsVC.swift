@@ -109,6 +109,8 @@ class TMMyStaffAccountDetailsVC: UIViewController {
         txtPhoneNo.font                 = UIFont.applyOpenSansRegular(fontSize: 15.0)
         txtStore.font                   = UIFont.applyOpenSansRegular(fontSize: 15.0)
         
+        txtPhoneNo.keyboardType         = UIDevice.current.userInterfaceIdiom == .pad ? .numbersAndPunctuation : .phonePad
+        
         txtFirstName.setRightPaddingPoints(10)
         txtLastName.setRightPaddingPoints(10)
         txtPhoneNo.setRightPaddingPoints(10)

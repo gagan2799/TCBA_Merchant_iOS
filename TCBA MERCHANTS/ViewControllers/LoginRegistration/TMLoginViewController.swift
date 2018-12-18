@@ -166,12 +166,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     //MARK: - Animation Coustom method
     func animateHideShow(view:UIView){
         UIView.transition(with: view, duration: 0.3, options: [.showHideTransitionViews,.transitionCrossDissolve], animations: {
-            if view.isHidden == false{
-                view.isHidden = true
-            }
-            else{
-                view.isHidden = false
-            }
+            view.isHidden = !view.isHidden
         }, completion: nil)
     }
     

@@ -71,6 +71,7 @@ struct GConstant {
         static let Transaction                  = "TMTransactionViewController"
         static let QRScanner                    = "TMQRScannerVC"
         static let MemberTransaction            = "TMMemberTransactionVC"
+        static let Anonymous                    = "TMAnonymousVC"
         static let StorePayment                 = "TMStorePaymentVC"
         static let SplitMaster                  = "TMSplitPaymentMasterVC"
         static let SplitDetail                  = "TMSplitPaymentDetailVC"

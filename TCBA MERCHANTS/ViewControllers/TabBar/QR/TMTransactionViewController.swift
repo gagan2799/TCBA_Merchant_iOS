@@ -151,7 +151,8 @@ class TMTransactionViewController: UIViewController {
     func presentQR() {
         let obj = TMQRScannerVC()
         obj.completionHandler = { (code) in
-            let id = code.replacingOccurrences(of: "http://tcba.mobi/kc/", with: "");   self.callMemberTransactionDetailsApi(code: id)
+            let id = code.replacingOccurrences(of: "http://tcba.mobi/kc/", with: "");
+            self.callMemberTransactionDetailsApi(code: id)
         }
         self.navigationController?.present(obj, animated: true, completion: {
             print("Presented QR")
@@ -163,6 +164,12 @@ class TMTransactionViewController: UIViewController {
         obj.memTranData = data
         self.navigationController?.pushViewController(obj, animated: true)
         
+    }
+    
+    func pushToAnonymous(cardId: String?) {
+        let obj         = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.Anonymous) as! TMAnonymousVC
+        obj.cardId      = cardId ?? ""
+        self.navigationController?.pushViewController(obj, animated: true)
     }
     //MARK: Web Api's
     func callMemberTransactionDetailsApi(code:String) {
@@ -197,15 +204,18 @@ class TMTransactionViewController: UIViewController {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }
             } else if statusCode == 400 {
-                print("status code is 400")
-                if let data = data{
-                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
-                        let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
-                        AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
-                        return
+                if code.isNumeric {
+                    if let data = data{
+                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                            let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
+                            return
+                        }
+                        print(json as Any)
+                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage)
                     }
-                    print(json as Any)
-                    AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage)
+                } else {
+                    self.pushToAnonymous(cardId: code)
                 }
             } else{
                 if statusCode == 404{

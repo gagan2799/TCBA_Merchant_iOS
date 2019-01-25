@@ -61,6 +61,7 @@ struct GConstant {
     struct VCIdentifier {
         //Login Screen
         static let Login                        = "TMLoginViewController"
+        static let ApplyMerchantVC              = "TMApplyMerchantVC"
         //Home Tab
         static let Home                         = "TMHomeViewController"
         //History Tab

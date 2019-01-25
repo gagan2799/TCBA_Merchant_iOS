@@ -118,6 +118,9 @@ extension TMStoreImagesVC: UITableViewDataSource,UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.MainImage) as! TMMainImageVC
+        guard storeDetailsData != nil else {
+            return
+        }
         obj.imgUrl = arrImages[indexPath.row]["imageUrl"] as? String
         obj.title  = arrImages[indexPath.row]["name"] as? String
         obj.storeTitle  = storeDetailsData.storeTitle

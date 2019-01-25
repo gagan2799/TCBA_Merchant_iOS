@@ -79,8 +79,8 @@ class TMMatrixCalculatorVC: UIViewController {
     }
     //MARK: - Tupples
     func matrixCalculator(_ avrageSpend: Double, _ people: Int, _ percentage: Double) -> (incWeek: Double, incYear: Double) {
-        let InWeek  = String.init(format: "%.0f", (Double(people) * percentage * avrageSpend)/100)
-        let InYear  = String.init(format: "%.0f", ((Double(people) * percentage * avrageSpend)/100)*52)
+        let InWeek  = String.init(format: "%.2f", (Double(people) * percentage * avrageSpend)/100)
+        let InYear  = String.init(format: "%.2f", ((Double(people) * percentage * avrageSpend)/100)*52)
         return (incWeek:Double(InWeek) ?? 0, incYear:Double(InYear) ?? 0)
     }
     
@@ -96,9 +96,9 @@ class TMMatrixCalculatorVC: UIViewController {
             //Adding values of totalSaveInYear
             incYear += total.incYear
         }
-        let totalPeople     = String.init(format: "%.0f", people)
-        let totalIncWeek    = Double(String.init(format: "%.0f", incWeek))?.strWithComma() ?? ""
-        let totalIncYear    = Double(String.init(format: "%.0f", incYear))?.strWithComma() ?? ""//String.init(format: "%.0f", incYear)
+        let totalPeople     = String.init(format: "%.2f", people)
+        let totalIncWeek    = Double(String.init(format: "%.2f", incWeek))?.strWithComma() ?? ""
+        let totalIncYear    = Double(String.init(format: "%.2f", incYear))?.strWithComma() ?? ""//String.init(format: "%.0f", incYear)
         
         return (totalPeople,totalIncWeek,totalIncYear)
     }
@@ -123,9 +123,9 @@ class TMMatrixCalculatorVC: UIViewController {
                 var section2            = [SectionData]()
                 for (indexArr , UserMatrix) in self.modelUserMatrix.userMatrix.enumerated() {
                     if indexArr > 0 && indexArr < 6 {
-                        let total       = self.matrixCalculator(Double(self.totalSpend) ?? 0.00 , UserMatrix.totalUsers, indexArr == 1 ? 0.5 : 0.25)
-                        section1.append(SectionData.init(totalUsers: UserMatrix.totalUsers, totalMatrixCash: UserMatrix.totalMatrixCash, percentage: indexArr == 1 ? 0.5 : 0.25, level: UserMatrix.level, totalMatrixCashPending: UserMatrix.totalMatrixCashPending, incWeek: total.incWeek, incYear: total.incYear))
-                        section2.append(SectionData.init(totalUsers: 0, totalMatrixCash: UserMatrix.totalMatrixCash, percentage: indexArr == 1 ? 0.5 : 0.25, level: UserMatrix.level, totalMatrixCashPending: UserMatrix.totalMatrixCashPending, incWeek: 0, incYear: 0))
+                        let total       = self.matrixCalculator(Double(self.totalSpend) ?? 0.00 , UserMatrix.totalUsers, 0.2)
+                        section1.append(SectionData.init(totalUsers: UserMatrix.totalUsers, totalMatrixCash: UserMatrix.totalMatrixCash, percentage: 0.2, level: UserMatrix.level, totalMatrixCashPending: UserMatrix.totalMatrixCashPending, incWeek: total.incWeek, incYear: total.incYear))
+                        section2.append(SectionData.init(totalUsers: 0, totalMatrixCash: UserMatrix.totalMatrixCash, percentage: 0.2, level: UserMatrix.level, totalMatrixCashPending: UserMatrix.totalMatrixCashPending, incWeek: 0, incYear: 0))
                     }
                 }
                 let totalMatrix         = self.totalMatrix(matrixData: section1)

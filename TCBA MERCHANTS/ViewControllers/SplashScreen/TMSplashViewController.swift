@@ -49,8 +49,6 @@ class TMSplashViewController: UIViewController {
             //refresh view once rotation is completed not in will transition as it returns incorrect frame size.Refresh here
         })
         super.viewWillTransition(to: size, with: coordinator)
-        
-//        super.viewWillTransition(to: size, with: coordinator)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

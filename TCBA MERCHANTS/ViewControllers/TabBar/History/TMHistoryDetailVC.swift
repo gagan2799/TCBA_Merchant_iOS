@@ -76,10 +76,10 @@ class TMHistoryDetailVC: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         
     }
-
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
-
+            
             let orient = UIApplication.shared.statusBarOrientation
             switch orient {
                 
@@ -111,7 +111,7 @@ class TMHistoryDetailVC: UIViewController {
         // navigationBar customization
         self.navigationController?.customize()
         self.navigationItem.title = "History"
-
+        
         consHeightTotalView.constant = GConstant.Screen.iPhoneXSeries ? GConstant.Screen.Height * 0.16 : GConstant.Screen.Height * 0.2
         
         if let storeId = GConstant.UserData.stores {
@@ -125,7 +125,7 @@ class TMHistoryDetailVC: UIViewController {
         
         lblTopHeaderTitle.font             = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         lblStoreId.font                    = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
-
+        
         for lbl in lblSubTitles {
             lbl.font = UIFont.applyOpenSansRegular(fontSize: 15.0)
         }
@@ -197,7 +197,7 @@ class TMHistoryDetailVC: UIViewController {
          Url        : outstanding ? "/Merchant/GetOutstandingLoyalty" : "/Merchant/GetMerchantTransactionDetail"
          Method     : GET
          Parameters : { storeID : "",
-                        type    : "" }
+         type    : "" }
          ===================================================
          */
         let request         = RequestModal.mUserData()
@@ -299,19 +299,19 @@ class TMHistoryDetailVC: UIViewController {
     
     func masterVC(data: PostCreatePOSModel) {
         guard let splitViewController   = storyboard?.instantiateViewController(withIdentifier: "SplitVC") as? UISplitViewController else { fatalError() }
-
+        
         let nc : UINavigationController  = splitViewController.viewControllers[0] as! UINavigationController
-
+        
         let vcm : TMSplitPaymentMasterVC  = nc.viewControllers[0] as! TMSplitPaymentMasterVC
         vcm.posData = data
-
+        
         let vcd : TMSplitPaymentDetailVC = splitViewController.viewControllers[1] as! TMSplitPaymentDetailVC
         vcd.posData     = data
         vcd.typeTable   = .mix
-
+        
         //Make sure pass data to Master & Details before setting preferredDisplayMode = .allVisible
         splitViewController.preferredDisplayMode = .allVisible
-
+        
         let transition: CATransition = CATransition()
         transition.duration = 0.3
         transition.type = CATransitionType.fade
@@ -346,7 +346,7 @@ extension TMHistoryDetailVC: UITableViewDataSource,UITableViewDelegate{
         return 45 * GConstant.Screen.HeightAspectRatio
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-  
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryCellHeader") as! TMHistoryDetailTableCell
         cell.lblDateOrID.font    = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         cell.lblMember.font      = UIFont.applyOpenSansSemiBold(fontSize: 16.0)

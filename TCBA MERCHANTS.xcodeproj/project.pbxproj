@@ -110,6 +110,7 @@
 		79BDBCCB218030CA00D0DFC4 /* TMStaffMasterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BDBCCA218030CA00D0DFC4 /* TMStaffMasterCell.swift */; };
 		79CDF0242108778300CA7A9C /* LoaderWithLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CDF0232108778300CA7A9C /* LoaderWithLabel.swift */; };
 		79CDF02C2108A13E00CA7A9C /* RequestModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CDF02B2108A13E00CA7A9C /* RequestModal.swift */; };
+		79D3AA1321F1F74900B8FF31 /* TMApplyMerchantVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D3AA1221F1F74900B8FF31 /* TMApplyMerchantVC.swift */; };
 		79D94AC321103B9000D3FCD6 /* TMMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D94AC221103B9000D3FCD6 /* TMMoreViewController.swift */; };
 		79E5D91C21490075008CD66E /* TMTermOfUseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E5D91B21490075008CD66E /* TMTermOfUseVC.swift */; };
 		79E5D91E21491CD4008CD66E /* TMStoreImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E5D91D21491CD4008CD66E /* TMStoreImagesCell.swift */; };
@@ -250,6 +251,7 @@
 		79BDBCCA218030CA00D0DFC4 /* TMStaffMasterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStaffMasterCell.swift; sourceTree = "<group>"; };
 		79CDF0232108778300CA7A9C /* LoaderWithLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderWithLabel.swift; sourceTree = "<group>"; };
 		79CDF02B2108A13E00CA7A9C /* RequestModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModal.swift; sourceTree = "<group>"; };
+		79D3AA1221F1F74900B8FF31 /* TMApplyMerchantVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMApplyMerchantVC.swift; sourceTree = "<group>"; };
 		79D94AC221103B9000D3FCD6 /* TMMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMMoreViewController.swift; sourceTree = "<group>"; };
 		79E5D91B21490075008CD66E /* TMTermOfUseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMTermOfUseVC.swift; sourceTree = "<group>"; };
 		79E5D91D21491CD4008CD66E /* TMStoreImagesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMStoreImagesCell.swift; sourceTree = "<group>"; };
@@ -520,6 +522,7 @@
 			isa = PBXGroup;
 			children = (
 				792B542D20F5E2B6000223F7 /* TMLoginViewController.swift */,
+				79D3AA1221F1F74900B8FF31 /* TMApplyMerchantVC.swift */,
 			);
 			path = LoginRegistration;
 			sourceTree = "<group>";
@@ -993,6 +996,7 @@
 				79E8C492213E489C008E152A /* TMMoreTableCell.swift in Sources */,
 				790D392921084B4A0073AE4C /* GFunction.swift in Sources */,
 				7903C4F121622A630065B51C /* TMAboutUsSubLisDetailVC.swift in Sources */,
+				79D3AA1321F1F74900B8FF31 /* TMApplyMerchantVC.swift in Sources */,
 				7953B78B216B1B5900832AA7 /* TMCalculatorHeaderCell.swift in Sources */,
 				792F28C3212192C20033E7A2 /* GradientView.swift in Sources */,
 				7981BE9B21672FBD00C27384 /* TMVideoDetailsVC.swift in Sources */,

@@ -14,6 +14,7 @@ struct UserLoginModel: Codable {
     let profilePhotoURL: String?
     let isProfileComplete: Bool?
     let stores: String?
+    let newPin: String?
     
     enum CodingKeys: String, CodingKey {
         case accessToken = "access_token"
@@ -28,6 +29,7 @@ struct UserLoginModel: Codable {
         case userID = "userId"
         case profilePhotoURL = "profilePhotoUrl"
         case isProfileComplete, stores
+        case newPin = "newPin"
     }
 }
 
@@ -64,7 +66,8 @@ extension UserLoginModel {
         userID: Int?? = nil,
         profilePhotoURL: String?? = nil,
         isProfileComplete: Bool?? = nil,
-        stores: String?? = nil
+        stores: String?? = nil,
+        newPin: String?? = nil
         ) -> UserLoginModel {
         return UserLoginModel(
             accessToken: accessToken ?? self.accessToken,
@@ -81,7 +84,8 @@ extension UserLoginModel {
             userID: userID ?? self.userID,
             profilePhotoURL: profilePhotoURL ?? self.profilePhotoURL,
             isProfileComplete: isProfileComplete ?? self.isProfileComplete,
-            stores: stores ?? self.stores
+            stores: stores ?? self.stores,
+            newPin: newPin ?? self.newPin
         )
     }
     

@@ -512,7 +512,6 @@ class TMStorePaymentVC: UIViewController {
         }
     }
     
-    
     func callPostCreateTransaction(payMethodType type:methodType, withPin pin: String = "", isExecute: Int = 1) {
         /*
          =====================API CALL=====================

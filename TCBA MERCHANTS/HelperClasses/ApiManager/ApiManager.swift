@@ -340,7 +340,7 @@ class ApiManager {
         , parameter :  Dictionary<String, Any>?
         ,withErrorAlert errorAlert : Bool = false
         ,withLoader isLoader : Bool = true
-        ,debugInfo isPrint: Bool = false
+        ,debugInfo isPrint: Bool = true
         , withBlock completion : @escaping (Data?, Int?, String) -> Void) {
         
         if Connectivity.isConnectedToInternet {

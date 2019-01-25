@@ -23,7 +23,6 @@ class TMMemberTransactionVC: UIViewController {
     // UILabels
     @IBOutlet weak var lblUserName: UILabel!
     @IBOutlet weak var lblMemberId: UILabel!
-    @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblLC: UILabel!
     @IBOutlet weak var lblTP: UILabel!
     @IBOutlet weak var lblCS: UILabel!
@@ -32,6 +31,7 @@ class TMMemberTransactionVC: UIViewController {
     @IBOutlet weak var lblCSValue: UILabel!
     @IBOutlet weak var lblCBPurchase: UILabel!
     @IBOutlet weak var lblPlaceHolder: UILabel!
+    @IBOutlet weak var lblFirstPurchase: UILabel!
     //UITextfield
     @IBOutlet weak var txtAmount: UITextField!
     //UIButton
@@ -73,7 +73,7 @@ class TMMemberTransactionVC: UIViewController {
         guard scrV != nil else {return}
         if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
             scrV.isScrollEnabled = true
-        }else{
+        } else  {
             scrV.isScrollEnabled = false
         }
     }
@@ -84,7 +84,7 @@ class TMMemberTransactionVC: UIViewController {
     }
     
     //MARK: - Set view properties
-    func setViewProperties(){
+    func setViewProperties() {
         // navigationBar customization
         self.navigationController?.customize()
         self.navigationItem.title   = "Member Transaction"
@@ -94,7 +94,6 @@ class TMMemberTransactionVC: UIViewController {
         btnConfirmOutlet.titleLabel?.font   = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         lblUserName.font                    = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         lblMemberId.font                    = UIFont.applyOpenSansRegular(fontSize: 15.0)
-        lblTitle.font                       = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         lblTP.font                          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
         lblLC.font                          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
         lblCS.font                          = UIFont.applyOpenSansSemiBold(fontSize: 15.0)
@@ -103,6 +102,7 @@ class TMMemberTransactionVC: UIViewController {
         lblCSValue.font                     = UIFont.applyOpenSansRegular(fontSize: 15.0)
         lblCBPurchase.font                  = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         lblPlaceHolder.font                 = UIFont.applyOpenSansRegular(fontSize: 15.0)
+        lblFirstPurchase.font               = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
         
         guard memTranData != nil else {return}
         
@@ -117,8 +117,11 @@ class TMMemberTransactionVC: UIViewController {
         guard let urlProfile = URL.init(string: memTranData.profileImageURL ) else {return}
         imgVUser.setImageWithDownload(urlProfile, withIndicator: true)
         
-        consMainVHeight.constant   = GConstant.Screen.Height * 0.9
+        lblFirstPurchase.isHidden   = !self.memTranData.firstTimeUse
+        
+        consMainVHeight.constant    = GConstant.Screen.Height * 0.9
         view.setNeedsLayout()
+        
     }
     
     //MARK: - UIButton Action Methods

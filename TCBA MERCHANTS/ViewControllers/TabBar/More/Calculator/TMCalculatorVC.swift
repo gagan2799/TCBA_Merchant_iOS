@@ -144,8 +144,8 @@ class TMCalculatorVC: UIViewController {
 
     //MARK: - Tupples
     func savingCalculator(_ spendInWeek: Double, _ percentage:Double) -> (savingInWeek: String, savingInYear: String) {
-        let saveInWeek  = String.init(format: "%.0f", (spendInWeek / 100)*percentage)
-        let saveInYear  = String.init(format: "%.0f", ((spendInWeek / 100)*percentage)*52)
+        let saveInWeek  = String.init(format: "%.2f", (spendInWeek / 100)*percentage)
+        let saveInYear  = String.init(format: "%.2f", ((spendInWeek / 100)*percentage)*52)
         return (savingInWeek:saveInWeek, savingInYear:saveInYear)
     }
     
@@ -189,7 +189,7 @@ class TMCalculatorVC: UIViewController {
     
     @IBAction func btnShoppingCalAction(_ sender: UIButton) {
         if txtTotalSpndWeek.text == "" || txtTotalSpndWeek.text == "0" {
-            AlertManager.shared.showAlertTitle(title: "", message: "You must put values into the yellow boxes and tap the 'Calculate' before you can go to Matrix Calculator.")
+            AlertManager.shared.showAlertTitle(title: "", message: "You must put values into the boxes and tap the 'Calculate' before you can go to Matrix Calculator.")
         }else{
             let obj = storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.MatrixCalculator) as! TMMatrixCalculatorVC
             obj.totalSpend = txtTotalSpndWeek.text?.replacingOccurrences(of: ",", with: "")
@@ -271,7 +271,7 @@ extension TMCalculatorVC: UITableViewDelegate, UITableViewDataSource, UITextFiel
                     cell.txtSaveYear.text   = Double(self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt3 ?? "0")?.strWithComma()
                 }
             }else{
-                let data    = SectionData.init(company: arrCalculator[indexPath.section].sectionData?[indexPath.row].company, data: arrCalculator[indexPath.section].sectionData?[indexPath.row].data, percentage: arrCalculator[indexPath.section].sectionData?[indexPath.row].percentage, txt1: "", txt2: "", txt3: "")
+                let data        = SectionData.init(company: arrCalculator[indexPath.section].sectionData?[indexPath.row].company, data: arrCalculator[indexPath.section].sectionData?[indexPath.row].data, percentage: arrCalculator[indexPath.section].sectionData?[indexPath.row].percentage, txt1: "", txt2: "", txt3: "")
                 self.arrCalculator[indexPath.section].sectionData?[indexPath.row] = data
                 DispatchQueue.main.async {
                     cell.txtSpendWeek.text  = Double(self.arrCalculator[indexPath.section].sectionData?[indexPath.row].txt1 ?? "0")?.strWithComma()

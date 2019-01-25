@@ -451,28 +451,18 @@ extension UILabel {
             self.drawText(in: rect)
         }
     }
-    
-    //<<<_____ Don't uncomment this method this is getting prob with UIAlertController
-//    override open var intrinsicContentSize: CGSize {
-//        guard let text = self.text else { return super.intrinsicContentSize }
-//        
-//        var contentSize = super.intrinsicContentSize
-//        var textWidth: CGFloat = frame.size.width
-//        var insetsHeight: CGFloat = 0.0
-//        
-//        if let insets = padding {
-//            textWidth -= insets.left + insets.right
-//            insetsHeight += insets.top + insets.bottom
-//        }
-//        
-//        let newSize = text.boundingRect(with: CGSize(width: textWidth, height: CGFloat.greatestFiniteMagnitude),
-//                                        options: NSStringDrawingOptions.usesLineFragmentOrigin,
-//                                        attributes: [NSAttributedString.Key.font: self.font], context: nil)
-//        
-//        contentSize.height = ceil(newSize.size.height) + insetsHeight
-//        
-//        return contentSize
-//    }
+}
+
+public extension UIAlertController {
+    func presentAlert() {
+        let win = UIWindow(frame: UIScreen.main.bounds)
+        let vc = UIViewController()
+        vc.view.backgroundColor = .clear
+        win.rootViewController = vc
+        win.windowLevel = UIWindow.Level.alert + 1
+        win.makeKeyAndVisible()
+        vc.present(self, animated: true, completion: nil)
+    }
 }
 
 extension UILabel {

@@ -19,7 +19,7 @@ class TMQRScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     //MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        scanner()
+        checkCamera()
         btnCancel()
     }
     
@@ -38,13 +38,14 @@ class TMQRScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
             captureSession.stopRunning()
         }
     }
+    
     //MARK: QR Scanner
     func scanner() {
         
         view.backgroundColor = UIColor.black
         captureSession = AVCaptureSession()
         let videoInput: AVCaptureDeviceInput
-
+        
         if let videoCaptureDevice = AVCaptureDevice.default(for: .video) {
             do {
                 videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
@@ -55,7 +56,7 @@ class TMQRScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
             failed()
             return
         }
-
+        
         if (captureSession.canAddInput(videoInput)) {
             captureSession.addInput(videoInput)
         } else {
@@ -80,6 +81,33 @@ class TMQRScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
         view.layer.addSublayer(previewLayer)
         
         captureSession.startRunning()
+    }
+    
+    func checkCamera() {
+        let authStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        switch authStatus {
+        case .authorized: scanner()
+        case .denied: alertPromptToAllowCameraAccessViaSetting()
+        case .notDetermined: scanner()
+        case .restricted: alertPromptToAllowCameraAccessViaSetting()
+        default: scanner()
+        }
+    }
+    
+    func alertPromptToAllowCameraAccessViaSetting() {
+        AlertManager.shared.showAlertTitle(title: "IMPORTANT", message: "Allow TCBA Merchant to take pictures and record video?", buttonsArray: ["Dismiss","Setting"]) { (buttonIndex : Int) in
+            switch buttonIndex {
+            case 0 :
+                //OK clicked
+                self.captureSession = nil
+                self.dismiss(animated: true, completion: nil)
+                break
+            case 1 :
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+            default:
+                break
+            }
+        }
     }
     
     func failed() {

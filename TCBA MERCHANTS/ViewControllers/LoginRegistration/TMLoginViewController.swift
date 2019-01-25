@@ -284,14 +284,50 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
                             GFunction.shared.removeUserDefaults(key: GConstant.UserDefaultKeys.UserName)
                         }
                     }
+                    GConstant.UserData = GFunction.shared.getUserDataFromDefaults()
                     
-                    if (self.navigationController?.viewControllers.first?.isKind(of: TMLoginViewController.self))! {
-                        GConstant.UserData = GFunction.shared.getUserDataFromDefaults()
-                        self.navigationController?.dismiss(animated: true, completion: nil)
+                    if GConstant.UserData.isMerchant == true {
+                        if GConstant.UserData.newPin == "" || GConstant.UserData.newPin == nil {
+                            if (self.navigationController?.viewControllers.first?.isKind(of: TMLoginViewController.self))! {
+                                self.navigationController?.dismiss(animated: true, completion: nil)
+                            } else {
+                                GFunction.shared.userLogin()
+                            }
+                        } else {
+                            AlertManager.shared.showAlertTitle(title: "New Wallet PIN", message: "Your new Wallet PIN is \(GConstant.UserData.newPin ?? ""). Please go to Wallet and PIN settings to change your wallet PIN" , buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                                switch buttonIndex {
+                                case 0 :
+                                    if (self.navigationController?.viewControllers.first?.isKind(of: TMLoginViewController.self))! {
+                                        self.navigationController?.dismiss(animated: true, completion: nil)
+                                    } else {
+                                        GFunction.shared.userLogin()
+                                    }
+                                    break
+                                case 1:
+                                    
+                                    break
+                                default:
+                                    break
+                                }
+                            }
+                        }
                     } else {
-                        GFunction.shared.userLogin()
+                        GFunction.shared.removeUserDefaults(key: GConstant.UserDefaultKeys.UserDataLogin)
+                        AlertManager.shared.showAlertTitle(title: "Access Denied", message: "This app is for registered TCBA Merchant account holders only. You can apply to be a merchant below." , buttonsArray: ["Close","Apply"]) { (buttonIndex : Int) in
+                            switch buttonIndex {
+                            case 0 :
+                                //Close clicked
+                                break
+                            case 1:
+                                let obj = self.storyboard?.instantiateViewController(withIdentifier: GConstant.VCIdentifier.ApplyMerchantVC) as! TMApplyMerchantVC
+                                self.navigationController?.pushViewController(obj, animated: true)
+                                break
+                            default:
+                                break
+                            }
+                        }
                     }
-                }else{
+                } else {
                     if statusCode == 404{
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                     }else{

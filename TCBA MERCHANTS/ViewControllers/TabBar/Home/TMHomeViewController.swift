@@ -24,13 +24,13 @@ class TMHomeViewController: UIViewController {
     @IBOutlet weak var consHeightHomeTableV: NSLayoutConstraint!
     @IBOutlet weak var scrollVHome: UIScrollView!
     
-    
     //MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewProperties()
         print("Status Bar Height:- \(String(describing: UIApplication.shared.statusBarView?.bounds.height))")
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         guard scrollVHome != nil else {return}
@@ -81,10 +81,10 @@ class TMHomeViewController: UIViewController {
         //dynamic height image & table
         if UIDevice.current.userInterfaceIdiom == .pad {
             consHeightHomeIV.constant       = GConstant.Screen.Height * 0.35
-            consHeightHomeTableV.constant       = GConstant.Screen.Height * 0.55
+            consHeightHomeTableV.constant   = GConstant.Screen.Height * 0.55
         }else{
             consHeightHomeIV.constant       = GConstant.Screen.Height * 0.3
-            consHeightHomeTableV.constant       = GConstant.Screen.Height * 0.7
+            consHeightHomeTableV.constant   = GConstant.Screen.Height * 0.7
         }
         self.view.layoutIfNeeded()
         // lbl properties set

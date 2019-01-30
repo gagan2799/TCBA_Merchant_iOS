@@ -36,6 +36,11 @@ enum methodType: String {
     case Mix                    = "Mix Payments"
 }
 
+enum fromWhere: uint {
+    case fromColView
+    case fromTblView
+}
+
 class TMStorePaymentVC: UIViewController {
     
     //MARK: Modals Object
@@ -60,7 +65,9 @@ class TMStorePaymentVC: UIViewController {
     var typeView         : viewType!
     var typeTable        : tableType!
     var typeMethod       : methodType!
-    
+    var fromWhrObj       : fromWhere!
+    // UIScrollView
+    @IBOutlet weak var scrView: UIScrollView!
     // UIVIew
     @IBOutlet weak var viewCollection: UIView!
     @IBOutlet weak var viewTable: UIView!
@@ -203,30 +210,42 @@ class TMStorePaymentVC: UIViewController {
     }
     
     @IBAction func btnTVCancelAction(_ sender: UIButton) {
-        if let payments = posData.payments {
-            if payments.count > 0{
-                resetPayments()
-            }else{
+        switch fromWhrObj {
+        case .fromTblView?:
+                reloadTableView(withTblType: .mix)
+        default:
+            if let payments = posData.payments {
+                if payments.count > 0{
+                    resetPayments()
+                }else{
+                    viewTable.animateHideShow()
+                }
+            } else {
                 viewTable.animateHideShow()
             }
-        } else {
-            viewTable.animateHideShow()
-        }
+        } 
+        fromWhrObj = nil
     }
     
     @IBAction func btnFinishAction(_ sender: UIButton) {
-        showPin(withMethod: .Mix, transactionAmount: posData?.totalTransactionFees) { (pinCode) in
+        if let payments = self.posData.payments{
             var execute = 1
-            if let payments = self.posData.payments{
-                for item in payments{
-                    if item.type == "TokenisedCreditCard"{
-                        execute = 0
-                        break
+            if payments.count == 1 && payments[0].type == "CashOrEFTPOS" {
+                self.callPostCreateTransaction(payMethodType: .Mix, withPin: "", isExecute: execute)
+            } else {
+                showPin(withMethod: .Mix, transactionAmount: posData?.totalTransactionFees) { (pinCode) in
+                    if let payments = self.posData.payments{
+                        for item in payments{
+                            if item.type == "TokenisedCreditCard"{
+                                execute = 0
+                                break
+                            }
+                        }
                     }
+                    self.strPinCode = pinCode
+                    self.callPostCreateTransaction(payMethodType: .Mix, withPin: pinCode, isExecute: execute)
                 }
             }
-            self.strPinCode = pinCode
-            self.callPostCreateTransaction(payMethodType: .Mix, withPin: pinCode, isExecute: execute)
         }
     }
     //MARK: - Custom Methods
@@ -465,6 +484,7 @@ class TMStorePaymentVC: UIViewController {
         } else if type == .TokenisedCreditCard {
             request.creditCardToken = token
         }
+        
         ApiManager.shared.POSTWithBearerAuth(strURL: GAPIConstant.Url.PostAddPOSPayment, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 print("statusCode = 200")
@@ -488,14 +508,15 @@ class TMStorePaymentVC: UIViewController {
                     self.reloadTableView(withTblType: .mix)
                     if self.posData.balanceRemaining == 0 {
                         self.btnFinish.isHidden = false
+                        self.scrView.scrollToBottom(animated: true)
                     }
                 } else {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }
             }else{
-                if statusCode == 404{
+                if statusCode == 404 {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
-                }else{
+                } else {
                     if let data = data{
                         guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
                             let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
@@ -504,7 +525,7 @@ class TMStorePaymentVC: UIViewController {
                         }
                         print(json as Any)
                         AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage)
-                    }else{
+                    } else {
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                     }
                 }
@@ -710,7 +731,8 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
                 if arrCreditCards.count == 0{
                     AlertManager.shared.showAlertTitle(title: "", message: "Please attach a credit card to your wallet to use this feature.")
                 }else{
-                    typeView = .home
+                    fromWhrObj  = .fromColView
+                    typeView    = .home
                     reloadTableView(withTblType: .card)
                     viewTable.animateHideShow()
                 }
@@ -874,6 +896,7 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
             if !GFunction.shared.checkPaymentOptions(withPosData: posData, Method: arrTV[indexPath.item].method!, withViewType: .mixPayment) {
                 return
             }
+            
             if indexPath.row == 0 {
                 //<===CashOrEFTPOS===>
                 showPopUp(withMethod: .CashOrEFTPOS, transactionAmount: posData.balanceRemaining, txtUserIntrection: true) { (amount) in
@@ -899,7 +922,8 @@ extension TMStorePaymentVC: UICollectionViewDelegate, UICollectionViewDataSource
                 if arrCreditCards.count == 0 {
                     AlertManager.shared.showAlertTitle(title: "", message: "Please attach a credit card to your wallet to use this feature.")
                 }else{
-                    typeView = .mixPayment
+                    fromWhrObj  = .fromTblView
+                    typeView    = .mixPayment
                     reloadTableView(withTblType: .card)
                 }
             }

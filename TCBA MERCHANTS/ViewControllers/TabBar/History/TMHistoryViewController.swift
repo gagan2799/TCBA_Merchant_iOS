@@ -92,12 +92,12 @@ class TMHistoryViewController: UIViewController {
         
         // navigationBar customization
         self.navigationController?.customize()
-        self.navigationItem.title = "History"
+        self.navigationItem.title   = "History"
         
         if let storeId = GConstant.UserData.stores {
-            lblStoreId.text       = "Store ID: \(storeId)"
+            lblStoreId.text         = "Store ID: \(storeId)"
         }
-        viewOutstanding.frame = CGRect(x: 0, y: 0, width: GConstant.Screen.Width, height: GConstant.Screen.Height * 0.07)
+        viewOutstanding.frame       = CGRect(x: 0, y: 0, width: GConstant.Screen.Width, height: GConstant.Screen.Height * 0.07)
         lblOutStanding.font         = UIFont.applyOpenSansRegular(fontSize: 16.0)
         lblOutstandingValue.font    = UIFont.applyOpenSansRegular(fontSize: 15.0)
         lblCashBack.font            = UIFont.applyOpenSansSemiBold(fontSize: 16.0)
@@ -244,7 +244,6 @@ class TMHistoryViewController: UIViewController {
         request.pinCode = pin
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetStaffLogin, parameter: request.toDictionary(), withLoader : false) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
-                print("Correct PIN")
                 DispatchQueue.main.async {
                     self.viewLock.isHidden  = true
                     UserDefaults.standard.set(true, forKey: GConstant.UserDefaultKeys.isStaffLoggedIn)

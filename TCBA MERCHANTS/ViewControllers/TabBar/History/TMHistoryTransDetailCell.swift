@@ -18,8 +18,6 @@ class TMHistoryTransDetailCell: UITableViewCell {
     @IBOutlet weak var lblNet: CustomLabel!
     @IBOutlet weak var lblBalance: CustomLabel!
     
-    
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

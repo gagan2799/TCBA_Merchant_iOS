@@ -670,8 +670,12 @@ extension UIScrollView {
         let desiredOffset = CGPoint(x: 0, y: -contentInset.top)
         setContentOffset(desiredOffset, animated: true)
     }
+    func scrollToBottom(animated: Bool) {
+        if self.contentSize.height < self.bounds.size.height { return }
+        let bottomOffset = CGPoint(x: 0, y: self.contentSize.height - self.bounds.size.height)
+        self.setContentOffset(bottomOffset, animated: animated)
+    }
 }
-
 //MARK: - UIImageView Extension
 
 extension UIImageView {

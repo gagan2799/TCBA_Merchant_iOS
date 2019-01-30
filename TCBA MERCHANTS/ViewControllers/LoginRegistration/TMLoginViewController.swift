@@ -243,7 +243,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
             AlertManager.shared.showAlertTitle(title: "Error", message: GConstant.Message.kEmailTxtFieldMessage)
         } else {
             self.animateHideShow(view: vForgotPassword)
-            let requestModel = RequestModal.mUserData()
+            let requestModel        = RequestModal.mUserData()
             requestModel.username   = txtPopEmailPassword.text
             callForgotPasswordAPI(requestModel)
         }

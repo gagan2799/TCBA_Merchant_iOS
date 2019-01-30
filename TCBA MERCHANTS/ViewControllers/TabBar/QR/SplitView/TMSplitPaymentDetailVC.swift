@@ -305,18 +305,24 @@ class TMSplitPaymentDetailVC: UIViewController {
     }
     
     @IBAction func btnFinishAction(_ sender: UIButton) {
-        showPin(withMethod: .Mix, transactionAmount: Double(posData?.totalTransactionFees ?? 0)) { (pinCode) in
+        if let payments = self.posData.payments{
             var execute = 1
-            if let payments = self.posData.payments{
-                for item in payments{
-                    if item.type == "TokenisedCreditCard"{
-                        execute = 0
-                        break
+            if payments.count == 1 && payments[0].type == "CashOrEFTPOS" {
+                self.callPostCreateTransaction(payMethodType: .Mix, withPin: "", isExecute: execute)
+            } else {
+                showPin(withMethod: .Mix, transactionAmount: posData?.totalTransactionFees) { (pinCode) in
+                    if let payments = self.posData.payments{
+                        for item in payments{
+                            if item.type == "TokenisedCreditCard"{
+                                execute = 0
+                                 break
+                            }
+                        }
                     }
+                    self.strPinCode = pinCode
+                    self.callPostCreateTransaction(payMethodType: .Mix, withPin: pinCode, isExecute: execute)
                 }
             }
-            self.strPinCode = pinCode
-            self.callPostCreateTransaction(payMethodType: .Mix, withPin: pinCode, isExecute: execute)
         }
     }
     

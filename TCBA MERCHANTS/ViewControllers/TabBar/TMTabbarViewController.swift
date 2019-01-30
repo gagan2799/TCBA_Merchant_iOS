@@ -38,7 +38,6 @@ enum Tabbar {
 }
 
 class ExampleBackgroundContentView: ExampleBasicContentView {
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         textColor               = .white
@@ -85,12 +84,13 @@ class ExampleBackgroundContentView: ExampleBasicContentView {
         }else{
             semiCircleView.frame = CGRect(x: 0, y: -12, width: GConstant.Screen.kWidth/5 , height: 60)
         }
+        
         let circlePath = UIBezierPath.init(arcCenter: CGPoint(x: semiCircleView.bounds.width / 2, y: semiCircleView.bounds.height / 2), radius: semiCircleView.bounds.height/2, startAngle: CGFloat.pi + (CGFloat.pi/5), endAngle: CGFloat.pi*2 - (CGFloat.pi/5), clockwise: true)
+        
         let circleShape = CAShapeLayer()
         circleShape.path = circlePath.cgPath
         
         semiCircleView.layer.mask = circleShape
-        
         
         let w = self.bounds.size.width
         let h = self.bounds.size.height
@@ -99,11 +99,11 @@ class ExampleBackgroundContentView: ExampleBasicContentView {
         titleLabel.isHidden = (titleLabel.text == nil)
         
         if self.itemContentMode == .alwaysTemplate {
-            var s: CGFloat = 0.0 // image size
-            var f: CGFloat = 0.0 // font
-            var isLandscape = false
+            var s: CGFloat      = 0.0 // image size
+            var f: CGFloat      = 0.0 // font
+            var isLandscape     = false
             if let keyWindow = UIApplication.shared.keyWindow {
-                isLandscape = keyWindow.bounds.width > keyWindow.bounds.height
+                isLandscape     = keyWindow.bounds.width > keyWindow.bounds.height
             }
             let isWide = isLandscape || traitCollection.horizontalSizeClass == .regular // is landscape or regular
             if #available(iOS 11.0, *), isWide {

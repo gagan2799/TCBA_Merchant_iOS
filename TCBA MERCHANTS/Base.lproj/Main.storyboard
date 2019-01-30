@@ -3280,6 +3280,7 @@
                         <outlet property="lblPOSID" destination="86D-yv-Eju" id="i1P-5u-W11"/>
                         <outlet property="lblStoreID" destination="qQY-QP-LfF" id="pdX-1W-Ykm"/>
                         <outlet property="lblUserName" destination="joy-dW-6Bg" id="NoD-n4-Y8Y"/>
+                        <outlet property="scrView" destination="Gmh-Ao-7Yx" id="M5U-eO-fOx"/>
                         <outlet property="tblVpayment" destination="DZQ-jf-d2T" id="zPh-Kv-343"/>
                         <outlet property="viewCollection" destination="lXB-YI-Yzl" id="chf-7k-saO"/>
                         <outlet property="viewCustomerCol" destination="6nE-Wz-RT9" id="Noz-tj-oy2"/>
@@ -8081,7 +8082,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tp8-Zb-Djf">
-                                                            <rect key="frame" x="0.0" y="0.0" width="375.5" height="55.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="55.5"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="tkM-Qm-ZLT">
                                                                     <rect key="frame" x="0.0" y="0.0" width="169" height="55.5"/>
@@ -8130,13 +8131,13 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="mWL-kO-fvG">
-                                                                    <rect key="frame" x="198" y="0.0" width="177.5" height="55.5"/>
+                                                                    <rect key="frame" x="198" y="0.0" width="177" height="55.5"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q7O-1T-q9U">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="88.5" height="55.5"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="88" height="55.5"/>
                                                                             <subviews>
                                                                                 <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hJr-xD-t5q">
-                                                                                    <rect key="frame" x="2" y="10" width="84.5" height="35.5"/>
+                                                                                    <rect key="frame" x="2" y="10" width="84" height="35.5"/>
                                                                                     <nil key="textColor"/>
                                                                                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
                                                                                     <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
@@ -8148,7 +8149,7 @@
                                                                                     </connections>
                                                                                 </textField>
                                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="amount_icon1" translatesAutoresizingMaskIntoConstraints="NO" id="Qjf-td-RHO">
-                                                                                    <rect key="frame" x="5" y="19" width="8.5" height="17.5"/>
+                                                                                    <rect key="frame" x="5" y="19" width="8" height="17.5"/>
                                                                                 </imageView>
                                                                             </subviews>
                                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -8164,7 +8165,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mX8-wr-lNL">
-                                                                            <rect key="frame" x="89.5" y="0.0" width="88" height="55.5"/>
+                                                                            <rect key="frame" x="89" y="0.0" width="88" height="55.5"/>
                                                                             <subviews>
                                                                                 <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dhC-C7-SGS">
                                                                                     <rect key="frame" x="2" y="10" width="84" height="35.5"/>
@@ -9087,7 +9088,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xxp-s1-uFQ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="35.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="375.5" height="35.5"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="2Lh-jv-PcM">
                                                                     <rect key="frame" x="0.0" y="0.0" width="169" height="35.5"/>
@@ -9127,13 +9128,13 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="1Cf-dH-JXX">
-                                                                    <rect key="frame" x="169" y="0.0" width="206" height="35.5"/>
+                                                                    <rect key="frame" x="169" y="0.0" width="206.5" height="35.5"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rJw-LL-mjG">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="102.5" height="35.5"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="103" height="35.5"/>
                                                                             <subviews>
                                                                                 <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.00" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HO1-6w-F15">
-                                                                                    <rect key="frame" x="2" y="5" width="98.5" height="25.5"/>
+                                                                                    <rect key="frame" x="2" y="5" width="99" height="25.5"/>
                                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                     <nil key="textColor"/>
                                                                                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
@@ -9162,7 +9163,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gpX-5f-JFD">
-                                                                            <rect key="frame" x="103.5" y="0.0" width="102.5" height="35.5"/>
+                                                                            <rect key="frame" x="104" y="0.0" width="102.5" height="35.5"/>
                                                                             <subviews>
                                                                                 <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.00" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vfx-Eo-WBm">
                                                                                     <rect key="frame" x="2" y="5" width="98.5" height="25.5"/>
@@ -9178,7 +9179,7 @@
                                                                                     </connections>
                                                                                 </textField>
                                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="amount_icon1" translatesAutoresizingMaskIntoConstraints="NO" id="LTh-Mg-rMm">
-                                                                                    <rect key="frame" x="5" y="11.5" width="10" height="12.5"/>
+                                                                                    <rect key="frame" x="5" y="11.5" width="9.5" height="12.5"/>
                                                                                 </imageView>
                                                                             </subviews>
                                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

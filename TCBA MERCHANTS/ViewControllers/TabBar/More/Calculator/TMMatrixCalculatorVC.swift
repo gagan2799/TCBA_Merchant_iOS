@@ -34,7 +34,11 @@ class TMMatrixCalculatorVC: UIViewController {
     var footer              : TMMatrixFooterCell!
     //MARK: Outlets
     //UITableView
-    @IBOutlet weak var tblMatrixCal: UITableView!
+    @IBOutlet weak var tblMatrixCal: UITableView! {
+        didSet {
+            tblMatrixCal.tableFooterView = UIView(frame: .zero)
+        }
+    }
     
     //MARK: - View Life Cycle
     override func viewDidLoad() {

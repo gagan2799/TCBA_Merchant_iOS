@@ -18,7 +18,6 @@ class TMHistoryTransDetail: UIViewController {
     var posData     : PostCreatePOSModel!
     
     //MARK: Outlets
-    @IBOutlet weak var tblHistoryTrans: UITableView!
     @IBOutlet weak var lblTopHeaderTitle: UILabel!
     @IBOutlet weak var lblStoreId: UILabel!
     @IBOutlet weak var lblMainTitle: UILabel!
@@ -29,6 +28,11 @@ class TMHistoryTransDetail: UIViewController {
     @IBOutlet weak var lblCreditsVal: UILabel!
     @IBOutlet var lblSubTitles: [UILabel]!
     
+    @IBOutlet weak var tblHistoryTrans: UITableView!{
+        didSet {
+            tblHistoryTrans.tableFooterView = UIView(frame: .zero)
+        }
+    }
     
     @IBOutlet weak var consHeightTotalView: NSLayoutConstraint!
     @IBOutlet weak var consWidthTbl: NSLayoutConstraint!
@@ -45,7 +49,6 @@ class TMHistoryTransDetail: UIViewController {
     //MARK: View life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if type == .all {
             callMerchantTransactionHistoryApi(transType: .all)
         }else if type == .today{
@@ -155,8 +158,8 @@ class TMHistoryTransDetail: UIViewController {
         let isExpandable                    = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpandable
         let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryTransDetailCell") as! TMHistoryTransDetailCell
         
-        cell.btnDropDown.transform      = (self.txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpanded ?? false ?CGAffineTransform(rotationAngle: CGFloat.pi) : CGAffineTransform(rotationAngle: CGFloat.pi * -2)
-
+        cell.btnDropDown.transform          = (self.txnsHistory[indexPath.row] as? txnsHistoryModal)?.isExpanded ?? false ?CGAffineTransform(rotationAngle: CGFloat.pi) : CGAffineTransform(rotationAngle: CGFloat.pi * -2)
+        
         cell.btnDropDown.isUserInteractionEnabled = isExpandable ?? false ? true : false
         
         let lblBackgroundColor              = (txnsHistory[indexPath.row] as? txnsHistoryModal)?.transactions?.title == "Auto Balance" ? UIColor.lightGray.withAlphaComponent(0.8) : UIColor.white
@@ -271,7 +274,7 @@ class TMHistoryTransDetail: UIViewController {
                 guard let data = data else{ return }
                 self.transactionHistory = MerchantTnsxHistoryModel.decodeData(_data: data).response
                 self.setHeaderValues(data: self.transactionHistory)
-            
+                
                 if let transactions = self.transactionHistory?.transactions {
                     for tranaction in transactions {
                         let rowData = txnsHistoryModal.init(isExpandable: tranaction.payments?.count != 0 ? true : false , isExpanded: false, transactions: tranaction)

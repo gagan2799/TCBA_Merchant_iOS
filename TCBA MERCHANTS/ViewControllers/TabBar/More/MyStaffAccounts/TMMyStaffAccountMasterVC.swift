@@ -16,7 +16,11 @@ class TMMyStaffAccountMasterVC: UIViewController {
     
     //MARK: Outlets
     //UITableView
-    @IBOutlet weak var tblStaff: UITableView!
+    @IBOutlet weak var tblStaff: UITableView!{
+        didSet {
+            tblStaff.tableFooterView = UIView(frame: .zero)
+        }
+    }
     
     //MARK: View Life Cycle
     override func viewDidLoad() {
@@ -161,6 +165,9 @@ class TMMyStaffAccountMasterVC: UIViewController {
          Parameters : nil
          ===================================================
          */
+//        let request         = RequestModal.mCreatePOS()
+//        guard let storeId   = GConstant.UserData.stores else{return}
+//        request.storeId     = storeId
         
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetStaffMembers, parameter: nil) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
@@ -187,6 +194,7 @@ class TMMyStaffAccountMasterVC: UIViewController {
         }
     }
 }
+
 extension TMMyStaffAccountMasterVC: UITableViewDelegate, UITableViewDataSource {
     
     //MARK: TableView Delegates & DataSource

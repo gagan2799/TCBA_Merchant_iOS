@@ -298,23 +298,23 @@ class TMHistoryDetailVC: UIViewController {
     }
     
     func masterVC(data: PostCreatePOSModel) {
-        guard let splitViewController   = storyboard?.instantiateViewController(withIdentifier: "SplitVC") as? UISplitViewController else { fatalError() }
+        guard let splitViewController       = storyboard?.instantiateViewController(withIdentifier: "SplitVC") as? UISplitViewController else { fatalError() }
         
-        let nc : UINavigationController  = splitViewController.viewControllers[0] as! UINavigationController
+        let nc : UINavigationController     = splitViewController.viewControllers[0] as! UINavigationController
         
-        let vcm : TMSplitPaymentMasterVC  = nc.viewControllers[0] as! TMSplitPaymentMasterVC
+        let vcm : TMSplitPaymentMasterVC    = nc.viewControllers[0] as! TMSplitPaymentMasterVC
         vcm.posData = data
         
-        let vcd : TMSplitPaymentDetailVC = splitViewController.viewControllers[1] as! TMSplitPaymentDetailVC
-        vcd.posData     = data
-        vcd.typeTable   = .mix
+        let vcd : TMSplitPaymentDetailVC    = splitViewController.viewControllers[1] as! TMSplitPaymentDetailVC
+        vcd.posData                         = data
+        vcd.typeTable                       = .mix
         
         //Make sure pass data to Master & Details before setting preferredDisplayMode = .allVisible
         splitViewController.preferredDisplayMode = .allVisible
         
-        let transition: CATransition = CATransition()
-        transition.duration = 0.3
-        transition.type = CATransitionType.fade
+        let transition: CATransition    = CATransition()
+        transition.duration             = 0.3
+        transition.type                 = CATransitionType.fade
         rootWindow().layer.add(transition, forKey: nil)
         rootWindow().rootViewController = splitViewController
     }

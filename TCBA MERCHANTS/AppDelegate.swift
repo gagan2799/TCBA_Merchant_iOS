@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return .lightContent
         }
         //<---------Enable IQKeybord---------->
-        IQKeyboardManager.shared.enable = true;
+        IQKeyboardManager.shared.enable = true
         
         //------------------Navigation Controller-------------
         GConstant.NavigationController = GConstant.MainStoryBoard.instantiateViewController(withIdentifier: "RootNavigation") as? UINavigationController

@@ -110,6 +110,7 @@ class TMHistoryViewController: UIViewController {
         obj.type = .outstanding
         self.navigationController?.pushViewController(obj, animated: true)
     }
+    
     @objc func btnViewDetailsAction(sender: UIButton) {
         print(sender.tag)
         if sender.tag == 0 || sender.tag == 1{
@@ -249,10 +250,12 @@ class TMHistoryViewController: UIViewController {
                     UserDefaults.standard.set(true, forKey: GConstant.UserDefaultKeys.isStaffLoggedIn)
                     UserDefaults.standard.synchronize()
                 }
+                
                 if self.transactionData == nil || self.incompleteData == nil {
                     // Calling TransactionData Api
                     self.callTransactionDataApi()
                 }
+                
             }else{
                 AlertManager.shared.showAlertTitle(title: "Incorrect PIN" ,message:"Your pin is incorrect, please try again.")
             }

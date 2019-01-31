@@ -5422,7 +5422,7 @@
                         <outlet property="consHeightMainView" destination="kRH-7b-PSS" id="ivV-Eq-rPq"/>
                         <outlet property="lblLovedIt" destination="Nwc-8x-FEo" id="dLf-P2-Z0M"/>
                         <outlet property="lblRateUs" destination="zaL-jy-DLU" id="UCi-Uv-zXN"/>
-                        <outlet property="starRating" destination="Fc1-Kq-mVR" id="5Up-8U-9Tj"/>
+                        <outlet property="starRatingView" destination="Fc1-Kq-mVR" id="fsP-uW-XzI"/>
                         <outlet property="txtEmail" destination="boh-O1-4AY" id="rmA-ec-xZC"/>
                         <outlet property="txtName" destination="V3S-PI-Bzw" id="9Up-2U-LO1"/>
                         <outlet property="txtV" destination="lDG-pM-hol" id="PS8-Vj-CpC"/>

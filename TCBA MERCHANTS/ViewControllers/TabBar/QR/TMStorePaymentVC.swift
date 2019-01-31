@@ -212,7 +212,7 @@ class TMStorePaymentVC: UIViewController {
     @IBAction func btnTVCancelAction(_ sender: UIButton) {
         switch fromWhrObj {
         case .fromTblView?:
-                reloadTableView(withTblType: .mix)
+            reloadTableView(withTblType: .mix)
         default:
             if let payments = posData.payments {
                 if payments.count > 0{
@@ -586,11 +586,37 @@ class TMStorePaymentVC: UIViewController {
                     if let data = data{
                         guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
                             let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
+                            
                             AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
                             return
                         }
                         print(json as Any)
-                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage)
+                        if (json?["message"] as? String) == "PIN Locked." {
+                            AlertManager.shared.showAlertTitle(title: "Wallet Locked", message: "Incorrect PIN entered too many times, Your wallet is now locked. please pay cash or EFTPOS to complete this transaction", buttonsArray: ["Close"]) { (buttonIndex : Int) in
+                                switch buttonIndex {
+                                case 0 :
+                                    self.callPostRemoveAllPOSPayments()
+                                    break
+                                default:
+                                    break
+                                }
+                            }
+                        }  else if (json?["message"] as? String)?.contains("Unknown biller code") ?? false || (json?["message"] as? String)?.contains("Customer Reference Number is invalid") ?? false {
+                            
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage, buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                                switch buttonIndex {
+                                case 0 :
+                                    //OK clicked
+                                    self.navigationController?.popToRootViewController(animated: true)
+                                    break
+                                default:
+                                    self.navigationController?.popToRootViewController(animated: true)
+                                    break
+                                }
+                            }
+                        } else {
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage )
+                        }
                     }else{
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                     }

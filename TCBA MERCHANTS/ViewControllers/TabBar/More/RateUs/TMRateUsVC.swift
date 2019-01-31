@@ -23,8 +23,9 @@ class TMRateUsVC: UIViewController {
     //Constraints
     @IBOutlet weak var consHeightMainView: NSLayoutConstraint!
     //StarRating
-    @IBOutlet weak var starRating: CosmosView!
+    @IBOutlet weak var starRatingView: UIView!
     
+    var starRating = CosmosView()
     //MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,8 +80,32 @@ class TMRateUsVC: UIViewController {
         
         txtName.text                = GConstant.UserDetails.firstName! + " " + GConstant.UserDetails.lastName!
         txtEmail.text               = GConstant.UserDetails.email
+        
+        self.starRatingView.addSubview(self.starRatings())
     }
     
+    func starRatings() -> CosmosView {
+        starRating.frame                        = starRatingView.frame
+        
+        starRating.center                       = starRatingView.center
+        
+        starRating.settings.starSize            = 30
+        
+        starRating.rating                       = 5
+        
+        // Set the distance between stars
+        starRating.settings.starMargin          = 5
+        
+        // Set the color of a filled star
+        starRating.settings.filledColor         = UIColor.orange
+        
+        // Set the border color of an empty star
+        starRating.settings.emptyBorderColor    = UIColor.orange
+        
+        // Set the border color of a filled star
+        starRating.settings.filledBorderColor   = UIColor.orange
+        return starRating
+    }
     //MARK: - UIButton Action Methods
     @IBAction func btnSubmitAction(_ sender: UIButton) {
         let message = self.validateView()

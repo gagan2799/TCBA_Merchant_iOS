@@ -600,7 +600,32 @@ class TMSplitPaymentDetailVC: UIViewController {
                             return
                         }
                         print(json as Any)
-                        AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage)
+                        if (json?["message"] as? String) == "PIN Locked." {
+                            AlertManager.shared.showAlertTitle(title: "Wallet Locked", message: "Incorrect PIN entered too many times, Your wallet is now locked. please pay cash or EFTPOS to complete this transaction", buttonsArray: ["Close"]) { (buttonIndex : Int) in
+                                switch buttonIndex {
+                                case 0 :
+                                    self.callPostRemoveAllPOSPayments()
+                                    break
+                                default:
+                                    break
+                                }
+                            }
+                        }  else if (json?["message"] as? String)?.contains("Unknown biller code") ?? false || (json?["message"] as? String)?.contains("Customer Reference Number is invalid") ?? false {
+                            
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage, buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                                switch buttonIndex {
+                                case 0 :
+                                    //OK clicked
+                                    self.navigationController?.popToRootViewController(animated: true)
+                                    break
+                                default:
+                                    self.navigationController?.popToRootViewController(animated: true)
+                                    break
+                                }
+                            }
+                        } else {
+                            AlertManager.shared.showAlertTitle(title: "Error" ,message: json?["message"] as? String ?? GConstant.Message.kSomthingWrongMessage )
+                        }
                     }else{
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                     }

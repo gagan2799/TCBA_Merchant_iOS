@@ -303,7 +303,6 @@ class TMContactDetailVC: UIViewController {
 }
 
 extension TMContactDetailVC: UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,PickerViewDelegate,PickerViewDataSource{
-    
     // MARK: - UITableView Delegates & Data Source
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contactDetailsData.count
@@ -479,14 +478,14 @@ extension TMContactDetailVC: UITableViewDataSource,UITableViewDelegate,UITextFie
         }
     }
     
-    func pickerView(_ pickerView: PickerView, titleForRow row: Int, index: Int) -> String {
+    func pickerView(_ pickerView: PickerView, titleForRow row: Int) -> String {
         if typesPlaces == .Country {
             guard let countriesData = countries.countries else { return "" }
-            guard let name          = countriesData[index].countryName else { return "" }
+            guard let name          = countriesData[row].countryName else { return "" }
             return name
         } else {
             guard let statesData    = states.states else { return "" }
-            guard let name          = statesData[index].stateName else { return "" }
+            guard let name          = statesData[row].stateName else { return "" }
             return name
         }
     }
@@ -501,20 +500,20 @@ extension TMContactDetailVC: UITableViewDataSource,UITableViewDelegate,UITextFie
             label.font = UIFont.applyOpenSansRegular(fontSize: 24.0)
         }
     }
-    
-    func pickerView(_ pickerView: PickerView, didSelectRow row: Int, index: Int) {
+   
+    func pickerView(_ pickerView: PickerView, didSelectRow row: Int) {
         if typesPlaces == .Country {
             let cell = tblContactDetails.cellForRow(at: IndexPath(row: 5, section: 0)) as! TMContactDetailsCell
             guard let countriesData = countries.countries else { return }
-            guard let name          = countriesData[index].countryName else { return }
-            guard let countryId     = countriesData[index].countryID else { return }
+            guard let name          = countriesData[row].countryName else { return }
+            guard let countryId     = countriesData[row].countryID else { return }
             self.countryID          = countryId
             cell.txtTitleVal.text   = name
         } else {
             let cell = tblContactDetails.cellForRow(at: IndexPath(row: 6, section: 0)) as! TMContactDetailsCell
             guard let statesData    = states.states else { return }
-            guard let name          = statesData[index].stateName else { return }
-            guard let stateId       = statesData[index].stateID else { return }
+            guard let name          = statesData[row].stateName else { return }
+            guard let stateId       = statesData[row].stateID else { return }
             self.stateID            = stateId
             cell.txtTitleVal.text   = name
         }

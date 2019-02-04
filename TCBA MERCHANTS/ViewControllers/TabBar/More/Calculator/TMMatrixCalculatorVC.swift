@@ -100,7 +100,7 @@ class TMMatrixCalculatorVC: UIViewController {
             //Adding values of totalSaveInYear
             incYear += total.incYear
         }
-        let totalPeople     = String.init(format: "%.2f", people)
+        let totalPeople     = String.init(format: "%.0f", people)
         let totalIncWeek    = Double(String.init(format: "%.2f", incWeek))?.strWithComma() ?? ""
         let totalIncYear    = Double(String.init(format: "%.2f", incYear))?.strWithComma() ?? ""//String.init(format: "%.0f", incYear)
         

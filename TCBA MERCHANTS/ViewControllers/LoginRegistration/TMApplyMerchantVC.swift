@@ -22,7 +22,7 @@ class TMApplyMerchantVC: UIViewController {
         self.navigationItem.title       = "Apply to be a Merchant"
         webViewAM.navigationDelegate    = self
         DispatchQueue.main.async {
-//            GFunction.shared.addLoader()
+            GFunction.shared.addLoader()
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             guard let userID    = GConstant.UserData.userID else { return }
             guard let url       = URL(string: "https://thecashbackapp.com/appinput/merchant-apply/\(userID)")
@@ -62,7 +62,7 @@ extension TMApplyMerchantVC: WKNavigationDelegate {
     //MARK: WebKit navigation delegate
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         DispatchQueue.main.async {
-//            GFunction.shared.removeLoader()
+            GFunction.shared.removeLoader()
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
         }
     }

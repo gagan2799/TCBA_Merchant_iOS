@@ -170,32 +170,36 @@ class ApiManager {
             }
             
             // add loader if isLoader is true
-            if isLoader {
-                GFunction.shared.addLoader()
+            DispatchQueue.main.async {
+                if isLoader {
+                    GFunction.shared.addLoader()
+                }
             }
             
             Alamofire.request(url, method: .get, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headers()).responseJSON(completionHandler: { (response) in
                 
                 switch(response.result) {
                 case .success(let JSON):
-                    if isPrint {
-                        print(JSON)
-                    }
-                    
-                    // remove loader if isLoader is true
-                    if isLoader {
-                        GFunction.shared.removeLoader()
-                    }
-                    
-                    var statusCode = 0
-                    if let headerResponse = response.response {
-                        statusCode = headerResponse.statusCode
-                        if statusCode == 401{
-                            GFunction.shared.makeUserLoginAlert()
-                        }else{
-                            DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
-                                completion(response.data, statusCode, APIError.handleError(response: response))
-                            })
+                    DispatchQueue.main.async {
+                        if isPrint {
+                            print(JSON)
+                        }
+                        
+                        // remove loader if isLoader is true
+                        if isLoader {
+                            GFunction.shared.removeLoader()
+                        }
+                        
+                        var statusCode = 0
+                        if let headerResponse = response.response {
+                            statusCode = headerResponse.statusCode
+                            if statusCode == 401{
+                                GFunction.shared.makeUserLoginAlert()
+                            }else{
+                                DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                                    completion(response.data, statusCode, APIError.handleError(response: response))
+                                })
+                            }
                         }
                     }
                     
@@ -257,32 +261,36 @@ class ApiManager {
                 }
                 
                 // add loader if isLoader is true
-                if isLoader {
-                    GFunction.shared.addLoader()
+                DispatchQueue.main.async {
+                    if isLoader {
+                        GFunction.shared.addLoader()
+                    }
                 }
                 
                 Alamofire.request(url, method: .get, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headersWithBearerToken()).responseJSON(completionHandler: { (response) in
                     
                     switch(response.result) {
                     case .success(let JSON):
-                        if isPrint {
-                            print(JSON)
-                        }
-                        
-                        // remove loader if isLoader is true
-                        if isLoader {
-                            GFunction.shared.removeLoader()
-                        }
-                        
-                        var statusCode = 0
-                        if let headerResponse = response.response {
-                            statusCode = headerResponse.statusCode
-                            if statusCode == 401{
-                                GFunction.shared.makeUserLoginAlert()
-                            }else{
-                                DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
-                                    completion(response.data, statusCode, APIError.handleError(response: response))
-                                })
+                        DispatchQueue.main.async {
+                            if isPrint {
+                                print(JSON)
+                            }
+                            
+                            // remove loader if isLoader is true
+                            if isLoader {
+                                GFunction.shared.removeLoader()
+                            }
+                            
+                            var statusCode = 0
+                            if let headerResponse = response.response {
+                                statusCode = headerResponse.statusCode
+                                if statusCode == 401{
+                                    GFunction.shared.makeUserLoginAlert()
+                                }else{
+                                    DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                                        completion(response.data, statusCode, APIError.handleError(response: response))
+                                    })
+                                }
                             }
                         }
                     // Yeah! Hand response
@@ -358,8 +366,10 @@ class ApiManager {
             }
             
             // add loader if isLoader is true
-            if isLoader {
-                GFunction.shared.addLoader()
+            DispatchQueue.main.async {
+                if isLoader {
+                    GFunction.shared.addLoader()
+                }
             }
             
             Alamofire.request(url, method: .post, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headers()).responseJSON(completionHandler: { (response) in
@@ -454,9 +464,12 @@ class ApiManager {
                 }
                 
                 // add loader if isLoader is true
-                if isLoader {
-                    GFunction.shared.addLoader()
+                DispatchQueue.main.async {
+                    if isLoader {
+                        GFunction.shared.addLoader()
+                    }
                 }
+                
                 
                 Alamofire.request(url, method: .post, parameters: param, encoding: encording, headers: APIHeaders.headersWithBearerToken(contentType: contentType)).responseJSON(completionHandler: { (response) in
                     
@@ -544,8 +557,10 @@ class ApiManager {
             }
             
             // add loader if isLoader is true
-            if isLoader {
-                GFunction.shared.addLoader()
+            DispatchQueue.main.async {
+                if isLoader {
+                    GFunction.shared.addLoader()
+                }
             }
             
             Alamofire.upload(multipartFormData: blockFormData!, usingThreshold: UInt64.init(), to: url, method: .post, headers: APIHeaders.headers(), encodingCompletion: { encodingResult in
@@ -656,8 +671,10 @@ class ApiManager {
                 }
                 
                 // add loader if isLoader is true
-                if isLoader {
-                    GFunction.shared.addLoader()
+                DispatchQueue.main.async {
+                    if isLoader {
+                        GFunction.shared.addLoader()
+                    }
                 }
                 
                 Alamofire.request(url, method: .put, parameters: param, encoding: encording, headers: APIHeaders.headersWithBearerToken(contentType: contentType)).responseJSON(completionHandler: { (response) in

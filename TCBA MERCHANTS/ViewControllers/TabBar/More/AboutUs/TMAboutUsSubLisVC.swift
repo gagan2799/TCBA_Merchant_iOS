@@ -92,7 +92,7 @@ class TMAboutUsSubLisVC: UIViewController {
     }
 }
 
-extension TMAboutUsSubLisVC: UITableViewDataSource,UITableViewDelegate{
+extension TMAboutUsSubLisVC: UITableViewDataSource,UITableViewDelegate {
     // MARK: - UITableView Delegates & Data Source
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let count = sectionData?.about?.count else { return 0 }

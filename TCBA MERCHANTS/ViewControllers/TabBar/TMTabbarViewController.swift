@@ -69,12 +69,10 @@ class ExampleBackgroundContentView: ExampleBasicContentView {
     }
     
     override func updateDisplay() {
-        imageView.image                 = (selected ? (selectedImage ?? image) : image)?.withRenderingMode(renderingMode)
-        imageView.tintColor             = selected ? highlightIconColor : iconColor
-        titleLabel.textColor            = selected ? highlightTextColor : textColor
-        backgroundColor                 = selected ? highlightBackdropColor : backdropColor
+        super.updateDisplay()
         semiCircleView.backgroundColor  = selected ? highlightBackdropColor : backdropColor
     }
+    
     override func updateLayout() {
         var isLandscap = false
         guard let keyWindow = UIApplication.shared.keyWindow else {return}

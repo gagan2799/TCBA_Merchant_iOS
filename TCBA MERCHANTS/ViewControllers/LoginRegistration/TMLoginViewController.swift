@@ -199,14 +199,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
         self.view.endEditing(true)
         let message = self.validateView()
         if (message == nil) {
-            let requestModel = RequestModal.mUserData()
-            requestModel.username   = txtUsername.text!
-            requestModel.password   = txtPassword.text!
-            requestModel.grant_type = "password"
-            requestModel.client_id  = "tcba_iphone"
-            requestModel.device_id  = GFunction.shared.getDeviceId()
-            callLoginUserAPI(requestModel)
-            
+            callLoginUserAPI()
         } else { // Error
             AlertManager.shared.showAlertTitle(title: (message?[GConstant.Param.kError])! ,message: (message?[GConstant.Param.kMessage])!)
         }
@@ -258,7 +251,7 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     }
     
     //MARK: - Web Api's
-    func callLoginUserAPI(_ requestModel : RequestModal.mUserData) {
+    func callLoginUserAPI() {
         /*
          =====================API CALL=====================
          APIName    : Login
@@ -271,6 +264,13 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
          device_id   : "" }
          ===================================================
          */
+        let requestModel        = RequestModal.mUserData()
+        requestModel.username   = txtUsername.text!
+        requestModel.password   = txtPassword.text!
+        requestModel.grant_type = "password"
+        requestModel.client_id  = "tcba_iphone"
+        requestModel.device_id  = GFunction.shared.getDeviceId()
+        
         
         ApiManager.shared.POST(strURL: GAPIConstant.Url.Login, parameter: requestModel.toDictionary(), debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if error.isEmpty || data != nil{

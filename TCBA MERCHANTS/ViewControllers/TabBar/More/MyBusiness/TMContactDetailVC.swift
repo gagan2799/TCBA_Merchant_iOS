@@ -505,6 +505,10 @@ extension TMContactDetailVC: UITableViewDataSource,UITableViewDelegate,UITextFie
         if typesPlaces == .Country {
             let cell = tblContactDetails.cellForRow(at: IndexPath(row: 5, section: 0)) as! TMContactDetailsCell
             guard let countriesData = countries.countries else { return }
+            ////////////////////////////
+            // Don't remove this condition it can be crash sometime because of <<<<<Swift._DebuggerSupport.stringForPrintObject(Swift.UnsafePointer<Swift.Array<TCBA_MERCHANTS.CountriesCountry>>(bitPattern: 0x12fc0b200)!.pointee>>>>>
+            if countriesData.count < row { return }
+            ////////////////////////////
             guard let name          = countriesData[row].countryName else { return }
             guard let countryId     = countriesData[row].countryID else { return }
             self.countryID          = countryId

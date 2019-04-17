@@ -111,7 +111,7 @@ struct GAPIConstant {
         
         //MARK: - Share Tab
         static var GetShareContent: String {
-            return BaseURL + "/Content/GetShare"
+            return BaseURL + "/Stores/GetShare"
         }
         
         //MARK: - More Tab

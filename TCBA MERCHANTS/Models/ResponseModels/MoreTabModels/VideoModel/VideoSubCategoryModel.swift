@@ -117,10 +117,12 @@ class JSONNull: Codable, Hashable {
         return true
     }
     
-    public var hashValue: Int {
-        return 0
+//    public var hashValue: Int {
+//        return 0
+//    }
+    func hash(into hasher: inout Hasher) {
+//        hasher.combine(0)
     }
-    
     public init() {}
     
     public required init(from decoder: Decoder) throws {

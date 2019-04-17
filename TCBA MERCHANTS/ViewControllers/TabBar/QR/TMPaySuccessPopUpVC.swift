@@ -29,7 +29,11 @@ class TMPaySuccessPopUpVC: UIViewController {
     @IBOutlet weak var lblPurchase: UILabel!
     @IBOutlet weak var lblPurchaseAmount: UILabel!
     
-    @IBOutlet weak var tblPopUp: UITableView!
+    @IBOutlet weak var tblPopUp: UITableView!{
+        didSet {
+            tblPopUp.tableFooterView = UIView(frame: .zero)
+        }
+    }
     
     //Constraints
     @IBOutlet weak var consHeightPopUp: NSLayoutConstraint!
@@ -51,18 +55,22 @@ class TMPaySuccessPopUpVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+    
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+    
     }
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         popUpPropertiesUpdate()
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
     }
     
     //MARK: - Set view properties

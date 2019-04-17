@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TMShareViewController: UIViewController {
+class TMShareViewController: UIViewController{
     //MARK: Outlets
     @IBOutlet weak var imVLogo: UIImageView!
     @IBOutlet weak var lblCashBack: UILabel!
@@ -96,10 +96,8 @@ class TMShareViewController: UIViewController {
     }
     
     // MARK: - UIActivity Controller
-    func share(text: String){
-        guard let userId = GConstant.UserData.userID else{return}
-        let shareContent = [text,GAPIConstant.Url.kShareUrl + "\(userId)"]
-        let vc = UIActivityViewController(activityItems: shareContent, applicationActivities: nil)
+    func share(text: String) {
+        let vc = UIActivityViewController(activityItems: [text], applicationActivities: nil)
         if UIDevice.current.userInterfaceIdiom == .pad{
             vc.popoverPresentationController?.sourceView = self.btnShare
             vc.popoverPresentationController?.sourceRect = self.btnShare.bounds
@@ -119,15 +117,17 @@ class TMShareViewController: UIViewController {
          ===================================================
          */
         let requestModel        = RequestModal.mUserData()
-        requestModel.type       = "merchant"
-        requestModel.code       = "sms"
+        guard let storeId       = GConstant.UserData.stores else{return}
+        requestModel.storeID    = storeId
+        requestModel.code       = "email"
         
         ApiManager.shared.GET(strURL: GAPIConstant.Url.GetShareContent, parameter: requestModel.toDictionary(), withLoader: false, debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 guard let data = data else {return}
-                let json = try! JSONSerialization.jsonObject(with: data, options: []) as? [String : String]
-                guard let strDescription = json!["content"] else {return}
-                self.share(text: strDescription)
+                let json = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]) as [String : Any]??)
+                guard let strDescription = json??["content"] as? String else {return}
+                guard let strLink        = json??["shareLink"] as? String else {return}
+                self.share(text: strDescription + " " + strLink)
             }else{
                 AlertManager.shared.showAlertTitle(title: "Error" ,message: GConstant.Message.kSomthingWrongMessage)
             }
@@ -172,3 +172,21 @@ class TMShareViewController: UIViewController {
         }
     }
 }
+
+//extension TMShareViewController: UIActivityItemSource {
+//    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+//      return ""
+//    }
+//
+//    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+//        if activityType == .postToTwitter {
+//            return ""
+//        } else if activityType == .postToFacebook {
+//            return ""
+//        } else if activityType == .message {
+//            return ""
+//        } else {
+//            return ""
+//        }
+//    }
+//}

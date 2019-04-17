@@ -17,6 +17,7 @@ class TMSplitPaymentDetailVC: UIViewController {
     //Constraints
     @IBOutlet weak var consHeightTbl: NSLayoutConstraint!
     @IBOutlet weak var consTopV: NSLayoutConstraint!
+    @IBOutlet weak var consLblTapOnCardHeight: NSLayoutConstraint!
     
     //TableView
     @IBOutlet weak var tblVpayment: UITableView!
@@ -50,6 +51,7 @@ class TMSplitPaymentDetailVC: UIViewController {
     @IBOutlet weak var lblAmount: UILabel!
     @IBOutlet weak var lblBalanceOutStanding: UILabel!
     @IBOutlet weak var lblOutStandingValue: UILabel!
+    @IBOutlet weak var lblTapOnCard: CustomLabel!
     
     //UIView
     @IBOutlet weak var viewTable: UIView!
@@ -413,7 +415,7 @@ class TMSplitPaymentDetailVC: UIViewController {
                 }
             }else{
                 if let data = data{
-                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                    guard let json = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String]) as [String : String]??) else {
                         let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
                         return }
@@ -526,7 +528,7 @@ class TMSplitPaymentDetailVC: UIViewController {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{
                     if let data = data{
-                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                        guard let json = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]) as [String : Any]??) else {
                             let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                             AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
                             return
@@ -594,7 +596,7 @@ class TMSplitPaymentDetailVC: UIViewController {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{
                     if let data = data{
-                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                        guard let json = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]) as [String : Any]??) else {
                             let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                             AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
                             return
@@ -676,7 +678,7 @@ class TMSplitPaymentDetailVC: UIViewController {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{
                     if let data = data{
-                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                        guard let json = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]) as [String : Any]??) else {
                             let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                             AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
                             return
@@ -716,7 +718,7 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
                 cell.lblAvailable.isHidden  = true
                 cell.vBlueLine.isHidden     = false
                 cell.contentView.alpha      = 1.0
-            }
+            } 
             return cell
         }
         return nil
@@ -724,9 +726,16 @@ extension TMSplitPaymentDetailVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if typeTable == .card {
+            consLblTapOnCardHeight.constant = 30.0
+            lblTapOnCard.setNeedsUpdateConstraints()
+            lblTapOnCard.isHidden           = false
             return 50 * GConstant.Screen.HeightAspectRatio
+        } else {
+            consLblTapOnCardHeight.constant = 0.0
+            lblTapOnCard.setNeedsUpdateConstraints()
+            lblTapOnCard.isHidden           = true
+            return 0.0
         }
-        return 0.0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

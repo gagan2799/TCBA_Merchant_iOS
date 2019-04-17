@@ -15,8 +15,6 @@ class TMMemberTransactionVC: UIViewController {
     var memTranData : MemberTrasactionModal!
     var posData     : PostCreatePOSModel!
     
-
-    
     //MARK: Outlets
     // UIImageView
     @IBOutlet weak var imgVUser: RoundedImage!
@@ -210,7 +208,7 @@ class TMMemberTransactionVC: UIViewController {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{
                     if let data = data{
-                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                        guard let json = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]) as [String : Any]??) else {
                             let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                             AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
                             return

@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class TMPinViewController: UIViewController {
 
     //MARK: Outlets & Variables
@@ -31,10 +32,10 @@ class TMPinViewController: UIViewController {
     @IBOutlet weak var lblEnter2: UILabel!
     
     //UITextfield
-    @IBOutlet weak var txt1: UITextField!
-    @IBOutlet weak var txt2: UITextField!
-    @IBOutlet weak var txt3: UITextField!
-    @IBOutlet weak var txt4: UITextField!
+    @IBOutlet weak var txt1: CustomTextField!
+    @IBOutlet weak var txt2: CustomTextField!
+    @IBOutlet weak var txt3: CustomTextField!
+    @IBOutlet weak var txt4: CustomTextField!
     //Constraints
     @IBOutlet weak var consHeightLblCurr: NSLayoutConstraint!
     @IBOutlet weak var consHeightPopUp: NSLayoutConstraint!
@@ -76,6 +77,11 @@ class TMPinViewController: UIViewController {
         lblTitleMethod.text     = method
         lblCurBal.text          = "$"+balance
         lblTransAmount.text     = "$"+amount
+        txt1.backSpaceDelegate  = self
+        txt2.backSpaceDelegate  = self
+        txt3.backSpaceDelegate  = self
+        txt4.backSpaceDelegate  = self
+        
         //UIView
         viewPop.applyCornerRadius(cornerRadius: UIDevice.current.userInterfaceIdiom == .pad ? 7.0 * GConstant.Screen.HeightAspectRatio : 5.0)
         //Textfields
@@ -147,7 +153,19 @@ class TMPinViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 }
-extension TMPinViewController: UITextFieldDelegate {
+extension TMPinViewController: UITextFieldDelegate,BackSpaceDelegate {
+    func deleteBackWord(textField: CustomTextField) {
+        if (textField.text == "") {
+            if textField == txt4 {
+                txt3.becomeFirstResponder()
+            } else if textField == txt3 {
+                txt2.becomeFirstResponder()
+            } else if textField == txt2 {
+                txt1.becomeFirstResponder()
+            }
+        }
+    }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.layer.borderColor = GConstant.AppColor.blue.cgColor
         textField.layer.borderWidth = 1.0
@@ -210,6 +228,21 @@ extension TMPinViewController: UITextFieldDelegate {
                 txt1.becomeFirstResponder()
             }
             return false
+        }
+    }
+}
+
+protocol BackSpaceDelegate {
+    func deleteBackWord(textField: CustomTextField)
+}
+
+class CustomTextField: UITextField {
+    var backSpaceDelegate: BackSpaceDelegate?
+    override func deleteBackward() {
+        super.deleteBackward()
+        // called when textfield is empty. you can customize yourself.
+        if text?.isEmpty ?? false {
+            backSpaceDelegate?.deleteBackWord(textField: self)
         }
     }
 }

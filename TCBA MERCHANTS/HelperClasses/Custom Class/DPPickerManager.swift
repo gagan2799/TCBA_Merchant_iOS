@@ -67,7 +67,7 @@ open class DPPickerManager: NSObject, UIPickerViewDelegate, UIPickerViewDataSour
             picker.reloadAllComponents()
             if strings.count > 0 {
                 OperationQueue.current?.addOperation {
-                    let index = strings.index(of: value) ?? 0
+                    let index = strings.firstIndex(of: value) ?? 0
                     picker.selectRow(index, inComponent: 0, animated: false)
                 }
             }

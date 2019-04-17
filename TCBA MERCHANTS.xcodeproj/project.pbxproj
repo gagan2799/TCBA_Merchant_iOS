@@ -863,7 +863,7 @@
 				TargetAttributes = {
 					792B541420F5DD30000223F7 = {
 						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -1229,8 +1229,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cashback.TCBAMerchant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d6d73762-b0f9-4062-b504-47635363de87";
-				PROVISIONING_PROFILE_SPECIFIER = TCBAMerchant;
-				SWIFT_VERSION = 4.2;
+				PROVISIONING_PROFILE_SPECIFIER = TCBA_Merchant_Dev;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1251,8 +1251,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cashback.TCBAMerchant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d6d73762-b0f9-4062-b504-47635363de87";
-				PROVISIONING_PROFILE_SPECIFIER = TCBAMerchant;
-				SWIFT_VERSION = 4.2;
+				PROVISIONING_PROFILE_SPECIFIER = TCBA_Merchant_Dev;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

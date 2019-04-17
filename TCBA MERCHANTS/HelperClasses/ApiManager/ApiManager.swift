@@ -176,7 +176,7 @@ class ApiManager {
                 }
             }
             
-            Alamofire.request(url, method: .get, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headers()).responseJSON(completionHandler: { (response) in
+            Alamofire.request(url, method: .get, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headersWithBearerToken()).responseJSON(completionHandler: { (response) in
                 
                 switch(response.result) {
                 case .success(let JSON):

@@ -93,9 +93,9 @@ class ExampleBackgroundContentView: ExampleBasicContentView {
         let w = self.bounds.size.width
         let h = self.bounds.size.height
         
-        imageView.isHidden = (imageView.image == nil)
+        imageView.isHidden  = (imageView.image == nil)
         titleLabel.isHidden = (titleLabel.text == nil)
-        
+        let yVal            = GFunction.shared.hasTopNotch ? 20.0 * GConstant.Screen.HeightAspectRatio : 2.0
         if self.itemContentMode == .alwaysTemplate {
             var s: CGFloat      = 0.0 // image size
             var f: CGFloat      = 0.0 // font
@@ -109,41 +109,42 @@ class ExampleBackgroundContentView: ExampleBasicContentView {
                 f = UIScreen.main.scale == 3.0 ? 13.0 : 12.0
             } else {
                 s = 23.0
-                f = 10.0
+                f = 12.0
             }
+            
             
             if !imageView.isHidden && !titleLabel.isHidden {
                 titleLabel.font = UIFont.systemFont(ofSize: f)
                 titleLabel.sizeToFit()
                 if #available(iOS 11.0, *), isWide {
                     titleLabel.frame = CGRect.init(x: (w - titleLabel.bounds.size.width) / 2.0 + (UIScreen.main.scale == 3.0 ? 14.25 : 12.25),
-                                                   y: (h - titleLabel.bounds.size.height) / 2.0,
+                                                   y: (h - titleLabel.bounds.size.height-yVal) / 2.0,
                                                    width: titleLabel.bounds.size.width,
                                                    height: titleLabel.bounds.size.height)
                     imageView.frame = CGRect.init(x: titleLabel.frame.origin.x - s - (UIScreen.main.scale == 3.0 ? 6.0 : 5.0),
-                                                  y: (h - s) / 2.0,
+                                                  y: ((h - s) - (yVal/2)) / 2.0,
                                                   width: s,
                                                   height: s)
                 } else {
                     titleLabel.frame = CGRect.init(x: (w - titleLabel.bounds.size.width) / 2.0,
-                                                   y: h - titleLabel.bounds.size.height - 1.0,
+                                                   y: h - titleLabel.bounds.size.height - 1.0 - yVal,
                                                    width: titleLabel.bounds.size.width,
                                                    height: titleLabel.bounds.size.height)
                     imageView.frame = CGRect.init(x: (w - s) / 2.0,
-                                                  y: (h - s) / 2.0 - 6.0,
+                                                  y: ((h - s) - (yVal/2)) / 2.0 - 6.0,
                                                   width: s,
                                                   height: s)
                 }
             } else if !imageView.isHidden {
                 imageView.frame = CGRect.init(x: (w - s) / 2.0,
-                                              y: (h - s) / 2.0,
+                                              y: ((h - s) - (yVal/2)) / 2.0,
                                               width: s,
                                               height: s)
             } else if !titleLabel.isHidden {
                 titleLabel.font = UIFont.systemFont(ofSize: f)
                 titleLabel.sizeToFit()
                 titleLabel.frame = CGRect.init(x: (w - titleLabel.bounds.size.width) / 2.0,
-                                               y: (h - titleLabel.bounds.size.height) / 2.0,
+                                               y: (h - titleLabel.bounds.size.height-yVal) / 2.0,
                                                width: titleLabel.bounds.size.width,
                                                height: titleLabel.bounds.size.height)
             }
@@ -163,11 +164,11 @@ class ExampleBackgroundContentView: ExampleBasicContentView {
                 titleLabel.sizeToFit()
                 imageView.sizeToFit()
                 titleLabel.frame = CGRect.init(x: (w - titleLabel.bounds.size.width) / 2.0,
-                                               y: h - titleLabel.bounds.size.height - 1.0,
+                                               y: h - titleLabel.bounds.size.height - 1.0 - yVal,
                                                width: titleLabel.bounds.size.width,
                                                height: titleLabel.bounds.size.height)
                 imageView.frame = CGRect.init(x: (w - imageView.bounds.size.width) / 2.0,
-                                              y: (h - imageView.bounds.size.height) / 2.0 - 6.0,
+                                              y: (h - imageView.bounds.size.height - (yVal/2)) / 2.0 - 6.0,
                                               width: imageView.bounds.size.width,
                                               height: imageView.bounds.size.height)
             } else if !imageView.isHidden {

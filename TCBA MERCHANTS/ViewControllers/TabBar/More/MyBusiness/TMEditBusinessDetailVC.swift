@@ -154,7 +154,7 @@ class TMEditBusinessDetailVC: UIViewController {
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetStoreContent, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 guard let data = data else{return}
-                guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else { return }
+                guard let json = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String]) as [String : String]??) else { return }
                 
                 if let strOriginal = json?[self.storeType.rawValue] {
                     
@@ -167,7 +167,7 @@ class TMEditBusinessDetailVC: UIViewController {
                 }
             }else{
                 if let data = data{
-                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                    guard let json = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]) as [String : Any]??) else {
                         let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
                         return
@@ -219,7 +219,7 @@ class TMEditBusinessDetailVC: UIViewController {
                 }
             }else{
                 if let data = data{
-                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                    guard let json = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]) as [String : Any]??) else {
                         let str = String.init(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
                         return

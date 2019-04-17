@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-@IBDesignable
+//@IBDesignable
 class GradientView: UIView {
     
     @IBInspectable var startColor:   UIColor = .black { didSet { updateColors() }}

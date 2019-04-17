@@ -42,7 +42,7 @@ class TMSplitPaymentMasterVC: UIViewController {
     //MARK: View life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(posData)
+        print(posData as Any)
         CompletionHandler.shared.litsenerEvent(.checkPayment) { (bool) in
             if let flag = bool as? Bool {
                 self.mixPayFlag = flag
@@ -301,7 +301,7 @@ class TMSplitPaymentMasterVC: UIViewController {
                 }
             }else{
                 if let data = data{
-                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String] else {
+                    guard let json = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String : String]) as [String : String]??) else {
                         let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                         AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
                         return }
@@ -375,7 +375,7 @@ class TMSplitPaymentMasterVC: UIViewController {
                     AlertManager.shared.showAlertTitle(title: "Error" ,message:GConstant.Message.kSomthingWrongMessage)
                 }else{
                     if let data = data{
-                        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {
+                        guard let json = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]) as [String : Any]??) else {
                             let str = String(data: data, encoding: .utf8) ?? GConstant.Message.kSomthingWrongMessage
                             AlertManager.shared.showAlertTitle(title: "Error" ,message:str)
                             return

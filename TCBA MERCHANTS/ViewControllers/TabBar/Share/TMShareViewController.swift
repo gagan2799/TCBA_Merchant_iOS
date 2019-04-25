@@ -113,7 +113,7 @@ class TMShareViewController: UIViewController{
          Url        : "/Users/GetForgotUsername"
          Method     : GET
          Parameters : { type : merchant,
-                        code : sms }
+                        code : email }
          ===================================================
          */
         let requestModel        = RequestModal.mUserData()
@@ -121,7 +121,7 @@ class TMShareViewController: UIViewController{
         requestModel.storeID    = storeId
         requestModel.code       = "email"
         
-        ApiManager.shared.GET(strURL: GAPIConstant.Url.GetShareContent, parameter: requestModel.toDictionary(), withLoader: false, debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
+        ApiManager.shared.GET(strURL: GAPIConstant.Url.GetShareContent, parameter: requestModel.toDictionary(), withLoader: true, debugInfo: true) { (data : Data?, statusCode : Int?, error: String) in
             if statusCode == 200 {
                 guard let data = data else {return}
                 let json = ((try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]) as [String : Any]??)

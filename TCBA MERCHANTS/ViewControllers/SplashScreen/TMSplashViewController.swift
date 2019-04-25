@@ -58,11 +58,11 @@ class TMSplashViewController: UIViewController {
     //MARK: - Animation Coustom method
     func animateView(view:UIView){
         DispatchQueue.main.async {
-            UIView.animate(withDuration: 2.0, animations: {
+            UIView.animate(withDuration: 1.0, animations: {
                 view.alpha = 1.0
                 view.isOpaque = false
             }, completion: { _ in
-                Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.goToMainController), userInfo: nil, repeats: false)
+                Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.goToMainController), userInfo: nil, repeats: false)
             })
         }
     }

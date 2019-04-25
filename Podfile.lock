@@ -13,7 +13,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - Cosmos
+  - Cosmos (~> 18.0)
   - EmptyDataSet-Swift
   - ESTabBarController-swift
   - IQKeyboardManagerSwift
@@ -45,6 +45,6 @@ SPEC CHECKSUMS:
   SwiftGifOrigin: fbd6cf37afcfcf97a5c3db996ddc0492e5c5c145
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 326235972d9f2079321fad757600d3ad80267a13
+PODFILE CHECKSUM: 046e6c8186325d8ba468f60f02b810bd6803d8f0
 
 COCOAPODS: 1.5.3

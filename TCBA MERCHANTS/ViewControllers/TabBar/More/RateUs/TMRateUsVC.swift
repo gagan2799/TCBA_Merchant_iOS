@@ -85,11 +85,10 @@ class TMRateUsVC: UIViewController {
     }
     
     func starRatings() -> CosmosView {
-        starRating.frame                        = starRatingView.frame
         
-        starRating.center                       = starRatingView.center
+        starRating.settings.fillMode            = .full
         
-        starRating.settings.starSize            = 30
+        starRating.settings.starSize            = 35
         
         starRating.rating                       = 5
         
@@ -104,6 +103,9 @@ class TMRateUsVC: UIViewController {
         
         // Set the border color of a filled star
         starRating.settings.filledBorderColor   = UIColor.orange
+        
+        starRating.frame                        = starRatingView.frame
+        
         return starRating
     }
     //MARK: - UIButton Action Methods

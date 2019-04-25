@@ -42,7 +42,7 @@ class TMHistoryViewController: UIViewController {
             tblHistory.isScrollEnabled  = false
         }
         
-        if UserDefaults.standard.bool(forKey: GConstant.UserDefaultKeys.EnableStaffMode) == true && UserDefaults.standard.bool(forKey: GConstant.UserDefaultKeys.isStaffLoggedIn) == false{
+        if UserDefaults.standard.bool(forKey: GConstant.UserDefaultKeys.EnableStaffMode) == true && UserDefaults.standard.bool(forKey: GConstant.UserDefaultKeys.isStaffLoggedIn) == false {
             DispatchQueue.main.async {
                 self.viewLock.isHidden  = false
             }

@@ -78,8 +78,8 @@ class TMRateUsVC: UIViewController {
         lblRateUs.font              = UIFont.applyOpenSansRegular(fontSize: 20.0)
         lblLovedIt.font             = UIFont.applyOpenSansRegular(fontSize: 15.0)
         
-        txtName.text                = GConstant.UserDetails.firstName! + " " + GConstant.UserDetails.lastName!
-        txtEmail.text               = GConstant.UserDetails.email
+        txtName.text                = (GConstant.UserDetails?.firstName ?? "") + " " + (GConstant.UserDetails?.lastName ?? "")
+        txtEmail.text               = GConstant.UserDetails?.email
         
         self.starRatingView.addSubview(self.starRatings())
     }

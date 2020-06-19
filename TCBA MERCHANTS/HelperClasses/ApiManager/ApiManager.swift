@@ -22,11 +22,28 @@ class ApiManager {
             return headers
         }
         
+        class func headersForMultipart() -> HTTPHeaders {
+            guard GConstant.UserData != nil else {
+                return headers()
+            }
+            guard let accessToken = GConstant.UserData?.accessToken else { return headers() }
+            
+            let headers: HTTPHeaders = [
+                "Content-Type"          : "multipart/form-data",
+                "Accept"                : "application/json",
+                "Authorization"         : "Bearer \(accessToken)",
+                Headers.APIKey          : Headers.APIKeyValue,
+                Headers.AppVersionKey   : Headers.AppVersionValue,
+                "client_id"             : "tcba_iphone"
+            ]
+            return headers
+        }
+        
         class func headersWithBearerToken(contentType: String = "application/json") -> HTTPHeaders {
             let headers: HTTPHeaders = [
                 "Content-Type"      : contentType,
                 "Accept"            : "application/json",
-                "Authorization"     : "Bearer \(GConstant.UserData.accessToken!)",
+                "Authorization"     : "Bearer \(GConstant.UserData?.accessToken ?? "")",
                 Headers.APIKey      : Headers.APIKeyValue,
                 "client_id"         : "tcba_iphone"
             ]
@@ -35,20 +52,20 @@ class ApiManager {
     }
     
     class APIError {
-        class func handleError(response: DataResponse<Any>) -> String {
+        class func handleError(response: DataResponse<Any, AFError>) -> String {
             var errorDescription, reasonDetail, message: String!
-            if let error = response.result.error as? AFError {
-                switch error {
+            if let AFerror = response.error {
+                switch AFerror {
                 case .invalidURL(let url):
-                    errorDescription = ("Invalid URL: \(url) - \(error.localizedDescription)")
+                    errorDescription = ("Invalid URL: \(url) - \(AFerror.localizedDescription)")
                 case .parameterEncodingFailed(let reason):
-                    errorDescription = ("Parameter encoding failed: \(error.localizedDescription)")
+                    errorDescription = ("Parameter encoding failed: \(AFerror.localizedDescription)")
                     reasonDetail = ("Failure Reason: \(reason)")
                 case .multipartEncodingFailed(let reason):
-                    errorDescription = ("Multipart encoding failed: \(error.localizedDescription)")
+                    errorDescription = ("Multipart encoding failed: \(AFerror.localizedDescription)")
                     reasonDetail = ("Failure Reason: \(reason)")
                 case .responseValidationFailed(let reason):
-                    errorDescription = ("Response validation failed: \(error.localizedDescription)")
+                    errorDescription = ("Response validation failed: \(AFerror.localizedDescription)")
                     reasonDetail = ("Failure Reason: \(reason)")
                     
                     switch reason {
@@ -60,24 +77,50 @@ class ApiManager {
                         print("Response content type: \(responseContentType) was unacceptable: \(acceptableContentTypes)")
                     case .unacceptableStatusCode(let code):
                         print("Response status code was unacceptable: \(code)")
+                    case .customValidationFailed(error: _):
+                        break
                     }
                     
                 case .responseSerializationFailed(let reason):
-                    errorDescription = ("Response serialization failed: \(error.localizedDescription)")
+                    errorDescription = ("Response serialization failed: \(AFerror.localizedDescription)")
                     reasonDetail = ("Failure Reason: \(reason)")
+                    
+                    let statusCode = AFerror._code
+                    let underLayingError = ("Underlying error: \(String(describing: AFerror.underlyingError))")
+                    
+                    let errorDetail = "\(statusCode) \n \(String(describing: errorDescription)) \n \(String(describing: reasonDetail)) \n \(underLayingError)"
+                    message = errorDetail
+                case .createUploadableFailed(error: let error):
+                    print(error.localizedDescription)
+                case .createURLRequestFailed(error: let error):
+                    print(error.localizedDescription)
+                case .downloadedFileMoveFailed(error: let error, source:  _, destination: _):
+                    print(error.localizedDescription)
+                case .explicitlyCancelled:
+                    print("explicitlyCancelled")
+                case .parameterEncoderFailed(reason: let reason):
+                    print(reason)
+                case .requestAdaptationFailed(error: let error):
+                    print(error.localizedDescription)
+                case .requestRetryFailed(retryError: _, originalError:  _):
+                    print("requestRetryFailed")
+                case .serverTrustEvaluationFailed(reason: let reason):
+                    print(reason)
+                case .sessionDeinitialized:
+                    print("sessionDeinitialized")
+                case .sessionInvalidated(error: let error):
+                    print(error?.localizedDescription ?? "")
+                case .sessionTaskFailed(error: let error):
+                    print(error.localizedDescription)
+                case .urlRequestValidationFailed(reason: let reason):
+                    print(reason)
                 }
-                
-                let statusCode = error._code
-                let underLayingError = ("Underlying error: \(String(describing: error.underlyingError))")
-                
-                let errorDetail = "\(statusCode) \n \(String(describing: errorDescription)) \n \(String(describing: reasonDetail)) \n \(underLayingError)"
-                message = errorDetail
-            } else if let error = response.result.error as? URLError {
+            } else if let error = response.error {
                 message = ("URLError occurred: \(error)")
             } else {
                 message = ""
             }
-            return message
+            return message == nil ? "" : message
         }
     }
     
@@ -97,18 +140,18 @@ class ApiManager {
     func CallCheckRefreshTokenApi(debugInfo isPrint: Bool = true
         , withBlock completion : @escaping (Bool) -> Void){
         
-        guard let expiryDate = GConstant.UserData.expires else {return}
+        guard let expiryDate = GConstant.UserData?.expires else {return}
         let expired = GFunction.shared.compareDateTrueIfExpire(dateString: expiryDate)
         
         if expired {
             let requestModel = RequestModal.mUserData()
-            guard let refreshToken      = GConstant.UserData.refreshToken else{return}
+            guard let refreshToken      = GConstant.UserData?.refreshToken else{return}
             requestModel.refresh_token  = refreshToken
             requestModel.grant_type     = "refresh_token"
             requestModel.client_id      = "tcba_iphone"
             requestModel.device_id      = GFunction.shared.getDeviceId()
             
-            Alamofire.request(GAPIConstant.Url.RefreshToken, method: .post, parameters: requestModel.toDictionary(), encoding: URLEncoding(), headers: APIHeaders.headers()).responseJSON { (response) in
+            AF.request(GAPIConstant.Url.RefreshToken, method: .post, parameters: requestModel.toDictionary(), encoding: URLEncoding(), headers: APIHeaders.headers()).responseJSON { (response) in
                 switch(response.result){
                 case .success(let JSON):
                     if isPrint{ print(JSON) }
@@ -176,7 +219,7 @@ class ApiManager {
                 }
             }
             
-            Alamofire.request(url, method: .get, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headersWithBearerToken()).responseJSON(completionHandler: { (response) in
+            AF.request(url, method: .get, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headersWithBearerToken()).responseJSON(completionHandler: { (response) in
                 
                 switch(response.result) {
                 case .success(let JSON):
@@ -267,7 +310,7 @@ class ApiManager {
                     }
                 }
                 
-                Alamofire.request(url, method: .get, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headersWithBearerToken()).responseJSON(completionHandler: { (response) in
+                AF.request(url, method: .get, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headersWithBearerToken()).responseJSON(completionHandler: { (response) in
                     
                     switch(response.result) {
                     case .success(let JSON):
@@ -372,7 +415,7 @@ class ApiManager {
                 }
             }
             
-            Alamofire.request(url, method: .post, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headers()).responseJSON(completionHandler: { (response) in
+            AF.request(url, method: .post, parameters: param, encoding: URLEncoding(), headers: APIHeaders.headers()).responseJSON(completionHandler: { (response) in
                 
                 switch(response.result) {
                 case .success(let JSON):
@@ -471,7 +514,7 @@ class ApiManager {
                 }
                 
                 
-                Alamofire.request(url, method: .post, parameters: param, encoding: encording, headers: APIHeaders.headersWithBearerToken(contentType: contentType)).responseJSON(completionHandler: { (response) in
+                AF.request(url, method: .post, parameters: param, encoding: encording, headers: APIHeaders.headersWithBearerToken(contentType: contentType)).responseJSON(completionHandler: { (response) in
                     
                     switch(response.result) {
                     case .success(let JSON):
@@ -563,83 +606,80 @@ class ApiManager {
                 }
             }
             
-            Alamofire.upload(multipartFormData: blockFormData!, usingThreshold: UInt64.init(), to: url, method: .post, headers: APIHeaders.headers(), encodingCompletion: { encodingResult in
-                switch encodingResult {
-                case .success(let upload, _, _):
-                    upload.responseJSON { response in
-                        switch(response.result) {
-                        case .success(let JSON):
-                            DispatchQueue.main.async {
-                                if isPrint{
-                                    print(JSON)
+            AF.upload(multipartFormData: blockFormData!, to: url, method: .post , headers: APIHeaders.headersForMultipart())
+                .response { response in
+                    switch(response.result) {
+                    case .success(let JSON):
+                        DispatchQueue.main.async {
+                            if isPrint {
+                                if let statusCode = response.response?.statusCode {
+                                    print("Status Code: \(statusCode)")
                                 }
-                                
-                                // remove loader if isLoader is true
-                                if isLoader {
-                                    GFunction.shared.removeLoader()
-                                }
-                                
-                                var statusCode = 0
-                                if let headerResponse = response.response {
-                                    statusCode = headerResponse.statusCode
-                                    if statusCode == 401{
-                                        GFunction.shared.makeUserLoginAlert()
-                                    }else{
-                                        DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
-                                            completion(response.data, statusCode, APIError.handleError(response: response))
-                                        })
+                                print(JSON as Any)
+                            }
+                            
+                            // remove loader if isLoader is true
+                            if isLoader {
+                                GFunction.shared.removeLoader()
+                            }
+                            
+                            var statusCode = 0
+                            if let headerResponse = response.response {
+                                statusCode = headerResponse.statusCode
+                                if statusCode == 401{
+                                    DispatchQueue.main.async {
+                                        GFunction.shared.removeLoader()
                                     }
+                                    //                                        GFunction.shared.makeUserLoginAlert()
+                                }else{
+                                    DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                                        completion(response.data, statusCode, "")
+                                    })
+                                }
+                            }
+                        }
+                        
+                    case .failure(let error):
+                        DispatchQueue.main.async {
+                            
+                            if isLoader {
+                                GFunction.shared.removeLoader()
+                            }
+                            
+                            var statusCode = 0
+                            
+                            //Logout User
+                            if let headerResponse = response.response {
+                                statusCode = headerResponse.statusCode
+                                print("Status Code: \(statusCode)")
+                                if (headerResponse.statusCode == 401) {
+                                    //TODO: Add your logout code here
+                                    //                                        GFunction.shared.makeUserLoginAlert()
                                 }
                             }
                             
-                        case .failure(let error):
-                            DispatchQueue.main.async {
-                                
-                                if isLoader {
-                                    GFunction.shared.removeLoader()
+                            //Display error Alert if errorAlert is true
+                            if(errorAlert) {
+                                let err = error as NSError
+                                if statusCode != 401
+                                    && err.code != NSURLErrorTimedOut
+                                    && err.code != NSURLErrorNetworkConnectionLost
+                                    && err.code != NSURLErrorNotConnectedToInternet{
+                                    
+                                } else {
+                                    print(error.localizedDescription)
                                 }
-                                
-                                var statusCode = 0
-                                
-                                //Logout User
-                                if let headerResponse = response.response {
-                                    statusCode = headerResponse.statusCode
-                                    if (headerResponse.statusCode == 401) {
-                                        //TODO: Add your logout code here
-                                        GFunction.shared.makeUserLoginAlert()
-                                    }
-                                }
-                                
-                                //Display error Alert if errorAlert is true
-                                if(errorAlert) {
-                                    let err = error as NSError
-                                    if statusCode != 401
-                                        && err.code != NSURLErrorTimedOut
-                                        && err.code != NSURLErrorNetworkConnectionLost
-                                        && err.code != NSURLErrorNotConnectedToInternet{
-                                        
-                                    } else {
-                                        print(error.localizedDescription)
-                                    }
-                                }
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
-                                    completion(nil, statusCode, APIError.handleError(response: response))
-                                })
                             }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                                completion(nil, statusCode, response.error.debugDescription)
+                            })
                         }
                     }
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        if isLoader {
-                            GFunction.shared.removeLoader()
-                        }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
-                            completion(nil, 0, error.localizedDescription)
-                        })
-                    }
-                }
+            }
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.05, execute: {
+                completion(nil, nil, "")
             })
         }
     }
@@ -677,7 +717,7 @@ class ApiManager {
                     }
                 }
                 
-                Alamofire.request(url, method: .put, parameters: param, encoding: encording, headers: APIHeaders.headersWithBearerToken(contentType: contentType)).responseJSON(completionHandler: { (response) in
+                AF.request(url, method: .put, parameters: param, encoding: encording, headers: APIHeaders.headersWithBearerToken(contentType: contentType)).responseJSON(completionHandler: { (response) in
                     
                     switch(response.result) {
                     case .success(let JSON):

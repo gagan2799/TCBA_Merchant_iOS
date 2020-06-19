@@ -130,7 +130,7 @@ class TMContactDetailVC: UIViewController {
          ===================================================
          */
         let request         = RequestModal.mUserData()
-        guard let storeId   = GConstant.UserData.stores else{return}
+        guard let storeId   = GConstant.UserData?.stores else{return}
         request.storeID     = storeId
         
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetMerchantStoreDetails, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
@@ -200,7 +200,7 @@ class TMContactDetailVC: UIViewController {
                 case .Country:
                     self.countries  = try? CountriesModel.decode(_data: data)
                     if self.states == nil {
-                        self.callGetCountriesAndStatesApi(placeType: .State, CountryId:"\(self.countries.countries?.first?.countryID ?? 284)")
+                        self.callGetCountriesAndStatesApi(placeType: .State, CountryId:"\(self.countries.countries?.first?.countryId ?? 284)")
                     }
                     break
                 case .State:
@@ -250,7 +250,7 @@ class TMContactDetailVC: UIViewController {
         if let allCountry = countries.countries {
             for country in allCountry {
                 if country.countryName == contactDetailsData[5].titleValue {
-                    countryID = country.countryID ?? 0
+                    countryID = country.countryId ?? 0
                 }
             }
         }
@@ -263,7 +263,7 @@ class TMContactDetailVC: UIViewController {
         requestAddress.city         = contactDetailsData[4].titleValue
         
         let request                 = RequestModal.mUpdateStoreContent()
-        guard let storeId           = GConstant.UserData.stores else{ return }
+        guard let storeId           = GConstant.UserData?.stores else{ return }
         request.storeAddress        = requestAddress.toDictionary()
         request.storeId             = storeId
         request.storeTitle          = contactDetailsData[0].titleValue
@@ -426,7 +426,7 @@ extension TMContactDetailVC: UITableViewDataSource,UITableViewDelegate,UITextFie
         } else if textField.tag == 6 {
             self.typesPlaces = .State
             if self.states == nil {
-                self.callGetCountriesAndStatesApi(placeType: .State, CountryId:"\(String(describing: self.countries.countries?.first?.countryID))")
+                self.callGetCountriesAndStatesApi(placeType: .State, CountryId:"\(String(describing: self.countries.countries?.first?.countryId))")
             }
             self.pickerV.reloadPickerView()
         }
@@ -510,7 +510,7 @@ extension TMContactDetailVC: UITableViewDataSource,UITableViewDelegate,UITextFie
             if countriesData.count < row { return }
             ////////////////////////////
             guard let name          = countriesData[row].countryName else { return }
-            guard let countryId     = countriesData[row].countryID else { return }
+            guard let countryId     = countriesData[row].countryId else { return }
             self.countryID          = countryId
             cell.txtTitleVal.text   = name
         } else {

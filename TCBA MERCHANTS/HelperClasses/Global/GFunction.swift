@@ -116,7 +116,7 @@ class GFunction: NSObject  {
     
     func getUserDataFromDefaults() -> UserLoginModel? {
         if let userData =  UserDefaults.standard.value(forKey: GConstant.UserDefaultKeys.UserDataLogin) as? Data{
-            let userDataDecoded = try! UserLoginModel.decode(_data: userData)
+            let userDataDecoded = UserLoginModel.decodeData(_data: userData).response
             return userDataDecoded
         }
         return nil
@@ -124,7 +124,7 @@ class GFunction: NSObject  {
     
     func getUserDetailsFromDefaults() -> UserDetailsModel? {
         if let userDetails =  UserDefaults.standard.value(forKey: GConstant.UserDefaultKeys.UserDetails) as? Data{
-            let userDataDecoded = try! UserDetailsModel.decode(_data: userDetails)
+            let userDataDecoded = UserDetailsModel.decodeData(_data: userDetails).response
             return userDataDecoded
         }
         return nil

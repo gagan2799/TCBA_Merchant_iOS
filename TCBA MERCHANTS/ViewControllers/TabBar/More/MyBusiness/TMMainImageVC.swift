@@ -96,7 +96,7 @@ extension TMMainImageVC: MFMailComposeViewControllerDelegate  {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate    = self
             mail.setToRecipients([GConstant.kMerchantEmail])
-            guard let userId            = GConstant.UserData.userID else { return }
+            guard let userId            = GConstant.UserData?.userID else { return }
             mail.setMessageBody("Store image change request: \(storeTitle ?? "") - \(userId)", isHTML: false)
             present(mail, animated: true)
         } else {

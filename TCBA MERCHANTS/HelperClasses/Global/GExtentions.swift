@@ -454,14 +454,40 @@ extension UILabel {
 }
 
 public extension UIAlertController {
+    
+    private var alertWindow: UIWindow! {
+        get {
+            return objc_getAssociatedObject(self, &associationKey) as? UIWindow
+        }
+        
+        set(newValue) {
+            objc_setAssociatedObject(self, &associationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+        }
+    }
+    
     func presentAlert() {
-        let win = UIWindow(frame: UIScreen.main.bounds)
-        let vc = UIViewController()
-        vc.view.backgroundColor = .clear
-        win.rootViewController = vc
-        win.windowLevel = UIWindow.Level.alert + 1
-        win.makeKeyAndVisible()
-        vc.present(self, animated: true, completion: nil)
+        self.alertWindow = UIWindow.init(frame: UIScreen.main.bounds)
+        self.alertWindow.backgroundColor = .clear
+        
+        let viewController = UIViewController()
+        viewController.view.backgroundColor = .clear
+        self.alertWindow.rootViewController = viewController
+        
+        let topWindow = UIApplication.shared.windows.last
+        if let topWindow = topWindow {
+            self.alertWindow.windowLevel = topWindow.windowLevel + 1
+        }
+        
+        self.alertWindow.makeKeyAndVisible()
+        self.alertWindow.rootViewController?.present(self, animated: true, completion: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if(self.alertWindow != nil){
+            self.alertWindow.isHidden = true
+            self.alertWindow = nil
+        }
     }
 }
 
@@ -1240,10 +1266,24 @@ extension UITapGestureRecognizer {
 //MARK: - UIApplication
 extension UIApplication {
     var statusBarView: UIView? {
-        if responds(to: Selector(("statusBar"))) {
-            return value(forKey: "statusBar") as? UIView
-        }
-        return nil
+      if #available(iOS 13.0, *) {
+          let tag = 38482
+          let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+
+          if let statusBar = keyWindow?.viewWithTag(tag) {
+              return statusBar
+          } else {
+              guard let statusBarFrame = keyWindow?.windowScene?.statusBarManager?.statusBarFrame else { return nil }
+              let statusBarView = UIView(frame: statusBarFrame)
+              statusBarView.tag = tag
+              keyWindow?.addSubview(statusBarView)
+              return statusBarView
+          }
+      } else if responds(to: Selector(("statusBar"))) {
+          return value(forKey: "statusBar") as? UIView
+      } else {
+          return nil
+      }
     }
 }
 

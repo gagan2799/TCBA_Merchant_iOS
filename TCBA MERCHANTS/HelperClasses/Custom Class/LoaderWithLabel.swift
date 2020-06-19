@@ -40,7 +40,7 @@ public class LoaderWithLabel {
         }
         
         containerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        containerView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        containerView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         
         guard let imageData = try? Data(contentsOf: Bundle.main.url(forResource: "LoaderAnim", withExtension: "gif")!) else { return }
         let animatedImage = UIImage.gif(data: imageData)

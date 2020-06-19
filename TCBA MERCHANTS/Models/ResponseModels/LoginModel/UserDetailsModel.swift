@@ -11,98 +11,88 @@
 import Foundation
 
 struct UserDetailsModel: Codable {
-    let userID: Int?
-    let username, firstName, lastName, abn: String?
-    let email, phoneNumber, address, city: String?
-    let postcode: String?
-    let stateID: Int?
-    let state: String?
-    let countryID: Int?
-    let countryName: String?
-    let profileImageURL: String?
-    let dob, gender: String?
-    let isMerchant: Bool?
-    let qrCodeImage: String?
-    
+    public var userId: Int?
+    public var userMatrixNodeId: Int?
+    public var username: String?
+    public var firstName: String?
+    public var lastName: String?
+    public var abn: String?
+    public var email: String?
+    public var phoneNumber: String?
+    public var address: String?
+    public var city: String?
+    public var postcode: String?
+    public var stateId: Int?
+    public var state: String?
+    public var countryId: Int?
+    public var countryName: String?
+    public var profileImageUrl: String?
+    public var dob: String?
+    public var gender: String?
+    public var isMerchant: Bool?
+    public var qrCodeImage: String?
+    public var walletIsActive: Bool?
+    public var walletNumber: String?
+    public var pinAction: String?
+    public var isProfileComplete: Bool?
+    public var shareLink: String?
+    public var shareMessage: String?
+
     enum CodingKeys: String, CodingKey {
-        case userID = "userId"
-        case username, firstName, lastName, abn, email, phoneNumber, address, city, postcode
-        case stateID = "stateId"
-        case state
-        case countryID = "countryId"
-        case countryName
-        case profileImageURL = "profileImageUrl"
-        case dob, gender, isMerchant, qrCodeImage
+        case userId = "userId"
+        case userMatrixNodeId = "userMatrixNodeId"
+        case username = "username"
+        case firstName = "firstName"
+        case lastName = "lastName"
+        case abn = "abn"
+        case email = "email"
+        case phoneNumber = "phoneNumber"
+        case address = "address"
+        case city = "city"
+        case postcode = "postcode"
+        case stateId = "stateId"
+        case state = "state"
+        case countryId = "countryId"
+        case countryName = "countryName"
+        case profileImageUrl = "profileImageUrl"
+        case dob = "dob"
+        case gender = "gender"
+        case isMerchant = "isMerchant"
+        case qrCodeImage = "qrCodeImage"
+        case walletIsActive = "walletIsActive"
+        case walletNumber = "walletNumber"
+        case pinAction = "pinAction"
+        case isProfileComplete = "isProfileComplete"
+        case shareLink = "shareLink"
+        case shareMessage = "shareMessage"
     }
-}
 
-// MARK: Convenience initializers and mutators
-
-extension UserDetailsModel {
-    init(data: Data) throws {
-        self = try newJSONDecoder().decode(UserDetailsModel.self, from: data)
-    }
-    
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-    
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-    
-    func with(
-        userID: Int?? = nil,
-        username: String?? = nil,
-        firstName: String?? = nil,
-        lastName: String?? = nil,
-        abn: String?? = nil,
-        email: String?? = nil,
-        phoneNumber: String?? = nil,
-        address: String?? = nil,
-        city: String?? = nil,
-        postcode: String?? = nil,
-        stateID: Int?? = nil,
-        state: String?? = nil,
-        countryID: Int?? = nil,
-        countryName: String?? = nil,
-        profileImageURL: String?? = nil,
-        dob: String?? = nil,
-        gender: String?? = nil,
-        isMerchant: Bool?? = nil,
-        qrCodeImage: String?? = nil
-        ) -> UserDetailsModel {
-        return UserDetailsModel(
-            userID: userID ?? self.userID,
-            username: username ?? self.username,
-            firstName: firstName ?? self.firstName,
-            lastName: lastName ?? self.lastName,
-            abn: abn ?? self.abn,
-            email: email ?? self.email,
-            phoneNumber: phoneNumber ?? self.phoneNumber,
-            address: address ?? self.address,
-            city: city ?? self.city,
-            postcode: postcode ?? self.postcode,
-            stateID: stateID ?? self.stateID,
-            state: state ?? self.state,
-            countryID: countryID ?? self.countryID,
-            countryName: countryName ?? self.countryName,
-            profileImageURL: profileImageURL ?? self.profileImageURL,
-            dob: dob ?? self.dob,
-            gender: gender ?? self.gender,
-            isMerchant: isMerchant ?? self.isMerchant,
-            qrCodeImage: qrCodeImage ?? self.qrCodeImage
-        )
-    }
-    
-    func jsonData() throws -> Data {
-        return try newJSONEncoder().encode(self)
-    }
-    
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+    public init(userId: Int?, userMatrixNodeId: Int?, username: String?, firstName: String?, lastName: String?, abn: String?, email: String?, phoneNumber: String?, address: String?, city: String?, postcode: String?, stateId: Int?, state: String?, countryId: Int?, countryName: String?, profileImageUrl: String?, dob: String?, gender: String?, isMerchant: Bool?, qrCodeImage: String?, walletIsActive: Bool?, walletNumber: String?, pinAction: String?, isProfileComplete: Bool?, shareLink: String?, shareMessage: String?) {
+        self.userId = userId
+        self.userMatrixNodeId = userMatrixNodeId
+        self.username = username
+        self.firstName = firstName
+        self.lastName = lastName
+        self.abn = abn
+        self.email = email
+        self.phoneNumber = phoneNumber
+        self.address = address
+        self.city = city
+        self.postcode = postcode
+        self.stateId = stateId
+        self.state = state
+        self.countryId = countryId
+        self.countryName = countryName
+        self.profileImageUrl = profileImageUrl
+        self.dob = dob
+        self.gender = gender
+        self.isMerchant = isMerchant
+        self.qrCodeImage = qrCodeImage
+        self.walletIsActive = walletIsActive
+        self.walletNumber = walletNumber
+        self.pinAction = pinAction
+        self.isProfileComplete = isProfileComplete
+        self.shareLink = shareLink
+        self.shareMessage = shareMessage
     }
 }

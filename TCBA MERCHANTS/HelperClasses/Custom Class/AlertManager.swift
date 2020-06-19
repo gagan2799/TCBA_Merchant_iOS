@@ -14,6 +14,14 @@ struct VAlert {
     let message:String?
 }
 
+enum AlertType {
+    case alert
+    case popUp
+    case toast
+}
+
+var associationKey: UInt8 = 0
+
 class AlertManager: NSObject {
     
     static let shared : AlertManager = AlertManager()
@@ -36,8 +44,9 @@ class AlertManager: NSObject {
                 }
             }))
         }
-        //     rootWindow().rootViewController?.present(alertController, animated: true, completion: nil)
+        
         alertController.presentAlert()
+        alertController.view.layoutIfNeeded()
     }
     
     func showPopUpAlert(_ title : String?
@@ -48,8 +57,8 @@ class AlertManager: NSObject {
         self.completionBlock = completionBlock
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-//        rootWindow().rootViewController?.present(alert, animated: true, completion: nil)
         alert.presentAlert()
+        alert.view.layoutIfNeeded()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double((ino64_t)(time * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {() -> Void in
             alert.dismiss(animated: true)
             if completionBlock != nil {
@@ -67,9 +76,8 @@ class AlertManager: NSObject {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIDevice.current.userInterfaceIdiom == .pad ? .alert : .actionSheet)
         
-//        rootWindow().rootViewController?.present(alert, animated: true, completion: nil)
         alert.presentAlert()
-        
+        alert.view.layoutIfNeeded()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double((ino64_t)(time * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {() -> Void in
             alert.dismiss(animated: true)
             if completionBlock != nil {

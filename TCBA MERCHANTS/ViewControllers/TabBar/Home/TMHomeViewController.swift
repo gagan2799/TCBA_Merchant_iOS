@@ -29,6 +29,10 @@ class TMHomeViewController: UIViewController {
         super.viewDidLoad()
         setViewProperties()
         print("Status Bar Height:- \(String(describing: UIApplication.shared.statusBarView?.bounds.height))")
+        DispatchQueue.main.async {
+            //<---------Set statusbar background color--------->
+            UIApplication.shared.statusBarView?.backgroundColor = GConstant.AppColor.orange
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,7 +94,7 @@ class TMHomeViewController: UIViewController {
         // lbl properties set
         lblStoreId.applyStyle(labelFont: nil, labelColor: .white, cornerRadius: nil, borderColor: .white, borderWidth: 1.0)
         lblStoreId.backgroundColor          = UIColor.black.withAlphaComponent(0.4)
-        lblStoreId.text                     = "Store ID:\(GConstant.UserData.stores ?? "")"
+        lblStoreId.text                     = "Store ID:\(GConstant.UserData?.stores ?? "")"
     }
     
     //MARK: - Web Api's

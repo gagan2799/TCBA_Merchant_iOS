@@ -12,19 +12,19 @@ import Alamofire
 class NetworkManager {
     //shared instance
     static let shared = NetworkManager()
-    let reachabilityManager = Alamofire.NetworkReachabilityManager(host: "www.google.com")
+    
+    let manager = Alamofire.NetworkReachabilityManager()
+
     func startNetworkReachabilityObserver() {
-        reachabilityManager?.listener = { status in
+        manager?.startListening { status in
             switch status {
             case .notReachable, .unknown :
                 GFunction.shared.removeLoader()
                 AlertManager.shared.showAlertTitle(title: "Network Issue!", message: "TCBA Merchants has failed to retrieve data. Please check your Internet connection and try again")
-            case .reachable(.ethernetOrWiFi), .reachable(.wwan):
+            case .reachable(.ethernetOrWiFi), .reachable(.cellular):
                 print("The network is reachable over the WiFi/WWAN connection")
             }
         }
-        // start listening
-        reachabilityManager?.startListening()
     }
 }
 

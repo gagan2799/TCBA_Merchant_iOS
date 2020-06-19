@@ -149,7 +149,7 @@ extension TMBankDetailsVC: MFMailComposeViewControllerDelegate  {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate    = self
             mail.setToRecipients([GConstant.kMerchantEmail])
-            guard let userId            = GConstant.UserData.userID else { return }
+            guard let userId            = GConstant.UserData?.userID else { return }
             let message                 = "Please update my bank details Mechant ID: \(userId)"
             mail.setMessageBody(message, isHTML: false)
             present(mail, animated: true)

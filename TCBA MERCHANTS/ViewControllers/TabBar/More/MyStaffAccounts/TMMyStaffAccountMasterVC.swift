@@ -166,7 +166,7 @@ class TMMyStaffAccountMasterVC: UIViewController {
          ===================================================
          */
 //        let request         = RequestModal.mCreatePOS()
-//        guard let storeId   = GConstant.UserData.stores else{return}
+//        guard let storeId   = GConstant.UserData?.stores else{return}
 //        request.storeId     = storeId
         
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetStaffMembers, parameter: nil) { (data : Data?, statusCode : Int?, error: String) in

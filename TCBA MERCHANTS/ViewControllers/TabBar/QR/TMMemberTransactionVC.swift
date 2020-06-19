@@ -179,7 +179,7 @@ class TMMemberTransactionVC: UIViewController {
          ===================================================
          */
         let request             = RequestModal.mCreatePOS()
-        guard let storeId       = GConstant.UserData.stores else{return}
+        guard let storeId       = GConstant.UserData?.stores else{return}
         guard let memberId      = memTranData.memberID else {return}
         
         request.keyChainCode    = "\(memberId)"

@@ -120,7 +120,7 @@ class TMTransactionViewController: UIViewController {
         lblCashBack.font = UIFont.applyOpenSansSemiBold(fontSize: 18.0)
         lblStoreId.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 15.0), labelColor: .white, cornerRadius: 2.0, borderColor: .white, borderWidth: 1.0)
         lblStoreId.backgroundColor          = .clear
-        lblStoreId.text                     = "Store ID: \(GConstant.UserData.stores ?? "")"
+        lblStoreId.text                     = "Store ID: \(GConstant.UserData?.stores ?? "")"
         lblOR.applyStyle(labelFont: UIFont.applyOpenSansRegular(fontSize: 15.0, isAspectRasio: false), labelColor: GConstant.AppColor.textDark, cornerRadius: lblOR.bounds.midY, borderColor: GConstant.AppColor.textLight, backgroundColor: .white, borderWidth: 1.0)
         lblScanCode.font                    = UIFont.applyOpenSansBold(fontSize: 20.0)
         
@@ -183,7 +183,7 @@ class TMTransactionViewController: UIViewController {
          ===================================================
          */
         let request         = RequestModal.mUserData()
-        guard let storeId   = GConstant.UserData.stores else{return}
+        guard let storeId   = GConstant.UserData?.stores else{return}
         
         if code.isNumeric {
             request.memberID        = code
@@ -256,7 +256,7 @@ class TMTransactionViewController: UIViewController {
          ===================================================
          */
         let request = RequestModal.mCreatePOS()
-        guard let storeId = GConstant.UserData.stores else{return}
+        guard let storeId = GConstant.UserData?.stores else{return}
         request.storeId = storeId
         request.pinCode = pin
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetStaffLogin, parameter: request.toDictionary(), withLoader : false) { (data : Data?, statusCode : Int?, error: String) in

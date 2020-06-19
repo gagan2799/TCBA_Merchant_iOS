@@ -24,7 +24,7 @@ class TMApplyMerchantVC: UIViewController {
         DispatchQueue.main.async {
             GFunction.shared.addLoader()
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
-            guard let userID    = GConstant.UserData.userID else { return }
+            guard let userID    = GConstant.UserData?.userID else { return }
             guard let url       = URL(string: "https://thecashbackapp.com/appinput/merchant-apply/\(userID)")
                 else { return }
             let request         = URLRequest(url: url)

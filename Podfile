@@ -9,10 +9,10 @@ target 'TCBA MERCHANTS' do
     pod 'IQKeyboardManagerSwift'
     pod 'SDWebImage'
     pod 'Alamofire'
-    pod 'SwiftyJSON'
     pod 'EmptyDataSet-Swift'
     pod 'ESTabBarController-swift'
     pod 'SwiftGifOrigin'
     pod 'PickerView'
     pod 'Cosmos'
+    pod 'SwiftyJSON'
 end

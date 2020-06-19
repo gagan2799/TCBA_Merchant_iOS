@@ -319,7 +319,7 @@ class TMTradingHoursVC: UIViewController {
          ===================================================
          */
         let request         = RequestModal.mUserData()
-        guard let storeId   = GConstant.UserData.stores else{return}
+        guard let storeId   = GConstant.UserData?.stores else{return}
         request.storeID     = storeId
         
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetTradingHours, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
@@ -360,7 +360,7 @@ class TMTradingHoursVC: UIViewController {
          */
         let daysData = try! tradingData.days.encode()
         let request = RequestModal.mUpdateStoreContent()
-        guard let storeId   = GConstant.UserData.stores else{return}
+        guard let storeId   = GConstant.UserData?.stores else{return}
         request.days        = daysData
         
         let url             = GAPIConstant.Url.PutUpdateTradingHours + "?storeId=\(storeId)"

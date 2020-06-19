@@ -109,7 +109,7 @@ class TMHistoryTransDetail: UIViewController {
         self.navigationItem.title       = "History"
         consHeightTotalView.constant    = GConstant.Screen.iPhoneXSeries ? GConstant.Screen.Height * 0.16 : GConstant.Screen.Height * 0.2
         
-        if let storeId = GConstant.UserData.stores {
+        if let storeId = GConstant.UserData?.stores {
             lblStoreId.text         = "Store ID: \(storeId)"
         }
         
@@ -264,7 +264,7 @@ class TMHistoryTransDetail: UIViewController {
          ===================================================
          */
         let request         = RequestModal.mUserData()
-        guard let storeId   = GConstant.UserData.stores else{return}
+        guard let storeId   = GConstant.UserData?.stores else{return}
         request.storeID     = storeId
         request.type        = transType.rawValue
         let parm            = request.toDictionary()

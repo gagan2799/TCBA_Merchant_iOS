@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -125,7 +125,6 @@
 		79EE756A2119CACF0041D5C4 /* TransactionDetailsModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE75692119CACF0041D5C4 /* TransactionDetailsModal.swift */; };
 		79EF44452125865C000C284B /* PostCreatePOSModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EF44442125865C000C284B /* PostCreatePOSModal.swift */; };
 		79F05451215375FC005B9CAC /* StatesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F05450215375FC005B9CAC /* StatesModel.swift */; };
-		79F0545321537627005B9CAC /* CountriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F0545221537627005B9CAC /* CountriesModel.swift */; };
 		79F4EFBC2150D6CC0033AD51 /* TMContactDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F4EFBB2150D6CC0033AD51 /* TMContactDetailsCell.swift */; };
 		79F4EFBE2150D6F30033AD51 /* TMContactRadioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F4EFBD2150D6F30033AD51 /* TMContactRadioCell.swift */; };
 		79FA3BE3211B1C16005F36F3 /* OutstandingLoyaltyModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */; };
@@ -135,6 +134,7 @@
 		79FCACD8215515C4003BC2C8 /* TMAboutUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FCACD7215515C4003BC2C8 /* TMAboutUsVC.swift */; };
 		79FCACDA215521BF003BC2C8 /* TMAboutUsSubLisVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FCACD9215521BF003BC2C8 /* TMAboutUsSubLisVC.swift */; };
 		79FD4D1B212D3A0C003AC29F /* TMCardTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD4D1A212D3A0C003AC29F /* TMCardTVCell.swift */; };
+		8B8B6DCB249A1D480001E792 /* CountriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B6DCA249A1D480001E792 /* CountriesModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -266,7 +266,6 @@
 		79EE75692119CACF0041D5C4 /* TransactionDetailsModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsModal.swift; sourceTree = "<group>"; };
 		79EF44442125865C000C284B /* PostCreatePOSModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCreatePOSModal.swift; sourceTree = "<group>"; };
 		79F05450215375FC005B9CAC /* StatesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatesModel.swift; sourceTree = "<group>"; };
-		79F0545221537627005B9CAC /* CountriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesModel.swift; sourceTree = "<group>"; };
 		79F4EFBB2150D6CC0033AD51 /* TMContactDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMContactDetailsCell.swift; sourceTree = "<group>"; };
 		79F4EFBD2150D6F30033AD51 /* TMContactRadioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMContactRadioCell.swift; sourceTree = "<group>"; };
 		79FA3BE2211B1C16005F36F3 /* OutstandingLoyaltyModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutstandingLoyaltyModal.swift; sourceTree = "<group>"; };
@@ -276,6 +275,7 @@
 		79FCACD7215515C4003BC2C8 /* TMAboutUsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMAboutUsVC.swift; sourceTree = "<group>"; };
 		79FCACD9215521BF003BC2C8 /* TMAboutUsSubLisVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMAboutUsSubLisVC.swift; sourceTree = "<group>"; };
 		79FD4D1A212D3A0C003AC29F /* TMCardTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMCardTVCell.swift; sourceTree = "<group>"; };
+		8B8B6DCA249A1D480001E792 /* CountriesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountriesModel.swift; sourceTree = "<group>"; };
 		F1D02BAEF8FD0D998288EEB8 /* Pods-TCBA MERCHANTS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TCBA MERCHANTS.release.xcconfig"; path = "Pods/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -383,8 +383,8 @@
 			children = (
 				7912313F21412E8600E475CF /* TradingHourModel.swift */,
 				79E5D91F214922E6008CD66E /* StoreDetailsModel.swift */,
+				8B8B6DCA249A1D480001E792 /* CountriesModel.swift */,
 				79F05450215375FC005B9CAC /* StatesModel.swift */,
-				79F0545221537627005B9CAC /* CountriesModel.swift */,
 			);
 			path = MyBusiness;
 			sourceTree = "<group>";
@@ -918,33 +918,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
-				"${BUILT_PRODUCTS_DIR}/ESTabBarController-swift/ESTabBarController_swift.framework",
-				"${BUILT_PRODUCTS_DIR}/EmptyDataSet-Swift/EmptyDataSet_Swift.framework",
-				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/PickerView/PickerView.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftGifOrigin/SwiftGifOrigin.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ESTabBarController_swift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EmptyDataSet_Swift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PickerView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftGifOrigin.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TCBA MERCHANTS/Pods-TCBA MERCHANTS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F1704546A4E62111D2E45F37 /* [CP] Check Pods Manifest.lock */ = {
@@ -1036,7 +1019,6 @@
 				7998D1BF217EE1E9008710F9 /* TMMatrixCalculatorVC.swift in Sources */,
 				791231442141534D00E475CF /* TMTradingSplitCell.swift in Sources */,
 				799924CD20FF1B270074BDE6 /* TMHomeViewController.swift in Sources */,
-				79F0545321537627005B9CAC /* CountriesModel.swift in Sources */,
 				79A71F07219BF5EC009D9886 /* CustomLabel.swift in Sources */,
 				79123138214102AA00E475CF /* TMStoreImagesVC.swift in Sources */,
 				7908E4992122E1EA00E908EC /* MemberTrasactionModal.swift in Sources */,
@@ -1061,6 +1043,7 @@
 				7912313D2141136500E475CF /* TMTradingCell.swift in Sources */,
 				7912314021412E8600E475CF /* TradingHourModel.swift in Sources */,
 				794F66E220FDAF2800901B0C /* TMSplashViewController.swift in Sources */,
+				8B8B6DCB249A1D480001E792 /* CountriesModel.swift in Sources */,
 				799F3CEC218889D900051677 /* TMPaySuccessPopUpVC.swift in Sources */,
 				79E8C496213E6DFE008E152A /* TMMyBusinessCVCell.swift in Sources */,
 				79EE756A2119CACF0041D5C4 /* TransactionDetailsModal.swift in Sources */,

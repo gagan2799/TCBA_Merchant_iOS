@@ -148,7 +148,7 @@ class TMEditBusinessDetailVC: UIViewController {
          ===================================================
          */
         let request         = RequestModal.mUserData()
-        guard let storeId   = GConstant.UserData.stores else{return}
+        guard let storeId   = GConstant.UserData?.stores else{return}
         request.storeID     = storeId
         
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetStoreContent, parameter: request.toDictionary()) { (data : Data?, statusCode : Int?, error: String) in
@@ -194,7 +194,7 @@ class TMEditBusinessDetailVC: UIViewController {
          */
         
         let request = RequestModal.mUpdateStoreContent()
-        guard let storeId   = GConstant.UserData.stores else{return}
+        guard let storeId   = GConstant.UserData?.stores else{return}
         request.storeId     = storeId
         if storeType == .StoreFeatures {
             request.storeFeatures       = content

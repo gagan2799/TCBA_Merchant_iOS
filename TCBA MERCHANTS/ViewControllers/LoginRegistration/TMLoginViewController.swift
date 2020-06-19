@@ -53,13 +53,23 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
         print("Screen Bounds are:<<<<\(self.view.bounds)>>>>")
         // hide the default back buttons if is from splashViewController
         self.navigationItem.hidesBackButton = true
+       
         // Show navigationBar
         GConstant.NavigationController?.customize()
         GConstant.NavigationController?.isNavigationBarHidden = false
+        
         if self.navigationController?.navigationBar.barTintColor != GConstant.AppColor.blue{
             self.navigationController?.customize()
         }
+        
         self.navigationController?.customize()
+        
+        DispatchQueue.main.async {
+            //<---------Set statusbar background color--------->
+            if let statusBarView = UIApplication.shared.statusBarView {
+                statusBarView.backgroundColor = GConstant.AppColor.orange
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -87,7 +97,10 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        
+        DispatchQueue.main.async {
+            //<---------Set statusbar background color--------->
+            UIApplication.shared.statusBarView?.backgroundColor = GConstant.AppColor.orange
+        }
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -286,15 +299,15 @@ class TMLoginViewController: UIViewController, MFMailComposeViewControllerDelega
                     }
                     GConstant.UserData = GFunction.shared.getUserDataFromDefaults()
                     
-                    if GConstant.UserData.isMerchant == true {
-                        if GConstant.UserData.newPin == "" || GConstant.UserData.newPin == nil {
+                    if GConstant.UserData?.isMerchant == true {
+                        if GConstant.UserData?.newPin == "" || GConstant.UserData?.newPin == nil {
                             if (self.navigationController?.viewControllers.first?.isKind(of: TMLoginViewController.self))! {
                                 self.navigationController?.dismiss(animated: true, completion: nil)
                             } else {
                                 GFunction.shared.userLogin()
                             }
                         } else {
-                            AlertManager.shared.showAlertTitle(title: "New Wallet PIN", message: "Your new Wallet PIN is \(GConstant.UserData.newPin ?? ""). Please go to Wallet and PIN settings to change your wallet PIN" , buttonsArray: ["OK"]) { (buttonIndex : Int) in
+                            AlertManager.shared.showAlertTitle(title: "New Wallet PIN", message: "Your new Wallet PIN is \(GConstant.UserData?.newPin ?? ""). Please go to Wallet and PIN settings to change your wallet PIN" , buttonsArray: ["OK"]) { (buttonIndex : Int) in
                                 switch buttonIndex {
                                 case 0 :
                                     if (self.navigationController?.viewControllers.first?.isKind(of: TMLoginViewController.self))! {

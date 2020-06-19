@@ -74,7 +74,7 @@ class TMShareViewController: UIViewController{
     func setViewProperties(){
         // navigationBar customization
         self.navigationController?.isNavigationBarHidden = true
-        if let storeId = GConstant.UserData.stores {
+        if let storeId = GConstant.UserData?.stores {
             lblStoreID.text         = "Store ID: \(storeId)"
         }
         consStackVHeight.constant   = UIDevice.current.userInterfaceIdiom == .pad ? GConstant.Screen.Height * 0.2 : GConstant.Screen.iPhoneXSeries ? GConstant.Screen.Height * 0.18  : GConstant.Screen.Height * 0.15
@@ -117,7 +117,7 @@ class TMShareViewController: UIViewController{
          ===================================================
          */
         let requestModel        = RequestModal.mUserData()
-        guard let storeId       = GConstant.UserData.stores else{return}
+        guard let storeId       = GConstant.UserData?.stores else{return}
         requestModel.storeID    = storeId
         requestModel.code       = "email"
         
@@ -155,7 +155,7 @@ class TMShareViewController: UIViewController{
          ===================================================
          */
         let request         = RequestModal.mCreatePOS()
-        guard let storeId   = GConstant.UserData.stores else{return}
+        guard let storeId   = GConstant.UserData?.stores else{return}
         request.storeId     = storeId
         request.pinCode     = pin
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetStaffLogin, parameter: request.toDictionary(), withLoader : false) { (data : Data?, statusCode : Int?, error: String) in

@@ -117,7 +117,7 @@ class TMAnonymousVC: UIViewController {
          ===================================================
          */
         let request             = RequestModal.mCreatePOS()
-        guard let storeId       = GConstant.UserData.stores else{return}
+        guard let storeId       = GConstant.UserData?.stores else{return}
         
         request.keyChainCode    = "\(keychainCode)"
         request.storeId         = storeId

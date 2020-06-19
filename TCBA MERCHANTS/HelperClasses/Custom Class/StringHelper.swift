@@ -154,7 +154,7 @@ extension String {
     }
     
     static func getCountryPhonceCode (country : String) -> String{
-        var countryDictionary  = ["AF":"93",
+        let countryDictionary  = ["AF":"93",
                                   "AL":"355",
                                   "DZ":"213",
                                   "AS":"1",

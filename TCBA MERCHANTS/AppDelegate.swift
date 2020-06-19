@@ -15,11 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        print("Screen Bounds are:<<<<\(UIScreen.main.bounds)>>>>")
-        //<---------Set statusbar color--------->
-        var preferredStatusBarStyle : UIStatusBarStyle {
-            return .lightContent
-        }
+        
         //<---------Enable IQKeybord---------->
         IQKeyboardManager.shared.enable = true
         
@@ -75,9 +71,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-func appDelegate()->AppDelegate {
-    return UIApplication.shared.delegate as! AppDelegate
+func appDelegate() -> AppDelegate {
+    var realDelegate: AppDelegate?;
+    var appDel: AppDelegate {
+        if Thread.isMainThread{
+            return UIApplication.shared.delegate as! AppDelegate;
+        }
+        let dg = DispatchGroup();
+        dg.enter()
+        DispatchQueue.main.async{
+            realDelegate = UIApplication.shared.delegate as? AppDelegate;
+            dg.leave();
+        }
+        dg.wait();
+        return realDelegate!;
+    }
+    return appDel
 }
+
+// *** Root Window ***
 func rootWindow()->UIWindow {
     return appDelegate().window!
 }

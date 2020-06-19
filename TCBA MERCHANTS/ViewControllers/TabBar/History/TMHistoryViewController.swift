@@ -94,7 +94,7 @@ class TMHistoryViewController: UIViewController {
         self.navigationController?.customize()
         self.navigationItem.title   = "History"
         
-        if let storeId = GConstant.UserData.stores {
+        if let storeId = GConstant.UserData?.stores {
             lblStoreId.text         = "Store ID: \(storeId)"
         }
         viewOutstanding.frame       = CGRect(x: 0, y: 0, width: GConstant.Screen.Width, height: GConstant.Screen.Height * 0.07)
@@ -185,7 +185,7 @@ class TMHistoryViewController: UIViewController {
          ===================================================
          */
         let request = RequestModal.mUserData()
-        guard let storeId = GConstant.UserData.stores else{return}
+        guard let storeId = GConstant.UserData?.stores else{return}
         request.storeID = storeId
         
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.IncompleteTransactionData, parameter: request.toDictionary(), withLoader : false) { (data : Data?, statusCode : Int?, error: String) in
@@ -240,7 +240,7 @@ class TMHistoryViewController: UIViewController {
          ===================================================
          */
         let request = RequestModal.mCreatePOS()
-        guard let storeId = GConstant.UserData.stores else { return }
+        guard let storeId = GConstant.UserData?.stores else { return }
         request.storeId = storeId
         request.pinCode = pin
         ApiManager.shared.GETWithBearerAuth(strURL: GAPIConstant.Url.GetStaffLogin, parameter: request.toDictionary(), withLoader : false) { (data : Data?, statusCode : Int?, error: String) in

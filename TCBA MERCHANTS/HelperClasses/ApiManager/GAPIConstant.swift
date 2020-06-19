@@ -12,7 +12,11 @@ import Foundation
 struct Headers {
     static let APIKey       = "X-APIKey"
     static let APIKeyValue  = "8fa9e7c5b2a3438aa9b1de7ac4309708"
+    static let AppVersionKey    = "x-tcba-app-version"
+    private static let version  = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+    static let AppVersionValue  = "Merchant-" + (version ?? "")
 }
+
 //MARK:- URLConstants
 struct GAPIConstant {
     struct Url {

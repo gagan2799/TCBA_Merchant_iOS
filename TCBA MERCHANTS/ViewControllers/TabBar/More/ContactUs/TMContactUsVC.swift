@@ -63,8 +63,8 @@ class TMContactUsVC: UIViewController {
         txtEmail.font               = UIFont.applyOpenSansRegular(fontSize: 15.0)
         txtV.font                   = UIFont.applyOpenSansRegular(fontSize: 15.0)
         
-        txtName.text                = GConstant.UserDetails.firstName! + " " + GConstant.UserDetails.lastName!
-        txtEmail.text               = GConstant.UserDetails.email
+        txtName.text                = (GConstant.UserDetails?.firstName ?? "") + " " + (GConstant.UserDetails?.lastName ?? "")
+        txtEmail.text               = GConstant.UserDetails?.email
     }
     
     //MARK: - UIButton Action Methods

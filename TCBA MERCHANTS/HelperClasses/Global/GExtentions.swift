@@ -11,9 +11,11 @@ import SDWebImage
 
 //MARK:- Double
 extension Double {
+    
     /// Rounds the double to decimal places value
     // How to use
     //let x = Double(0.123456789).roundToDecimal(_ fractionDigits: 2)
+    
     func roundToDecimal(_ fractionDigits: Int = 2) -> Double {
         let multiplier = pow(10, Double(fractionDigits))
         return Darwin.round(self * multiplier) / multiplier
@@ -49,6 +51,7 @@ extension UIColor {
         let blue  = CGFloat(b) / 255.0
         self.init(red:red, green:green, blue:blue, alpha:alpha)
     }
+   
     func toHexString() -> String {
         var r:CGFloat = 0
         var g:CGFloat = 0
@@ -67,7 +70,6 @@ extension Decodable {
         let decoder = JSONDecoder()
         return try decoder.decode(Self.self, from: _data)
     }
-    
     
     //<==== How to use this method ====>
     //<==== Model.decodeData(_data: mData).response ===>
